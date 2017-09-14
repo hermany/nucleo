@@ -1,0 +1,97 @@
+// out:  clientes-proyectos.css, sourcemap: true, compress: true
+
+@import "variables.less";
+
+.body-modulo-inner {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.box-cliente{
+  margin: 10px;
+  width: 170px;
+  border: 1px solid @box-border-color;
+  padding: 10px;
+  display: inline-block;
+  border-radius: 4px;
+  height: 200px;
+  text-align: center;
+  position: relative;
+  .box-shadow-m();
+}
+
+.box-cliente .nombre {
+  display: block;
+  margin-top: 5px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.box-cliente .btn-editar {
+  position: absolute;
+  left: 13px;
+  bottom: 15px;
+  opacity: 0.3;
+}
+.box-cliente .btn-editar:hover,
+.box-cliente .btn-m-eliminar:hover{
+  opacity: 1;
+}
+
+.box-cliente .btn-m-eliminar {
+  position: absolute;
+  right: 15px;
+  width: 35px;
+  bottom: 15px;
+  height: 30px;
+  opacity: .3;
+}
+
+.box-cliente .logo{
+  width: 90px;
+    height: 90px;
+    display: inline-block;
+    border: 1px solid @box-border-color;
+    background-size: auto 100% !important;
+    border-radius: 90px;
+    margin-top: 5px;
+}
+
+.box-cliente .etiqueta{
+  width: 16px;
+height: 16px;
+position: absolute;
+background: @box-border-color;
+border-radius: 20px;
+top: 10px;
+right: 10px;
+cursor:pointer;
+}
+
+.box-cliente .etiqueta:hover{
+  border:1px solid @color-black; 
+}
+
+.box-cliente .etiqueta-1{
+  background-color: @color-red;
+}
+.box-cliente .etiqueta-2{
+  background-color: @color-orange;
+}
+.box-cliente .etiqueta-3{
+  background-color: @color-yellow;
+}
+.box-cliente .etiqueta-4{
+  background-color: @color-blue-a;
+}
+.box-cliente .etiqueta-5{
+  background-color:  @box-border-color;
+}
+
+.btn-cliente{
+  cursor:pointer;
+}
+
+.btn-cliente.nombre:hover{
+  text-decoration: underline;
+}

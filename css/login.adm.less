@@ -1,0 +1,138 @@
+// out: login.adm.css, sourcemap: false, compress: true
+
+@import "variables.less";
+
+/* ----------    Login   ---------- */
+.body-login{
+	height: 99vh;
+}
+
+.body-login .box-login{
+	width: 310px;
+	height: auto !important;
+	display: inline-block;
+	position: absolute;
+	left:50%;
+	top:100px;
+	margin-left:-155px;
+}
+
+.body-login .brand-login{
+	width: 100%;
+	text-align: center;
+	padding-top: 30px;
+	padding-bottom: 25px;
+}
+
+.body-login .brand-login img{
+	max-height: 100px;
+	max-width: 200px;
+}
+.body-login .input-group{
+	position: relative;
+}
+.body-login .input-group .form-control{
+	padding-left: 45px;
+}
+
+.body-login .input-group .input-group-addon{
+	position: absolute;
+	top:13px;
+	left:10px;
+	z-index: 3;
+}
+
+
+.body-login .btn-intro{
+  width: 90%;
+  margin-left: 0px !important;
+	margin-right: 15px;
+  margin-bottom: 15px;
+}
+
+.body-login .email{
+	padding-bottom: 0;
+}
+
+.body-login .email .form-control{
+	//border-bottom: 0;
+	border-bottom-left-radius:0;
+	border-bottom-right-radius:0;
+}
+
+.body-login .help-block{
+	margin-top: 10px;
+	margin-bottom: 15px;
+	display: inline-block;
+	width: 100%;
+}
+
+.body-login .password .form-control{
+	border-top: 0;
+	border-top-left-radius:0;
+	border-top-right-radius:0;
+}
+
+.body-login .box-signup{
+	display: inline-block;
+	width: 100%;
+}
+
+.login-footer {
+  position: absolute;
+  bottom: 15px;
+  width: 100%;
+}
+
+.body-login .form-actions{
+	width: 100%;
+	text-align: center;
+}
+
+@media screen and (max-width: 470px) {
+	.body-login .box-login{
+		width: 300px;
+		margin-left: -150px;
+		top:30px;
+	}
+}
+@media screen and ( max-height: 380px){
+	.body-login .box-login{
+		position: relative;
+		top:0;
+		margin-top: 10px;
+	}
+	.login-footer {
+	  position:relative;;
+	  bottom:auto;
+	  width: 100%;
+	}
+}
+
+::-webkit-input-placeholder { color: @color-gray-a; } /* WebKit */
+:-moz-placeholder { color: @color-gray-a; } /* Firefox 18- */
+::-moz-placeholder { color: @color-gray-a; } /* Firefox 19+ */
+:-ms-input-placeholder { color: @color-gray-a; } /* IE 10+ */
+
+// forgot{}
+
+.box-forgot{
+	color:@color-text;
+}
+
+.box-forgot .box-text{
+	text-align: center;
+	margin-bottom: 15px;
+}
+
+.box-forgot .box-text p{
+	color:@color-gray-c;
+	margin-top: 7px;
+	width: 95%;
+	line-height: 19px;
+}
+
+.box-forgot .form-actions{
+	margin-top: 15px;
+	display: inline-block;
+}

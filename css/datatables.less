@@ -1,0 +1,82 @@
+// out: datatables.css, sourcemap: false, compress: true
+
+// Variables
+@import "variables.less";
+
+.dataTables_wrapper .top,
+.dataTables_wrapper .bottom{
+  width: 100%;
+  display: block;
+  float: left;
+  margin: 0 0 0 0;
+  padding: 10px 12px;
+  position: relative;
+  //border:1px solid red;
+}
+
+.dataTables_filter{
+  width: 30%;
+  //border:1px solid red;
+  position: absolute;
+  left: 20%;
+  top:7px;
+}
+
+.dataTables_filter .icn{
+  position: absolute;
+  top: 7px;
+  left:5px;
+}
+
+.dataTables_filter label input{
+  padding: 6px 10px 6px 28px;
+  width: 100%;
+}
+
+.dataTables_paginate{
+  float: right;
+  text-align: right;
+  margin-right:  -4PX;
+  //border:1px solid red;
+}
+.dataTables_paginate a{
+  cursor: pointer;
+  position: relative;
+  top:0;
+  margin-top: 0;
+  margin-left: 6px;
+  margin-right: 6px;
+}
+.dataTables_paginate a i{
+  padding: 5px 5px;
+  margin-left: 5px;
+}
+
+.dataTables_paginate span {
+  padding: 5px 10px;
+  margin:0px 0px 0px 5px !important;
+  border-radius: 4px;
+  top:1px;
+  position: relative;
+}
+
+.dataTables_length{
+  float: left;
+  width: 170px;
+  //border:1px solid red;
+}
+
+.dataTables_length select{
+  height: 27px;
+}
+
+.dataTables_info{
+  float: left;
+  width: 40%;
+  margin-top:5px;
+}
+
+.paginate_button.current{
+  color:@color-blue;
+  border-bottom:1px solid @color-blue;
+}
