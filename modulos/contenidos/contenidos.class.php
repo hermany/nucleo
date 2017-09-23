@@ -253,6 +253,8 @@ class CONTENIDOS{
 				// $this->fmt->form->imagen_form("Imagen:",$text,"inputImagen",$fila["conte_id"],$fila["conte_foto"]);
 				$this->fmt->form->imagen_unica_form("inputImagen",$fila["conte_foto"],"","form-normal","Imagen relacionada:");
 
+				$this->fmt->form->multimedia_form_block($fila['conte_id'],$this->id_mod,"","","Multimedia Adicional:","contenido_multimedia","conte_mul_","conte_");//$id_item,$id_mod,$class_div,$label="Subir archivo",$label_form=""
+
 				$this->fmt->form->documentos_form($fila['conte_id'],$this->id_mod,"","Documentos relacionados:","contenido_documentos","conte_doc_","conte_");
 
 				$cats_id = $this->fmt->categoria->traer_rel_cat_id($fila["conte_id"],'contenido_categorias','conte_cat_cat_id','conte_cat_conte_id');
@@ -321,6 +323,19 @@ class CONTENIDOS{
 					$sql1="insert into contenido_documentos  (".$ingresar1.") values (".$valores1.")";
 					$this->fmt->query->consulta($sql1,__METHOD__);
 				}
+
+				$this->fmt->class_modulo->eliminar_fila($_POST['inputId'],"contenido_multimedia","conte_mul_conte_id");
+
+				$ingresar1 = "conte_mul_conte_id,conte_mul_mul_id,conte_mul_orden";
+				$valor_mul= $_POST['inputModItemMul'];
+				$num=count( $valor_mul );
+				for ($i=0; $i<$num;$i++){
+					$valores1 = "'".$_POST['inputId']."','".$valor_mul[$i]."','$i'";
+					$sql1="insert into contenido_multimedia  (".$ingresar1.") values (".$valores1.")";
+					$this->fmt->query->consulta($sql1,__METHOD__);
+				}
+
+
 			}
 		}
 		$this->fmt->class_modulo->redireccionar($ruta_modulo,"1");

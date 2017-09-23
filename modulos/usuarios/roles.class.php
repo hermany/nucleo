@@ -31,7 +31,11 @@ class ROLES{
 		$num=$this->fmt->query->num_registros($rs);
 		if($num>0){
 			for($i=0;$i<$num;$i++){
-				list($fila_id,$nombre,$rol_id_padre,$estado)=$this->fmt->query->obt_fila($rs);
+				$row=$this->fmt->query->obt_fila($rs);
+				$fila_id=$row["rol_id"];
+				$nombre=$row["rol_nombre"];
+				$rol_id_padre=$row["rol_id_padre"];
+				$estado=$row["rol_activar"];
 				echo "<tr class='row row-".$fila_id."'>";
 				echo "  <td class='col-id'>$fila_id</td>";
 				echo "  <td class=''>$nombre</td>";

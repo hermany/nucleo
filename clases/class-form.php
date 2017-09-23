@@ -1233,6 +1233,7 @@ class FORM{
  					      text = text.replace(/(_)$/, '');
  					      text = text.replace(/(')$/, '');
  					      text = text.replace(/^(_)/, '');
+ 					      text = text.replace(/^(:)/, '-');
  					      text = text.replace(/ +/g,'-');
  					      text = text.replace(/-+/g,'-');
  					      return text;
@@ -1547,7 +1548,13 @@ class FORM{
 				$aux="";
 				if($num>0){
 					for($i=0;$i<$num;$i++){
-						list($id_item,$nombre,$tag,$ruta,$fila_tipo)=$this->fmt->query->obt_fila($rs);
+						$row=$this->fmt->query->obt_fila($rs);
+						$id_item=$row["doc_id"];
+						$nombre=$row["doc_nombre"];
+						$tag=$row["doc_tags"];
+						$ruta=$row["doc_url"];
+						$fila_tipo=$row["doc_tipo_archivo"];
+
 						$nomx= $this->fmt->class_modulo->recortar_texto($nombre,"35")." (".$tipox.")";
 						if ($fila_tipo=="xls"||$fila_tipo=="xlsx" ){
 							$icon="icn-excel";
@@ -1909,24 +1916,41 @@ class FORM{
 		<?php
 	}
 
-	function multimedia_form_block($id_item,$id_mod,$class_div,$label="Subir archivo",$label_form=""){
-
+	function multimedia_form_block($id_item,$id_mod,$class_div,$label="Subir archivo",$label_form="",$from,$prefijo,$prefijo_mod){
+		echo "<div class='form-group'>";
 		 if ($label_form!=""){
 			 ?>
 			 <label class="label-<?php echo $class_div; ?>"><?php echo $label_form; ?></label>
 			 <?php
 		 }
 
-		echo "<div class='form-group form-multimedia form-multimedia-list $class_div'>";
-		echo "<ul class='box-multimedia' id='sortable'>";
 
-		$consulta = "SELECT DISTINCT mod_prod_mul_prod_id,mod_prod_mul_mul_id,mul_url_archivo, mul_embed  FROM mod_productos_mul,multimedia WHERE mod_prod_mul_prod_id='$id_item' and mod_prod_mul_mul_id=mul_id  ORDER BY mod_prod_mul_orden asc";
+		echo "<div class='form-control form-multimedia form-multimedia-list $class_div'>";
+		echo "<ul class='box-multimedia' id='sortable'>";
+		if ($prefijo_mod!=""){
+    	$consulta = "SELECT DISTINCT mul_id,mul_url_archivo, mul_embed  FROM multimedia,$from WHERE ".$prefijo.$prefijo_mod."id='".$id_item."' and ".$prefijo."mul_id=mul_id ORDER BY ".$prefijo."orden asc";
+		}else{
+			$consulta = "SELECT DISTINCT mod_prod_mul_prod_id,mod_prod_mul_mul_id,mul_url_archivo, mul_embed  FROM mod_productos_mul,multimedia WHERE mod_prod_mul_prod_id='$id_item' and mod_prod_mul_mul_id=mul_id  ORDER BY mod_prod_mul_orden asc";
+		}
+
 		$rs =$this->fmt->query->consulta($consulta,__METHOD__);
 		$num=$this->fmt->query->num_registros($rs);
 		$aux="";
 		if($num>0){
 		  for($i=0;$i<$num;$i++){
-		    list($id_item,$id_mul,$ruta,$embed)=$this->fmt->query->obt_fila($rs);
+		    $row=$this->fmt->query->obt_fila($rs);
+
+				if ($prefijo_mod!=""){
+					$id_item=$id_item;
+					$id_mul=$row["mul_id"];
+				}else{
+					$id_item=$row["mod_prod_id"];
+					$id_mul=$row["mod_prod_mul_mul_id"];
+				}
+
+
+				$ruta=$row["mul_url_archivo"];
+				$embed=$row[" mul_embed"];
 		    $url = $this->fmt->archivos->convertir_url_mini($ruta);
 				$extension = $this->fmt->archivos->saber_extension_archivo($ruta);
 				$nombre_archivo=$this->fmt->archivos->saber_nombre_archivo($ruta);
@@ -1968,6 +1992,7 @@ class FORM{
 		}
 		echo "<li class='ui-state-disabled box-image-mul'><a upload='multimedia' vars='$id_item:$id_mod' seleccion='multiple'  class='btn btn-adicionar-mul btn-up-finder '><i class='icn icn-upload' /><span>$label</span></a></li>";
 		echo "</ul>";
+		echo "</div>";
 		echo "</div>";
 		?>
 		<script type="text/javascript">
