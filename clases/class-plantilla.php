@@ -85,7 +85,7 @@ class PLANTILLA{
 
 
 		function dibujar_cabecera($cat,$pla){
-
+			//echo "llegamos";
 			echo $this->fmt->header->header_html($cat);
 			?>
 			<script>
@@ -398,7 +398,9 @@ class PLANTILLA{
 			$num=$this->fmt->query->num_registros($rs);
 				if($num>0){
 				for($i=0;$i<$num;$i++){
-					list($fila_id,$fila_nombre)=$this->fmt->query->obt_fila($rs);
+					$row=$this->fmt->query->obt_fila($rs);
+					$fila_id=$row["pla_id"];
+					$fila_nombre=$row["pla_nombre"];
 					if ((!empty($pla))&&($fila_id==$pla)){ $aux="selected";}else{$aux="";}
 					echo "<option class='' value='$fila_id' $aux> ".$fila_nombre;
 					echo "</option>";

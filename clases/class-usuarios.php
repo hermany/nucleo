@@ -30,7 +30,7 @@ class USUARIO{
 
   function traer_ruta_rol($id_rol){
     $sql ="SELECT sitio_ruta_amigable FROM sitio_roles,sitio WHERE sitio_rol_rol_id='$id_rol' and sitio_rol_sitio_id=sitio_id";
-    $rs = $this->fmt->query-> consulta($sql,__METHOD__);
+    $rs = $this->fmt->query->consulta($sql,__METHOD__);
     $fila = $this->fmt->query->obt_fila($rs);
     return $fila["sitio_ruta_amigable"];
   }
@@ -55,6 +55,18 @@ class USUARIO{
     $rs = $this->fmt->query-> consulta($sql,__METHOD__);
     $fila = $this->fmt->query->obt_fila($rs);
     return $fila["usu_nombre"];
+  }
+  function  usuario_estado($usuario){
+    $sql="select usu_estado from usuario where usu_id=$usuario";
+    $rs = $this->fmt->query-> consulta($sql,__METHOD__);
+    $fila = $this->fmt->query->obt_fila($rs);
+    return $fila["usu_estado"];
+  }
+  function  usuario_nivel($usuario){
+    $sql="select usu_nivel from usuario where usu_id=$usuario";
+    $rs = $this->fmt->query-> consulta($sql,__METHOD__);
+    $fila = $this->fmt->query->obt_fila($rs);
+    return $fila["usu_nivel"];
   }
   function nombre_apellidos($usuario){
     $sql="select usu_nombre, usu_apellidos from usuario where usu_id=$usuario";
@@ -82,7 +94,7 @@ class USUARIO{
     $rs = $this->fmt->query-> consulta($sql,__METHOD__);
     $fila = $this->fmt->query->obt_fila($rs);
     if (empty($fila["usu_imagen"])){
-      $r = "nucleo/images/user/user-default.png";
+      $r = "images/user/user-default.png";
     }else{
       $r = $fila["usu_imagen"];
     }

@@ -1284,7 +1284,11 @@ function traer_fecha_literal($fecha_hora){
 
 		if($num>0){
 			for($i=0;$i<$num;$i++){
-				list($fila_id, $fila_nombre, $fila_icono,$fila_color)=$this->fmt->query->obt_fila($rs);
+				$row=$this->fmt->query->obt_fila($rs);
+        $fila_id=$row["sis_id"];
+        $fila_nombre=$row["sis_nombre"];
+        $fila_icono=$row["sis_icono"];
+        $fila_color=$row["sis_color"];
 				$aux_s="";
 
         $sqlsis="SELECT DISTINCT sis_rol_sis_id FROM sistema_roles WHERE sis_rol_sis_id='".$fila_id."' and sis_rol_rol_id='".$id_rol."' ";
@@ -1307,7 +1311,7 @@ function traer_fecha_literal($fecha_hora){
 					for($j=0;$j<$num1;$j++){
 						$row=$this->fmt->query->obt_fila($rs1);
             $fila1_id = $row["mod_id"];
-            $fila1_nombre = $row["mod_id"];
+            $fila1_nombre = $row["mod_nombre"];
             $fila1_icono= $row["mod_icono"];
             $color= $row["mod_color"];
 

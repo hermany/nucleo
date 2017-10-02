@@ -85,7 +85,6 @@ class USUARIOS{
     </div>
     </div>
     <?
-
 		$this->fmt->class_modulo->script_table("table_id",$this->id_mod,"desc","4","25",true);
 		$this->fmt->class_modulo->script_accion_modulo();
 		$this->fmt->class_pagina->footer_mod();

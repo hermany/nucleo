@@ -66,6 +66,7 @@ class CATEGORIAS{
 					$(".modal-form").addClass("<?php echo $url_a; ?>");
 					$(".body-page").css("overflow-y","hidden");
 					//console.log(datos);
+
 					$.ajax({
 						url:"<?php echo _RUTA_WEB; ?>ajax.php",
 						type:"post",
@@ -73,6 +74,10 @@ class CATEGORIAS{
 						success: function(msg){
 
 							$("#modal .modal-inner").html(msg);
+							var wbm = $(".modal .modal-inner").height();
+              var wbmx = wbm - 108;
+              console.log("body-modulo:"+wbmx);
+              $(".body-modulo").height(wbmx);
 
 						},
 						complete : function() {

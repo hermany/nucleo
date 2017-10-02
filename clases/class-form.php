@@ -1420,7 +1420,9 @@ class FORM{
 		echo "<option class='' value='0'>Sin selección (0)</option>";
 		if($num>0){
       for($i=0;$i<$num;$i++){
-        list($fila_id,$fila_nombre)=$this->fmt->query->obt_fila($rs);
+        $row=$this->fmt->query->obt_fila($rs);
+				$fila_id=$row[$prefijo."id"];
+				$fila_nombre=$row[$prefijo."nombre"];
         if ($fila_id==$id_select){  $aux="selected";  }else{  $aux=""; }
         if ($fila_id==$id_disabled){  $aux1="disabled";  }else{  $aux1=""; }
         echo "<option class='' value='$fila_id' $aux $aux1 > ".$fila_nombre;
