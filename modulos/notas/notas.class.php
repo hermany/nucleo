@@ -263,7 +263,7 @@ class NOTICIAS{
 					$_POST['inputResumen']."','".
 					$_POST['inputCuerpo']."','".
 					$imagen."','".
-					$_POST['inputTags']."','".
+					trim($_POST['inputTags'])."','".
 					$this->fmt->class_modulo->desestructurar_fecha_hora($_POST['inputFecha'])."','".
 					$_POST['inputUsuario']."','".
 					$_POST['inputAutor']."','".
@@ -300,7 +300,7 @@ class NOTICIAS{
 			  $sql="UPDATE nota SET
 						not_titulo='".$_POST['inputTitulo']."',
 						not_ruta_amigable ='".$_POST['inputRutaamigable']."',
-						not_tags ='".$_POST['inputTags']."',
+						not_tags ='".trim($_POST['inputTags'])."',
 						not_resumen ='".$_POST['inputResumen']."',
 						not_cuerpo ='".$_POST['inputCuerpo']."',
 						not_imagen ='".$imagen."',

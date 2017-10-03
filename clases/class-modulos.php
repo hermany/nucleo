@@ -357,6 +357,17 @@ class CLASSMODULOS{
           var datos= { ajax:ruta,inputIdMod:id_mod, inputVars:variables };
           abrir_modulos(datos);
         });
+        $("#<?php echo $id; ?>").on('click','a.btn-editar', function (e) {
+          e.preventDefault();
+          $(".modal-form").addClass("on");
+          $(".modal-form").addClass("<?php echo $url_a; ?>");
+          $(".body-page").css("overflow-y","hidden");
+          var variables = $(this).attr('vars');
+          var id_mod= $(this).attr('id_mod');
+          var ruta='ajax-adm';
+          var datos= { ajax:ruta,inputIdMod:id_mod, inputVars:variables };
+          abrir_modulos(datos);
+        });
 
 
 

@@ -194,7 +194,13 @@ class CLASSSISTEMAS{
         fwrite($archivo, "RewriteEngine On".PHP_EOL);
         $ruta = str_replace("http://","www.",_RUTA_WEB);
         $ruta = str_replace("/","",$ruta);
-        fwrite($archivo, "RewriteCond %{HTTP_HOST} ^".$ruta." [NC]".PHP_EOL);
+        if (_TIPO_HTML=="https://"){
+          fwrite($archivo, "RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]".PHP_EOL);
+        }
+        if (_TIPO_HTML=="http://"){
+          fwrite($archivo, "RewriteCond %{HTTP_HOST} ^".$ruta." [NC]".PHP_EOL);
+        }
+
         fwrite($archivo, "RewriteRule ^(.*)$ "._RUTA_WEB."$1 [L,R=301]".PHP_EOL);
         fwrite($archivo, "#".PHP_EOL);
 
@@ -364,7 +370,7 @@ class CLASSSISTEMAS{
                      fwrite($archivo, "Rewriterule ^".$ruta1."$  index.php?cat=".$id_cat."&pla=".$pla.PHP_EOL);
                      fwrite($archivo, "Rewriterule ^".$ruta1."#([^/]*)$  index.php?cat=".$id_cat."&pla=".$pla."#$1".PHP_EOL);
                      // sitios con pla!=1
-                     fwrite($archivo, "Rewriterule ^".$ruta1."/p=([0-9]+)$  index.php?cat=".$id_cat."&pla=$1".PHP_EOL);
+                     fwrite($archivo, "Rewriterule ^".$ruta1."/p=([0-9]+)([^/]*)$  index.php?cat=".$id_cat."&pla=$1$2".PHP_EOL);
                      // sitios con paginación
                      fwrite($archivo, "Rewriterule ^".$ruta1."/pag=([0-9]+)$  index.php?cat=".$id_cat."&pla=".$pla."&pag=$1".PHP_EOL);
                      fwrite($archivo, "Rewriterule ^".$ruta1."/([^/]*).html$  index.php?cat=".$id_cat."&pla=3&nota=$1".PHP_EOL);
