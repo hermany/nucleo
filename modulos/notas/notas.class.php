@@ -48,7 +48,10 @@ class NOTICIAS{
 					    echo '<td class=""><strong>'.$fila["not_titulo"].'</strong></td>';
 					    echo '<td class="">'.$this->fmt->usuario->nombre_usuario( $fila["not_usuario"]).'</td>';
 					    echo '<td class="">';
-					      $this->fmt->categoria->traer_rel_cat_nombres($fila["not_id"],'nota_categorias','not_cat_cat_id','not_cat_not_id'); //$fila_id,$from,$prefijo_cat,$prefijo_rel
+					      //$this->fmt->categoria->traer_rel_cat_nombres($fila["not_id"],'nota_categorias','not_cat_cat_id','not_cat_not_id');
+
+								$this->traer_rel_cat_nombres($fila["not_id"]);
+								 //$fila_id,$from,$prefijo_cat,$prefijo_rel
 
 					    echo '</td>';
 					    //echo '<td class="">'.$fila["not_tags"].'</td>';
@@ -79,6 +82,103 @@ class NOTICIAS{
 		$this->fmt->class_modulo->script_table("table_id",$this->id_mod,"desc","4","10",true);
 		$this->fmt->class_modulo->script_accion_modulo();
  //$id,$id_mod,$tipo="asc",$orden=0,$cant=25,$pag_up=fals
+	}
+
+	function traer_rel_cat_nombres($fila_id){
+		$consulta = "SELECT DISTINCT cat_id, cat_nombre FROM categoria, nota_categorias WHERE not_cat_not_id='".$fila_id."' and cat_id = not_cat_cat_id";
+		$rs = $this->fmt->query->consulta($consulta);
+		$num=$this->fmt->query->num_registros($rs);
+		if ($num>0){
+			for ($i=0;$i<$num;$i++){
+				$row=$this->fmt->query->obt_fila($rs);
+				echo "- <a class='btn-menu-ajax' id_mod='".$this->id_mod."' vars='ordenar,".$row["cat_id"]."' > ".$row["cat_nombre"]."</a><br/>";
+			}
+		}
+	}
+
+	function ordenar(){
+		$id_cat = $this->id_item;
+		$this->fmt->class_pagina->crear_head_form("Ordenar: ".$this->fmt->categoria->nombre_categoria($id_cat),"","");
+		$id_form="form-editar";
+		?>
+		<div class="body-modulo">
+		  <form class="form form-modulo form-ordenar"  method="POST" id="<?php echo $id_form?>">
+				<ul id="orden-cat" class="list-group">
+					<?php
+					$sql="SELECT not_id, not_titulo, not_imagen, not_cat_orden FROM nota, nota_categorias where not_cat_not_id=not_id and not_cat_cat_id='$id_cat' ORDER BY not_cat_orden desc";
+
+	        $rs =$this->fmt->query->consulta($sql,__METHOD__);
+	        $num=$this->fmt->query->num_registros($rs);
+	        if($num>0){
+		        for($i=0;$i<$num;$i++){
+		          $row=$this->fmt->query->obt_fila($rs);
+							$row_id=$row["not_id"];
+							$row_nom=$row["not_titulo"];
+							$row_imagen=_RUTA_WEB.$this->fmt->archivos->convertir_url_thumb($row["not_imagen"]);
+							echo "<li id_var='$row_id'><i class='icn icn-reorder'></i><span class='img-prod' style='background:url($row_imagen)no-repeat center center'></span><span class='nombre'>$row_nom</span></li>";
+						}
+					}
+					?>
+				</ul>
+				<div class="form-group form-botones box-botones-form">
+					<div class="group">
+						<?php
+						echo $this->fmt->class_pagina->crear_btn_m("Actualizar","icn-sync","update","btn btn-info btn-update",$this->id_mod,"ordenar_update");
+						 ?>
+					</div>
+				</div>
+			</form>
+			<script type="text/javascript">
+				$(document).ready(function() {
+					$("#orden-cat" ).sortable();
+					$(".btn-update").click(function(){
+						var formdata = new FormData();
+						var id_mod = $(this).attr("id_mod");
+						var vars = $(this).attr("vars");
+						formdata.append("inputVars", vars);
+						formdata.append("cat", "<?php echo $id_cat;?>");
+						formdata.append("ajax", "ajax-adm");
+						formdata.append("inputIdMod", id_mod);
+						$('#orden-cat li').each(function(index){
+						  var id_var = $(this).attr("id_var");
+						  console.log(id_var);
+						  var orden = index+1;
+						  formdata.append("id_item[]", id_var);
+						  //formdata.append("orden[]", orden);
+						});
+
+						var ruta = "<?php echo _RUTA_WEB; ?>ajax.php";
+
+						$.ajax({
+						      url:ruta,
+						      type:"post",
+						      data:formdata,
+						      processData: false,
+						    contentType: false,
+						      success: function(msg){
+
+						        $("#popup-div").html(msg);
+										document.location.href="<?php echo $this->ruta_modulo; ?>";
+						      }
+						});
+					});
+				});
+			</script>
+		</div>
+		<?php
+	}
+	function ordenar_update(){
+		$id_cat=$_POST["cat"];
+		$this->fmt->class_modulo->eliminar_fila($id_cat,"nota_categorias","not_cat_cat_id");
+		$ingresar2 ="not_cat_not_id,not_cat_cat_id,not_cat_orden";
+		$valor_doc= $_POST['id_item'];
+		$num=count( $valor_doc );
+		for ($i=0; $i<$num;$i++){
+			$valores2 = "'".$valor_doc[$i]."','".$id_cat."','".$i."'";
+			$sql2="insert into nota_categorias (".$ingresar2.") values (".$valores2.")";
+			$this->fmt->query->consulta($sql2);
+		}
+	 //$this->fmt->class_modulo->redireccionar($this->ruta_modulo,"1");
 	}
 
 	function form_nuevo(){

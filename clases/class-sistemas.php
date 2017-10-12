@@ -193,13 +193,14 @@ class CLASSSISTEMAS{
         fwrite($archivo, "#".PHP_EOL);
         fwrite($archivo, "RewriteEngine On".PHP_EOL);
         $ruta = str_replace("http://","www.",_RUTA_WEB);
+        $ruta = str_replace("https://","www.",_RUTA_WEB);
         $ruta = str_replace("/","",$ruta);
-        if (_TIPO_HTML=="https://"){
-          fwrite($archivo, "RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]".PHP_EOL);
-        }
-        if (_TIPO_HTML=="http://"){
+        // if (_TIPO_HTML=="https://"){
+        //   fwrite($archivo, "RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]".PHP_EOL);
+        // }
+        // if (_TIPO_HTML=="http://"){
           fwrite($archivo, "RewriteCond %{HTTP_HOST} ^".$ruta." [NC]".PHP_EOL);
-        }
+        //}
 
         fwrite($archivo, "RewriteRule ^(.*)$ "._RUTA_WEB."$1 [L,R=301]".PHP_EOL);
         fwrite($archivo, "#".PHP_EOL);

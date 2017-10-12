@@ -39,7 +39,7 @@ class MARCAS{
 		        </thead>
 		        <tbody>
 		          <?php
-		            $sql="select mod_mar_id, mod_mar_nombre,mod_mar_imagen,   mod_mar_activar from mod_marcas ORDER BY mod_mar_id desc";
+		            $sql="select mod_mar_id, mod_mar_nombre,mod_mar_logo,mod_mar_imagen,   mod_mar_activar from mod_marcas ORDER BY mod_mar_id desc";
 		            $rs =$this->fmt->query->consulta($sql);
 		            $num=$this->fmt->query->num_registros($rs);
 		            if($num>0){
@@ -48,10 +48,11 @@ class MARCAS{
 									$fila_id = $row["mod_mar_id"];
 									$fila_nombre =$row["mod_mar_nombre"];
 									$fila_imagen= $row["mod_mar_imagen"];
+									$fila_logo= $row["mod_mar_logo"];
 									$fila_activar =$row["mod_mar_activar"];
 									//if (empty($fila_dominio)){ $aux=_RUTA_WEB; } else { $aux = $this->fmt->categoria->traer_dominio_cat_id($fila_dominio); }
 									$aux= _RUTA_IMAGES;
-									$img=$this->fmt->archivos->convertir_url_mini( $fila_imagen );
+									$img=$this->fmt->archivos->convertir_url_mini( $fila_logo);
 
 		            ?>
 		            <tr>

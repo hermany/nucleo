@@ -115,8 +115,6 @@ class PRODUCTOS{
 									// }else{
 									//  	$img=_RUTA_WEB_NUCLEO."images/producto-icon.png";
 									// }
-
-
 				        ?>
 				        <tr class='row row-<?php echo $fila_id; ?>'>
 									<td class="col-id"><?php echo $fila_id; ?></td>
@@ -153,16 +151,16 @@ class PRODUCTOS{
 		$this->fmt->class_modulo->script_table("table_id",$this->id_mod,"desc","0","25",true);
   }
 
-	function productos_cat($cat,$limite="0,1",$tipo_orden="id",$orden="desc"){
+	function productos_cat($cat,$limite="0,1",$tipo_orden="id",$orden="desc",$addend="",$tipo_img="thumb"){
 
 		require_once(_RUTA_NUCLEO."modulos/finanzas/finanzas.class.php");
 		$finanzas = new FINANZAS($this->fmt);
 
 		if ($tipo_orden=="id"){ $tipo_o = "mod_prod_id"; }
 		if ($tipo_orden=="fecha"){ $tipo_o = "mod_prod_fecha"; }
-		if ($tipo_orden=="orden"){ $tipo_o = "mod_prod_orden"; }
+		if ($tipo_orden=="orden"){ $tipo_o = "mod_prod_cat_orden"; }
 		$ra_cat= $this->fmt->categoria->ruta_amigable($cat)."/";
-		$sql="select mod_prod_id, mod_prod_nombre,mod_prod_resumen, mod_prod_ruta_amigable, mod_prod_imagen, mod_prod_precio, mod_prod_precio_detalle, mod_prod_tags, mod_prod_disponibilidad from mod_productos, mod_productos_categorias where mod_prod_cat_prod_id=mod_prod_id and mod_prod_cat_cat_id='$cat' ORDER BY $tipo_o  $orden LIMIT ".$limite;
+		$sql="select mod_prod_id, mod_prod_nombre, mod_prod_detalles, mod_prod_ruta_amigable, mod_prod_imagen, mod_prod_precio, mod_prod_precio_detalle, mod_prod_tags, mod_prod_disponibilidad from mod_productos, mod_productos_categorias where mod_prod_cat_prod_id=mod_prod_id and mod_prod_cat_cat_id='$cat' ORDER BY $tipo_o  $orden LIMIT ".$limite;
 		$rs =$this->fmt->query->consulta($sql);
 		$num=$this->fmt->query->num_registros($rs);
 		if($num>0){
@@ -171,29 +169,62 @@ class PRODUCTOS{
 				$id=$row["mod_prod_id"];
 				$nombre=$row["mod_prod_nombre"];
 				$resumen=$row["mod_prod_resumen"];
+				$detalles=$row["mod_prod_detalles"];
 				$ra=$row["mod_prod_ruta_amigable"];
 				$imagen=$row["mod_prod_imagen"];
 				$precio=$row["mod_prod_precio"];
 				$precio_detalle=$row["mod_prod_precio_detalle"];
 				$tags=$row["mod_prod_tags"];
 				$disponibilidad=$row["mod_prod_disponibilidad"];
-				$img = _RUTA_IMAGES.$this->fmt->archivos->convertir_url_thumb($imagen);
+				// echo $tipo_img;
+				if ($tipo_img=="thumb"){
+					$img = _RUTA_IMAGES.$this->fmt->archivos->convertir_url_thumb($imagen);
+				}
+				if($tipo_img=="original"){
+					$img = _RUTA_IMAGES.$imagen;
+				}
 				$url = _RUTA_WEB.$ra_cat.$ra.".prod";
+
+				if ($i%2==0){
+				    $au = "par";
+				}else{
+				    $au = "impar";
+				}
 				?>
-				<div class="item-producto"  item="<?php echo $id; ?>" id="item-<?php echo $id; ?>" >
+				<div class="item-producto <?php echo $au; ?>"  item="<?php echo $id; ?>" id="item-<?php echo $id; ?>" >
 					<div class="item-img" style="background:url(<?php echo $img; ?>) no-repeat center center;"><a href="<?php echo $url; ?>"></a></div>
 					<div class="item-datos">
-						<div class="item-nombre"><a href="<?php echo $url; ?>"><?php echo $nombre; ?></a></div>
-						<div class="item valor"></div>
-						<div class="item item-resumen"><?php echo $resumen; ?></div>
-						<div class="precio-anterior"><?php echo $precio_detalle; ?></div>
-						<div class="precio">Bs. <?php echo $finanzas->convertir_moneda($precio); ?></div>
-						<!-- <div class="disponibilidad"><?php echo $disponibilidad; ?></div> -->
-						<div class="botones">
-							<div class="botones-inner">
-								<button item="<?php echo $id; ?>" type="button" name="button" class="btn btn-adicionar-carrito"><i></i>Adicionar a carrito</button>
-							</div>
+						<div class="item item-cat">
+							<?php
+								$cts= $this->rel_id_cat($id);
+								//echo "cats:".$cat;
+								for ($ix=0; $ix < count($cts) ; $ix++) {
+									if ($cts[$ix]!=$cat) {
+										echo $this->fmt->categoria->nombre_categoria($cts[$ix]);
+									}
+								}
+							?>
 						</div>
+						<div class="item-nombre"><a href="<?php echo $url; ?>"><?php echo $nombre; ?></a></div>
+						<div class="item item-resumen"><?php echo $resumen; ?></div>
+						<div class="item item-detalles"><?php echo $detalles; ?></div>
+						<div class="precio-anterior"><?php echo $precio_detalle; ?></div>
+						<?php
+						if (!empty($addend)){
+							echo "<a class='item item-btn' href='$url'>$addend</a>";
+						}
+						if (!empty($precio)){
+							?>
+							<div class="precio">Bs. <?php echo $finanzas->convertir_moneda($precio); ?></div>
+							<!-- <div class="disponibilidad"><?php echo $disponibilidad; ?></div> -->
+							<div class="botones">
+								<div class="botones-inner">
+									<button item="<?php echo $id; ?>" type="button" name="button" class="btn btn-adicionar-carrito"><i></i>Adicionar a carrito</button>
+								</div>
+							</div>
+							<?php
+						}
+						?>
 					</div>
 				</div>
 				<?
@@ -210,96 +241,75 @@ class PRODUCTOS{
 	}
 
   function ordenar(){
-			$ruta_server=_RUTA_NUCLEO;
+		$id_cat = $this->id_item;
 
-			$botones = $this->fmt->class_pagina->crear_btn_m("Volver","icn-chevron-left","volver","btn btn-link btn-menu-ajax",$this->id_mod,"busqueda");
+		$this->fmt->class_pagina->crear_head_form("Ordenar: ".$this->fmt->categoria->nombre_categoria($id_cat),"","");
+		$id_form="form-editar";
+		?>
+		<div class="body-modulo">
+		  <form class="form form-modulo form-ordenar"  method="POST" id="<?php echo $id_form?>">
+				<ul id="orden-cat" class="list-group">
+					<?php
+					$sql="select mod_prod_id, mod_prod_nombre, mod_prod_imagen, mod_prod_cat_orden from mod_productos, mod_productos_categorias where mod_prod_cat_prod_id=mod_prod_id and mod_prod_cat_cat_id='$id_cat' ORDER BY mod_prod_cat_orden desc";
 
-			$botones .= $this->fmt->class_pagina->crear_btn_m("Actualizar","icn-sync","update","btn btn-info btn-update",$this->id_mod,"ordenar_update");
-			 $this->fmt->class_pagina->crear_head( $this->id_mod, $botones); // bd, id modulo, botones
-
-			$this->fmt->class_modulo->script_form("modulos/productos/productos.adm.php",$this->id_mod,"asc","0","25",true);
-			$id_cat = $this->id_item;
-			?>
-			<div class="body-modulo">
-			<h2>Ordenar <?php echo $this->fmt->categoria->nombre_categoria($id_cat); ?></h2>
-			<div class="table-responsive">
-			 <div class="row">
-			 	<div class="col-md-2"><h3>Imagen</h3></div>
-			    <div class="col-md-10"><h3>Nombre del producto</h3></div>
-			 </div>
-			 <ul id="orden-cat" class="list-group">
-			      <?php
-
-			        $sql="select mod_prod_id, mod_prod_nombre, mod_prod_imagen, mod_prod_id_dominio, mod_prod_rel_orden from mod_productos, mod_productos_rel where mod_prod_rel_prod_id=mod_prod_id and mod_prod_rel_cat_id='$id_cat' ORDER BY mod_prod_rel_orden asc";
-
-			        $rs =$this->fmt->query->consulta($sql);
-			        $num=$this->fmt->query->num_registros($rs);
-			        if($num>0){
-			        for($i=0;$i<$num;$i++){
-			          list($fila_id,$fila_nombre,$fila_imagen,$fila_dominio,$fila_orden)=$this->fmt->query->obt_fila($rs);
-								if (empty($fila_dominio)){ $aux=_RUTA_WEB; } else { $aux = $this->fmt->categoria->traer_dominio_cat_id($fila_dominio); }
-								$img=$this->fmt->archivos->convertir_url_mini( $fila_imagen );
-								//$id_cat = $this->fmt->categoria->traer_id_cat_dominio($aux);
-								$sit_cat = $this->fmt->categoria->ruta_amigable($id_cat);
-
-								if(!file_exists(_RUTA_HOST."/".$img)){
-									$img=$this->fmt->archivos->convertir_url_thumb( $fila_imagen );
-								}
-
-
-			        ?>
-			        <li class="list-group-item" orden="<?php echo $fila_orden; ?>" id_var="<?php echo $fila_id; ?>">
-			        	<div class="row">
-				     	<div class="col-md-2"><img class="img-responsive" width="60px" src="<?php echo $aux.$img; ?>" alt="" /></div>
-				        <div class="col-md-10"><strong><a href="<?php echo $url; ?>" ><?php echo $fila_nombre; ?></a></strong></div>
-				     </div>
-			        </li>
-			        <?php
-			         } // Fin for query1
-			        }// Fin if query1
-			      ?>
-			 </ul>
-				</div>
-
-			</div>
-			<script>
-
-			$( function() {
-			$( "#orden-cat" ).sortable();
-			$(".btn-update").click(function(){
-			var formdata = new FormData();
-			var id_mod = $(this).attr("id_mod");
-
-			var vars = $(this).attr("vars");
-			formdata.append("inputVars", vars);
-			formdata.append("cat", "<?php echo $id_cat;?>");
-			formdata.append("ajax", "ajax-adm");
-			formdata.append("inputIdMod", id_mod);
-			$('#orden-cat li').each(function(index){
-				var id_var = $(this).attr("id_var");
-				console.log(id_var);
-				var orden = index+1;
-				formdata.append("id_item[]", id_var);
-				//formdata.append("orden[]", orden);
-			});
-
-			var ruta = "<?php echo _RUTA_WEB; ?>ajax.php";
-
-			$.ajax({
-						url:ruta,
-						type:"post",
-						data:formdata,
-						processData: false,
-					contentType: false,
-						success: function(msg){
-
-			        $("#popup-div").html(msg);
+	        $rs =$this->fmt->query->consulta($sql);
+	        $num=$this->fmt->query->num_registros($rs);
+	        if($num>0){
+		        for($i=0;$i<$num;$i++){
+		          $row=$this->fmt->query->obt_fila($rs);
+							$prod_id=$row["mod_prod_id"];
+							$prod_nom=$row["mod_prod_nombre"];
+							$prod_imagen=_RUTA_WEB.$this->fmt->archivos->convertir_url_thumb($row["mod_prod_imagen"]);
+							echo "<li id_var='$prod_id'><i class='icn icn-reorder'></i><span class='img-prod' style='background:url($prod_imagen)no-repeat center center'></span><span class='nombre'>$prod_nom</span></li>";
 						}
-			});
-			});
-			} );
+					}
+					?>
+				</ul>
+				<div class="form-group form-botones box-botones-form">
+					<div class="group">
+						<?php
+						echo $this->fmt->class_pagina->crear_btn_m("Actualizar","icn-sync","update","btn btn-info btn-update",$this->id_mod,"ordenar_update");
+						 ?>
+					</div>
+				</div>
+			</form>
+			<script type="text/javascript">
+				$(document).ready(function() {
+					$("#orden-cat" ).sortable();
+					$(".btn-update").click(function(){
+						var formdata = new FormData();
+						var id_mod = $(this).attr("id_mod");
+						var vars = $(this).attr("vars");
+						formdata.append("inputVars", vars);
+						formdata.append("cat", "<?php echo $id_cat;?>");
+						formdata.append("ajax", "ajax-adm");
+						formdata.append("inputIdMod", id_mod);
+						$('#orden-cat li').each(function(index){
+						  var id_var = $(this).attr("id_var");
+						  console.log(id_var);
+						  var orden = index+1;
+						  formdata.append("id_item[]", id_var);
+						  //formdata.append("orden[]", orden);
+						});
+
+						var ruta = "<?php echo _RUTA_WEB; ?>ajax.php";
+
+						$.ajax({
+						      url:ruta,
+						      type:"post",
+						      data:formdata,
+						      processData: false,
+						    contentType: false,
+						      success: function(msg){
+
+						        $("#popup-div").html(msg);
+						      }
+						});
+					});
+				});
 			</script>
-			<?php
+		</div>
+		<?php
   }
 
 	function traer_rel_cat_nombres($fila_id){
@@ -309,7 +319,7 @@ class PRODUCTOS{
 		if ($num>0){
 			for ($i=0;$i<$num;$i++){
 				$row=$this->fmt->query->obt_fila($rs);
-				echo "<a onClick='ordenarCat(".$this->id_mod.",".$row["cat_id"].");'>- ".$row["cat_nombre"]."</a><br/>";
+				echo "- <a class='btn-menu-ajax' id_mod='".$this->id_mod."' vars='ordenar,".$row["cat_id"]."' > ".$row["cat_nombre"]."</a><br/>";
 			}
 		}
 	}
@@ -321,10 +331,9 @@ class PRODUCTOS{
 		if ($num>0){
 			for ($i=0;$i<$num;$i++){
 				$row=$this->fmt->query->obt_fila($rs);
-				$valor[$i]=$row["cat_id"];
+				$valor[$i]=$row["mod_prod_cat_cat_id"];
 			}
 		}
-
 		return $valor;
 	}
 
@@ -729,18 +738,18 @@ class PRODUCTOS{
 
 	function ordenar_update(){
 		$id_cat=$_POST["cat"];
-
-	 $this->fmt->class_modulo->eliminar_fila($id_cat,"mod_productos_rel","mod_prod_rel_cat_id");
-	  $ingresar2 ="mod_prod_rel_prod_id,mod_prod_rel_cat_id,mod_prod_rel_orden";
+	  $this->fmt->class_modulo->eliminar_fila($id_cat,"mod_productos_categorias","mod_prod_cat_cat_id");
+	  $ingresar2 ="mod_prod_cat_prod_id,mod_prod_cat_cat_id,mod_prod_cat_orden";
 	  $valor_doc= $_POST['id_item'];
 	  $num=count( $valor_doc );
 	  for ($i=0; $i<$num;$i++){
 		  $valores2 = "'".$valor_doc[$i]."','".$id_cat."','".$i."'";
-		  $sql2="insert into mod_productos_rel (".$ingresar2.") values (".$valores2.")";
+		  $sql2="insert into mod_productos_categorias (".$ingresar2.") values (".$valores2.")";
 		  $this->fmt->query->consulta($sql2);
 	  }
-	 $this->fmt->class_modulo->redireccionar($ruta_modulo,"1");
+	 $this->fmt->class_modulo->redireccionar($this->ruta_modulo,"1");
 	}
+
 	function activar(){
 		$this->fmt->class_modulo->activar_get_id("mod_productos","mod_prod_",$this->id_estado,$this->id_item);
 		$this->fmt->class_modulo->script_location($this->id_mod,"busqueda");

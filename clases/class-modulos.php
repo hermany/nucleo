@@ -784,6 +784,7 @@ class CLASSMODULOS{
   function redireccionar($ruta,$tiempo){
     ?>
       <script type="text/javascript">
+      //console.log("llegue al cierre");
         setTimeout(function() {
           //console.log("llegue al cierre");
             $(".modal-form").html("");
