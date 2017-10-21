@@ -1,7 +1,7 @@
 <?php
 require_once('marcas.class.php');
 
-$form =new MARCAS($fmt,$id_mod,$id_item,$id_estado);
+$form =new MARCA($fmt,$id_mod,$id_item,$id_estado);
 
 echo $fmt->header->header_modulo();
 

@@ -1,7 +1,7 @@
 <?php
 header("Content-Type: text/html;charset=utf-8");
 
-class MARCAS{
+class MARCA{
 
 	var $fmt;
 	var $id_mod;
@@ -9,7 +9,7 @@ class MARCAS{
 	var $id_estado;
 	var $ruta_modulo;
 
-	function MARCAS($fmt,$id_mod=0,$id_item=0,$id_estado=0){
+	function MARCA($fmt,$id_mod=0,$id_item=0,$id_estado=0){
 		$this->fmt = $fmt;
 		$this->id_mod = $id_mod;
 		$this->id_item = $id_item;
@@ -30,7 +30,7 @@ class MARCAS{
 		      <table class="table table-hover" id="table_id">
 		        <thead>
 		          <tr>
-		            <th style="width:10%" >Imagen</th>
+		            <th style="width:10%" >Logo</th>
 		            <th>Nombre de la marca</th>
 		            <th>Categoria/s</th>
 		            <th class="estado">Publicación</th>
@@ -52,8 +52,7 @@ class MARCAS{
 									$fila_activar =$row["mod_mar_activar"];
 									//if (empty($fila_dominio)){ $aux=_RUTA_WEB; } else { $aux = $this->fmt->categoria->traer_dominio_cat_id($fila_dominio); }
 									$aux= _RUTA_IMAGES;
-									$img=$this->fmt->archivos->convertir_url_mini( $fila_logo);
-
+									$img=$this->fmt->archivos->convertir_url_mini( $fila_logo );
 		            ?>
 		            <tr>
 		              <td><img class="img-responsive" width="60px" src="<?php echo $aux.$img; ?>" alt="" /></td>
@@ -89,7 +88,9 @@ class MARCAS{
 		$num=$this->fmt->query->num_registros($rs);
 		if ($num>0){
 			for ($i=0;$i<$num;$i++){
-				list($fila_id,$fila_nombre)=$this->fmt->query->obt_fila($rs);
+				$row=$this->fmt->query->obt_fila($rs);
+				$fila_id=$row["cat_id"];
+				$fila_nombre=$row["cat_nombre"];
 				echo "- ".$fila_nombre." <br/>";
 			}
 		}
@@ -98,8 +99,6 @@ class MARCAS{
 		$this->fmt->class_pagina->crear_head_form("Nueva Marca","","");
 
 		$id_form="form-nuevo";
-
-
 		$this->fmt->form->finder("inputImagen",$this->id_mod,"","individual","imagenes");
 
 		$this->fmt->class_pagina->head_form_mod();
@@ -110,8 +109,8 @@ class MARCAS{
 
 	    $this->fmt->form->textarea_form('Detalles:','inputDetalles','','','','','3','','');
 	    $this->fmt->form->input_form('Ruta amigable:','inputRutaAmigable','','','','',''); //$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
-			$text="Cargar archivo";
-			$this->fmt->form->imagen_form("Imagen:",$text,"inputImagen","","");
+			$this->fmt->form->imagen_unica_form("inputLogo","","","form-row","Logotipo:");  //$id,$valor,$titulo="Imagen principal",$class_div,$label_form=""
+			$this->fmt->form->imagen_unica_form("inputLogo","","","form-row","Imagen relacionada:");
 
 	    $usuario = $this->fmt->sesion->get_variable('usu_id');
 			$usuario_n = $this->fmt->sesion->get_variable('usu_nombre');
@@ -155,6 +154,7 @@ class MARCAS{
 		}
 	$ingresar ="mod_mar_nombre,
                 mod_mar_ruta_amigable,
+                mod_mar_logo,
                 mod_mar_imagen,
                 mod_mar_usuario,
                 mod_mar_detalle,
@@ -162,6 +162,7 @@ class MARCAS{
                 mod_mar_activar";
 	$valores  ="'".$_POST['inputNombre']."','".
 				$_POST['inputRutaAmigable']."','".
+				$_POST['inputLogo']."','".
 				$_POST['inputImagen']."','".
 				$_POST['inputUsuario']."','".
 				$_POST['inputDetalles']."','".
@@ -203,29 +204,32 @@ class MARCAS{
 		$this->fmt->class_pagina->head_form_mod();
 		$this->fmt->class_pagina->form_ini_mod($id_form,"");
 
-		  $this->fmt->form->hidden_modulo($this->id_mod,"modificar");
-		  $this->fmt->form->input_form('Nombre de la marca:','inputNombre','',$fila['mod_mar_nombre'],'requerido requerido-texto input-lg','',''); //$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
-			$this->fmt->form->input_hidden_form("inputId",$id);
-	    $this->fmt->form->textarea_form('Detalles:','inputDetalles','',$fila['mod_mar_detalle'],'','','3','','');
-	    $this->fmt->form->input_form('Ruta amigable:','inputRutaAmigable','',$fila['mod_mar_ruta_amigable'],'','',''); //$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
-			if ($fila["cat_imagen"]){ $text="Actualizar"; $aux=_RUTA_WEB; }else{ $text="Cargar archivo"; $aux=""; }
-			$this->fmt->form->imagen_form("Imagen:",$text,"inputImagen",$fila["mod_mar_id"],$aux.$fila["mod_mar_imagen"]);
+	  $this->fmt->form->hidden_modulo($this->id_mod,"modificar");
+	  $this->fmt->form->input_form('Nombre de la marca:','inputNombre','',$fila['mod_mar_nombre'],'requerido requerido-texto input-lg','',''); //$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
+		$this->fmt->form->input_hidden_form("inputId",$id);
+    $this->fmt->form->textarea_form('Detalles:','inputDetalles','',$fila['mod_mar_detalle'],'','','3','','');
+    $this->fmt->form->input_form('Ruta amigable:','inputRutaAmigable','',$fila['mod_mar_ruta_amigable'],'','',''); //$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
+		// if ($fila["cat_imagen"]){ $text="Actualizar"; $aux=_RUTA_WEB; }else{ $text="Cargar archivo"; $aux=""; }
+		// $this->fmt->form->imagen_form("Imagen:",$text,"inputImagen",$fila["mod_mar_id"],$aux.$fila["mod_mar_imagen"]);
 
-	    $usuario = $this->fmt->sesion->get_variable('usu_id');
-			$usuario_n = $this->fmt->sesion->get_variable('usu_nombre');
-			$cats_id = $this->fmt->categoria->traer_rel_cat_id($id,'mod_marcas_categorias','mod_mar_cat_id','mod_mar_mar_id'); //$fila_id,$from,$prefijo_cat,$prefijo_rel
-			$this->fmt->form->categoria_form('Categoria','inputCat',"0",$cats_id,"",""); //$label,$id,$cat_raiz,$cat_valor,$class,$class_div
-	    $this->fmt->form->input_form_sololectura('Usuario:','','',$usuario_n,'','','');
-		  $this->fmt->form->input_hidden_form("inputUsuario",$usuario);
-			$this->fmt->form->input_form('Orden:','inputOrden','','0','','','');
-			$this->fmt->form->radio_activar_form($fila['mod_suc_activar']);
-			$this->fmt->form->btn_actualizar($id_form,$this->id_mod,"modificar");
+		$this->fmt->form->imagen_unica_form("inputLogo",$fila["mod_mar_logo"],"","form-row","Logotipo:");  //$id,$valor,$titulo="Imagen principal",$class_div,$label_form=""
+		$this->fmt->form->imagen_unica_form("inputLogo",$fila["mod_mar_imagen"],"","form-row","Imagen relacionada:");
+
+    $usuario = $this->fmt->sesion->get_variable('usu_id');
+		$usuario_n = $this->fmt->sesion->get_variable('usu_nombre');
+		$cats_id = $this->fmt->categoria->traer_rel_cat_id($id,'mod_marcas_categorias','mod_mar_cat_id','mod_mar_mar_id'); //$fila_id,$from,$prefijo_cat,$prefijo_rel
+		$this->fmt->form->categoria_form('Categoria','inputCat',"0",$cats_id,"",""); //$label,$id,$cat_raiz,$cat_valor,$class,$class_div
+    $this->fmt->form->input_form_sololectura('Usuario:','','',$usuario_n,'','','');
+	  $this->fmt->form->input_hidden_form("inputUsuario",$usuario);
+		$this->fmt->form->input_form('Orden:','inputOrden','','0','','','');
+		$this->fmt->form->radio_activar_form($fila['mod_suc_activar']);
+		$this->fmt->form->btn_actualizar($id_form,$this->id_mod,"modificar");
 
 		$this->fmt->class_pagina->form_fin_mod();
 		$this->fmt->class_pagina->footer_form_mod();
     $this->fmt->class_modulo->modal_editor_texto("inputDetalles");
 		$this->fmt->class_modulo->modal_script($this->id_mod);
-
+		$this->fmt->finder->finder_window();
 		?>
 		<script>
 			$(document).ready(function () {
@@ -256,6 +260,7 @@ class MARCAS{
 		$sql="UPDATE mod_marcas SET
 						mod_mar_nombre='".$_POST['inputNombre']."',
 						mod_mar_ruta_amigable ='".$_POST['inputRutaAmigable']."',
+						mod_mar_logo ='".$_POST['inputLogo']."',
 						mod_mar_imagen ='".$_POST['inputImagen']."',
 						mod_mar_usuario='".$_POST['inputUsuario']."',
 						mod_mar_detalle='".$_POST['inputDetalles']."'
