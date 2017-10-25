@@ -102,7 +102,7 @@ class CATEGORIA{
 	}
 
   function cat_imagen($cat){
-	$consulta = "SELECT cat_imagen FROM categoria WHERE cat_id='$cat' ";
+	  $consulta = "SELECT cat_imagen FROM categoria WHERE cat_id='$cat' ";
     $rs = $this->fmt->query->consulta($consulta,__METHOD__);
     $fila = $this->fmt->query->obt_fila($rs);
     $nombre=$fila["cat_imagen"];
@@ -162,16 +162,15 @@ class CATEGORIA{
 
 
   function categoria_padre_sitio($cat){
-  	$this->fmt->get->validar_get($cat);
+  	//$this->fmt->get->validar_get($cat);
   	$cat_padre = $this->categoria_id_padre($cat);
   	$cat_tipo = $this->categoria_id_tipo($cat_padre);
   	if ($cat_tipo=='2'){
   		return $cat_padre;
+  	}else {
+  	  $this->categoria_padre_sitio($cat_padre);
   	}
-  	//}else {
-  	//	$this->categoria_padre_sitio($cat_padre);
-  	//}
-  	return $cat_padre;
+  	//return $cat_padre;
   }
 
   function favicon_categoria($cat){
@@ -179,8 +178,7 @@ class CATEGORIA{
 	  $consulta = "SELECT cat_favicon FROM categoria WHERE cat_id='$cat' ";
     $rs = $this->fmt->query->consulta($consulta,__METHOD__);
     $fila = $this->fmt->query->obt_fila($rs);
-    $favicon=$fila["cat_favicon"];
-    return $favicon;
+    return $fila["cat_favicon"];
   }
 
   function arbol_editable($from,$prefijo,$id_mod){

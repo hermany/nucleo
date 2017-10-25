@@ -1112,9 +1112,15 @@ class FORM{
     <?php
   }
 
+
   function input_hidden_form($id,$valor){
     ?>
     	<input type="hidden" id="<?php echo $id; ?>" name="<?php echo $id; ?>" value="<?php echo $valor; ?>" />
+    <?php
+  }
+  function textarea_hidden_form($id,$valor){
+    ?>
+    	<textarea style="display:none" id="<?php echo $id; ?>" name="<?php echo $id; ?>" ><?php echo $valor; ?></textarea>
     <?php
   }
 	function on_off_form($label,$id,$campo,$resumen,$valor=0,$class,$class_div){
@@ -1497,18 +1503,18 @@ class FORM{
 				//console.log (w);
 			});';
 	}
-	function video_unico($id,$valor,$id_tipo,$tipo,$titulo="Video principal",$class_div){
+	function video_unico($id,$valor,$titulo="Video principal",$class_div){
 		?>
 		<div class="form-group form-img-block <?php echo $class_div; ?>" id='box-form-mul-<?php echo $id; ?>'>
 		<?php
 		if (!empty($valor)){
 			$aux_mul ="";
 			$aux_btn ="off";
-			$id_mul=$this->fmt->class_multimedia->traer_id_multimedia_ruta_archivo($valor);
+			$id_mul=$valor;
 			$valorx = $this->fmt->archivos->convertir_url_mini($valor);
 			$nom = $this->fmt->class_multimedia->traer_nombre_multimedia($id_mul);
-			$tipo = $this->fmt->class_multimedia->traer_tipo_multimedia($id_mul);
-			$nombre = $nom."(".$tipo.")";
+			$tipo_mul = $this->fmt->class_multimedia->traer_tipo_multimedia($id_mul);
+			$nombre = $nom."(".$tipo_mul.")";
 		}else{
 			$aux_mul ="off";
 			$aux_btn ="";
@@ -1516,15 +1522,17 @@ class FORM{
 			$nombre="";
 		}
 		$this->fmt->form->input_hidden_form($id,$valor);
-		$this->fmt->form->input_hidden_form($id_tipo,$tipo);
+		//$this->fmt->form->input_hidden_form($id_tipo,$tipo);
 
 		?>
 		<div class="box-acciones box-acciones-mul <?php echo $aux_mul; ?>" id="box-mul-<?php echo $id; ?>" >
 			<a class="btn btn-eliminar-mul" eliminar="<?php echo $id; ?>" id_mul="<?php echo $id_mul;?>" tipo_item="video-unico"><i class="icn icn-close" /></a>
-			<a class="btn btn-editar-mul" id_mul="<?php echo $id_mul;?>" mul="<?php echo $valor; ?>"  tipo_item="video-unico"><i class="icn icn-pencil" /></a>
+			<a class="btn btn-editar-mul" id_mul="<?php echo $id_mul;?>" mul=""  tipo_item="video-unico"><i class="icn icn-pencil" /></a>
 		</div>
 		<div class="box-mul-nombre box-mul-nombre-<?php echo $id; ?> nombre"><?php echo $nombre; ?></div>
+
 		<img class="img-responsive <?php echo $aux_mul; ?>"  id="img-<?php echo $id; ?>" src="<?php echo _RUTA_WEB_NUCLEO; ?>images/video-icon.png" />
+
 		<a insert='<?php echo $id; ?>' vars='<?php echo $id_tipo; ?>' upload='video-unico' seleccion='simple' class='<?php echo $aux_btn; ?> btn btn-up-finder btn-up-finder-<?php echo $id; ?>'>
 			<i class='icn icn-media-plus'></i>
 			<span lang="es"><?php echo $titulo; ?></span>

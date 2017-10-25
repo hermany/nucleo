@@ -296,7 +296,7 @@ class NOTICIAS{
 						// if ($fila["not_imagen"]){ $text="Actualizar";  }else{ $text="Cargar archivo";   }
 						// $this->fmt->form->imagen_form("",$text,"inputImagen",$fila["not_id"],$fila["not_imagen"]);
 						$this->fmt->form->imagen_unica_form("inputImagen",$fila["not_imagen"]);
-						$this->fmt->form->video_unico("inputVideo",$fila["not_video"],"inputTipoVideo",$fila["not_tipo_video"],"Video Nota","video-control");
+						$this->fmt->form->video_unico("inputVideo",$fila["not_id_video"],"Video Nota","video-control");
 						$this->fmt->form->input_date_form('','inputFecha','',$fila['not_fecha'],'','form-vertical','');//$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
 						$cats_id = $this->fmt->categoria->traer_rel_cat_id($fila["not_id"],'nota_categorias','not_cat_cat_id','not_cat_not_id'); //$fila_id,$from,$prefijo_cat,$prefijo_rel
 						$this->fmt->form->categoria_form('Categoria','inputCat',"0",$cats_id,"","");
@@ -355,8 +355,7 @@ class NOTICIAS{
                 not_usuario,
                 not_autor,
                 not_lugar,
-								not_video,
-								not_tipo_video,
+								not_id_video,
                 not_activar";
 		$valores  ="'".$_POST['inputTitulo']."','".
 					$this->fmt->get->convertir_url_amigable($_POST['inputTitulo'])."','".
@@ -369,7 +368,6 @@ class NOTICIAS{
 					$_POST['inputAutor']."','".
 					$_POST['inputLugar']."','".
 					$_POST['inputVideo']."','".
-					$_POST['inputTipoVideo']."','".
 					$activar."'";
 
 		$sql="insert into nota (".$ingresar.") values (".$valores.")";
@@ -408,8 +406,7 @@ class NOTICIAS{
 						not_usuario='".$_POST['inputUsuario']."',
 						not_autor='".$_POST['inputAutor']."',
 						not_lugar='".$_POST['inputLugar']."',
-						not_video='".$_POST['inputVideo']."',
-						not_tipo_video='".$_POST['inputTipoVideo']."',
+						not_id_video='".$_POST['inputVideo']."',
 						not_activar='".$_POST['inputActivar']."'
 						WHERE not_id='".$_POST['inputId']."'";
 				// exit();

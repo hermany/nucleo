@@ -86,7 +86,8 @@ class MULTIMEDIA{
 					      echo '<td class=""><strong>'.$fila_nombre.'</strong> ( '.$fila_tipo.' )</td>';
 					      echo '<td class="">'.$this->fmt->usuario->nombre_usuario( $fila_usuario ).'</td>';
 					      echo '<td class="">';
-					        $this->fmt->categoria->traer_rel_cat_nombres($fila_id,'multimedia_categorias','mul_cat_cat_id','mul_cat_mul_id'); //$fila_id,$from,$prefijo_cat,$prefijo_rel
+					        //$this->fmt->categoria->traer_rel_cat_nombres($fila_id,'multimedia_categorias','mul_cat_cat_id','mul_cat_mul_id'); //$fila_id,$from,$prefijo_cat,$prefijo_rel
+					        $this->traer_rel_cat_nombres($fila_id); //$fila_id,$from,$prefijo_cat,$prefijo_rel
 					      echo '</td>';
 								$fh =$fila_fecha;
 								$fecha_hoy= $this->fmt->class_modulo->fecha_hoy("America/La_Paz");
@@ -118,6 +119,104 @@ class MULTIMEDIA{
 		$this->fmt->class_modulo->script_accion_modulo();
 		$this->fmt->class_modulo->script_table("table_id",$this->id_mod,"asc","5","25",true);
   }
+
+	function ordenar(){
+		$id_cat = $this->id_item;
+
+		$this->fmt->class_pagina->crear_head_form("Ordenar: ".$this->fmt->categoria->nombre_categoria($id_cat),"","");
+		$id_form="form-editar";
+		?>
+		<div class="body-modulo">
+		  <form class="form form-modulo form-ordenar"  method="POST" id="<?php echo $id_form?>">
+				<ul id="orden-cat" class="list-group">
+					<?php
+					$sql="select mul_id, mul_nombre, mul_url_archivo, mul_cat_orden from multimedia, multimedia_categorias where mul_cat_mul_id=mul_id and mul_cat_cat_id='$id_cat' ORDER BY mul_cat_orden desc";
+
+	        $rs =$this->fmt->query->consulta($sql);
+	        $num=$this->fmt->query->num_registros($rs);
+	        if($num>0){
+		        for($i=0;$i<$num;$i++){
+		          $row=$this->fmt->query->obt_fila($rs);
+							$prod_id=$row["mul_id"];
+							$prod_nom=$row["mul_nombre"];
+							$prod_imagen=_RUTA_WEB.$this->fmt->archivos->convertir_url_thumb($row["mul_url_archivo"]);
+							echo "<li id_var='$prod_id'><i class='icn icn-reorder'></i><span class='img-prod' style='background:url($prod_imagen)no-repeat center center'></span><span class='nombre'>$prod_nom</span></li>";
+						}
+					}
+					?>
+				</ul>
+				<div class="form-group form-botones box-botones-form">
+					<div class="group">
+						<?php
+						echo $this->fmt->class_pagina->crear_btn_m("Actualizar","icn-sync","update","btn btn-info btn-update",$this->id_mod,"ordenar_update");
+						 ?>
+					</div>
+				</div>
+			</form>
+			<script type="text/javascript">
+				$(document).ready(function() {
+					$("#orden-cat" ).sortable();
+					$(".btn-update").click(function(){
+						var formdata = new FormData();
+						var id_mod = $(this).attr("id_mod");
+						var vars = $(this).attr("vars");
+						formdata.append("inputVars", vars);
+						formdata.append("cat", "<?php echo $id_cat;?>");
+						formdata.append("ajax", "ajax-adm");
+						formdata.append("inputIdMod", id_mod);
+						$('#orden-cat li').each(function(index){
+						  var id_var = $(this).attr("id_var");
+						  console.log(id_var);
+						  var orden = index+1;
+						  formdata.append("id_item[]", id_var);
+						  //formdata.append("orden[]", orden);
+						});
+
+						var ruta = "<?php echo _RUTA_WEB; ?>ajax.php";
+
+						$.ajax({
+						      url:ruta,
+						      type:"post",
+						      data:formdata,
+						      processData: false,
+						    contentType: false,
+						      success: function(msg){
+
+						        $("#popup-div").html(msg);
+						      }
+						});
+					});
+				});
+			</script>
+		</div>
+		<?php
+  }
+
+	function ordenar_update(){
+		$id_cat=$_POST["cat"];
+		$this->fmt->class_modulo->eliminar_fila($id_cat,"multimedia_categorias","mul_cat_cat_id");
+		$ingresar2 ="mul_cat_mul_id,mul_cat_cat_id,mul_cat_orden";
+		$valor_doc= $_POST['id_item'];
+		$num=count( $valor_doc );
+		for ($i=0; $i<$num;$i++){
+			$valores2 = "'".$valor_doc[$i]."','".$id_cat."','".$i."'";
+			$sql2="insert into multimedia_categorias (".$ingresar2.") values (".$valores2.")";
+			$this->fmt->query->consulta($sql2);
+		}
+	 $this->fmt->class_modulo->redireccionar($this->ruta_modulo,"1");
+	}
+
+	function traer_rel_cat_nombres($fila_id){
+		$consulta = "SELECT DISTINCT cat_id, cat_nombre FROM categoria, multimedia_categorias WHERE mul_cat_mul_id='".$fila_id."' and cat_id = mul_cat_cat_id";
+		$rs = $this->fmt->query->consulta($consulta);
+		$num=$this->fmt->query->num_registros($rs);
+		if ($num>0){
+			for ($i=0;$i<$num;$i++){
+				$row=$this->fmt->query->obt_fila($rs);
+				echo "- <a class='btn-menu-ajax' id_mod='".$this->id_mod."' vars='ordenar,".$row["cat_id"]."' > ".$row["cat_nombre"]."</a><br/>";
+			}
+		}
+	}
 
   function form_nuevo(){
 		$this->fmt->class_pagina->crear_head_form("Nuevo Multimedia","","");

@@ -30,7 +30,9 @@ class CLASSHEADER{
     $aux .= '<!-- Si te gusta programar este sitio esta desarrollado en zundi cms open sourse -> http://github.com/zundi -->'."\n";
     $aux .= '<html id="page-index" lang="ES">'."\n";
     $aux .= '<head>'."\n";
+
     $aux .= '	<title>'.$this->nombre_sitio($cat).'</title>'."\n";
+
     $aux .= '	<link rel="shortcut icon" href="'._RUTA_WEB.$this->get_favicon($cat).'" />'."\n";  //Trabajar
 
     $aux .= '	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">'."\n";
@@ -54,24 +56,24 @@ class CLASSHEADER{
 
   function nombre_sitio($cat){
 
-    $cat_tipo =  $this->fmt->categoria->categoria_id_tipo($cat);
-    $cat_padre= $this->fmt->categoria->categoria_id_padre($cat);
-    $cat_nombre= $this->fmt->categoria->nombre_categoria($cat);
-
-    if ( ($cat_padre=='0')&&($cat_tipo=='2')&&($cat=='1')) {
-      $nombre = $cat_nombre;
-    }else{
-      if ( ($cat_padre=='0')&&($cat_tipo=='2')) {
-        $nombre = $cat_nombre;
-      }else{
-        $cat_padre_sitio =  $this->fmt->categoria->categoria_padre_sitio($cat);
-        if (!empty($cat_padre_sitio)){
-          $nombre= $this->fmt->categoria->nombre_categoria($cat_padre_sitio)." - ".$cat_nombre;
-        }else{
-          $nombre= $this->nombre_config();
-        }
-      }
-    }
+    // $cat_tipo =  $this->fmt->categoria->categoria_id_tipo($cat);
+    // $cat_padre= $this->fmt->categoria->categoria_id_padre($cat);
+    // $cat_nombre= $this->fmt->categoria->nombre_categoria($cat);
+    //
+    // if ( ($cat_padre=='0')&&($cat_tipo=='2')&&($cat=='1')) {
+    //   $nombre = $cat_nombre;
+    // }else{
+    //   if ( ($cat_padre=='0')&&($cat_tipo=='2')) {
+    //     $nombre = $cat_nombre;
+    //   }else{
+    //     $cat_padre_sitio =  $this->fmt->categoria->categoria_padre_sitio($cat);
+    //     if (!empty($cat_padre_sitio)){
+    //       $nombre= $this->fmt->categoria->nombre_categoria($cat_padre_sitio)." - ".$cat_nombre;
+    //     }else{
+    //       $nombre= $this->nombre_config();
+    //     }
+    //   }
+    // }
     if (_MULTIPLE_SITE=="off"){
       $nombre= $this->nombre_config();
     }
@@ -99,25 +101,26 @@ class CLASSHEADER{
 
 
   function get_favicon($cat){
-    $cat_tipo = $this->fmt->categoria->categoria_id_tipo($cat);
-    $cat_padre= $this->fmt->categoria->categoria_id_padre($cat);
-    $cat_favicon= $this->fmt->categoria->favicon_categoria($cat);
 
-    if ( ($cat_padre=='0')&&($cat_tipo=='2')&&($cat=='1')) {
-      $favicon = $cat_favicon;
-    }else{
-      if ( ($cat_padre=='0')&&($cat_tipo=='2')) {
-        $favicon = $cat_favicon;
-      }else{
-        $cat_padre_sitio =  $this->fmt->categoria->categoria_padre_sitio($cat);
-        if (!empty($cat_padre_sitio)){
-          // $favicon= $this->fmt->categoria->nombre_categoria($cat_padre_sitio)." - ".$cat_nombre;
-          $favicon= $this->fmt->categoria->favicon_categoria($cat_padre_sitio);
-        }else{
-          $favicon=  $this->favicon_config();
-        }
-      }
-    }
+    // $cat_tipo = $this->fmt->categoria->categoria_id_tipo($cat);
+    // $cat_padre = $this->fmt->categoria->categoria_id_padre($cat);
+    // $cat_favicon = $this->fmt->categoria->favicon_categoria($cat);
+    //
+    // if ( ($cat_padre=='0')&&($cat_tipo=='2')&&($cat=='1')) {
+    //   $favicon = $cat_favicon;
+    // }else{
+    //   if ( ($cat_padre=='0')&&($cat_tipo=='2')) {
+    //     $favicon = $cat_favicon;
+    //   }else{
+    //     $cat_padre_sitio = $this->fmt->categoria->categoria_padre_sitio($cat);
+    //     if (!empty($cat_padre_sitio)){
+    //       // $favicon= $this->fmt->categoria->nombre_categoria($cat_padre_sitio)." - ".$cat_nombre;
+    //       $favicon= $this->fmt->categoria->favicon_categoria($cat_padre_sitio);
+    //     }else{
+    //       $favicon=  $this->favicon_config();
+    //     }
+    //   }
+    // }
     if (_MULTIPLE_SITE=="off"){
       $favicon = $this->favicon_config();
     }

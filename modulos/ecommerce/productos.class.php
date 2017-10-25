@@ -55,7 +55,7 @@ class PRODUCTOS{
 				        else{
 				        	$aux="";
 				        	$or="";
-				        	$sql="select rol_rel_cat_id from roles_rel where rol_rel_rol_id=".$id_rol." and rol_rel_cat_id not in (0) ORDER BY rol_rel_cat_id asc";
+				        	$sql="select rol_cat_cat_id from roles_categorias where rol_cat_rol_id=".$id_rol." and rol_cat_cat_id not in (0) ORDER BY rol_cat_cat_id asc";
 					      $rs =$this->fmt->query->consulta($sql);
 						  $num=$this->fmt->query->num_registros($rs);
 						  if($num>0){
@@ -211,7 +211,7 @@ class PRODUCTOS{
 						<div class="precio-anterior"><?php echo $precio_detalle; ?></div>
 						<?php
 						if (!empty($addend)){
-							echo "<a class='item item-btn' href='$url'>$addend</a>";
+							echo "<a class='item item-btn' href='$url' item='$id' >$addend</a>";
 						}
 						if (!empty($precio)){
 							?>
@@ -431,7 +431,7 @@ class PRODUCTOS{
 		      if($id_rol==1)
 		      $this->fmt->form->categoria_form('Categoria','inputCat',"0",$this->rel_id_cat($fila['mod_prod_id']),"",""); //$$label,$id,$cat_raiz,$cat_valor,$class,$class_div
 		      else{
-		        $sql="select rol_rel_cat_id from roles_rel where rol_rel_rol_id=".$id_rol." and rol_rel_cat_id not in (0) ORDER BY rol_rel_cat_id asc";
+		        $sql="select rol_cat_cat_id from roles_categorias where rol_rel_rol_id=".$id_rol." and rol_cat_cat_id not in (0) ORDER BY rol_cat_cat_id asc";
 		              $rs =$this->fmt->query->consulta($sql);
 		            $num=$this->fmt->query->num_registros($rs);
 		            if($num>0){

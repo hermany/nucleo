@@ -121,7 +121,7 @@ class FINDER{
 						 x_item_embed = $(".finder-item[seleccionado='on']").attr("embed");
 
 						if ( upload == "imagen-unica" ){
-							//console.log(insert+":"+upload+":"+x_url+":"+x_urlmini);
+							//console.log(insert+":"+upload+":"+x_url+":"+x_urlmini+":"+vars);
 							$("#"+insert).attr("value",x_url);
 							$("#"+vars).attr("value",x_tipo_item);
 							$("#box-mul-"+insert+" .btn-editar-mul").attr("mul",x_url);
@@ -133,8 +133,9 @@ class FINDER{
 							$("#box-mul-"+insert).removeClass('off');
 						}
 						if ( upload == "video-unico" ){
-							console.log(insert+":"+upload+":"+x_tipo_item+":"+x_nombre);
-							$("#"+insert).attr("value",x_url);
+							console.log(insert+":"+upload+":"+x_mul_item);
+
+							$("#"+insert).attr("value",x_mul_item);
 							$("#box-mul-"+insert+" .btn-editar-mul").attr("mul",x_url);
 							$("#box-mul-"+insert+" .btn-editar-mul").attr("id_mul",x_mul_item);
 							$("#box-mul-"+insert+" .btn-eliminar-mul").attr("id_mul",x_mul_item);
@@ -514,7 +515,7 @@ class FINDER{
 									//console.log(Math.floor(e.loaded / e.total *100) + '%');
 
 										$("#finder-figures").append("<li class='finder-item' tipo_item='' id='todos-mul-temporal' url_mini='' url='' style=''><div class='progreso'>"+ dat +"%</div></li>");
-			
+
 									//resize_item();
 								};
 								return xhr;

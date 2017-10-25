@@ -23,6 +23,20 @@ class CLASSMULTIMEDIA{
 		$fila=$this->fmt->query->obt_fila($rs);
 		return $fila['mul_nombre'];
 	}
+	function traer_ruta_archivo_multimedia($id){
+		$consulta= "SELECT DISTINCT mul_url_archivo FROM multimedia WHERE mul_id='$id'";
+		$rs =$this->fmt->query->consulta($consulta,__METHOD__);
+    $num =$this->fmt->query->num_registros($rs);
+		$fila=$this->fmt->query->obt_fila($rs);
+		return $fila['mul_url_archivo'];
+	}
+	function traer_embed_multimedia($id){
+		$consulta= "SELECT DISTINCT mul_embed FROM multimedia WHERE mul_id='$id'";
+		$rs =$this->fmt->query->consulta($consulta,__METHOD__);
+    $num =$this->fmt->query->num_registros($rs);
+		$fila=$this->fmt->query->obt_fila($rs);
+		return $fila['mul_embed'];
+	}
 	function traer_tipo_multimedia($id){
 		$consulta= "SELECT DISTINCT mul_tipo_archivo FROM multimedia WHERE mul_id='$id'";
 		$rs =$this->fmt->query->consulta($consulta,__METHOD__);

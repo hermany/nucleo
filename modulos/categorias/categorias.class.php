@@ -209,7 +209,7 @@ class CATEGORIAS{
 					$this->fmt->form->input_icono_form("Icono:","inputIcono",$fila["cat_icono"]); //($label,$id,$icono,$class_div
 					$this->fmt->form->input_color_form("Color:","inputColor",$fila["cat_color"]); //($label,$id,$color="#ffff",$class_div
 					//if ($fila["cat_imagen"]){ $text="Actualizar"; $aux=_RUTA_WEB; }else{ $text="Cargar archivo"; $aux=""; }
-					$this->fmt->form->imagen_unica_form("inputImagen",$fila_imagen,"","","Imagen relacionada:");
+					$this->fmt->form->imagen_unica_form("inputImagen",$fila["cat_imagen"],"","","Imagen relacionada:");
 					//$id,$valor,$titulo="Imagen principal",$class_div,$label_form="" //$label,$label_btn,$id,$id_item,$valor,$img,$class_div
 					$this->fmt->form->input_form('Orden:','inputOrden','',$fila['cat_orden'],'box-md-2','','');
 					?>

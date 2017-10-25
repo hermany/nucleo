@@ -154,10 +154,10 @@ class CLASSSISTEMAS{
          //var_dump($carpetas_sitios);
          $nc = count($carpetas_sitios);
          for ($i=0; $i < $nc; $i++) {
-           $nombre_archivo= _RUTA_SERVER.$carpetas_sitios[$i].".htaccess";
-           $this->escribir_htaccess($nombre_archivo);
+          $nombre_archivo = _RUTA_SERVER.$carpetas_sitios[$i]."/.htaccess";
+          $this->escribir_htaccess($nombre_archivo);
          }
-
+         //exit(0);
       }else{
          $nombre_archivo = _RUTA_HOST.".htaccess";
       	 $this->escribir_htaccess($nombre_archivo);
@@ -225,6 +225,9 @@ class CLASSSISTEMAS{
         fwrite($archivo, "#".PHP_EOL);
 
         fwrite($archivo, "RewriteCond %{HTTP_USER_AGENT} ^$ [OR]".PHP_EOL);
+        fwrite($archivo, "<IfModule mime_module>".PHP_EOL);
+        fwrite($archivo, "  AddType application/x-httpd-ea-php56 .php .php5 .phtml".PHP_EOL);
+        fwrite($archivo, "</IfModule>".PHP_EOL);
         fwrite($archivo, "RewriteCond %{HTTP_USER_AGENT} ^(java|curl|wget) [NC,OR]".PHP_EOL);
         fwrite($archivo, "RewriteCond %{HTTP_USER_AGENT} (winhttp|HTTrack|clshttp|archiver|loader|email|harvest|extract|grab|miner) [NC,OR]".PHP_EOL);
         fwrite($archivo, "RewriteCond %{HTTP_USER_AGENT} (libwww-perl|curl|wget|python|nikto|scan) [NC,OR]".PHP_EOL);
