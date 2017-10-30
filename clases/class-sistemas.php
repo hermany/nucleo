@@ -225,9 +225,13 @@ class CLASSSISTEMAS{
         fwrite($archivo, "#".PHP_EOL);
 
         fwrite($archivo, "RewriteCond %{HTTP_USER_AGENT} ^$ [OR]".PHP_EOL);
+
+        if (_VS_PHP=="5+"){
         fwrite($archivo, "<IfModule mime_module>".PHP_EOL);
         fwrite($archivo, "  AddType application/x-httpd-ea-php56 .php .php5 .phtml".PHP_EOL);
         fwrite($archivo, "</IfModule>".PHP_EOL);
+        }
+
         fwrite($archivo, "RewriteCond %{HTTP_USER_AGENT} ^(java|curl|wget) [NC,OR]".PHP_EOL);
         fwrite($archivo, "RewriteCond %{HTTP_USER_AGENT} (winhttp|HTTrack|clshttp|archiver|loader|email|harvest|extract|grab|miner) [NC,OR]".PHP_EOL);
         fwrite($archivo, "RewriteCond %{HTTP_USER_AGENT} (libwww-perl|curl|wget|python|nikto|scan) [NC,OR]".PHP_EOL);
