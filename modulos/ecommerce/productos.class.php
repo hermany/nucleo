@@ -191,7 +191,7 @@ class PRODUCTOS{
 				    $au = "impar";
 				}
 				?>
-				<div class="item-producto <?php echo $au; ?>"  item="<?php echo $id; ?>" id="item-<?php echo $id; ?>" >
+				<div class="item-producto <?php echo $au; ?> item-prod-<?php echo $i; ?>"  item="<?php echo $id; ?>" id="item-<?php echo $id; ?>" >
 					<div class="item-img" style="background:url(<?php echo $img; ?>) no-repeat center center;"><a href="<?php echo $url; ?>"></a></div>
 					<div class="item-datos">
 						<div class="item item-cat">
@@ -200,7 +200,7 @@ class PRODUCTOS{
 								//echo "cats:".$cat;
 								for ($ix=0; $ix < count($cts) ; $ix++) {
 									if ($cts[$ix]!=$cat) {
-										echo $this->fmt->categoria->nombre_categoria($cts[$ix]);
+										echo "<div class='i-cat'>".$this->fmt->categoria->nombre_categoria($cts[$ix]),"</div>";
 									}
 								}
 							?>
