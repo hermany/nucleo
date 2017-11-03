@@ -1927,7 +1927,7 @@ class FORM{
 	}
 
 	function multimedia_form_block($id_item,$id_mod,$class_div,$label="Subir archivo",$label_form="",$from,$prefijo,$prefijo_mod){
-		echo "<div class='form-group'>";
+		echo "<div class='form-group form-group-multimedia-block'>";
 		 if ($label_form!=""){
 			 ?>
 			 <label class="label-<?php echo $class_div; ?>"><?php echo $label_form; ?></label>

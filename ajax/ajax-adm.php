@@ -35,6 +35,7 @@ $(document).ready(function(){
 		$(".modal").removeClass("on");
 		$(".modal").removeClass("<?php echo $row["mod_ruta_amigable"]; ?>");
 		$(".content-page").css("overflow-y","auto");
+		$(".body-page").css("overflow-y","auto");
 		// setTimeout(function(){
 		//
 		// }, 400);

@@ -28,9 +28,9 @@ class MYSQL {
 	function conectar($bd,$host,$user,$pass){
 
 		if ($bd != "")	{ $this->BaseDatos = $bd; }
-    if ($host != ""){ $this->Servidor = $host; }
-    if ($user != ""){ $this->Usuario = $user; }
-    if ($pass != ""){ $this->Clave = $pass; }
+    	if ($host != ""){ $this->Servidor = $host; }
+    	if ($user != ""){ $this->Usuario = $user; }
+    	if ($pass != ""){ $this->Clave = $pass; }
 
 		try {
 			// $this->conexion = new PDO("mysql:dbname=$bd;host=$host",$user,$pass);

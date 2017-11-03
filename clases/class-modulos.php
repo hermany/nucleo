@@ -187,13 +187,16 @@ class CLASSMODULOS{
             success: function(msg){
 
               $("#modal .modal-inner").html(msg);
-              var wbm = $(".modal .modal-inner").height();
-              var wbmx = wbm - 108;
-              console.log("body-modulo:"+wbmx);
-              $(".body-modulo").height(wbmx);
+
             },
             complete : function() {
               $('.preloader-page').fadeOut('slow');
+
+              var wbm = $(".modal .modal-inner").height();
+              var wbmx = wbm - 108;
+              // console.log("body-modulo:"+wbmx);
+              $(".modal-inner .body-modulo").height(wbmx);
+
               // var wmi =   $("#modal .modal-inner").width();
               // var hmi =   $("#modal .modal-inner").height();
               // var x_wmi = Math.round(wmi /2);
@@ -379,13 +382,16 @@ class CLASSMODULOS{
             success: function(msg){
 
               $("#modal .modal-inner").html(msg);
-              var wbm = $(".modal .modal-inner").height();
-              var wbmx = wbm - 108;
-              console.log("body-modulo:"+wbmx);
-              $(".body-modulo").height(wbmx);
+
             },
             complete : function() {
               $('.preloader-page').fadeOut('slow');
+
+              var wbm = $(".modal .modal-inner").height();
+              var wbmx = wbm - 108;
+              // console.log("body-modulo:"+wbmx);
+              $(".modal-inner .body-modulo").height(wbmx);
+
               // var wmi =   $("#modal .modal-inner").width();
               // var hmi =   $("#modal .modal-inner").height();
               // var x_wmi = Math.round(wmi /2);
@@ -767,12 +773,21 @@ class CLASSMODULOS{
             async: true,
             success: function(msg){
               $("#modal .modal-inner").html(msg);
+              // $('.preloader-page').fadeOut('slow');
+              // console.log("hola");
+            },
+            complete : function() {
               $('.preloader-page').fadeOut('slow');
 
+              var wbm = $(".modal .modal-inner").height();
+              var wbmx = wbm - 108;
+              // console.log("body-modulo:"+wbmx);
+              $(".modal-inner .body-modulo").height(wbmx);
             },
             error: function() {
               alert( "Ha ocurrido un error" );
             }
+            
           });
         }
 
