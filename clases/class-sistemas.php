@@ -186,24 +186,34 @@ class CLASSSISTEMAS{
         fwrite($archivo, "# htaccess ".$datos[1]. PHP_EOL);
         fwrite($archivo, "# Fecha de modificacion:". date("d m Y H:m:s").PHP_EOL);
         fwrite($archivo, "#".PHP_EOL);
-        fwrite($archivo, "Options -Indexes".PHP_EOL);
 
-        fwrite($archivo, "RewriteCond %{SCRIPT_FILENAME} !-d".PHP_EOL);
-        fwrite($archivo, "RewriteCond %{SCRIPT_FILENAME} !-f".PHP_EOL);
-        fwrite($archivo, "#".PHP_EOL);
-        fwrite($archivo, "RewriteEngine On".PHP_EOL);
-        $ruta = str_replace("http://","www.",_RUTA_WEB);
-        $ruta = str_replace("https://","www.",_RUTA_WEB);
-        $ruta = str_replace("/","",$ruta);
-        // if (_TIPO_HTML=="https://"){
-        //   fwrite($archivo, "RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]".PHP_EOL);
-        // }
-        // if (_TIPO_HTML=="http://"){
+        if (_TIPO_HTML=="http://"){
+
+          fwrite($archivo, "Options -Indexes".PHP_EOL);
+          fwrite($archivo, "RewriteCond %{SCRIPT_FILENAME} !-d".PHP_EOL);
+          fwrite($archivo, "RewriteCond %{SCRIPT_FILENAME} !-f".PHP_EOL);
+          fwrite($archivo, "#".PHP_EOL);
+
+          fwrite($archivo, "RewriteEngine On".PHP_EOL);
+          $ruta = str_replace("http://","www.",_RUTA_WEB);
+          $ruta = str_replace("https://","www.",_RUTA_WEB);
+          $ruta = str_replace("/","",$ruta);
+
           fwrite($archivo, "RewriteCond %{HTTP_HOST} ^".$ruta." [NC]".PHP_EOL);
-        //}
+          // fwrite($archivo, "RewriteCond %{HTTP_HOST} ^www\.candire\.net$ [NC]".PHP_EOL);
+          fwrite($archivo, "RewriteRule ^(.*)$ "._RUTA_WEB."$1 [L,R=301]".PHP_EOL);
+          fwrite($archivo, "#".PHP_EOL);
+        }
 
-        fwrite($archivo, "RewriteRule ^(.*)$ "._RUTA_WEB."$1 [L,R=301]".PHP_EOL);
-        fwrite($archivo, "#".PHP_EOL);
+        if (_TIPO_HTML=="https://"){
+          fwrite($archivo, "Options +FollowSymLinks".PHP_EOL);
+          fwrite($archivo, "RewriteEngine on".PHP_EOL);
+          $ruta = str_replace("https://www.","",_RUTA_WEB);
+          $ruta = str_replace("/","",$ruta);
+          fwrite($archivo, "RewriteCond %{HTTP_HOST} ^".$ruta." [NC]".PHP_EOL);
+          fwrite($archivo, "RewriteRule ^(.*)$ "._RUTA_WEB."$1 [L,R=301]".PHP_EOL);
+          fwrite($archivo, "#".PHP_EOL);
+        }
 
         fwrite($archivo, "RewriteCond %{QUERY_STRING} (;|<|>|’|”|\)|%0A|%0D|%22|%27|%3C|%3E|%00).*(/\*|union|select|insert|query|cast|set|declare|drop|update|md5|benchmark) [NC,OR]".PHP_EOL);
         fwrite($archivo, "RewriteCond %{QUERY_STRING} \.\./\.\. [OR]".PHP_EOL);

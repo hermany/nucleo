@@ -230,7 +230,7 @@ function traer_cat_hijos_menu_raiz($cat,$nivel,$nivel_tope){
   }
 
   function traer_cat_hijos_menu($cat,$nivel,$nivel_tope,$cat_active){
-    $sql="SELECT cat_id, cat_nombre, cat_id_padre, cat_icono, cat_imagen, cat_url, cat_destino, cat_ruta_amigable FROM categoria WHERE cat_id_padre='$cat' and cat_activar='1' ORDER BY cat_orden ASC";
+    $sql="SELECT cat_id, cat_nombre, cat_id_padre, cat_icono, cat_imagen, cat_url, cat_tipo,cat_destino, cat_ruta_amigable FROM categoria WHERE cat_id_padre='$cat' and cat_activar='1' ORDER BY cat_orden ASC";
     $rs = $this->fmt->query->consulta($sql,__METHOD__);
     $num = $this->fmt->query->num_registros($rs);
     if ($num>0){
@@ -239,6 +239,7 @@ function traer_cat_hijos_menu_raiz($cat,$nivel,$nivel_tope){
 	   for ($i=0; $i<$num; $i++){
          $row =  $this->fmt->query->obt_fila($rs);
          $fila_id = $row["cat_id"];
+         $ftipo = $row["cat_tipo"];
          $fila_nombre= $row["cat_nombre"];
          $fila_id_padre= $row["cat_id_padre"];
          $fila_icono= $row["cat_icono"];
@@ -246,6 +247,10 @@ function traer_cat_hijos_menu_raiz($cat,$nivel,$nivel_tope){
          $fila_url= $row["cat_url"];
          $fila_destino= $row["cat_destino"];
          $fila_ruta_amigable= $row["cat_ruta_amigable"];
+
+
+
+
 
         //echo "url".$url;
 
@@ -285,6 +290,14 @@ function traer_cat_hijos_menu_raiz($cat,$nivel,$nivel_tope){
     }
     //echo "url:".$urlx."</br>";
     // }
+
+      $ra_padre=$this->fmt->categoria->ruta_amigable_padre($id);
+      $ftipo=$this->fmt->categoria->tipo_categoria($id);
+
+     if ($ftipo=="3"){
+      $urlx = _RUTA_WEB.$ra_padre."#".$this->fmt->categoria->ruta_amigable($id);
+      //$nombre= $nombre.":".$id.":".$ra_padre;
+     }
 
     //$url=$this->fmt->categoria->traer_ruta_amigable_padre($id);
     //echo $url;

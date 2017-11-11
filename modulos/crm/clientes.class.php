@@ -25,12 +25,16 @@ class CLIENTES{
     $this->fmt->form->head_table("table_id");
     $this->fmt->form->thead_table('Id:Nombre:Estado:Acciones');
     $this->fmt->form->tbody_table_open();
-    $consulta = "SELECT mod_cli_id,mod_cli_nombre,mod_cli_telefono,mod_cli_estado FROM mod_clientes ORDER BY mod_cli_id desc";
+    $consulta = "SELECT mod_cli_id,mod_cli_nombre,mod_cli_telefono,mod_cli_estado FROM mod_cliente ORDER BY mod_cli_id desc";
     $rs =$this->fmt->query->consulta($consulta);
     $num=$this->fmt->query->num_registros($rs);
     if($num>0){
       for($i=0;$i<$num;$i++){
-        list($fila_id,$nombre,$telefono,$estado)=$this->fmt->query->obt_fila($rs);
+        $row=$this->fmt->query->obt_fila($rs);
+        $fila_id=$row["mod_cli_id"];
+        $nombre=$row["mod_cli_nombre"];
+        $telefono=$row["mod_cli_telefono"];
+        $estado=$row["mod_cli_estado"];
         echo "<tr class='row row-".$fila_id."'>";
         echo '  <td class="col-id">'.$fila_id.'</td>';
         echo '  <td class="col-name">'.$nombre.'<span class="text-ref">'.$telefono.'</span></td>';
@@ -53,7 +57,7 @@ class CLIENTES{
 	}
 
 	function nombre_estado_cliente($estado){
-		$consulta = "SELECT mod_cli_est_nombre FROM mod_clientes_estados WHERE mod_cli_est_id=$estado";
+		$consulta = "SELECT mod_cli_est_nombre FROM mod_cliente_estados WHERE mod_cli_est_id=$estado";
     $rs =$this->fmt->query->consulta($consulta);
     $num=$this->fmt->query->num_registros($rs);
 		$fila = $this->fmt->query->obt_fila($rs);
@@ -61,7 +65,7 @@ class CLIENTES{
 		$this->fmt->query->liberar_consulta($rs);
 	}
 	function nombre_cliente($id){
-		$consulta = "SELECT mod_cli_nombre FROM mod_clientes WHERE mod_cli_id=$id";
+		$consulta = "SELECT mod_cli_nombre FROM mod_cliente WHERE mod_cli_id=$id";
     $rs =$this->fmt->query->consulta($consulta);
     $num=$this->fmt->query->num_registros($rs);
 		$fila = $this->fmt->query->obt_fila($rs);

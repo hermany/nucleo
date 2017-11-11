@@ -1,5 +1,6 @@
 <?php
 require_once('sucursales.class.php');
+
 $form =new SUCURSALES($fmt,$id_mod,$id_item,$id_estado);
 echo $fmt->header->header_modulo();
 

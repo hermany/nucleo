@@ -48,15 +48,15 @@ class SISTEMAS{
                 $num=$this->fmt->query->num_registros($rs);
                 if($num>0){
                 for($i=0;$i<$num;$i++){
-                  $row=$this->fmt->query->obt_fila($rs);
-									$fila_id = $row["sis_id"];
-									$fila_nombre = $row["sis_nombre"];
-									$fila_descripcion = $row["sis_descripcion"];
-									$fila_icono = $row["sis_icono"];
-									$color = $row["sis_color"];
-									$fila_tipo = $row["sis_tipo"];
-									$fila_activar = $row["sis_activar"];
-									$fila_orden = $row["sis_orden"];
+                  	$row=$this->fmt->query->obt_fila($rs);
+										$fila_id = $row["sis_id"];
+										$fila_nombre = $row["sis_nombre"];
+										$fila_descripcion = $row["sis_descripcion"];
+										$fila_icono = $row["sis_icono"];
+										$color = $row["sis_color"];
+										$fila_tipo = $row["sis_tipo"];
+										$fila_activar = $row["sis_activar"];
+										$fila_orden = $row["sis_orden"];
                 ?>
                 <tr sis="<?php echo $fila_id; ?>" class="row row-sis row-<?php echo $fila_id; ?>">
                   <!-- <td></td> -->
@@ -199,9 +199,15 @@ class SISTEMAS{
 		$rs=$this->fmt->query->consulta($sql,__METHOD__);
 		$num=$this->fmt->query->num_registros($rs);
 			if($num>0){
-				for($i=0;$i<$num;$i++){
-					list($fila_id,$fila_nombre,$fila_descripcion,$fila_tipo,$fila_icono,$fila_color,$fila_activar,$orden)=$this->fmt->query->obt_fila($rs);
-				}
+				$row=$this->fmt->query->obt_fila($rs);
+				$fila_id=$row["sis_id"];
+				$fila_nombre=$row["sis_nombre"];
+				$fila_descripcion=$row["sis_descripcion"];
+				$fila_tipo=$row["sis_tipo"];
+				$fila_icono=$row["sis_icono"];
+				$fila_color=$row["sis_color"];
+				$fila_activar=$row["sis_activar"];
+				// $orden
 			}
       $this->fmt->class_pagina->crear_head_form("Editar Sistema", "","");// nombre, botones-left, botones-right
   		//echo "<a href='javascript:location.reload()'><i class='icn-sync'></i></a>";
@@ -264,7 +270,7 @@ class SISTEMAS{
 					</select>
 				</div>
         <?php
-          $this->fmt->form->input_form("Orden:","inputOrden","",$orden,"box-md-2");
+         // $this->fmt->form->input_form("Orden:","inputOrden","",$orden,"box-md-2");
           $this->fmt->form->radio_activar_form($fila_activar);
 					$this->fmt->form->btn_actualizar($id_form,$this->id_mod,"modificar"); //$id_form,$id_mod,$tarea
 				?>

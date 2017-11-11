@@ -76,7 +76,7 @@ class CONTENIDOS{
 		 <?php
 		 $this->fmt->class_modulo->modal_editor_texto("inputCuerpo");
 		 $this->fmt->class_modulo->script_accion_modulo();
-		 $this->fmt->class_modulo->script_table("table_id",$this->id_mod,"desc","4","25",true);
+		 $this->fmt->class_modulo->script_table("table_id",$this->id_mod,"desc","0","25",true);
 	} // Fin busqueda
 
 /************** Formulario form_nuevo ***************/

@@ -357,11 +357,12 @@ class CATEGORIAS{
   function ingresar(){
     if ($_POST["estado-mod"]=="activar"){ $activar=1; }else{ $activar=0;}
 
-    $ingresar ="cat_nombre, cat_descripcion, cat_ruta_amigable, cat_imagen, cat_icono, cat_color, cat_clase, cat_meta, cat_id_padre, cat_id_plantilla, cat_tipo, cat_url, cat_destino, cat_favicon, cat_dominio,cat_ruta_sitio, cat_activar";
+    $ingresar ="cat_nombre, cat_descripcion, cat_ruta_amigable, cat_imagen,cat_orden, cat_icono, cat_color, cat_clase, cat_meta, cat_id_padre, cat_id_plantilla, cat_tipo, cat_url, cat_destino, cat_favicon, cat_dominio,cat_ruta_sitio, cat_activar";
 		$valores  ="'".$_POST['inputNombre']."','".
 									 $_POST['inputDescripcion']."','".
                    $_POST['inputRutaamigable']."','".
                    $_POST['inputImagen']."','".
+                   $_POST['inputOrden']."','".
                    $_POST['inputIcono']."','".
                    $_POST['inputColor']."','".
                    $_POST['inputClase']."','".

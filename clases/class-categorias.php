@@ -26,14 +26,32 @@ class CATEGORIA{
     $fila = $this->fmt->query->obt_fila($rs);
     $tipo=$fila["cat_ruta_amigable"];
     return $tipo;
+  }  
+
+  function ruta_amigable_padre($cat){
+    $cat_padre = $this->categoria_id_padre($cat);
+    $consulta = "SELECT cat_ruta_amigable FROM categoria WHERE cat_id='$cat_padre' ";
+    $rs = $this->fmt->query->consulta($consulta,__METHOD__);
+    $fila = $this->fmt->query->obt_fila($rs);
+    $tipo=$fila["cat_ruta_amigable"];
+    return $tipo;
   }
 
   function categoria_id_padre($cat){
-	  $this->fmt->get->validar_get($cat);
-	  $consulta = "SELECT cat_id_padre FROM categoria WHERE cat_id='$cat' ";
+    $this->fmt->get->validar_get($cat);
+    $consulta = "SELECT cat_id_padre FROM categoria WHERE cat_id='$cat' ";
     $rs = $this->fmt->query->consulta($consulta,__METHOD__);
     $fila = $this->fmt->query->obt_fila($rs);
     $id=$fila["cat_id_padre"];
+    return $id;
+  }  
+
+  function tipo_categoria($cat){
+	  $this->fmt->get->validar_get($cat);
+	  $consulta = "SELECT cat_tipo FROM categoria WHERE cat_id='$cat' ";
+    $rs = $this->fmt->query->consulta($consulta,__METHOD__);
+    $fila = $this->fmt->query->obt_fila($rs);
+    $id=$fila["cat_tipo"];
     return $id;
   }
 
@@ -741,7 +759,7 @@ class CATEGORIA{
     $rs = $this->fmt->query->consulta($consulta,__METHOD__);
     $fila = $this->fmt->query->obt_fila($rs);
 
-    for($i=0;$i<3;$i++){
+    for($i=0;$i<4;$i++){
       if ($fila["cat_tipo"]==$i){ $aux="selected"; }else{ $aux=""; }
       echo "<option class='' value='".$i."' ".$aux." > ".$this->tipo_cat($i);
       echo "</option>";
@@ -758,6 +776,9 @@ class CATEGORIA{
         break;
       case '2':
         return "Sitio";
+        break; 
+      case '3':
+        return "Hijo Anidado";
         break;
 
       default:

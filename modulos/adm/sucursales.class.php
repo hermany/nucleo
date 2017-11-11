@@ -30,12 +30,17 @@ class SUCURSALES{
         $this->fmt->form->head_table("table_id");
         $this->fmt->form->thead_table('Id:Nombre y Dirección:Teléfono:Estado:Acciones');
         $this->fmt->form->tbody_table_open();
-        $consulta = "SELECT mod_suc_id,mod_suc_nombre,mod_suc_direccion,mod_suc_telefono,mod_suc_activar FROM mod_sucursales ORDER BY mod_suc_id desc";
+        $consulta = "SELECT mod_suc_id,mod_suc_nombre,mod_suc_direccion,mod_suc_telefono,mod_suc_activar FROM mod_sucursal ORDER BY mod_suc_id desc";
         $rs =$this->fmt->query->consulta($consulta);
         $num=$this->fmt->query->num_registros($rs);
         if($num>0){
           for($i=0;$i<$num;$i++){
-            list($fila_id,$nombre,$direccion,$telefono,$activar)=$this->fmt->query->obt_fila($rs);
+            $row=$this->fmt->query->obt_fila($rs);
+            $fila_id=$row["mod_suc_id"];
+            $nombre=$row["mod_suc_nombre"];
+            $direccion=$row["mod_suc_direccion"];
+            $telefono=$row["mod_suc_telefono"];
+            $activar=$row["mod_suc_activar"];
             echo "<tr class='row row-".$fila_id."'>";
             echo '  <td class="col-id">'.$fila_id.'</td>';
             echo '  <td class="col-name"><strong>'.$nombre.'</strong><span class="text-ref">'.$direccion.'</span></td>';
@@ -61,7 +66,7 @@ class SUCURSALES{
   }
 
 	function nombre_sucursal($id){
-    $consulta = "SELECT mod_suc_nombre FROM mod_sucursales WHERE mod_suc_id=$id";
+    $consulta = "SELECT mod_suc_nombre FROM mod_sucursal WHERE mod_suc_id=$id";
     $rs =$this->fmt->query->consulta($consulta);
     $num=$this->fmt->query->num_registros($rs);
     $fila = $this->fmt->query->obt_fila($rs);
@@ -78,7 +83,7 @@ class SUCURSALES{
 		$id_form="form-editar";
     $id = $this->id_item;
 
-    $consulta= "SELECT * FROM mod_sucursales WHERE mod_suc_id='".$id."'";
+    $consulta= "SELECT * FROM mod_sucursal WHERE mod_suc_id='".$id."'";
 		$rs =$this->fmt->query->consulta($consulta);
 		$fila=$this->fmt->query->obt_fila($rs);
 
@@ -103,7 +108,7 @@ class SUCURSALES{
     $this->fmt->class_modulo->modal_script($this->id_mod);
   }
   function modificar(){
-      $sql="UPDATE mod_sucursales SET
+      $sql="UPDATE mod_sucursal SET
       mod_suc_nombre='".$_POST['inputNombre']."',
       mod_suc_ruta_amigable ='".$_POST['inputRutaamigable']."',
       mod_suc_direccion='".$_POST['inputDireccion']."',
@@ -139,8 +144,10 @@ class SUCURSALES{
     $this->fmt->class_pagina->footer_form_mod();
     $this->fmt->class_modulo->modal_script($this->id_mod);
   }
+
   function ingresar(){
-    $activar=0; if ($_POST["estado-mod"]=="activar"){ $activar=1;}
+    $activar=0; 
+    if ($_POST["estado-mod"]=="activar"){ $activar=1;}
 
     $ingresar ="mod_suc_nombre,mod_suc_ruta_amigable,mod_suc_direccion,mod_suc_telefono,mod_suc_coordenadas,mod_suc_email,mod_suc_orden,mod_suc_activar";
     $valores  ="'".$_POST['inputNombre']."','".
@@ -152,7 +159,7 @@ class SUCURSALES{
                    $_POST['inputOrden']."','".
                    $activar."'";
 
-    $sql="insert into mod_sucursales (".$ingresar.") values (".$valores.")";
+    $sql="insert into mod_sucursal (".$ingresar.") values (".$valores.")";
     $this->fmt->query->consulta($sql);
     $this->fmt->class_modulo->redireccionar($ruta_modulo,"1");
   }

@@ -99,7 +99,7 @@ class MARCA{
 		$this->fmt->class_pagina->crear_head_form("Nueva Marca","","");
 
 		$id_form="form-nuevo";
-		$this->fmt->form->finder("inputImagen",$this->id_mod,"","individual","imagenes");
+		// $this->fmt->form->finder("inputImagen",$this->id_mod,"","individual","imagenes");
 
 		$this->fmt->class_pagina->head_form_mod();
 		$this->fmt->class_pagina->form_ini_mod($id_form,"");
@@ -109,8 +109,9 @@ class MARCA{
 
 	    $this->fmt->form->textarea_form('Detalles:','inputDetalles','','','','','3','','');
 	    $this->fmt->form->input_form('Ruta amigable:','inputRutaAmigable','','','','',''); //$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
+			
 			$this->fmt->form->imagen_unica_form("inputLogo","","","form-row","Logotipo:");  //$id,$valor,$titulo="Imagen principal",$class_div,$label_form=""
-			$this->fmt->form->imagen_unica_form("inputLogo","","","form-row","Imagen relacionada:");
+			$this->fmt->form->imagen_unica_form("inputImagen","","","form-row","Imagen relacionada:");
 
 	    $usuario = $this->fmt->sesion->get_variable('usu_id');
 			$usuario_n = $this->fmt->sesion->get_variable('usu_nombre');
@@ -144,6 +145,8 @@ class MARCA{
 			});
 		</script>
 		<?php
+		$this->fmt->finder->finder_window();
+		$this->fmt->class_modulo->modal_script($this->id_mod);
   }
 
   function ingresar($modo){
@@ -199,7 +202,7 @@ class MARCA{
 	  $rs =$this->fmt->query->consulta($consulta);
 	  $fila=$this->fmt->query->obt_fila($rs);
 
-		$this->fmt->form->finder("inputImagen",$this->id_mod,$fila["cat_imagen"],"individual","imagenes");
+		//$this->fmt->form->finder("inputImagen",$this->id_mod,$fila["cat_imagen"],"individual","imagenes");
 
 		$this->fmt->class_pagina->head_form_mod();
 		$this->fmt->class_pagina->form_ini_mod($id_form,"");
@@ -213,7 +216,7 @@ class MARCA{
 		// $this->fmt->form->imagen_form("Imagen:",$text,"inputImagen",$fila["mod_mar_id"],$aux.$fila["mod_mar_imagen"]);
 
 		$this->fmt->form->imagen_unica_form("inputLogo",$fila["mod_mar_logo"],"","form-row","Logotipo:");  //$id,$valor,$titulo="Imagen principal",$class_div,$label_form=""
-		$this->fmt->form->imagen_unica_form("inputLogo",$fila["mod_mar_imagen"],"","form-row","Imagen relacionada:");
+		$this->fmt->form->imagen_unica_form("inputImagen ",$fila["mod_mar_imagen"],"","form-row","Imagen relacionada:");
 
     $usuario = $this->fmt->sesion->get_variable('usu_id');
 		$usuario_n = $this->fmt->sesion->get_variable('usu_nombre');
@@ -249,7 +252,10 @@ class MARCA{
 			});
 		</script>
 		<?php
+		$this->fmt->finder->finder_window();
+		$this->fmt->class_modulo->modal_script($this->id_mod);
   }
+
   function modificar(){
 
 	   	$imagen="";

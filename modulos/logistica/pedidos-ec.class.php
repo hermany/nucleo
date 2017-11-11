@@ -20,7 +20,7 @@ class PEDIDOS{
 	function busqueda(){
 
     require_once(_RUTA_NUCLEO."modulos/crm/clientes.class.php");
-    require_once(_RUTA_NUCLEO."modulos/productos/sucursales.class.php");
+    require_once(_RUTA_NUCLEO."modulos/adm/sucursales.class.php");
     $cliente = new CLIENTES($this->fmt);
     $sucursales = new SUCURSALES($this->fmt);
 
@@ -46,7 +46,16 @@ class PEDIDOS{
     $num=$this->fmt->query->num_registros($rs);
     if($num>0){
       for($i=0;$i<$num;$i++){
-        list($fila_id,$id_cliente,$tipo_pedido,$sucursal,$num_pedido,$fr,$fa,$fe,$estado)=$this->fmt->query->obt_fila($rs);
+        $row=$this->fmt->query->obt_fila($rs);
+        $fila_id=$row["mod_ped_cli_id"];
+        $id_cliente=$row["mod_ped_cli_id_cli"];
+        $tipo_pedido=$row["mod_ped_cli_tipo"];
+        $sucursal=$row["mod_ped_cli_sucursal"];
+        $num_pedido=$row["mod_ped_cli_nro"];
+        $fr=$row["mod_ped_cli_fecha_registro"];
+        $fa=$row["mod_ped_cli_fecha_aprovacion"];
+        $fe=$row["mod_ped_cli_fecha_entrega"];
+        $estado=$row["mod_ped_cli_estado"];
         echo "<tr class='row row-".$fila_id."'>";
         echo "  <td class='col-id'>$fila_id</td>";
         echo "  <td><div class='col-block'><strong>Pedido: </strong>";

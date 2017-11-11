@@ -30,7 +30,11 @@ class ZONAS_DISTRIBUCION{
     $num=$this->fmt->query->num_registros($rs);
     if($num>0){
       for($i=0;$i<$num;$i++){
-        list($fila_id,$nombre,$descripcion,$activar)=$this->fmt->query->obt_fila($rs);
+        $row=$this->fmt->query->obt_fila($rs);
+        $fila_id=$row["mod_zod_id"];
+        $nombre=$row["mod_zod_nombre"];
+        $descripcion=$row["mod_zod_descripcion"];
+        $activar=$row["mod_zod_activar"];
         echo "<tr class='row row-".$fila_id."'>";
         echo '  <td class="col-id">'.$fila_id.'</td>';
         echo '  <td class="col-name"><strong>'.$nombre.'</strong><span class="text-ref">'.$descripcion.'</span></td>';

@@ -23,7 +23,7 @@ class DOCUMENTOS{
 		$this->fmt->class_pagina->head_modulo_inner("Lista de documentos", $botones); // bd, id modulo, botones
 
 		$this->fmt->form->head_table('table_id');
-		$this->fmt->form->thead_table('Archivo:Autor:Categoria:Fecha:Estado:Acciones');
+		$this->fmt->form->thead_table('id:Archivo:Autor:Categoria:Fecha:Estado:Acciones');
 		$this->fmt->form->tbody_table_open();
 		$sql="SELECT * FROM documento ORDER BY doc_id asc";
 		$rs =$this->fmt->query->consulta($sql);
@@ -34,6 +34,7 @@ class DOCUMENTOS{
 				$fila_id = $fila["doc_id"];
 		    if (empty($fila["doc_id_dominio"])){ $aux=_RUTA_WEB; } else { $aux = $this->fmt->categoria->traer_dominio_cat_id($fila["doc_id_dominio"]); }
 				  echo "<tr class='row row-".$fila["not_id"]."'>";
+				  echo '<td class="row-id">'.$fila['doc_id'].'</td>'; 
 					echo '<td class="fila-url"><strong><a href="'.$aux.$fila["doc_url"].'" target="_blank">'.$fila["doc_nombre"].'</a></strong> ( '.$fila["doc_tipo_archivo"].' orden: '.$fila["doc_orden"].' )</td>';
 					echo '<td class="">'.$this->fmt->usuario->nombre_usuario( $fila["doc_usuario"]).'</td>';
 					echo '<td class="">';
@@ -59,7 +60,7 @@ class DOCUMENTOS{
 		$this->fmt->form->footer_table();
 		$this->fmt->class_pagina->footer_mod();
 		//$this->fmt->class_modulo->script_form("modulos/documentos/documentos.adm.php",$this->id_mod);
-		$this->fmt->class_modulo->script_table("table_id",$this->id_mod,"desc","4","10",true);
+		$this->fmt->class_modulo->script_table("table_id",$this->id_mod,"desc","0","10",true);
 		$this->fmt->class_modulo->script_accion_modulo();
 
 	}
@@ -80,16 +81,23 @@ class DOCUMENTOS{
 		$this->fmt->form->input_form('Orden:','inputOrden','','0','','','');
 		$this->fmt->form->botones_nuevo('form_nuevo-doc',$modo);
 		$this->fmt->form->footer_page();
-		$this->fmt->class_modulo->script_form("modulos/documentos/documentos.adm.php",$this->id_mod);
+		$this->fmt->class_modulo->modal_script($this->id_mod);
 	}
 
 	function form_editar(){
+		$this->fmt->class_pagina->crear_head_form("Editar archivo","","");
+		$id_form="form_editar";
 
 		$id = $this->id_item;
 		$consulta= "SELECT * FROM documento WHERE doc_id='".$id."'";
 		$rs =$this->fmt->query->consulta($consulta);
 		$fila=$this->fmt->query->obt_fila($rs);
-		$this->fmt->form->head_editar('Editar archivo','documentos',$this->id_mod,'','form_editar'); //$label,$id,$placeholder,$valor,$class,$class_div,$mensaje,$disabled,$validar
+
+		?>
+		<div class="body-modulo">
+			<form class="form form-modulo"  method="POST" id="<?php echo $id_form ;?>">
+				<div class="form-group" id="mensaje-form"></div>
+		<?php
 		$this->fmt->form->input_hidden_form("inputId",$id);
 		$this->fmt->form->hidden_modulo($this->id_mod,"modificar");
 		$this->fmt->form->file_form_doc("<span class='obligatorio'>*</span> Cargar archivo para reemplazar (pdf, doc/x, pptx, xls/x, zip):","","form_editar","input-form-doc","","","docs"); //
@@ -108,7 +116,7 @@ class DOCUMENTOS{
 		$this->fmt->form->input_form('Dominio:','','',$aux,'','','');
 		echo "</div>";
 		$this->fmt->form->input_hidden_form('inputDominioDoc',$fila['doc_id_dominio']);
-		$cats_id = $this->fmt->categoria->traer_rel_cat_id($id,'documento_rel','doc_rel_cat_id','doc_rel_doc_id'); //$fila_id,$from,$prefijo_cat,$prefijo_rel
+		$cats_id = $this->fmt->categoria->traer_rel_cat_id($id,'documento_categorias','doc_cat_cat_id','doc_cat_doc_id'); //$fila_id,$from,$prefijo_cat,$prefijo_rel
 		$this->fmt->form->categoria_form('Categoria','inputCat',"0",$cats_id,"","");
 
 		$this->fmt->form->input_form_sololectura('Fecha:','inputFecha','',$fila['doc_fecha'],'','','');//$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
@@ -119,13 +127,13 @@ class DOCUMENTOS{
 		$this->fmt->form->input_hidden_form("inputUsuario",$fila["doc_usuario"]);
 		$this->fmt->form->input_form('Orden:','inputOrden','',$fila['doc_orden'],'','','');
 		$this->fmt->form->radio_activar_form($fila['doc_activar']);
-		$this->fmt->form->botones_editar($fila['doc_id'],$fila['doc_nombre'],'form_editar',$this->id_mod);//$fila_id,$fila_nombre,$nombre,$id_mod
-    $this->fmt->class_modulo->script_form("modulos/documentos/documentos.adm.php",$this->id_mod);
+		$this->fmt->form->btn_actualizar($id_form,$this->id_mod,"modificar");
+    //$this->fmt->class_modulo->script_form("modulos/documentos/documentos.adm.php",$this->id_mod);
     ?>
     <script>
 			$(document).ready(function () {
 					var ruta = "<?php echo _RUTA_WEB; ?>ajax.php";
-					var vars = "ajax-ruta-amigable":
+					var vars = "ajax-ruta-amigable";
 					$("#inputNombre").keyup(function () {
 							var value = $(this).val();
 							//$("#inputNombreAmigable").val();
@@ -140,9 +148,10 @@ class DOCUMENTOS{
 					});
 			});
 		</script>
-
+			</form>
+		</div>
     <?php
-		$this->fmt->form->footer_page();
+		$this->fmt->class_modulo->modal_script($this->id_mod);
 	}
 
 	function ingresar($modo){
@@ -185,12 +194,12 @@ class DOCUMENTOS{
 		$rs= $this->fmt->query->consulta($sql);
 		$fila = $this->fmt->query->obt_fila($rs);
 	  	$id = $fila ["id"];
-		$ingresar1 ="doc_rel_doc_id, doc_rel_cat_id";
+		$ingresar1 ="doc_cat_doc_id, doc_cat_cat_id";
 		$valor_cat= $_POST['inputCat'];
 		$num=count( $valor_cat );
 		for ($i=0; $i<$num;$i++){
 			$valores1 = "'".$id."','".$valor_cat[$i]."'";
-			$sql1="insert into documento_rel (".$ingresar1.") values (".$valores1.")";
+			$sql1="insert into documento_categorias (".$ingresar1.") values (".$valores1.")";
 			$this->fmt->query->consulta($sql1);
 		}
 		if (empty($modo)){
@@ -208,7 +217,7 @@ class DOCUMENTOS{
 		if ($_POST["estado-mod"]=="eliminar"){
 		}else{
 
-			$sql="UPDATE documento SET
+			echo $sql="UPDATE documento SET
 						doc_nombre='".$_POST['inputNombreDoc']."',
 						doc_url ='".$_POST['inputUrlDoc']."',
 						doc_tags ='".$_POST['inputTags']."',
@@ -222,22 +231,24 @@ class DOCUMENTOS{
 						doc_usuario='".$_POST['inputUsuario']."',
 						doc_orden='".$_POST['inputOrden']."',
 						doc_activar='".$_POST['inputActivar']."'
-						WHERE doc_id='".$_POST['inputIdDoc']."'";
+						WHERE doc_id='".$_POST['inputId']."'";
+
+			//exit(0);
 
 			$this->fmt->query->consulta($sql);
 
-			$this->fmt->class_modulo->eliminar_fila($_POST['inputId'],"documento_rel","doc_rel_doc_id");
+			$this->fmt->class_modulo->eliminar_fila($_POST['inputId'],"documento_categorias","doc_cat_doc_id");
 
-			$ingresar1 ="doc_rel_doc_id, doc_rel_cat_id";
+			$ingresar1 ="doc_cat_doc_id, doc_cat_cat_id";
 			$valor_cat= $_POST['inputCat'];
 			$num=count( $valor_cat );
 			for ($i=0; $i<$num;$i++){
 				$valores1 = "'".$_POST['inputId']."','".$valor_cat[$i]."'";
-				$sql1="insert into documento_rel (".$ingresar1.") values (".$valores1.")";
+				$sql1="insert into documento_categorias (".$ingresar1.") values (".$valores1.")";
 				$this->fmt->query->consulta($sql1);
 			}
 		}
-			$this->fmt->class_modulo->script_location($this->id_mod,"busqueda");
+		$this->fmt->class_modulo->redireccionar($ruta_modulo,"1");
 	}
 
 	function activar(){
@@ -247,7 +258,7 @@ class DOCUMENTOS{
 
   	function eliminar(){
   		$this->fmt->class_modulo->eliminar_get_id("documento","doc_",$this->id_item);
-  		$this->fmt->class_modulo->eliminar_get_id("documento_rel","doc_rel_",$this->id_item);
+  		$this->fmt->class_modulo->eliminar_get_id("documento_categorias","doc_cat_",$this->id_item);
   		$this->fmt->class_modulo->script_location($this->id_mod,"busqueda");
   	}
 
