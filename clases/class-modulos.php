@@ -1723,22 +1723,5 @@ function traer_fecha_literal($fecha_hora){
     return strlen($texto);
   }
 
-  function bd($consulta,$vars){
-    $rs = $this->fmt->query ->consulta($consulta,__METHOD__);
-    $num = $this->fmt->query ->num_registros($rs);
-    if ($num > 0){
-      for ( $i=0; $i < $num; $i++){
-        $row  = $this->fmt->query->obt_fila($rs);
-        $nvars = count($vars);
-        for ($j=0; $j < $nvars ; $j++) { 
-           $variables [$i][$j]=$row[$vars[$j]]; 
-        }
-      }
-      return $variables;
-    }else{
-      return;
-    }
-  }
-
 }
 ?>

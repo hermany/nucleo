@@ -307,9 +307,6 @@ class MULTIMEDIA{
 
 			<form class="form form-modulo form-multimedia"  method="POST" id="<?php echo $id_form?>">
 				<div id='aux_editar'>
-					<?php 
-					$this->fmt->form->input_form('Nombre:','inputNombre','','','','','');
-					?>
 				</div>
 				<?php
 
@@ -323,7 +320,7 @@ class MULTIMEDIA{
 
 				//$this->fmt->form->input_form('Dominio:','inputDominio','',$aux,'','','');
 
-				$this->fmt->form->textarea_form('Embed:','inputEmbed','','','','','4','');
+				$this->fmt->form->textarea_form('Embed:','inputEmbed','','','','','3','');
 
 				$this->fmt->form->categoria_form('Categoria','inputCat',"0","","","");
 				//$label,$id,$cat_raiz,$cat_valor,$class,$class_div
@@ -503,7 +500,7 @@ class MULTIMEDIA{
 
 				//$this->fmt->form->input_form('Dominio:','inputDominio','',$aux,'','','');
 
-				$this->fmt->form->textarea_form('Embed:','inputEmbed','',$fila['mul_embed'],'','','4','');
+				$this->fmt->form->textarea_form('Embed:','inputEmbed','',$fila['mul_embed'],'','','3','');
 
 				$this->fmt->form->categoria_form('Categoria','inputCat',"0",$cats_id,"","");
 				//$label,$id,$cat_raiz,$cat_valor,$class,$class_div
@@ -538,17 +535,12 @@ class MULTIMEDIA{
 		}else{
 			$id_dominio=0;
 		}
-		if (!empty($_POST['inputEmbed'])){
-			$tipo="embed";
-		}else{
-			$tipo=$_POST['inputTipo'];
-		}
 
 		$ingresar ="mul_nombre,mul_url_archivo,mul_ruta_amigable,mul_tipo_archivo,mul_leyenda,mul_texto_alternativo,mul_descripcion,mul_dimension,mul_tamano,mul_id_dominio,mul_embed,mul_url,mul_destino,mul_fecha,mul_usuario,mul_activar";
 		$valores  ="'".$_POST['inputNombre']."','".
 									 $_POST['inputUrl']."','".
 									 $_POST['inputRutaamigable']."','".
-									 $tipo."','".
+									 $_POST['inputTipo']."','".
 									 $_POST['inputLeyenda']."','".
 									 $_POST['inputTextoalternativo']."','".
 									 $_POST['inputDescripcion']."','".

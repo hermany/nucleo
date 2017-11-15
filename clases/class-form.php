@@ -1938,9 +1938,9 @@ class FORM{
 		echo "<div class='form-control form-multimedia form-multimedia-list $class_div'>";
 		echo "<ul class='box-multimedia' id='sortable'>";
 		if ($prefijo_mod!=""){
-    	$consulta = "SELECT DISTINCT mul_id,mul_nombre,mul_url_archivo, mul_embed  FROM multimedia,$from WHERE ".$prefijo.$prefijo_mod."id='".$id_item."' and ".$prefijo."mul_id=mul_id ORDER BY ".$prefijo."orden asc";
+    	$consulta = "SELECT DISTINCT mul_id,mul_url_archivo, mul_embed  FROM multimedia,$from WHERE ".$prefijo.$prefijo_mod."id='".$id_item."' and ".$prefijo."mul_id=mul_id ORDER BY ".$prefijo."orden asc";
 		}else{
-			$consulta = "SELECT DISTINCT mod_prod_mul_prod_id,mod_prod_mul_mul_id,mul_url_archivo, mul_embed,mul_nombre FROM mod_productos_mul,multimedia WHERE mod_prod_mul_prod_id='$id_item' and mod_prod_mul_mul_id=mul_id  ORDER BY mod_prod_mul_orden asc";
+			$consulta = "SELECT DISTINCT mod_prod_mul_prod_id,mod_prod_mul_mul_id,mul_url_archivo, mul_embed  FROM mod_productos_mul,multimedia WHERE mod_prod_mul_prod_id='$id_item' and mod_prod_mul_mul_id=mul_id  ORDER BY mod_prod_mul_orden asc";
 		}
 
 		$rs =$this->fmt->query->consulta($consulta,__METHOD__);
@@ -1961,7 +1961,6 @@ class FORM{
 
 				$ruta=$row["mul_url_archivo"];
 				$embed=$row[" mul_embed"];
-				$nom=$row[" mul_nombre"];
 		    $url = $this->fmt->archivos->convertir_url_mini($ruta);
 				$extension = $this->fmt->archivos->saber_extension_archivo($ruta);
 				$nombre_archivo=$this->fmt->archivos->saber_nombre_archivo($ruta);
@@ -1973,7 +1972,7 @@ class FORM{
 					$link=_RUTA_IMAGES.$url;
 				}
 
-		    echo  "<li id_mul='$id_mul' id='mul-$id_mul' title='$nom' orden='' class='box-image box-image-block box-image-mul ui-state-default'>";
+		    echo  "<li id_mul='$id_mul' id='mul-$id_mul' orden='' class='box-image box-image-block box-image-mul ui-state-default'>";
 		    echo  "<i class='icn icn-sorteable icn-reorder'></i>";
 				echo  "<div class='box-acciones-img'>";
 				echo  "<a class='btn btn-eliminar-mul' eliminar='$id_mul' tipo_item='multimedia' id_mul='$id_mul'><i class='icn icn-close' /></a>";
