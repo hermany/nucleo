@@ -145,7 +145,7 @@ class CATEGORIA{
         $row=$this->fmt->query->obt_fila($rs);
         $nombre = $row["cat_nombre"];
         $ruta= $row["cat_ruta_amigable"];
-        $cat_not .= "<li><a href='"._RUTA_WEB.$ruta."'>".$nombre."</a></li>";
+        $cat_not .= "<li class='item-cat item-cat-$ruta'><a href='"._RUTA_WEB.$ruta."'>".$nombre."</a></li>";
       }
       return "<ul>".$cat_not."</ul>";
     }

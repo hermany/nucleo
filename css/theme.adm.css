@@ -354,7 +354,6 @@ div {
 a:focus,
 a:hover {
   color: #2D9EE0;
-  text-decoration: underline;
   cursor: pointer;
   outline: 0 !important;
   outline: -webkit-focus-ring-color auto 0px !important;

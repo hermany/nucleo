@@ -449,16 +449,17 @@ class FINDER{
 						var formData = new FormData();
 						var arc = document.getElementById("inputArchivoFinder");
 						var archivo = arc.files;
-						//console.log( archivo.length );
+						console.log( "cantidad archivos:"+archivo.length );
 						formData.append("cant_file",archivo.length);
 						var num =archivo.length;
-						for(i=0; i<archivo.length; i++){
+						for(i=0; i< num; i++){
 							formData.append("file-"+i,archivo[i]);
+							$("#finder-figures").append("<li class='finder-item' tipo_item='' id='todos-mul-temporal-"+ i +"' class='todos-mul-temporal' url_mini='' url='' style=''><div class='progreso'>0%</div></li>");
 						}
 						formData.append("ajax","ajax-finder-up");
 						formData.append("x_item",xd);
 						var ruta = "<?php echo _RUTA_WEB; ?>ajax.php";
-						$("#finder-figures").append("</li>");
+						//$("#finder-figures").append("</li>");
 						//resize_item();
 						$.ajax({
 							url: ruta,
@@ -471,13 +472,16 @@ class FINDER{
 								xhr.upload.onprogress = function(e) {
 									var dat = Math.floor(e.loaded / e.total *100);
 									//console.log(Math.floor(e.loaded / e.total *100) + '%');
-
-										$("#finder-figures").append("<li class='finder-item' tipo_item='' id='todos-mul-temporal' url_mini='' url='' style=''><div class='progreso'>"+ dat +"%</div></li>");
+									for(i=0; i< num; i++){
+										$("#todos-mul-temporal-"+i+" .progreso").html(dat+"%");
+									}	
 								};
 								return xhr;
 							},
 							success: function(datos){
-								$("#finder-figures #todos-mul-temporal").remove();
+								for(i=0; i< num; i++){
+									$("#todos-mul-temporal-"+i).remove();
+								}
 								$("#finder-figures").append(datos);
 								<?php  echo $this->finder_item();  ?>
 							}

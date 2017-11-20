@@ -242,7 +242,6 @@ class PRODUCTOS{
 
   function ordenar(){
 		$id_cat = $this->id_item;
-
 		$this->fmt->class_pagina->crear_head_form("Ordenar: ".$this->fmt->categoria->nombre_categoria($id_cat),"","");
 		$id_form="form-editar";
 		?>
@@ -250,9 +249,9 @@ class PRODUCTOS{
 		  <form class="form form-modulo form-ordenar"  method="POST" id="<?php echo $id_form?>">
 				<ul id="orden-cat" class="list-group">
 					<?php
-					$sql="select mod_prod_id, mod_prod_nombre, mod_prod_imagen, mod_prod_cat_orden from mod_productos, mod_productos_categorias where mod_prod_cat_prod_id=mod_prod_id and mod_prod_cat_cat_id='$id_cat' ORDER BY mod_prod_cat_orden desc";
+					$sql="select mod_prod_id, mod_prod_nombre, mod_prod_imagen, mod_prod_cat_orden from mod_productos, mod_productos_categorias where mod_prod_cat_prod_id=mod_prod_id and mod_prod_cat_cat_id='$id_cat' ORDER BY mod_prod_cat_orden asc";
 
-	        $rs =$this->fmt->query->consulta($sql);
+	        $rs =$this->fmt->query->consulta($sql,__METHOD__);
 	        $num=$this->fmt->query->num_registros($rs);
 	        if($num>0){
 		        for($i=0;$i<$num;$i++){
@@ -268,7 +267,7 @@ class PRODUCTOS{
 				<div class="form-group form-botones box-botones-form">
 					<div class="group">
 						<?php
-						echo $this->fmt->class_pagina->crear_btn_m("Actualizar","icn-sync","update","btn btn-info btn-update",$this->id_mod,"ordenar_update");
+							echo $this->fmt->class_pagina->crear_btn_m("Actualizar","icn-sync","update","btn btn-info btn-update",$this->id_mod,"ordenar_update");
 						 ?>
 					</div>
 				</div>
@@ -276,14 +275,16 @@ class PRODUCTOS{
 			<script type="text/javascript">
 				$(document).ready(function() {
 					$("#orden-cat" ).sortable();
+
 					$(".btn-update").click(function(){
 						var formdata = new FormData();
 						var id_mod = $(this).attr("id_mod");
 						var vars = $(this).attr("vars");
 						formdata.append("inputVars", vars);
-						formdata.append("cat", "<?php echo $id_cat;?>");
-						formdata.append("ajax", "ajax-adm");
+						formdata.append("cat","<?php echo $id_cat;?>");
+						formdata.append("ajax","ajax-adm");
 						formdata.append("inputIdMod", id_mod);
+						
 						$('#orden-cat li').each(function(index){
 						  var id_var = $(this).attr("id_var");
 						  console.log(id_var);
@@ -295,15 +296,15 @@ class PRODUCTOS{
 						var ruta = "<?php echo _RUTA_WEB; ?>ajax.php";
 
 						$.ajax({
-						      url:ruta,
-						      type:"post",
-						      data:formdata,
-						      processData: false,
-						    contentType: false,
-						      success: function(msg){
-
-						        $("#popup-div").html(msg);
-						      }
+				      url:ruta,
+				      type:"post",
+				      data:formdata,
+				      processData: false,
+				    	contentType: false,
+				      success: function(msg){
+				        $("#popup-div").html(msg);
+				        document.location.href="<?php echo $this->ruta_modulo; ?>";
+				      }
 						});
 					});
 				});
@@ -311,6 +312,20 @@ class PRODUCTOS{
 		</div>
 		<?php
   }
+
+  function ordenar_update(){
+		$id_cat=$_POST["cat"];
+	  $this->fmt->class_modulo->eliminar_fila($id_cat,"mod_productos_categorias","mod_prod_cat_cat_id");
+	  $ingresar2 ="mod_prod_cat_prod_id,mod_prod_cat_cat_id,mod_prod_cat_orden";
+	  $valor_doc= $_POST['id_item'];
+	  $num=count( $valor_doc );
+	  for ($i=0; $i<$num;$i++){
+		  $valores2 = "'".$valor_doc[$i]."','".$id_cat."','".$i."'";
+		  $sql2="insert into mod_productos_categorias (".$ingresar2.") values (".$valores2.")";
+		  $this->fmt->query->consulta($sql2);
+	  }
+	 // $this->fmt->class_modulo->redireccionar($this->ruta_modulo,"1");
+	}
 
 	function traer_rel_cat_nombres($fila_id){
 		$consulta = "SELECT DISTINCT cat_id, cat_nombre FROM categoria, mod_productos_categorias WHERE mod_prod_cat_prod_id='".$fila_id."' and cat_id = mod_prod_cat_cat_id";
@@ -736,19 +751,7 @@ class PRODUCTOS{
 	}
 
 
-	function ordenar_update(){
-		$id_cat=$_POST["cat"];
-	  $this->fmt->class_modulo->eliminar_fila($id_cat,"mod_productos_categorias","mod_prod_cat_cat_id");
-	  $ingresar2 ="mod_prod_cat_prod_id,mod_prod_cat_cat_id,mod_prod_cat_orden";
-	  $valor_doc= $_POST['id_item'];
-	  $num=count( $valor_doc );
-	  for ($i=0; $i<$num;$i++){
-		  $valores2 = "'".$valor_doc[$i]."','".$id_cat."','".$i."'";
-		  $sql2="insert into mod_productos_categorias (".$ingresar2.") values (".$valores2.")";
-		  $this->fmt->query->consulta($sql2);
-	  }
-	 $this->fmt->class_modulo->redireccionar($this->ruta_modulo,"1");
-	}
+
 
 	function activar(){
 		$this->fmt->class_modulo->activar_get_id("mod_productos","mod_prod_",$this->id_estado,$this->id_item);

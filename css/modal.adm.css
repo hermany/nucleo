@@ -249,6 +249,14 @@
   text-align: right;
   padding-right: 20px;
 }
+.modal .form-multimedia.form-multimedia-list {
+  padding: 0;
+  list-style: none;
+  border: 0;
+}
+.modal .form-multimedia.form-multimedia-list ul {
+  list-style: none;
+}
 .modal .body-page .body-modulo .form-botones {
   z-index: 103;
   position: fixed;

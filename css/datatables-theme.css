@@ -1,1 +1,220 @@
-.color-white{color:#FFFFFF}.color-white-a{color:#FEFEFE}.color-white-b{color:#FAFAFA}.color-white-c{color:#F9F9F9}.color-white-d{color:#F6F7F9}.color-gray{color:#E6E7E9}.color-gray-a{color:#D7D9DE}.color-gray-b{color:#B4BBC5}.color-gray-c{color:#879099}.color-gray-d{color:#5d6569}.color-gray-e{color:#3F444B}.color-black{color:#191B1C}.color-red{color:#EB5C43}.color-red-a{color:#E83759}.color-lilac{color:#E71882}.color-lilac-a{color:#F4A9CB}.color-violet{color:#8B3B8F}.color-violet-a{color:#DDABCE}.color-violet-b{color:#806AAD}.color-violet-c{color:#C2B4D9}.color-blue{color:#386DB4}.color-blue-a{color:#9DBAE2}.color-blue-b{color:#2D9EE0}.color-blue-c{color:#0076FF}.color-light-blue{color:#33AADD}.color-light-blue-a{color:#94D4F0}.color-light-blue-b{color:#00BDC6}.color-light-blue-b{color:#A4D9DD}.color-green{color:#24AA5B}.color-green-a{color:#CBE6B2}.color-green-b{color:#99C14C}.color-green-c{color:#DCDC07}.color-green-d{color:#FBF29D}.color-green-e{color:#0D803C}.color-yellow{color:#FFCF08}.color-yellow-a{color:#FFEBAB}.color-yellow-b{color:#FFDC51}.color-orange{color:#FCBE14}.color-orange-a{color:#F39333}.color-orange-b{color:#FAC078}.color-brown{color:#C2975C}.color-brown-a{color:#E0CBAE}.color-brown-b{color:#8A7354}.color-navbar{color:#495570}@font-face{font-family:'latobold';src:url('../fonts/lato-bold-webfont.woff2') format('woff2'),url('../fonts/lato-bold-webfont.woff') format('woff');font-weight:normal;font-style:normal}@font-face{font-family:'latolight';src:url('../fonts/lato-light-webfont.woff2') format('woff2'),url('../fonts/lato-light-webfont.woff') format('woff');font-weight:normal;font-style:normal}@font-face{font-family:'latoregular';src:url('../fonts/lato-regular-webfont.woff2') format('woff2'),url('../fonts/lato-regular-webfont.woff') format('woff');font-weight:normal;font-style:normal}.dataTables_wrapper .top{background-color:#FFFFFF;border-top:1px solid #D7D9DE;border-left:1px solid #D7D9DE;border-right:1px solid #D7D9DE}.dataTables_wrapper .bottom{background-color:#FFFFFF;border-bottom:1px solid #D7D9DE;border-left:1px solid #D7D9DE;border-right:1px solid #D7D9DE;border-bottom-left-radius:4px;border-bottom-right-radius:4px}.dataTables_length select{background-color:#FFFFFF;border:1px solid #D7D9DE}.dataTables_length label{color:#879099}.dataTables_filter label input{border-radius:4px;border:1px solid #D7D9DE;font-size:14px}.dataTables_info{color:#B4BBC5;font-size:12px}.dataTables_paginate{text-align:right}.dataTables_paginate a:hover i{background-color:#0076FF;border:1px solid #0076FF;color:#FFFFFF !important}.dataTables_paginate a i{border:1px solid #D7D9DE;color:#D7D9DE}table.dataTable thead .sorting:after,table.dataTable thead .sorting_asc:after,table.dataTable thead .sorting_desc:after,table.dataTable thead .sorting_asc_disabled:after,table.dataTable thead .sorting_desc_disabled:after{position:absolute;bottom:8px;right:8px;display:block;font-family:'icon-font';opacity:.5}table.dataTable thead .sorting_asc:after{content:"\e87e"}table.dataTable thead .sorting_desc:after{content:"\e87f"}table.dataTable thead .sorting:after{opacity:.2;content:"\e880"}.table a{color:#3F444B}
+.color-white {
+  color: #FFFFFF;
+}
+.color-white-a {
+  color: #FEFEFE;
+}
+.color-white-b {
+  color: #FAFAFA;
+}
+.color-white-c {
+  color: #F9F9F9;
+}
+.color-white-d {
+  color: #F6F7F9;
+}
+.color-gray {
+  color: #E6E7E9;
+}
+.color-gray-a {
+  color: #D7D9DE;
+}
+.color-gray-b {
+  color: #B4BBC5;
+}
+.color-gray-c {
+  color: #879099;
+}
+.color-gray-d {
+  color: #5d6569;
+}
+.color-gray-e {
+  color: #3F444B;
+}
+.color-black {
+  color: #191B1C;
+}
+.color-red {
+  color: #EB5C43;
+}
+.color-red-a {
+  color: #E83759;
+}
+.color-lilac {
+  color: #E71882;
+}
+.color-lilac-a {
+  color: #F4A9CB;
+}
+.color-violet {
+  color: #8B3B8F;
+}
+.color-violet-a {
+  color: #DDABCE;
+}
+.color-violet-b {
+  color: #806AAD;
+}
+.color-violet-c {
+  color: #C2B4D9;
+}
+.color-blue {
+  color: #386DB4;
+}
+.color-blue-a {
+  color: #9DBAE2;
+}
+.color-blue-b {
+  color: #2D9EE0;
+}
+.color-blue-c {
+  color: #0076FF;
+}
+.color-light-blue {
+  color: #33AADD;
+}
+.color-light-blue-a {
+  color: #94D4F0;
+}
+.color-light-blue-b {
+  color: #00BDC6;
+}
+.color-light-blue-b {
+  color: #A4D9DD;
+}
+.color-green {
+  color: #24AA5B;
+}
+.color-green-a {
+  color: #CBE6B2;
+}
+.color-green-b {
+  color: #99C14C;
+}
+.color-green-c {
+  color: #DCDC07;
+}
+.color-green-d {
+  color: #FBF29D;
+}
+.color-green-e {
+  color: #0D803C;
+}
+.color-yellow {
+  color: #FFCF08;
+}
+.color-yellow-a {
+  color: #FFEBAB;
+}
+.color-yellow-b {
+  color: #FFDC51;
+}
+.color-orange {
+  color: #FCBE14;
+}
+.color-orange-a {
+  color: #F39333;
+}
+.color-orange-b {
+  color: #FAC078;
+}
+.color-brown {
+  color: #C2975C;
+}
+.color-brown-a {
+  color: #E0CBAE;
+}
+.color-brown-b {
+  color: #8A7354;
+}
+.color-navbar {
+  color: #495570;
+}
+@font-face {
+  font-family: 'latobold';
+  src: url('../fonts/lato-bold-webfont.woff2') format('woff2'), url('../fonts/lato-bold-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'latolight';
+  src: url('../fonts/lato-light-webfont.woff2') format('woff2'), url('../fonts/lato-light-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'latoregular';
+  src: url('../fonts/lato-regular-webfont.woff2') format('woff2'), url('../fonts/lato-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+.dataTables_wrapper .top {
+  background-color: #FFFFFF;
+  border-top: 1px solid #D7D9DE;
+  border-left: 1px solid #D7D9DE;
+  border-right: 1px solid #D7D9DE;
+}
+.dataTables_wrapper .bottom {
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #D7D9DE;
+  border-left: 1px solid #D7D9DE;
+  border-right: 1px solid #D7D9DE;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+.dataTables_length select {
+  background-color: #FFFFFF;
+  border: 1px solid #D7D9DE;
+}
+.dataTables_length label {
+  color: #879099;
+}
+.dataTables_filter label input {
+  border-radius: 4px;
+  border: 1px solid #D7D9DE;
+  font-size: 14px;
+}
+.dataTables_info {
+  color: #B4BBC5;
+  font-size: 12px;
+}
+.dataTables_paginate {
+  text-align: right;
+}
+.dataTables_paginate a:hover i {
+  background-color: #0076FF;
+  border: 1px solid #0076FF;
+  color: #FFFFFF !important;
+}
+.dataTables_paginate a i {
+  border: 1px solid #D7D9DE;
+  color: #D7D9DE;
+}
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_desc:after,
+table.dataTable thead .sorting_asc_disabled:after,
+table.dataTable thead .sorting_desc_disabled:after {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  display: block;
+  font-family: 'icon-font';
+  opacity: 0.5;
+}
+table.dataTable thead .sorting_asc:after {
+  content: "\E87F";
+  /* sort-by-attributes */
+}
+table.dataTable thead .sorting_desc:after {
+  content: "\E880";
+  /* sort-by-attributes-alt */
+}
+table.dataTable thead .sorting:after {
+  opacity: 0.2;
+  content: "\E881";
+  /* sort */
+}
+.table a {
+  color: #3F444B;
+}

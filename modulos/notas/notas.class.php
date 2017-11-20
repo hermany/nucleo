@@ -105,7 +105,7 @@ class NOTICIAS{
 		  <form class="form form-modulo form-ordenar"  method="POST" id="<?php echo $id_form?>">
 				<ul id="orden-cat" class="list-group">
 					<?php
-					$sql="SELECT not_id, not_titulo, not_imagen, not_cat_orden FROM nota, nota_categorias where not_cat_not_id=not_id and not_cat_cat_id='$id_cat' ORDER BY not_cat_orden desc";
+					$sql="SELECT not_id, not_titulo, not_imagen, not_cat_orden FROM nota, nota_categorias where not_cat_not_id=not_id and not_cat_cat_id='$id_cat' ORDER BY not_cat_orden asc";
 
 	        $rs =$this->fmt->query->consulta($sql,__METHOD__);
 	        $num=$this->fmt->query->num_registros($rs);
@@ -389,6 +389,18 @@ class NOTICIAS{
 	$this->fmt->class_modulo->redireccionar($ruta_modulo,"1");
 	}
 
+	function traer_orden($id_nota,$cats){
+
+		$nc =  count($cats);
+		for ($i=0; $i < $nc; $i++) { 
+			$sql= "SELECT not_cat_orden FROM nota_categorias WHERE not_cat_cat_id=$cats[$i] and not_cat_not_id=$id_nota";
+			$rs= $this->fmt->query->consulta($sql);
+		  $fila = $this->fmt->query->obt_fila($rs);
+			$orden[$i] = $fila["not_cat_orden"]; 
+		}
+		return $orden;
+	}
+
 	function modificar(){
 		if ($_POST["estado-mod"]=="eliminar"){
 		}else{
@@ -412,13 +424,16 @@ class NOTICIAS{
 				// exit();
 			$this->fmt->query->consulta($sql);
 
-			$this->fmt->class_modulo->eliminar_fila($_POST['inputId'],"nota_categorias","not_cat_not_id");  //$valor,$from,$fila
-
 			$ingresar1 ="not_cat_not_id,not_cat_cat_id,not_cat_orden";
 			$valor_cat= $_POST['inputCat'];
+			 
+			$orden = $this->traer_orden($_POST['inputId'],$valor_cat);
+			
+			$this->fmt->class_modulo->eliminar_fila($_POST['inputId'],"nota_categorias","not_cat_not_id");  //$valor,$from,$fila
+
 			$num=count( $valor_cat );
 			for ($i=0; $i<$num;$i++){
-				$valores1 = "'".$_POST['inputId']."','".$valor_cat[$i]."','".$_POST['inputOrden']."'";
+				$valores1 = "'".$_POST['inputId']."','".$valor_cat[$i]."','".$orden[$i]."'";
 				$sql1="insert into nota_categorias (".$ingresar1.") values (".$valores1.")";
 				$this->fmt->query->consulta($sql1);
 			}
