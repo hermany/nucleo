@@ -921,6 +921,16 @@ strong{
 .list-items{}
 
 .list-items .item{
-    background: @gray-1;
-    border-radius: 10px;
+    border-radius: @box-border-radius;
+    background: @color-white;
+    .box-shadow();
+}
+
+.list-items .item .botones{
+  text-align: right;
+}
+
+.list-items .item label{
+  font-size: 24px;
+  font-family: @font-light;
 }

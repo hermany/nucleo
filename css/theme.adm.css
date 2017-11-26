@@ -960,6 +960,16 @@ strong {
   color: #B4BBC5;
 }
 .list-items .item {
-  background: #d8e7f1;
-  border-radius: 10px;
+  border-radius: 5px;
+  background: #FFFFFF;
+  -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.2);
+  -webkit-border-radius: 5px;
+}
+.list-items .item .botones {
+  text-align: right;
+}
+.list-items .item label {
+  font-size: 24px;
+  font-family: 'lato-light', arial, sans-serif !important;
 }

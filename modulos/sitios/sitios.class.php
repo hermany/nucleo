@@ -20,9 +20,8 @@ class SITIOS{
 	function busqueda(){
 		$this->fmt->class_pagina->crear_head( $this->id_mod, $botones);
 
-		$this->fmt->class_pagina->head_mod();
-		$this->fmt->class_pagina->head_modulo_inner("Lista de Sitios", $botones,"crear"); // bd, id modulo, botones
-		$this->fmt->class_pagina->head_body_modulo_inner("list-items");
+
+		echo '<div class="list-items container">';
 
 			$consulta = "SELECT sitio_id, sitio_nombre FROM sitio  ORDER BY sitio_orden ASC LIMIT 0,5";
 			$rs =$this->fmt->query->consulta($consulta);
@@ -47,9 +46,8 @@ class SITIOS{
 				}
 			}
 			$this->fmt->query->liberar_consulta();
-
+		echo '</div>';
 		$this->fmt->class_pagina->footer_body_modulo_inner();
-		$this->fmt->class_pagina->footer_mod("end_mod");
 		$this->fmt->class_modulo->script_accion_modulo();
 	}
 }
