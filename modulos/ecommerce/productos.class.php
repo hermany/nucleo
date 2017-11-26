@@ -182,6 +182,9 @@ class PRODUCTOS{
 				}
 				if($tipo_img=="original"){
 					$img = _RUTA_IMAGES.$imagen;
+				}				
+				if($tipo_img=="web"){
+					$img = _RUTA_IMAGES.$this->fmt->archivos->convertir_url_web($imagen);
 				}
 				$url = _RUTA_WEB.$ra_cat.$ra.".prod";
 
@@ -415,7 +418,9 @@ class PRODUCTOS{
 		      	$this->fmt->form->input_form("Modelo:","inputModelo","",$fila['mod_prod_modelo'],"box-md-4","","");
 					}
 					if ($row_conf["mod_prod_conf_marca"]==1){
-		      	$this->fmt->form->select_form("Marca:","inputMarca","mod_mar_","mod_marcas",$fila["mod_prod_id_marca"],"","","box-md-4"); //$label,$id,$prefijo,$from,$id_select,$id_disabled,$class_div,$class_select
+						$url_marca=_RUTA_WEB."dashboard/marcas";
+		      	$this->fmt->form->select_form("Marca:","inputMarca","mod_mar_","mod_marcas",$fila["mod_prod_id_marca"],"","","box-md-4","<a href='".$url_marca."' target='_blank' class='btn btn-full'>Añadir Marca</a>"); //$label,$id,$prefijo,$from,$id_select,$id_disabled,$class_div,$class_select
+
 					}
 
 		      $this->fmt->form->textarea_form("Resumen:","inputResumen","",$fila['mod_prod_resumen'],"","","5",""); //$label,$id,$placeholder,$valor,$class,$class_div,$rows,$mensaje
@@ -430,6 +435,10 @@ class PRODUCTOS{
 					if ($row_conf["mod_prod_conf_disponibilidad"]==1){
 		      	$this->fmt->form->input_form("Disponibilidad:","inputDisponibilidad","Inmediata, a 30 días, a 15 días, definido por pedido",$fila['mod_prod_disponibilidad'],"","","");
 					}
+					if ($row_conf["mod_prod_conf_precio"]==1){
+		      	$this->fmt->form->input_form("Precio:","inputPrecio","",$fila['mod_prod_precio'],"","","");
+		      }
+
 					if ($row_conf["mod_prod_conf_precio_detalle"]==1){
 		      	$this->fmt->form->input_form("Precio Detalle:","inputPrecioDetalle","",$fila['mod_prod_precio_detalle'],"","","");
 					}
@@ -509,7 +518,8 @@ class PRODUCTOS{
 						$this->fmt->form->input_form("Modelo:","inputModelo","","","box-md-4","","");
 					}
 					if ($row_conf["mod_prod_conf_marca"]==1){
-						$this->fmt->form->select_form("Marca:","inputMarca","mod_mar_","mod_marcas","","","","box-md-4"); //$label,$id,$prefijo,$from,$id_select,$id_disabled,$class_div,$class_select
+						$url_marca=_RUTA_WEB."dashboard/marcas";
+						$this->fmt->form->select_form("Marca:","inputMarca","mod_mar_","mod_marcas","","","","box-md-4","<a href='".$url_marca."' target='_blank' class='btn btn-full'>Añadir Marca</a>"); //$label,$id,$prefijo,$from,$id_select,$id_disabled,$class_div,$class_select
 					}
 					$this->fmt->form->textarea_form("Resumen:","inputResumen","","","","","5",""); //$label,$id,$placeholder,$valor,$class,$class_div,$rows,$mensaje
 					if ($row_conf["mod_prod_conf_detalles"]==1){

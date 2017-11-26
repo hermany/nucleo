@@ -48,21 +48,25 @@
         $nombre_w=$fmt->archivos->url_add($nombre_url,"-web");
         $nombre_wx=$fmt->archivos->url_add($nombre_url,"-thumb");
         $nombre_tm=$fmt->archivos->url_add($nombre_url,"-mini");
+        $nombre_md=$fmt->archivos->url_add($nombre_url,"-medium");
         //$nombre_tb=$fmt->archivos->convertir_url_thumb($nombre_url);
 
         $src =  $output_dir.$nombre_url;
 
         $fmt->archivos->crear_thumb($src,$output_dir.$nombre_t,100,100,1);
         $fmt->archivos->crear_thumb($src,$output_dir.$nombre_tm,180,180,0);
+        
 
         if (($width > 250) && ( $height > 250)){
           $fmt->archivos->crear_thumb($src,$output_dir.$nombre_wx,250,250,0);
+          $fmt->archivos->crear_thumb($src,$output_dir.$nombre_md,400,400,0);
           if (($width > 900) || ( $height > 600 )){
             $fmt->archivos->crear_thumb($src,$output_dir.$nombre_w,900,600,0);
           }
         }else{
           $fmt->archivos->crear_thumb($src,$output_dir.$nombre_wx,$width,$height,0);
           $fmt->archivos->crear_thumb($src,$output_dir.$nombre_w,$width,$height,0);
+          $fmt->archivos->crear_thumb($src,$output_dir.$nombre_md,$width,$height,0);
         }
       }
       if ($tipo == 'video/mp4'){

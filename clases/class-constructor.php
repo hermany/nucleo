@@ -25,7 +25,7 @@ class CONSTRUCTOR{
   var $archivos;
   var $form;
   var $publicacion;
-  var $sitios;
+  var $class_sitios;
   var $finder;
 
 
@@ -116,7 +116,7 @@ class CONSTRUCTOR{
     $this->archivos = new ARCHIVOS($this);
     $this->form = new FORM($this);
     $this->publicacion = new PUBLICACION($this);
-    $this->sitios = new SITIOS($this);
+    $this->class_sitios = new CLASSSITIOS($this);
     $this->finder = new FINDER($this);
 
   }

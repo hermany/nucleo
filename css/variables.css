@@ -131,20 +131,23 @@
   color: #495570;
 }
 @font-face {
-  font-family: 'latobold';
-  src: url('../fonts/lato-bold-webfont.woff2') format('woff2'), url('../fonts/lato-bold-webfont.woff') format('woff');
+  font-family: 'lato-bold';
+  src: url('../font/Lato-Bold.woff2') format('woff2'), url('../font/Lato-Bold.woff') format('woff');
   font-weight: normal;
   font-style: normal;
+  text-rendering: optimizeLegibility;
 }
 @font-face {
-  font-family: 'latolight';
-  src: url('../fonts/lato-light-webfont.woff2') format('woff2'), url('../fonts/lato-light-webfont.woff') format('woff');
+  font-family: 'lato-light';
+  src: url('../font/Lato-Light.woff2') format('woff2'), url('../font/Lato-Light.woff') format('woff');
   font-weight: normal;
   font-style: normal;
+  text-rendering: optimizeLegibility;
 }
 @font-face {
-  font-family: 'latoregular';
-  src: url('../fonts/lato-regular-webfont.woff2') format('woff2'), url('../fonts/lato-regular-webfont.woff') format('woff');
+  font-family: 'lato-regular';
+  src: url('../font/Lato-Regular.woff2') format('woff2'), url('../font/Lato-Regular.woff') format('woff');
   font-weight: normal;
   font-style: normal;
+  text-rendering: optimizeLegibility;
 }

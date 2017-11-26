@@ -54,25 +54,49 @@ class CLASSPAGINAS{
 		<?php
 	}  // fin crear head
 
-	function head_mod(){
+	function head_mod($class){
 		?>
-		<div class="body-modulo container-fluid">
+		<div class="body-modulo container-fluid <?php echo $class; ?>">
 			<div class="container">
 		<?php
 	}
-	function head_form_mod(){
+	function head_form_mod($class){
 		?>
-		<div class="body-modulo container-fluid">
+		<div class="body-modulo container-fluid <?php echo $class; ?>">
 		<?php
 	}
 
-	function footer_form_mod(){
+	function footer_form_mod($end=""){
     ?>
     </div> <!-- fin container-fluid mod -->
     <?php
-  }
-	function footer_mod(){
+    if ($end=="end_mod"){
+    	echo "<div class='footer-modulo'></div>";
+    }
+  }	
+
+  function head_body_modulo_inner($class){
     ?>
+    <div class="body-modulo-inner <?php echo $class; ?>">
+    <?php
+  }  
+  function footer_body_modulo_inner(){
+    ?>
+    </div> <!-- fin body_modulo_inner -->
+    <?php
+  }  
+  function footer_modulo(){
+    ?>
+    <div class='footer-modulo'></div>
+    <?php
+  }
+	function footer_mod($end=""){
+    ?>  
+      <?php 
+        if ($end=="end_mod"){
+    			echo "<div class='footer-modulo'></div>";
+    		}
+      ?>
       </div> <!-- fin container mod -->
     </div> <!-- fin container-fluid mod -->
     <?php
@@ -134,11 +158,20 @@ class CLASSPAGINAS{
 		<?php
 	}
 
-	function head_modulo_inner( $title,$botones){
+	function head_modulo_inner( $title,$botones,$vars){
+		switch ($vars) {
+			case 'crear':
+				$btn =$this->fmt->class_pagina->crear_btn_m("Crear","icn-plus","","btn btn-primary btn-menu-ajax btn-new btn-small",$this->id_mod,"form_nuevo");
+				break;
+			
+			default:
+				 $btn="";
+				break;
+		}
 		?>
 			<div class="container-fluid head-modulo-inner">
 				<div class="title"><?php echo $title; ?></div>
-				<div class="buttons"><?php echo $botones; ?></div>
+				<div class="buttons"><?php echo $botones.$btn; ?></div>
 			</div>
 		<?php
 	}

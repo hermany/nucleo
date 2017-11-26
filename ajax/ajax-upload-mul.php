@@ -54,12 +54,14 @@
 
         if (($width > 250) && ( $height > 250)){
           $fmt->archivos->crear_thumb($src,$output_dir.$nombre_wx,250,250,0);
+          $fmt->archivos->crear_thumb($src,$output_dir.$nombre_md,400,400,0);
           if (($width > 900) || ( $height > 600 )){
             $fmt->archivos->crear_thumb($src,$output_dir.$nombre_w,900,600,0);
           }
         }else{
           $fmt->archivos->crear_thumb($src,$output_dir.$nombre_wx,$width,$height,0);
           $fmt->archivos->crear_thumb($src,$output_dir.$nombre_w,$width,$height,0);
+          $fmt->archivos->crear_thumb($src,$output_dir.$nombre_md,$width,$height,0);
         }
 
 

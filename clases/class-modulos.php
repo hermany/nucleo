@@ -716,6 +716,11 @@ class CLASSMODULOS{
       <?php
   }
 
+  function botones_tabla($id_item,$id_mod,$nombre_item){
+    echo $this->fmt->class_pagina->crear_btn_m("","icn-pencil","editar ".$id_item,"btn btn-accion btn-m-editar ",$this->id_mod,"form_editar,".$id_item);
+    echo $this->fmt->class_pagina->crear_btn_m("","icn-trash","eliminar ".$id_item,"btn btn-accion btn-fila-eliminar",$this->id_mod,"eliminar,".$id_item,"",$nombre);
+  }
+
   function modal_script($id_mod){
     ?>
     <script type="text/javascript">

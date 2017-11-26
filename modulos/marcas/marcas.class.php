@@ -54,7 +54,7 @@ class MARCA{
 									$aux= _RUTA_IMAGES;
 									$img=$this->fmt->archivos->convertir_url_mini( $fila_logo );
 		            ?>
-		            <tr>
+		            <tr class='row row-<?php echo $fila_id; ?>'>
 		              <td><img class="img-responsive" width="60px" src="<?php echo $aux.$img; ?>" alt="" /></td>
 		              <td> <?php echo $fila_nombre; ?> </td>
 		              <td><?php	$this->traer_rel_cat_nombres($fila_id); ?> </td>
@@ -65,7 +65,10 @@ class MARCA{
 						  <?php
 							  echo $this->fmt->class_pagina->crear_btn_m("","icn-pencil","editar".$fila_id."-".$fila_url,"btn btn-accion btn-editar btn-menu-ajax ",$this->id_mod,"form_editar,".$fila_id);
 						  ?>
-		                <a  title="eliminar <?php echo $fila_id; ?>" type="button" id_mod="<?php echo $this->id_mod; ?>" vars="eliminar,<?php echo $fila_id; ?>" nombre="<?php echo $fila_nombre; ?>" class="btn btn-eliminar btn-accion"><i class="icn-trash"></i></a>
+
+
+		                <a  title="eliminar <?php echo $fila_id; ?>" type="button" nombre="<?php echo $fila_nombre; ?>" id="btn-m<?php echo $this->id_mod; ?>" id_mod="<?php echo $this->id_mod; ?>" vars="eliminar,<?php echo $fila_id; ?>" class="btn btn-fila-eliminar btn-accion "><i class="icn-trash"></i></a>
+
 
 		            </tr>
 		            <?php
@@ -125,7 +128,7 @@ class MARCA{
 
 		$this->fmt->class_pagina->form_fin_mod();
 		$this->fmt->class_pagina->footer_form_mod();
-		$this->fmt->class_modulo->modal_script($this->id_mod);
+		 
 		?>
 		<script>
 			$(document).ready(function () {
@@ -155,43 +158,43 @@ class MARCA{
 		}else{
 			$activar=0;
 		}
-	$ingresar ="mod_mar_nombre,
-                mod_mar_ruta_amigable,
-                mod_mar_logo,
-                mod_mar_imagen,
-                mod_mar_usuario,
-                mod_mar_detalle,
-                mod_mar_id_dominio,
-                mod_mar_activar";
-	$valores  ="'".$_POST['inputNombre']."','".
-				$_POST['inputRutaAmigable']."','".
-				$_POST['inputLogo']."','".
-				$_POST['inputImagen']."','".
-				$_POST['inputUsuario']."','".
-				$_POST['inputDetalles']."','".
-				$_POST['inputDominio']."','".
-				$activar."'";
-	$sql="insert into mod_marcas (".$ingresar.") values (".$valores.")";
-	$this->fmt->query->consulta($sql);
+		$ingresar ="mod_mar_nombre,
+	                mod_mar_ruta_amigable,
+	                mod_mar_logo,
+	                mod_mar_imagen,
+	                mod_mar_usuario,
+	                mod_mar_detalle,
+	                mod_mar_id_dominio,
+	                mod_mar_activar";
+		$valores  ="'".$_POST['inputNombre']."','".
+					$_POST['inputRutaAmigable']."','".
+					$_POST['inputLogo']."','".
+					$_POST['inputImagen']."','".
+					$_POST['inputUsuario']."','".
+					$_POST['inputDetalles']."','".
+					$_POST['inputDominio']."','".
+					$activar."'";
+		$sql="insert into mod_marcas (".$ingresar.") values (".$valores.")";
+		$this->fmt->query->consulta($sql);
 
-	$sql="select max(mod_mar_id) as id from mod_marcas";
-	$rs= $this->fmt->query->consulta($sql);
-	$fila = $this->fmt->query->obt_fila($rs);
-	$id = $fila ["id"];
-	$ingresar1 ="mod_mar_mar_id, mod_mar_cat_id, mod_mar_cat_orden";
-	$valor_cat= $_POST['inputCat'];
-	$num=count( $valor_cat );
-	for ($i=0; $i<$num;$i++){
-		$valores1 = "'".$id."','".$valor_cat[$i]."','".$_POST["inputOrden"]."'";
-		$sql1="insert into mod_marcas_categorias (".$ingresar1.") values (".$valores1.")";
-		$this->fmt->query->consulta($sql1);
-	}
-	if (empty($modo)){
-		$this->fmt->class_modulo->redireccionar($ruta_modulo,"1");
-	}else if ($modo=="modal"){
-		echo $this->fmt->mensaje->documento_subido();
-		echo "<div class='otro-nuevo'><i class='icn-plus'></i> <a href='marcas.adm.php?tarea=form_nuevo' > Agregar otra nueva marca. </a></div>";
-	}
+		$sql="select max(mod_mar_id) as id from mod_marcas";
+		$rs= $this->fmt->query->consulta($sql);
+		$fila = $this->fmt->query->obt_fila($rs);
+		$id = $fila ["id"];
+		$ingresar1 ="mod_mar_mar_id, mod_mar_cat_id, mod_mar_cat_orden";
+		$valor_cat= $_POST['inputCat'];
+		$num=count( $valor_cat );
+		for ($i=0; $i<$num;$i++){
+			$valores1 = "'".$id."','".$valor_cat[$i]."','".$_POST["inputOrden"]."'";
+			$sql1="insert into mod_marcas_categorias (".$ingresar1.") values (".$valores1.")";
+			$this->fmt->query->consulta($sql1);
+		}
+		if (empty($modo)){
+			$this->fmt->class_modulo->redireccionar($ruta_modulo,"1");
+		}else if ($modo=="modal"){
+			echo $this->fmt->mensaje->documento_subido();
+			echo "<div class='otro-nuevo'><i class='icn-plus'></i> <a href='marcas.adm.php?tarea=form_nuevo' > Agregar otra nueva marca. </a></div>";
+		}
 
   }
   function form_editar(){

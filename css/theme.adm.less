@@ -8,7 +8,14 @@
 *{
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+i{
+   text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
 body{
   background-color: @bg;
   // font-family: @font-light;
@@ -400,7 +407,7 @@ a:active, a:hover {
   background-color: @color-white;
   .box-shadow();
 
-  border:1px solid @box-border-color;
+  // border:1px solid @box-border-color;
   z-index: @z-index-navbar + 1;
   -webkit-animation: fadein .2s; /* Safari, Chrome and Opera > 12.1 */
    -moz-animation: fadein .2s; /* Firefox < 16 */
@@ -909,4 +916,11 @@ strong{
     top: 4px;
     left: -9px;
     color: @color-gray-b;
+}
+
+.list-items{}
+
+.list-items .item{
+    background: @gray-1;
+    border-radius: 10px;
 }

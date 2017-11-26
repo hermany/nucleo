@@ -1,12 +1,40 @@
 
 @import "color.less";
 
-@font-light: 'latolight',arial, sans-serif !important;
-@font-regular: 'latoregular',arial, sans-serif !important;
-@font-bold: 'latobold',arial, sans-serif !important;
+
+@font-face {
+    font-family: 'lato-bold';
+    src: url('../font/Lato-Bold.woff2') format('woff2'),
+         url('../font/Lato-Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    text-rendering: optimizeLegibility;
+}
+
+@font-face {
+    font-family: 'lato-light';
+    src: url('../font/Lato-Light.woff2') format('woff2'),
+         url('../font/Lato-Light.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    text-rendering: optimizeLegibility;
+}
+
+@font-face {
+    font-family: 'lato-regular';
+    src: url('../font/Lato-Regular.woff2') format('woff2'),
+         url('../font/Lato-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    text-rendering: optimizeLegibility;
+}
+
+@font-light: 'lato-light',arial, sans-serif !important;
+@font-regular: 'lato-regular',arial, sans-serif !important;
+@font-bold: 'lato-bold',arial, sans-serif !important;
 @font:  @font-regular;
 
-@box-border-radius: 4px;
+@box-border-radius: 5px;
 @box-padding: 15px;
 @box-border-color: @color-gray-a;
 @z-index-navbar:100;
@@ -29,8 +57,8 @@
 @font-size-xsmall:11px;
 
 .box-shadow(){
-  -webkit-box-shadow: 0 3px 7px rgba(0,0,0,0.08);
-  box-shadow: 0 3px 7px rgba(0,0,0,0.08);
+  -webkit-box-shadow: 0 3px 7px rgba(0,0,0,0.2);
+  box-shadow: 0 3px 7px rgba(0,0,0,0.2);
   -webkit-border-radius: @box-border-radius;
 }
 .box-shadow-m(){
@@ -44,26 +72,3 @@
   transition: all ease 0.3s;
 }
 
-@font-face {
-    font-family: 'latobold';
-    src: url('../fonts/lato-bold-webfont.woff2') format('woff2'),
-         url('../fonts/lato-bold-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'latolight';
-    src: url('../fonts/lato-light-webfont.woff2') format('woff2'),
-         url('../fonts/lato-light-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'latoregular';
-    src: url('../fonts/lato-regular-webfont.woff2') format('woff2'),
-         url('../fonts/lato-regular-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}

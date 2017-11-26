@@ -1414,7 +1414,7 @@ class FORM{
     <?php
   }
 
-  function select_form($label,$id,$prefijo,$from,$id_select,$id_disabled,$class_div,$class_select){
+  function select_form($label,$id,$prefijo,$from,$id_select,$id_disabled,$class_div,$class_select,$aux){
     ?>
     <div class="form-group <?php echo $class_div; ?>">
       <label><?php echo $label; ?></label>
@@ -1437,6 +1437,7 @@ class FORM{
     }
     ?>
       </select>
+      <?php echo $aux; ?>
     </div>
     <?php
   }

@@ -21,10 +21,15 @@ function toggleIdCerrar(id,tiempo){
     }, tiempo );
 }
 
-function redireccionar_tiempo(ruta,tiempo){
+function redireccionar_tiempo(ruta,tiempo,target='_self'){
   setTimeout(function() {
       //$("#" + id ).fadeOut(800);void(0);
-      document.location.href=ruta;
+      if (target=='_self') {
+      	document.location.href=ruta;
+      }else{
+        window.open(ruta, '_blank');
+      }
+      
   }, tiempo );
 }
 

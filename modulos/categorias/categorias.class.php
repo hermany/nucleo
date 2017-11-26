@@ -53,7 +53,7 @@ class CATEGORIAS{
 					var cat = $( this ).attr("cat");
 					var ruta = $( this ).attr("ruta");
 					console.log(cat+":"+ruta);
-					redireccionar_tiempo("<?php echo _RUTA_WEB; ?>dashboard/estructura-contenidos/"+cat,0);
+					redireccionar_tiempo("<?php echo _RUTA_WEB; ?>dashboard/estructura-contenidos/"+cat,0,"_blank");
 					// var id_mod = "<?php echo $fila["mod_id"]; ?>";
 					// var cat = $( this ).attr("cat");
 					// var variables = "editar_contenidos,"+cat;

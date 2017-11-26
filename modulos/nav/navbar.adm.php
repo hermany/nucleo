@@ -24,8 +24,6 @@
   }
 
 ?>
-<link rel="stylesheet" href="<?php echo _RUTA_WEB_NUCLEO; ?>css/nav.adm.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="<?php echo _RUTA_WEB_NUCLEO; ?>css/nav-theme.adm.css" rel="stylesheet" type="text/css">
 <!-- inicio navbar  -->
 <style>
 #page-content-wrapper{ margin-top: 43px; position:relative; }
@@ -48,8 +46,8 @@
           $num=$fmt->query->num_registros($rs);
           if($num>0){
             ?>
-            <div class="navbar-sites" id="navbar-sites" sitios="<?php echo $num; ?>">
-              <a> <i class="icn  icn-salto icn-boxs"></i></a>
+            <div class="navbar-sites" id="navbar-sites" sitios="<?php echo $num; ?>" >
+              <a class="btn btn-salto"> <i class="icn  icn-salto icn-boxs"></i></a>
               <div class="box-sites" style="display:none">
                 <?php
                 for($i=0;$i<$num;$i++){
@@ -63,7 +61,7 @@
           }else{
             ?>
             <div class="navbar-sites" id="navbar-sites" sitios="0">
-              <a href="<?php echo _RUTA_WEB; ?>" title="saltar a la web" target="_blank"> <i class="icn icn-salto icn-arrow-circle-up"></i></a>
+              <a href="<?php echo _RUTA_WEB; ?>" title="saltar a la web" target="_blank" class="btn btn-salto-unico" > <i class="icn icn-salto icn-arrow-circle-up"></i></a>
             </div>
             <?php
           }
@@ -101,7 +99,7 @@
                 <h3 class="name-user"><?php echo $usu_nombre." ".$usu_apellidos; ?>
                 <a class="perfil">
                   <i class="icn-credential"></i>
-                  <strong>ROL</strong>
+                  <strong class="e-rol">ROL</strong>
                   <span> <?php echo $rol_nombre ;?></span>
                 </a>
                 <a href="#" target="_blank" class="btn btn-perfil">Editar perfil</a></h3>
@@ -129,7 +127,7 @@
               <li class="dropdown rol">
                 <a class="perfil disabled"  >
                   <i class="icn-credential"></i>
-                  <strong>ROL</strong>
+                  <strong class="e-rol">ROL</strong>
                   <span> <?php echo $rol_nombre ;?></span>
                 </a>
               </li>
