@@ -38,7 +38,7 @@ class NAV{
     $sql ="SELECT sis_id, sis_nombre, sis_icono, sis_color FROM sistema  where sis_activar='1' ORDER BY  sis_orden ASC";
     $rs = $this->fmt->query->consulta($sql,__METHOD__);
     $num = $this->fmt->query->num_registros($rs);
-      if($num>0){
+      if($num>1){
         //for($i=0;$i < $num; $i++){
            //$row = $this->fmt->query->obt_fila($rs);
         while ($row = $this->fmt->query->obt_fila($rs)){
@@ -60,6 +60,14 @@ class NAV{
             }
           }
         }
+      }else{
+        $row = $this->fmt->query->obt_fila($rs);
+        $fila_id = $row["sis_id"];
+        $fila_nombre = $row["sis_nombre"];
+        $fila_icono = $row["sis_icono"];
+        $color = $row["sis_color"];
+        $aux = '<div class="title-sis"><h3><i class="'.$fila_icono.'" color="'.$color.'" style="color:'.$color.' !important;"></i><span>'.$fila_nombre.'</span></h3></div>';
+        $aux .="<ul class='box-nav-single'>".$this->traer_modulos($fila_id,$id_rol,$id_usu)."</ul>";
       }
     $this->fmt->query->liberar_consulta($rs);
     return $aux;

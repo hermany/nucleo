@@ -572,6 +572,7 @@ h4 {
   border-color: #D7D9DE;
   color: #5d6569;
   font-size: 12px;
+  line-height: 7px;
 }
 .table .img-previo img {
   border: 1px solid #E6E7E9;
@@ -764,6 +765,10 @@ strong {
 .content-page .head-modulo {
   background-color: #FEFEFE;
   border-bottom: 1px solid #D7D9DE;
+}
+.content-page .head-modulo .title i {
+  float: left;
+  margin: 3px;
 }
 .head-modulo .head-botones .btn {
   font-size: 16px;

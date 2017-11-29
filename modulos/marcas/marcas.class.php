@@ -219,7 +219,7 @@ class MARCA{
 		// $this->fmt->form->imagen_form("Imagen:",$text,"inputImagen",$fila["mod_mar_id"],$aux.$fila["mod_mar_imagen"]);
 
 		$this->fmt->form->imagen_unica_form("inputLogo",$fila["mod_mar_logo"],"","form-row","Logotipo:");  //$id,$valor,$titulo="Imagen principal",$class_div,$label_form=""
-		$this->fmt->form->imagen_unica_form("inputImagen ",$fila["mod_mar_imagen"],"","form-row","Imagen relacionada:");
+		$this->fmt->form->imagen_unica_form("inputImagen",$fila["mod_mar_imagen"],"","form-row","Imagen relacionada:");
 
     $usuario = $this->fmt->sesion->get_variable('usu_id');
 		$usuario_n = $this->fmt->sesion->get_variable('usu_nombre');

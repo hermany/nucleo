@@ -716,9 +716,22 @@ class CLASSMODULOS{
       <?php
   }
 
+  function traer_rel_modulos($fila_id,$from,$prefijo,$prefijo_rel){
+    $consulta = "SELECT ".$prefijo." FROM ".$from." WHERE ".$prefijo_rel."='".$fila_id."'";
+    $rs = $this->fmt->query->consulta($consulta,__METHOD__);
+    $num=$this->fmt->query->num_registros($rs);
+    if ($num>0){
+      for ($i=0;$i<$num;$i++){
+        $row=$this->fmt->query->obt_fila($rs);
+        $aux[$i] = $row[$prefijo];
+      }
+    }
+    return $aux;
+  }
+
   function botones_tabla($id_item,$id_mod,$nombre_item){
-    echo $this->fmt->class_pagina->crear_btn_m("","icn-pencil","editar ".$id_item,"btn btn-accion btn-m-editar ",$this->id_mod,"form_editar,".$id_item);
-    echo $this->fmt->class_pagina->crear_btn_m("","icn-trash","eliminar ".$id_item,"btn btn-accion btn-fila-eliminar",$this->id_mod,"eliminar,".$id_item,"",$nombre);
+    echo $this->fmt->class_pagina->crear_btn_m("","icn-pencil","editar ".$id_item,"btn btn-accion btn-m-editar ",$id_mod,"form_editar,".$id_item);
+    echo $this->fmt->class_pagina->crear_btn_m("","icn-trash","eliminar ".$id_item,"btn btn-accion btn-fila-eliminar",$id_mod,"eliminar,".$id_item,"",$nombre_item);
   }
 
   function modal_script($id_mod){

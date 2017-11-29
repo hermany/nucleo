@@ -158,10 +158,10 @@ class CLASSPAGINAS{
 		<?php
 	}
 
-	function head_modulo_inner( $title,$botones,$vars){
+	function head_modulo_inner($title,$botones,$vars,$id_mod){
 		switch ($vars) {
 			case 'crear':
-				$btn =$this->fmt->class_pagina->crear_btn_m("Crear","icn-plus","","btn btn-primary btn-menu-ajax btn-new btn-small",$this->id_mod,"form_nuevo");
+				$btn =$this->fmt->class_pagina->crear_btn_m("Crear","icn-plus","","btn btn-primary btn-menu-ajax btn-new btn-small",$id_mod,"form_nuevo");
 				break;
 			
 			default:

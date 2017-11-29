@@ -1400,6 +1400,43 @@ class FORM{
 			</div>
     </div>
     <?php
+  }	
+
+  function list_checkbox_form($label,$id,$from,$prefijo,$campos,$class_div){
+    ?>
+    <div class="form-group <?php echo $class_div; ?>">
+      <label><?php echo $label; //var_dump($campos); ?></label>
+			<div class="group arbol-cat">
+				<?php 
+					$consulta = "SELECT ".$prefijo."id,".$prefijo."nombre FROM $from";
+					$rs =$this->fmt->query->consulta($consulta);
+					$num=$this->fmt->query->num_registros($rs);
+					if($num>0){
+						for($i=0;$i<$num;$i++){
+							$row=$this->fmt->query->obt_fila($rs);
+							$fila_id = $row[$prefijo."id"];
+							$fila_nombre = $row[$prefijo."nombre"];
+							$ck="";
+							if (!empty($campos)){
+								$c = count($campos);
+								for ($j=0; $j < $c ; $j++) { 
+									if($fila_id == $campos[$j]){ $ck="checked"; }
+								}
+							}
+							?>
+							<div class="checkbox">
+									 <span>
+										 <input type="checkbox" name="<?php echo $id; ?>[]" id="<?php echo $id; ?>[]" value="<?php echo $fila_id; ?>" <?php echo $ck; ?> > <?php echo $fila_nombre; ?>
+									 </span>
+							</div>
+							<?php
+						}
+					}
+					$this->fmt->query->liberar_consulta();
+				?>
+			</div>
+    </div>
+    <?php
   }
 
   function textarea_form($label,$id,$placeholder,$valor,$class,$class_div,$rows,$mensaje){
