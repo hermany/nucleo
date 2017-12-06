@@ -20,6 +20,7 @@ class CONSTRUCTOR{
   var $class_pagina;
   var $class_modulo;
   var $class_multimedia;
+  var $class_documento;
   var $class_sistema;
   var $mail;
   var $archivos;
@@ -90,6 +91,7 @@ class CONSTRUCTOR{
     require_once(_RUTA_NUCLEO."clases/class-publicacion.php");
     require_once(_RUTA_NUCLEO."clases/class-sitios.php");
     require_once(_RUTA_NUCLEO."clases/class-multimedia.php");
+    require_once(_RUTA_NUCLEO."clases/class-documentos.php");
     require_once(_RUTA_NUCLEO."clases/class-finder.php");
 
 
@@ -110,6 +112,7 @@ class CONSTRUCTOR{
     $this->class_modulo = new CLASSMODULOS($this);
     $this->class_sistema = new CLASSSISTEMAS($this);
     $this->class_multimedia = new CLASSMULTIMEDIA($this);
+    $this->class_documento = new CLASSDOCUMENTO($this);
     $this->nav = new NAV($this);
     $this->categoria = new CATEGORIA($this);
     $this->mail = new MAIL($this);

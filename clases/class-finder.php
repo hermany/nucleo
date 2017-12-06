@@ -248,6 +248,13 @@ class FINDER{
 							//console.log(msg);
 							$("#finder-imagenes").html(msg);
 							<?php  echo $this->finder_item();  ?>
+							$('#filtrar-imagenes').keyup(function () {
+						    var rex = new RegExp($(this).val(), 'i');
+						    $('#finder-imagenes li').hide();
+						    $('#finder-imagenes li').filter(function () {
+						        return rex.test($(this).text());
+						    }).show();
+						  });
 						}
 					});
 

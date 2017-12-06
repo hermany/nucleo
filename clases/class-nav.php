@@ -256,10 +256,6 @@ function traer_cat_hijos_menu_raiz($cat,$nivel,$nivel_tope){
          $fila_destino= $row["cat_destino"];
          $fila_ruta_amigable= $row["cat_ruta_amigable"];
 
-
-
-
-
         //echo "url".$url;
 
         if ((!empty($cat_active)) && ( $fila_id==$cat_active)){
@@ -283,7 +279,7 @@ function traer_cat_hijos_menu_raiz($cat,$nivel,$nivel_tope){
     $this->fmt->query->liberar_consulta($rs);
   }
 
-  function fmt_li($id, $clase, $icono, $nombre,$ruta_amigable,$url,$destino, $imagen, $cat, $cat_active){
+  function fmt_li($id, $clase, $icono, $nombre,$ruta_amigable,$url,$destino,$imagen,$cat,$cat_active){
 
     $nombre_x = $this->convertir_url_amigable($nombre);
     // if(_MULTIPLE_SITE=="on"){
@@ -294,7 +290,11 @@ function traer_cat_hijos_menu_raiz($cat,$nivel,$nivel_tope){
 	    $urlx=_RUTA_WEB.$this->fmt->categoria->traer_ruta_amigable_padre($id, $cat);
 	    //$url=_RUTA_WEB.$this->fmt->categoria->ruta_amigable($id);
     }else{
-      $urlx=_RUTA_WEB.$url;
+      if(preg_match('#^http://.*#s', trim($Message))){
+        $urlx=_RUTA_WEB.$url;
+      }else{
+        $urlx=$url;
+      }
     }
     //echo "url:".$urlx."</br>";
     // }

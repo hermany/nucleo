@@ -146,7 +146,7 @@
             <ul class="dropdown-menu">
               <li class="block-sistemas">
                 <label class="title-menu">Sistemas activos</label>
-                <ul>
+                <ul class="list-sistemas">
                   <?php echo $menu_sistemas; ?>
                 </ul>
               </li>

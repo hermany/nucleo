@@ -171,9 +171,6 @@
 .navbar .nav li > a i {
   font-size: 1.4em;
 }
-i {
-  line-height: 1em;
-}
 .navbar .nav li > a .user-img {
   border: 1px solid #D7D9DE;
   border-radius: 50%;
@@ -268,7 +265,7 @@ i {
   background-color: #FAFAFA;
 }
 .navbar .nav-menu .dropdown-menu .dropdown > a:hover span {
-  color: #191B1C !important;
+  color: #191B1C;
 }
 .navbar .nav-menu .dropdown-menu .dropdown i {
   font-size: 16px;
@@ -294,18 +291,26 @@ i {
   border-radius: 5px;
   z-index: 99;
   padding: 15px;
-  border-left: 1px solid #D7D9DE;
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
-  transition: all ease 0.5s !important;
+  transition: all ease 0.3s !important;
 }
 .navbar .nav-menu .leftIn {
-  transition: all ease 0.5s;
+  transition: all ease 0.3s;
 }
 .navbar .nav-menu .box-nav-modulos .title {
-  background-color: #F9F9F9;
+  background-color: #747f9b;
   text-align: left;
   font-size: 17px;
+}
+.navbar .nav-menu .box-nav-modulos .title .btn-nav-back {
+  color: #FFFFFF;
+}
+.navbar .nav-menu .box-nav-modulos .title i {
+  color: #FFFFFF !important;
+}
+.navbar .nav-menu .box-nav-modulos .title span {
+  color: #FFFFFF;
 }
 .navbar .nav-menu .box-nav-modulos .btn-nav-back:hover {
   color: #2D9EE0;
@@ -324,13 +329,15 @@ i {
 .navbar .nav-menu .dropdown-menu .active-left .btn-right {
   color: #191B1C;
 }
+.block-sistemas {
+  background-color: #616a81;
+}
 .block-sistemas > ul {
-  background-color: #EDEFF3;
   border-bottom: 1px solid #E6E7E9;
-  border-top: 1px solid #E6E7E9;
+  border-top: 1px solid #616a81;
 }
 .block-sistemas .title-menu {
-  color: #879099 !important;
+  color: #dae4ef !important;
   font-size: 12px !important;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
@@ -352,9 +359,12 @@ i {
   line-height: 16px;
   font-weight: 400;
   text-align: center !important;
-  /* color: rgba(0,0,0,0.55); */
+  color: rgba(255, 255, 255, 0.7) !important;
   word-wrap: break-word;
   font-size: 13px !important;
+}
+.block-sistemas > ul > .dropdown > a:hover span {
+  color: #ffffff !important;
 }
 .block-sistemas .title-sis {
   background: white;

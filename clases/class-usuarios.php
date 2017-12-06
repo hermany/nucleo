@@ -50,6 +50,12 @@ class USUARIO{
     }
   }
 
+  function cambiar_estado($id_usuario,$valor){
+    $valor = (int)$valor;
+    $sql="UPDATE usuario SET usu_estado='$valor' WHERE usu_id='$id_usuario'";
+    $this->fmt->query-> consulta($sql,__METHOD__);
+  }
+
   function nombre_usuario($usuario){
     $sql="select usu_nombre, usu_apellidos from usuario where usu_id=$usuario";
     $rs = $this->fmt->query-> consulta($sql,__METHOD__);

@@ -3,7 +3,7 @@
   font-style: normal;
   font-weight: normal;
   src: url("../font/summernote/summernote.eot?546c01739436985e5a21a8cb325521f3");
-  src: url("../font/summernote/summernote.eot?#iefix") format("embedded-opentype"), url("../fonts/summernote/summernote.woff?546c01739436985e5a21a8cb325521f3") format("woff"), url("../fonts/summernote/summernote.ttf?546c01739436985e5a21a8cb325521f3") format("truetype");
+  src: url("../font/summernote/summernote.eot?#iefix") format("embedded-opentype"), url("../font/summernote/summernote.woff?546c01739436985e5a21a8cb325521f3") format("woff"), url("../font/summernote/summernote.ttf?546c01739436985e5a21a8cb325521f3") format("truetype");
 }
 [class^="note-icon-"]:before,
 [class*=" note-icon-"]:before {

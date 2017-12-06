@@ -160,7 +160,7 @@ class PRODUCTOS{
 		if ($tipo_orden=="fecha"){ $tipo_o = "mod_prod_fecha"; }
 		if ($tipo_orden=="orden"){ $tipo_o = "mod_prod_cat_orden"; }
 		$ra_cat= $this->fmt->categoria->ruta_amigable($cat)."/";
-		$sql="select mod_prod_id, mod_prod_nombre, mod_prod_detalles, mod_prod_ruta_amigable, mod_prod_imagen, mod_prod_precio, mod_prod_precio_detalle, mod_prod_tags, mod_prod_disponibilidad from mod_productos, mod_productos_categorias where mod_prod_cat_prod_id=mod_prod_id and mod_prod_cat_cat_id='$cat' ORDER BY $tipo_o  $orden LIMIT ".$limite;
+		$sql="select mod_prod_id, mod_prod_nombre, mod_prod_resumen, mod_prod_detalles, mod_prod_ruta_amigable, mod_prod_imagen, mod_prod_precio, mod_prod_precio_detalle, mod_prod_tags, mod_prod_disponibilidad from mod_productos, mod_productos_categorias where mod_prod_cat_prod_id=mod_prod_id and mod_prod_cat_cat_id='$cat' ORDER BY $tipo_o  $orden LIMIT ".$limite;
 		$rs =$this->fmt->query->consulta($sql);
 		$num=$this->fmt->query->num_registros($rs);
 		if($num>0){

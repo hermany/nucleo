@@ -199,7 +199,9 @@
   float: left;
   width: 45px;
   text-align: center;
-  padding: 6px 7px 8px 6px;
+}
+.navbar .navbar-left .navbar-sites .btn-salto {
+  padding: 7px 8px;
 }
 .navbar .nav {
   height: 47px;
@@ -339,6 +341,7 @@
   display: block;
   padding: 7px 5px;
   z-index: 0;
+  float: left;
 }
 .navbar .nav-menu .dropdown-menu .dropdown > a i {
   margin-top: -1px !important;
@@ -348,7 +351,6 @@
   display: inline-block;
   width: 80%;
   margin-left: 5px;
-  margin-top: 1px;
 }
 .navbar .nav-menu .dropdown-menu .dropdown .btn-right {
   position: absolute;
@@ -373,7 +375,7 @@
   margin-left: 0px;
   padding-top: 5px;
   padding-bottom: 5px;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
 }
 .navbar .nav-menu .box-nav-modulos .title span {
   margin-left: 5px;
@@ -391,7 +393,8 @@
 }
 .navbar .nav-menu .box-nav-modulos .btn-sm-sidebar i,
 .navbar .nav-menu .box-nav-modulos .btn-sm-sidebar span {
-  margin: 0 !important;
+  margin: 0;
+  margin-top: 0px;
 }
 .config-sitios {
   width: 100%;
@@ -403,6 +406,9 @@
 }
 .config-sitios .btn-sm-sidebar ul a {
   width: 100%;
+}
+.config-sitios > ul > li > a span {
+  margin-left: 5px;
 }
 .block-sistemas .title-menu {
   padding: 4px 10px 4px 10px !important;
@@ -447,11 +453,15 @@
   width: 105% !important;
   margin-top: 8px !important;
 }
+.block-sistemas .dropdown-menu .dropdown > a > span {
+  margin-left: 5px;
+}
 .block-sistemas .title-sis {
   width: 100%;
   padding: 8px 10px;
   display: inline-block;
-  margin-top: -15px;
+  margin-top: -16px;
+  float: left;
 }
 .block-sistemas .box-nav-single {
   padding: 15px;

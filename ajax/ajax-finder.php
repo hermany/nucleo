@@ -65,7 +65,7 @@
   echo '  <div class="tbody tab-content" id="content-imagenes">';
   echo '    <div class="box-buscador">';
   echo '      <i class="icn icn-search"></i>';
-  echo '      <input id="filtrar" tipo="imagenes" type="text" class="form-control" placeholder="Buscar imagen">';
+  echo '      <input id="filtrar-imagenes" tipo="imagenes" type="text" class="form-control" placeholder="Buscar imagen">';
   echo '    </div>';
   echo '    <ul id="finder-imagenes"></ul>';
   echo '  </div>';

@@ -35,8 +35,6 @@ function redireccionar_tiempo(ruta,tiempo,target='_self'){
 
 $( document ).ready(function() {
 
-
-
 	$('.preloader-modulo').fadeOut('slow');
 
 	$("#bs-menu .dropdown-toggle").click( function(e){

@@ -242,5 +242,8 @@ class CLASSPAGINAS{
 		return $Botones;
 	} // fin btn nuevo
 
+
+/* ---------------- contenido ---------------------- */
+
 }
 ?>

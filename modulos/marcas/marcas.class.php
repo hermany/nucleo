@@ -197,6 +197,27 @@ class MARCA{
 		}
 
   }
+
+  function traer_marcas($id_marca,$div_class,$div_item){
+		$consulta = "SELECT mod_mar_id, mod_mar_nombre,mod_mar_logo,mod_mar_ruta_amigable from mod_marcas WHERE mod_mar_activar=1 ORDER BY mod_mar_orden desc";
+		$rs =$this->fmt->query->consulta($consulta);
+		$num=$this->fmt->query->num_registros($rs);
+		$aux="<ul class='list-marcas $div_class' id='$id_marca'>";
+		if($num>0){
+			for($i=0;$i<$num;$i++){
+				$row=$this->fmt->query->obt_fila($rs);
+				$row_id = $row["mod_mar_id"];
+				$row_nombre = $row["mod_mar_nombre"];
+				$row_logo = _RUTA_IMAGES.$this->fmt->archivos->convertir_url_thumb($row["mod_mar_logo"]);
+				$row_ra = $row["mod_mar_ruta_amigable"];
+				$aux .="<li class='item-marca $div_item item-marca-$i' id='item-marca-$row_id'><a href='"._RUTA_WEB.$row_ra."' style='background:url($row_logo) no-repeat center center'><span class='item-nombre'>$row_nombre</span></a></li>";
+			}
+		}
+		$aux .= "</ul>";
+		$this->fmt->query->liberar_consulta();
+		return $aux;
+  }
+
   function form_editar(){
 		$this->fmt->class_pagina->crear_head_form("Editar Marca","","");
 	  $id = $this->id_item;

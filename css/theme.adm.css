@@ -511,6 +511,7 @@ a:hover {
   color: #262626;
 }
 .dropdown .dropdown-menu .dropdown span {
+  float: left;
   text-align: left;
   color: #5d6569;
 }
