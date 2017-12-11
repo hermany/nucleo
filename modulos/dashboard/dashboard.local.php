@@ -24,8 +24,10 @@ $fmt->header->title_page("Dashboard");
 <script src="<?php echo _RUTA_WEB_NUCLEO; ?>js/summernote.js"></script>
   
   <link rel="stylesheet" href="<? echo _RUTA_WEB_NUCLEO; ?>css/icon-font.css?reload" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="<? echo _RUTA_WEB_NUCLEO; ?>css/theme.adm.css?reload" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="<? echo _RUTA_WEB_NUCLEO; ?>css/estilos.adm.css?reload" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="<? echo _RUTA_WEB_NUCLEO; ?>css/theme.adm.css?reload" rel="stylesheet" type="text/css">
+
   <link rel="stylesheet" href="<?php echo _RUTA_WEB_NUCLEO; ?>css/nav.adm.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="<?php echo _RUTA_WEB_NUCLEO; ?>css/nav-theme.adm.css" rel="stylesheet" type="text/css">
 

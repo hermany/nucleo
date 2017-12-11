@@ -22,7 +22,7 @@ class NAV{
   }
 
   function activado_modulos_rol($id_mod,$id_rol){
-	  echo $sql ="SELECT mod_rol_mod_id FROM modulo_roles where mod_rol_mod_id='$id_mod' and mod_rol_rol_id=$id_rol ";
+	  $sql ="SELECT mod_rol_mod_id FROM modulo_roles where mod_rol_mod_id='$id_mod' and mod_rol_rol_id=$id_rol ";
     $rs = $this->fmt->query->consulta($sql,__METHOD__);
     $num =$this->fmt->query->num_registros($rs);
     $sw=false;
@@ -38,6 +38,8 @@ class NAV{
     $sql ="SELECT sis_id, sis_nombre, sis_icono, sis_color FROM sistema  where sis_activar='1' ORDER BY  sis_orden ASC";
     $rs = $this->fmt->query->consulta($sql,__METHOD__);
     $num = $this->fmt->query->num_registros($rs);
+    $aux ="";
+    $multi =0;
       if($num>1){
         //for($i=0;$i < $num; $i++){
            //$row = $this->fmt->query->obt_fila($rs);
@@ -51,14 +53,31 @@ class NAV{
           if($id_rol==1){
           	$aux .= $this->lista_horizontal($fila_id, "btn-menu-sidebar", $fila_nombre, $fila_icono,$id_rol,$color,$fila_nombre); //$nombre, $menu, $id_sistema, $id_modulo
             //echo $color;
-            $aux .= '<ul class="box-nav-modulos box-nav-'.$fila_id.'"><h3 class="title"><i class="icn icn-chevron-left btn-nav-back" ></i><i class="'.$fila_icono.'" color="'.$color.'" style="color:'.$color.' !important;"></i><span>'.$fila_nombre.'</span></h3>'.$this->traer_modulos($fila_id,$id_rol,$id_usu).'</ul>';
+            $aux .= '<ul class="box-nav-modulos box-nav-'.$fila_id.'"><h3 class="title" style="background-color:'.$color.'"><i class="icn icn-chevron-left btn-nav-back" ></i><i class="'.$fila_icono.'" color="'.$color.'" style="color:'.$color.'"></i><span>'.$fila_nombre.'</span></h3>'.$this->traer_modulos($fila_id,$id_rol,$id_usu).'</ul>';
+            $multi =1;
 
           }else{
-            if($this->activado_sistemas_rol($fila_id,$id_rol)){
-	       	   $aux .= $this->lista_horizontal($fila_id, "btn-menu-sidebar", $fila_nombre, $fila_icono,$id_rol, $color,$fila_nombre);
-             $aux .= '<ul class="box-nav-modulos box-nav-'.$fila_id.'"><h3 class="title"><i class="icn icn-chevron-left btn-nav-back" ></i><i class="'.$fila_icono.'" color="'.$color.'" style="color:'.$color.' !important;"></i><span>'.$fila_nombre.'</span></h3>'.$this->traer_modulos($fila_id,$id_rol,$id_usu).'</ul>';
+            $num_sis_rol = $this->num_sistemas_rol($id_rol);
+            if ($num_sis_rol > 1){
+              if($this->activado_sistemas_rol($fila_id,$id_rol)){
+  	       	   $aux .= $this->lista_horizontal($fila_id, "btn-menu-sidebar", $fila_nombre, $fila_icono,$id_rol, $color,$fila_nombre);
+               $aux .= '<ul class="box-nav-modulos box-nav-'.$fila_id.'"><h3 class="title" style="background-color:'.$color.'"><i class="icn icn-chevron-left btn-nav-back" ></i><i class="'.$fila_icono.'" color="'.$color.'" style="color:'.$color.'"></i><span>'.$fila_nombre.'</span></h3>'.$this->traer_modulos($fila_id,$id_rol,$id_usu).'</ul>';
+              }
+              $multi =1;
+            }else{
+              if($this->activado_sistemas_rol($fila_id,$id_rol)){
+                $aux = '<div class="title-sis" style="background-color:'.$color.'"><h3><i class="'.$fila_icono.'" color="'.$color.'" style="color:'.$color.'"></i><span>'.$fila_nombre.'</span></h3></div>';
+                $aux .="<ul class='box-nav-single'>".$this->traer_modulos($fila_id,$id_rol,$id_usu)."</ul>";
+              }
             }
           }
+        }
+        if($multi==1){
+          $aux .='<script type="text/javascript">
+        jQuery(document).ready(function($) {
+          $(".list-sistemas").addClass("multi-sis");
+        });
+      </script>';
         }
       }else{
         $row = $this->fmt->query->obt_fila($rs);
@@ -72,6 +91,14 @@ class NAV{
     $this->fmt->query->liberar_consulta($rs);
     return $aux;
   }
+
+function num_sistemas_rol($id_rol){
+    $consulta = "SELECT sis_id FROM sistema_roles, sistema WHERE sis_rol_rol_id=$id_rol and sis_rol_sis_id=sis_id";
+    $rs =$this->fmt->query->consulta($consulta);
+    $num=$this->fmt->query->num_registros($rs);
+    return $num;
+    $this->fmt->query->liberar_consulta();
+}
 
 function traer_cat_hijos_menu_raiz($cat,$nivel,$nivel_tope){
   	$inputDominio = _RUTA_WEB;

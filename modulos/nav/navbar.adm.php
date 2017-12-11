@@ -51,8 +51,32 @@
               <div class="box-sites" style="display:none">
                 <?php
                 for($i=0;$i<$num;$i++){
-                  list($fila_id,$fila_nombre,$fila_url,$fila_orden,$fila_activar)=$fmt->query->obt_fila($rs);
-                  echo $fila_nombre;
+                  $row=$fmt->query->obt_fila($rs);
+                  $nombre = $row["sitio_nombre"];
+                  $target = $row["sitio_target"];
+                  $tipo = $row["sitio_tipo"];
+                  if (!empty($row['sitio_icono'])){
+                    $icono = "<i class='icn-site ".$row["sitio_icono"]."'></i>";
+                  }else{
+                    $icono="";
+                  }
+                  
+                  $ruta = $row["sitio_ruta_amigable"];
+
+                  if ($tipo==2){
+                    if (!empty($ruta)){
+                      $url =  $row["sitio_url"];
+                    }else{
+                      $url = _RUTA_WEB;
+                    }
+                  }else{
+                    if (!empty($ruta)){
+                      $url = _RUTA_WEB.$ruta;
+                    }else{
+                      $url = _RUTA_WEB;
+                    }
+                  }
+                  echo "<a href='$url' target='$target'>$icono $nombre <i class='icn icn-skip'></i></a>";
                 }
                 ?>
               </div>
@@ -72,7 +96,7 @@
       <div class="navbar-header" id="bs-menu">
         <ul class="nav">
           <li class="">
-            <a class="btn-navbar btn-search" href="#" ><i class="icn-search"></i></a>
+            <!-- <a class="btn-navbar btn-search" href="#" ><i class="icn-search"></i></a> -->
           </li>
           <?php
             $consulta= "SELECT * FROM aplicacion WHERE app_activar=1";

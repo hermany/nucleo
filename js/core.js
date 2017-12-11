@@ -69,6 +69,8 @@ $('#content-page').on('click touchend', function(e) {
   $(".dropdown[toogle=true]").attr('toogle','false');
   $(".dropdown").attr('toogle','false');
   $(".box-nav-modulos").removeClass("on");
+  $(".box-sites").removeClass("on");
+  $(".btn-salto").removeClass("on");
 });
 
 	function resize(){

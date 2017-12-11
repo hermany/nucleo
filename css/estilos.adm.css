@@ -254,12 +254,7 @@ h1 {
 }
 .btn i,
 .btn span {
-  margin-top: -2px;
   display: inline-block;
-}
-.btn i {
-  margin-left: -3px;
-  margin-right: 5px;
 }
 .btn-lg {
   padding: 10px 16px;

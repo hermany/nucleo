@@ -26,7 +26,7 @@ class CLASSPAGINAS{
 
 /* ---------------- Funcion crear head ---------------------- */
 
-	function crear_head($id_mod,$botones,$vars){
+	function crear_head($id_mod,$botones,$var,$div_clas,$css_nucleo){
 
 		$sql ="SELECT mod_nombre,mod_icono,mod_ruta_amigable,mod_color FROM modulo WHERE mod_id=$id_mod";
 
@@ -37,8 +37,12 @@ class CLASSPAGINAS{
 		$color = $row["mod_color"];
 		$ruta_a = $row["mod_ruta_amigable"];
 		$this->fmt->header->title_page($nom);
+		if(!empty($css_nucleo)){
+			$url_css = _RUTA_WEB_NUCLEO."css/".$css_nucleo;
+			echo '<link rel="stylesheet" href="'.$url_css.'?reload" type="text/css" media="screen" />';
+		}
 		?>
-		<div class="head-modulo">
+		<div class="head-modulo head-modulo-<?php echo $ruta_a." ".$div_class; ?>">
 			<div class="container">
 				<h1 class="title pull-left"><i class="<?php echo $icon; ?>" style="color:<?php echo $color; ?>"></i> <?php echo $nom; ?></h1>
 					<!--<a class='small btn-sync btn-menu-ajax' href="<?php echo _RUTA_WEB."dashboard/".$ruta_a; ?>" vars="<?php echo $vars; ?>">

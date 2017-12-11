@@ -102,7 +102,7 @@ class USUARIOS{
 		$this->fmt->form->input_form("E-mail:","inputEmail","@","");
 		$this->fmt->form->password_form("Password:","inputPassword","","","","",""); //$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
 		$this->fmt->form->password_form("Confirmar Password:","inputPasswordConfirmar","","","","",""); //$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
-		$this->fmt->form->imagen_unica_form("inputImagen");
+		$this->fmt->form->imagen_unica_form("inputImagen","","","","Imagen relacionada:");
 		?>
 		<div class="form-group">
 			<label>Rol:</label>
@@ -182,7 +182,7 @@ class USUARIOS{
 					$_POST['inputApellidos']."','".
 					$_POST['inputEmail']."','".
 					base64_encode($_POST['inputPassword'])."','".
-					$_POST['inputUrl']."','".
+					$_POST['inputImagen']."','".
 					$activar."','".
 					$activar."','1'";
 
@@ -268,7 +268,7 @@ class USUARIOS{
 		$this->fmt->form->input_form(" Email:","inputEmail","@",$fila["usu_email"],"","","","","","required");
 		$this->fmt->form->password_form("Password:","inputPassword","",base64_decode($fila["usu_password"]),"","",""); //$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
 		$this->fmt->form->password_form("Confirmar password:","inputPasswordConfirmar","",base64_decode($fila["usu_password"]),"","",""); //$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
-		$this->fmt->form->imagen_unica_form("inputImagen",$fila["not_imagen"]);
+		$this->fmt->form->imagen_unica_form("inputImagen",$fila["usu_imagen"],"","","Imagen relacionada:");
 		?>
 		<div class="form-group">
 			<label>Rol:</label>
