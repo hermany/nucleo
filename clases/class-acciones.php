@@ -17,6 +17,13 @@ class ACCIONES{
 		$this->fmt->query->consulta($sql);
   }
 
+  function cargar_interaccion_usuario($usuario,$accion,$fechaHora="0000-00-00 00:00:00"){
+    $ingresar ="mod_inta_usu_usu_id,mod_inta_usu_inta_id,mod_inta_usu_fecha_hora";
+    $valores  ="'".$usuario."','".$accion."','".$fechaHora."'";
+    $sql="insert into mod_interaccion_usuarios (".$ingresar.") values (".$valores.")";
+    $this->fmt->query->consulta($sql);
+  }
+
   function valor_interaccion($accion){
     $consulta = "SELECT mod_inta_valor FROM mod_interaccion WHERE mod_inta_id='".$accion."'";
     $rs =$this->fmt->query->consulta($consulta);
