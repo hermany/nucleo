@@ -694,6 +694,7 @@ class CLASSMODULOS{
             lang: 'es-ES',
             paragraph: 'justifyLeft',
             focus: false,
+            styleTags:['p', 'blockquote', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', { title: 'imagen-left', tag: 'imagen-left', className: 'imagen-left', value: '' } ],
             toolbar: [
                 ['style', ['style','bold', 'italic' ]],
                 ['color', ['color']],

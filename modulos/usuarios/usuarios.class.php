@@ -262,6 +262,8 @@ class USUARIOS{
 		$this->fmt->class_pagina->form_ini_mod($id_form);
 
 		$this->fmt->form->input_form("<span class='obligatorio'>*</span> Nombre:","inputNombre","",$fila["usu_nombre"],"","","","","","required autofocus");
+
+		$this->fmt->form->input_form("<span class='obligatorio'>*</span> Ruta amigable:","inputRutaAmigable","",$fila["usu_ruta_amigable"],"","","","","","required");
 		 //$label,$id,$placeholder,$valor,$class,$class_div,$mensaje,$disabled,$validar,$otros
 		$this->fmt->form->input_hidden_form('inputId',$fila["usu_id"]);
 		$this->fmt->form->input_form("<span class='obligatorio'>*</span> Apellidos:","inputApellidos","",$fila["usu_apellidos"],"","","","","","required");
@@ -318,6 +320,7 @@ class USUARIOS{
 				usu_nombre='".$_POST['inputNombre']."',
 				usu_apellidos='".$_POST['inputApellidos']."',
 				usu_email ='".$_POST['inputEmail']."',
+				usu_ruta_amigable ='".$_POST['inputRutaAmigable']."',
 				usu_password='".base64_encode($_POST['inputPassword'])."',
 				usu_imagen='".$_POST['inputImagen']."',
 				usu_activar='".$_POST['inputActivar']."'

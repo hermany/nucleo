@@ -149,9 +149,11 @@ class CLASSSISTEMAS{
 
   function update_htaccess(){
       ini_set('memory_limit', '-1');
+
       if(_MULTIPLE_SITE=="on"){
          $carpetas_sitios=$this->fmt->class_sitios->traer_carpeta_sitios();
          //var_dump($carpetas_sitios);
+         //exit(0);
          $nc = count($carpetas_sitios);
          for ($i=0; $i < $nc; $i++) {
           $nombre_archivo = _RUTA_SERVER.$carpetas_sitios[$i]."/.htaccess";

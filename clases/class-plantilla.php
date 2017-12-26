@@ -138,7 +138,7 @@ class PLANTILLA{
 			<?php
 
 			echo "\n".'</head>'."\n";
-			echo '<body class="pag-body loading" id="body-'.$this->cat_ruta_amigable.'" role="document" data-spy="scroll" data-target="#navigation" data-offset="80" onload="measureCRP()" >'."\n";
+			echo '<body class="pag-body page-loading" id="body-'.$this->cat_ruta_amigable.'" role="document" data-spy="scroll" data-target="#navigation" data-offset="80" onload="measureCRP()" >'."\n";
 			echo '	<div id="wrapper">'."\n";
 			echo '		<div class="preloader"></div>'."\n";
 

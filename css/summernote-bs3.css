@@ -50,6 +50,7 @@
   margin: 0;
 }
 .note-editor a {
+  font-size: 15px !important;
   background: transparent;
 }
 .note-editor a:focus {
@@ -283,7 +284,8 @@
   line-height: inherit;
 }
 .note-editor a {
-  color: #428bca;
+  font-size: 15px !important;
+  color: #428bca !important;
   text-decoration: none;
 }
 .note-editor a:hover,
@@ -5382,7 +5384,7 @@ td.visible-print {
   margin-right: auto;
   width: auto;
   padding: 10px;
-  z-index: 1050;
+  z-index: 10050;
 }
 .note-editor .modal-content {
   position: relative;
@@ -5471,7 +5473,7 @@ td.visible-print {
 @media screen and (min-width: 768px) {
   .note-editor .modal-dialog {
     width: 600px;
-    padding-top: 30px;
+    padding-top: 140px;
     padding-bottom: 30px;
   }
   .note-editor .modal-content {

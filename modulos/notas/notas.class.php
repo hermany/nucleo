@@ -357,8 +357,7 @@ class NOTICIAS{
                 not_lugar,
 								not_id_video,
                 not_activar";
-		$valores  ="'".$_POST['inputTitulo']."','".
-					$this->fmt->get->convertir_url_amigable($_POST['inputTitulo'])."','".
+		$valores  ="'".$_POST['inputTitulo']."','".$this->fmt->get->convertir_url_amigable($_POST['inputTitulo'])."','".
 					$_POST['inputResumen']."','".
 					$_POST['inputCuerpo']."','".
 					$imagen."','".
@@ -372,6 +371,8 @@ class NOTICIAS{
 
 		$sql="insert into nota (".$ingresar.") values (".$valores.")";
 		$this->fmt->query->consulta($sql);
+
+		
 
 		$sql="select max(not_id) as id from nota";
 		$rs= $this->fmt->query->consulta($sql);

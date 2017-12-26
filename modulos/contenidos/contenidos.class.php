@@ -128,6 +128,7 @@ class CONTENIDOS{
 				$usuario_n =  $this->fmt->usuario->nombre_usuario( $usuario );
 				$this->fmt->form->input_form_sololectura('Usuario:','','',$usuario_n,'','','');//$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
 				$this->fmt->form->input_hidden_form("inputUsuario",$usuario);
+				$this->fmt->form->input_form("Clase:","inputClase","","","","","");
 				$this->fmt->form->radio_activar_form();
 				$this->fmt->form->botones_nuevo($id_form,$this->id_mod,"","ingresar");
 				?>
@@ -135,7 +136,8 @@ class CONTENIDOS{
 		</div>
 		<?php
 		//$this->fmt->form->textarea_form('Cuerpo:','inputCuerpo','',$fila["conte_cuerpo"],'editor-texto','textarea-cuerpo','','3',''); //label,$id,$placeholder,$valor,$class,$class_div,$rows,$mensaje
-		//$this->fmt->class_modulo->modal_editor_texto();
+		$this->fmt->finder->finder_window();
+		$this->fmt->class_modulo->modal_editor_texto("inputCuerpo");
 		$this->fmt->class_modulo->modal_script($this->id_mod);
 	} //Fin function form modificar
 
@@ -152,7 +154,7 @@ class CONTENIDOS{
 			else
 				$imagen=$_POST['inputImagen'];
 
-			$ingresar ="conte_titulo, conte_ruta_amigable, conte_subtitulo, conte_cuerpo, conte_foto, conte_fecha, conte_id_usuario, conte_tag, conte_id_dominio, conte_activar";
+			$ingresar ="conte_titulo, conte_ruta_amigable, conte_subtitulo, conte_cuerpo, conte_foto, conte_fecha, conte_id_usuario, conte_clase, conte_tag, conte_id_dominio, conte_activar";
 			$valores  ="'".$_POST['inputTitulo']."','".
 						$_POST['inputNombreAmigable']."','".
 						$_POST['inputSubtitulo']."','".
@@ -160,6 +162,7 @@ class CONTENIDOS{
 						$imagen."','".
 						$_POST['inputFecha']."','".
 						$_POST['inputUsuario']."','".
+						$_POST['inputClase']."','".
 						$_POST['inputTags']."','".
 						$_POST['inputDominio']."','".
 						$activar."'";
@@ -265,6 +268,7 @@ class CONTENIDOS{
 				$usuario_n =  $this->fmt->usuario->nombre_usuario( $usuario );
 				$this->fmt->form->input_form_sololectura('Usuario:','','',$usuario_n,'','','');//$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
 				$this->fmt->form->input_hidden_form("inputUsuario",$usuario);
+				$this->fmt->form->input_form("Clase:","inputClase","",$fila["conte_clase"],"","","");
 				$this->fmt->form->radio_activar_form($fila['conte_activar']);
 				$this->fmt->form->btn_actualizar($id_form,$this->id_mod,"modificar");
 				?>
@@ -295,6 +299,7 @@ class CONTENIDOS{
 							conte_fecha='".$_POST['inputFecha']."',
 							conte_id_usuario='".$_POST['inputUsuario']."',
 							conte_tag='".$_POST['inputTags']."',
+							conte_clase='".$_POST['inputClase']."',
 							conte_id_dominio='".$_POST['inputDominio']."',
 							conte_activar='".$_POST['inputActivar']."'
 							WHERE conte_id='".$_POST['inputId']."'";

@@ -35,6 +35,24 @@ class USUARIO{
     return $fila["sitio_ruta_amigable"];
   }
 
+  function traer_id_usuario_id_fb($idrs){
+    $sql ="SELECT usu_rs_usu_id FROM usuario_redes_sociales WHERE usu_rs_fb_id='$idrs'";
+    $rs = $this->fmt->query->consulta($sql,__METHOD__);
+    $fila = $this->fmt->query->obt_fila($rs);
+    return $fila["usu_rs_usu_id"];
+  }
+
+  function siguiendo($usu,$usu_seguido){
+    $sql ="SELECT * FROM usuario_seguidos WHERE usu_sgd_seguidor_usu_id='$usu' and usu_sgd_seguido_usu_id='$usu_seguido'";
+    $rs = $this->fmt->query->consulta($sql,__METHOD__);
+    $num=$this->fmt->query->num_registros($rs);
+    if ($num>0){
+      return true ;
+    }else{
+      return false;
+    }
+  }
+
   function rol_usuario($id_usu){
     $sql ="SELECT usu_rol_rol_id FROM usuario_roles WHERE usu_rol_usu_id='$id_usu'";
     $rs = $this->fmt->query-> consulta($sql,__METHOD__);
@@ -49,6 +67,7 @@ class USUARIO{
       return "sin rol";
     }
   }
+
 
   function cambiar_estado($id_usuario,$valor){
     $valor = (int)$valor;
@@ -73,7 +92,16 @@ class USUARIO{
     $rs = $this->fmt->query-> consulta($sql,__METHOD__);
     $fila = $this->fmt->query->obt_fila($rs);
     return $fila["usu_nivel"];
+  }  
+
+  function  usuario_amigos($usuario){
+    $sql="select usu_amigos from usuario where usu_id=$usuario";
+    $rs = $this->fmt->query-> consulta($sql,__METHOD__);
+    $fila = $this->fmt->query->obt_fila($rs);
+    return $fila["usu_amigos"];
+    return $fila["usu_amigos"];
   }
+
   function nombre_apellidos($usuario){
     $sql="select usu_nombre, usu_apellidos from usuario where usu_id=$usuario";
     $rs = $this->fmt->query-> consulta($sql,__METHOD__);
