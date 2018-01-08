@@ -207,7 +207,12 @@ class CATEGORIA{
     $num=$this->fmt->query->num_registros($rs);
 
     if($num>0){
-      echo "<div class='arbol-nuevo'><a class='btn-nuevo-i' cat='0'><i class='icn-plus'></i> nuevo</a></div>";
+      if ($num>1){
+        $tr = "<i class='icn icn-sort btn-i btn-ordenar-i' id_padre='0' ></i>";
+      }else{
+        $tr="";
+      }
+      echo "<div class='arbol-nuevo'><a class='btn-nuevo-i' cat='0'><i class='icn-plus'></i> nuevo</a> $tr</div>";
       for($i=0;$i<$num;$i++){
         $row= $this->fmt->query->obt_fila($rs);
         $fila_id = $row[$prefijo."id"];
@@ -268,26 +273,29 @@ class CATEGORIA{
       $num=$this->fmt->query->num_registros($rs);
 
       if($num>0){
-        echo "<div class='arbol-nuevo'><a  class='btn-nuevo-i'><i class='icn-plus' ></i> nuevo</a></div>";
+        if ($num>1){
+          $tr = "<i class='icn icn-sort btn-i btn-ordenar-i' id_padre='0' ></i>";
+        }else{
+          $tr="";
+        }
+        echo "<div class='arbol-nuevo'><a  class='btn-nuevo-i'><i class='icn-plus' ></i> nuevo</a> $tr</div>";
          for($i=0;$i<$num;$i++){
-          //list($fila_id,$fila_nombre)=$this->fmt->query->obt_fila($rs);
           $row=$this->fmt->query->obt_fila($rs);
-          $fila_id = $row["cat_id"];
-          $fila_nombre = $row["cat_nombre"];
-
+          $fila_id = $row[$prefijo."id"];
+          $fila_nombre = $row[$prefijo."nombre"];
           if ($i==$num-1) { $aux = 'icn-point-4'; } else { $aux = 'icn-point-1'; }
-          echo "<div class='nodo'  id='nodo-$fila_id' ><i class='".$aux." i-nodo'></i> ".$fila_nombre;
-          $this->accion($fila_id,$from,$prefijo);
-          echo "</div>";
-            if ($this->tiene_hijos($fila_id,$from,$prefijo)){
-             $this->hijos($fila_id,'0',$from,$prefijo,$id_mod);
-             //echo "tiene";
-            }
-          }
+            echo "<div class='nodo'  id='nodo-$fila_id' ><i class='".$aux." i-nodo'></i> ".$fila_nombre;
+            $this->accion($fila_id,$from,$prefijo);
+            echo "</div>";
+              if ($this->tiene_hijos($fila_id,$from,$prefijo)){
+               $this->hijos($fila_id,'0',$from,$prefijo,$id_mod);
+               //echo "tiene";
+              }
+         }
       }else{
         echo "<div class='arbol-nuevo'><a class='btn-nuevo-i' cat='0  ><i class='icn-plus'></i> nuevo</a></div>";
       }
-      echo "</div>";
+    echo "</div>";
     return;
   }
 
@@ -380,6 +388,13 @@ class CATEGORIA{
     }else{
       return false;
     }
+  }  
+
+  function numero_hijos($cat,$from="categoria",$prefijo="cat_"){
+    $consulta = "SELECT ".$prefijo."id  FROM ".$from." WHERE ".$prefijo."id_padre='$cat'";
+    $rs = $this->fmt->query->consulta($consulta,__METHOD__);
+    $num=$this->fmt->query->num_registros($rs);
+    return $num;
   }
 
 
@@ -547,8 +562,8 @@ class CATEGORIA{
 	  $nivel++;
       for($i=0;$i<$num;$i++){
         $row=$this->fmt->query->obt_fila($rs);
-        $fila_id= $row["cat_id"];
-        $fila_nombre= $row["cat_nombre"];
+        $fila_id= $row[$prefijo."id"];
+        $fila_nombre= $row[$prefijo."nombre"];
         $valor_n= 25 * ($nivel+1);
         $aux_nivel = $this->img_nodo("linea",$nivel);
         if ($i==$num-1) { $aux = 'icn-point-4'; } else { $aux = 'icn-point-1'; }
@@ -592,6 +607,16 @@ class CATEGORIA{
     echo " <i class='icn-plus btn-i btn-nuevo-i' cat='".$cat."' ></i>";
     echo " <i class='".$i." btn-i btn-activar-i' id='btn-pi-$cat' vars='activar,$cat,$a' estado='$a' cat='".$cat."' ></i>";
     echo " <i class='icn-pencil btn-i btn-editar-i' title='editar $cat' cat='".$cat."'></i>";
+    // $this->categoria_id_padre
+    $num = $this->numero_hijos($cat,$from,$prefijo);
+    if ($num > 1){
+      // $id_padre = $this->id_padre($cat,$from,$prefijo);
+      echo "<i class='btn-i btn-ordenar-i icn icn-sort' id_padre='$cat' title='ordenar'></i>";
+    }
+    
+    //if ($this->tiene_hijos($cat,$from,$prefijo)){
+      //echo "<i class='btn-i btn-ordenar-i icn icn-sort' title='ordenar'></i>";
+    //}
     echo " <i class='icn-block-page btn-i btn-contenedores' cat='".$cat."' ruta='$ra' ></i>";
     echo " <i class='icn-trash btn-i btn-eliminar-i' id_mod='".$id_mod."' vars='eliminar,".$cat."' nombre='".$this->nombre($cat,$from,$prefijo)."'  cat='".$cat."' ></i>";
     return;

@@ -1189,8 +1189,9 @@ class FORM{
 		<?php
 	}
 
-	function ruta_amigable_form($id,$ruta="",$valor,$id_form,$ext="",$div_class){
+	function ruta_amigable_form($id,$ruta="",$valor,$id_form,$ext="",$div_class,$modo="0",$placeholder,$mensaje){
 
+		if($modo==0){
 		?>
 			<div class="btn-link-ra <?php echo $div_class; ?>">
 				<a class="btn-link-ra-<?php echo $id; ?>"><i class="icn icn-link"></i></a>
@@ -1203,6 +1204,20 @@ class FORM{
 					<input class="btn btn-small btn-full btn-copy" id="copy_btn" type="button" value="copy">
 				</div>
 			</div>
+		<?php  
+		}
+		if($modo==1){
+		?>
+		<div class="form-group form-group-ra <?php echo $class_div; ?>" id="input-<?php echo $id; ?>" >
+      <label>Ruta Amigable:</label>
+      <input class="form-control <?php echo $class; ?>" id="<?php echo $id_form; ?>" name="<?php echo $id_form; ?>" validar="<?php echo $validar; ?>" placeholder="<?php echo $placeholder; ?>" value="<?php echo $valor; ?>" <?php echo $disabled; echo $otros; ?> />
+			<?php if (!empty($mensaje)){ ?>
+			<p class="help-block"><?php echo $mensaje; ?></p>
+			<?php } ?>
+			<div class="mensajes-aux"></div>
+    </div>
+		<?php } ?>
+
 			<script language="JavaScript">
 				$(document).ready( function (){
 					$(".btn-link-ra-<?php echo $id; ?>").click( function(){
@@ -1224,6 +1239,7 @@ class FORM{
 					function convertir_url_amigable(text){
 
 							var text = text.toLowerCase(); // a minusculas
+								text = text.replace(/ /g, '-');
  					      text = text.replace(/[áàäâå]/, 'a');
  					      text = text.replace(/[éèëê]/, 'e');
  					      text = text.replace(/[íìïî]/, 'i');
@@ -1234,10 +1250,9 @@ class FORM{
  					      text = text.replace(/[ç]/, 'c');
  					      text = text.replace(/['"`]/, '-');
  					      text = text.replace(/[^a-zA-Z0-9-]/, '');
- 					      text = text.replace(/\s+/, '-');
- 					      text = text.replace(/' '/, '-');
- 					      text = text.replace(/(_)$/, '');
- 					      text = text.replace(/(')$/, '');
+ 					      // text = text.replace(/(')s+/, 's');
+ 					      text = text.replace(/(_)$/, '-');
+ 					      text = text.replace(/(')$/, '+');
  					      text = text.replace(/^(_)/, '');
  					      text = text.replace(/^(:)/, '-');
  					      text = text.replace(/ +/g,'-');

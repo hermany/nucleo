@@ -107,6 +107,29 @@ class USUARIO{
     $rs = $this->fmt->query-> consulta($sql,__METHOD__);
     $fila = $this->fmt->query->obt_fila($rs);
     return $fila["usu_nombre"]." ".$fila["usu_apellidos"];
+  } 
+
+  function usuario_siglas($usuario){
+    $sql="select usu_nombre, usu_apellidos from usuario where usu_id=$usuario";
+    $rs = $this->fmt->query-> consulta($sql,__METHOD__);
+    $fila = $this->fmt->query->obt_fila($rs);
+    return  substr($fila["usu_nombre"], 0, 1).substr($fila["usu_apellidos"], 0, 1);
+  }  
+
+  function acortar_nombre($nombre){
+    $nom = explode(" ",$nombre);
+    if (count($nom) > 2){
+    //  //$anom= sanitize_words($obj->name);  
+    //  $a_nom= str_word_count($nombre, 1);
+      if (count($nom) > 3){
+        $nomx= $nom[0]." ".$nom[1]." ".$nom[2];
+      }else{
+        $nomx= $nom[0]." ".$nom[1];
+      }
+    }else{
+      $nomx = $nombre;
+    }
+    return $nomx;
   }
 
   function nombre_id_usuario($usuario_n,$usuario_a){

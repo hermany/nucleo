@@ -28,6 +28,8 @@ class CONSTRUCTOR{
   var $publicacion;
   var $class_sitios;
   var $finder;
+  var $valores;
+  var $cookies;
 
 
   function __construct() {
@@ -93,6 +95,8 @@ class CONSTRUCTOR{
     require_once(_RUTA_NUCLEO."clases/class-multimedia.php");
     require_once(_RUTA_NUCLEO."clases/class-documentos.php");
     require_once(_RUTA_NUCLEO."clases/class-finder.php");
+    require_once(_RUTA_NUCLEO."clases/class-valores.php");
+    require_once(_RUTA_NUCLEO."clases/class-cookies.php");
 
 
 
@@ -121,6 +125,8 @@ class CONSTRUCTOR{
     $this->publicacion = new PUBLICACION($this);
     $this->class_sitios = new CLASSSITIOS($this);
     $this->finder = new FINDER($this);
+    $this->valores = new VALORES($this);
+    $this->cookies = new COOKIES($this);
 
   }
 

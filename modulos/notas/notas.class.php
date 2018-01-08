@@ -18,12 +18,8 @@ class NOTICIAS{
 	}
 
 	function busqueda(){
-		//$this->fmt->form->head_busqueda_simple('Nueva Noticia',$this->id_mod,'');
-		$botones = $this->fmt->class_pagina->crear_btn_m("Configuración","icn-conf","Configuración","btn btn-link btn-menu-ajax btn-congig",$this->id_mod,"form_config");  //$nom,$icon,$title,$clase,$id_mod,$vars,$attr
-
-
-		$this->fmt->class_pagina->crear_head( $this->id_mod, $botones); // bd, id modulo, botones //$nom,$archivo,$id_mod,$botones
-		$fecha_hoy= $this->fmt->class_modulo->fecha_hoy("America/La_Paz");
+		$botones = $this->fmt->class_pagina->crear_btn_m("Configuración","icn-conf","Configuración","btn btn-link btn-menu-ajax btn-congig",$this->id_mod,"form_config");
+		$this->fmt->class_pagina->crear_head( $this->id_mod, $botones);
 		?>
 		<link rel="stylesheet" href="<?php echo _RUTA_WEB_NUCLEO; ?>css/m-notas.css" rel="stylesheet" type="text/css">
 
@@ -42,34 +38,27 @@ class NOTICIAS{
 					if($num>0){
 					  for($i=0;$i<$num;$i++){
 					    $fila=$this->fmt->query->obt_fila($rs);
-
-					    echo "<tr class='row row-".$fila["not_id"]."'>";
-					    echo '<td class="">'.$fila["not_id"].'</td>';
-					    echo '<td class=""><strong>'.$fila["not_titulo"].'</strong></td>';
-					    echo '<td class="">'.$this->fmt->usuario->nombre_usuario( $fila["not_usuario"]).'</td>';
-					    echo '<td class="">';
-					      //$this->fmt->categoria->traer_rel_cat_nombres($fila["not_id"],'nota_categorias','not_cat_cat_id','not_cat_not_id');
-
-								$this->traer_rel_cat_nombres($fila["not_id"]);
-								 //$fila_id,$from,$prefijo_cat,$prefijo_rel
-
-					    echo '</td>';
-					    //echo '<td class="">'.$fila["not_tags"].'</td>';
-							$fh =$fila["not_fecha"];
-							$fecha= $this->fmt->class_modulo->tiempo_restante($fh,$fecha_hoy);
-					    echo '<td class=""><span class="display-none">'.$fh.'</span>'.$fecha.'</td>';
-					    echo '<td class="">';
-					    $this->fmt->class_modulo->estado_publicacion($fila["not_activar"], $this->id_mod,"", $fila["not_id"]);
-					    echo '</td>';
-
-					    echo '<td class="td-user col-xl-offset-2 acciones">';
-					    echo $this->fmt->class_pagina->crear_btn_m("","icn-pencil","editar","btn btn-accion btn-editar btn-menu-ajax ",$this->id_mod,"form_editar,".$fila["not_id"]);
+					     echo "<tr class='row row-".$fila["not_id"]."'>";
+					     echo '<td>'.$fila["not_id"].'</td>';
+					     echo '<td class=""><strong>'.$fila["not_titulo"].'</strong></td>';
+					     echo '<td class="">'.$this->fmt->usuario->nombre_usuario( $fila["not_usuario"]).'</td>';
+					     echo "<td>";
+					     $this->traer_rel_cat_nombres($fila["not_id"]);
+					     echo "</td>";
+					     $fh =$fila["not_fecha"];
+							 $fecha= $this->fmt->class_modulo->tiempo_restante($fh,$fecha_hoy);
+					     echo '<td class=""><span class="display-none">'.$fh.'</span>'.$fecha.'</td>';
+					     echo "<td>";
+					     $this->fmt->class_modulo->estado_publicacion($fila["not_activar"], $this->id_mod,"", $fila["not_id"]);
+					     echo "</td>";
+					     echo "<td class='acciones'>";
+					      echo $this->fmt->class_pagina->crear_btn_m("","icn-pencil","editar","btn btn-accion btn-editar btn-menu-ajax ",$this->id_mod,"form_editar,".$fila["not_id"]);
 					      ?>
 					        <a  title="eliminar <?php echo $fila["not_id"]; ?>" nombre="<?php echo $fila["not_titulo"]; ?>" type="button" id="btn-m<?php echo $this->id_mod; ?>" id_mod="<?php echo $this->id_mod; ?>" vars="eliminar,<?php echo $fila["not_id"]; ?>" class="btn btn-fila-eliminar btn-accion "><i class="icn-trash"></i></a>
-					      <?php
-					    echo '</td>';
-					    echo "</tr>";
-						}
+					      <?php 
+					     echo "</td>";
+					     echo "</tr>";
+					  }
 					}
 					$this->fmt->form->tbody_table_close();
 					$this->fmt->form->footer_table();
@@ -178,10 +167,10 @@ class NOTICIAS{
 			$sql2="insert into nota_categorias (".$ingresar2.") values (".$valores2.")";
 			$this->fmt->query->consulta($sql2);
 		}
-	 //$this->fmt->class_modulo->redireccionar($this->ruta_modulo,"1");
+	  $this->fmt->class_modulo->redireccionar($this->ruta_modulo,"1");
 	}
 
-	function form_nuevo(){
+		function form_nuevo(){
 		$this->fmt->class_pagina->crear_head_form("Nueva Noticia","","");
 		$id_form="form-nuevo";
 
@@ -193,7 +182,7 @@ class NOTICIAS{
 				<div class=" col-form">
 					<?php
 						$this->fmt->form->input_form("<span class='obligatorio'>*</span> Titulo:","inputTitulo","","","input-lg","row-lg","","","","autocomplete=off"); //$label,$id,$placeholder,$valor,$class,$class_div,$mensaje,$disabled,$validar,$otros
-						$this->fmt->form->ruta_amigable_form("inputTitulo","","","inputRutaamigable","","input-lg"); //$id,$ruta,$valor,$form
+						$this->fmt->form->ruta_amigable_form("inputTitulo","","","inputRutaamigable","","input-lg","1"); //$id,$ruta,$valor,$form
 
 						$this->fmt->form->input_form('Tags:','inputTags','','','');
 
@@ -268,7 +257,7 @@ class NOTICIAS{
 				<div class="col-form">
 					<?php
 						$this->fmt->form->input_form("<span class='obligatorio'>*</span> Titulo:","inputTitulo","",$fila['not_titulo'],"input-lg","row-lg","","","","autocomplete=off"); //$label,$id,$placeholder,$valor,$class,$class_div,$mensaje,$disabled,$validar,$otros
-						$this->fmt->form->ruta_amigable_form("inputTitulo",_RUTA_WEB,$fila['not_ruta_amigable'],"inputRutaamigable","","input-lg"); //$id,$ruta,$valor,$form
+						$this->fmt->form->ruta_amigable_form("inputTitulo",_RUTA_WEB,$fila['not_ruta_amigable'],"inputRutaamigable","","input-lg","1"); //$id,$ruta,$valor,$form
 						$this->fmt->form->input_hidden_form("inputId",$fila['not_id']);
 						//$this->fmt->form->hidden_modulo($this->id_mod,"modificar");
 						$this->fmt->form->input_form('Tags:','inputTags','',$fila['not_tags'],'');
@@ -333,7 +322,7 @@ class NOTICIAS{
 
 	}
 
-	function ingresar(){
+function ingresar(){
 		if ($_POST["estado-mod"]=="activar"){
 			$activar=1;
 		}else{
@@ -452,18 +441,5 @@ class NOTICIAS{
 		$this->fmt->class_modulo->redireccionar($ruta_modulo,"1");
 	}
 
-
-	function eliminar(){
-  		$this->fmt->class_modulo->eliminar_get_id("nota","not_",$this->id_item);
-  		$this->fmt->class_modulo->eliminar_get_id("noticia_rel","not_rel_not_",$this->id_item);
-  		$this->fmt->class_modulo->script_location($this->id_mod,"busqueda");
-  	}
-
-  	function activar(){
-	    $this->fmt->class_modulo->activar_get_id("nota","not_",$this->id_estado,$this->id_item);
-	   $this->fmt->class_modulo->script_location($this->id_mod,"busqueda");
-  	}
-
-
 }
-?>
+	

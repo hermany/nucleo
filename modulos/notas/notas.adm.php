@@ -1,4 +1,5 @@
 <?php
+
 require_once('notas.class.php');
 
 $form =new NOTICIAS($fmt,$id_mod,$id_item,$id_estado);

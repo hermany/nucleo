@@ -48,7 +48,17 @@ class CATEGORIAS{
 					var ruta = "ajax-adm";
 					var datos = {ajax:ruta, inputIdMod:id_mod , inputVars : variables };
 					abrir_modulo(datos);
+				});				
+				
+				$(".btn-ordenar-i").click(function(e){
+					var id_mod = "<?php echo $this->id_mod; ?>";
+					var cat = $( this ).attr("id_padre");
+					var variables = "ordenar,"+cat;
+					var ruta = "ajax-adm";
+					var datos = {ajax:ruta, inputIdMod:id_mod , inputVars : variables };
+					abrir_modulo(datos);
 				});
+
 				$(".btn-contenedores").click(function(e){
 					var cat = $( this ).attr("cat");
 					var ruta = $( this ).attr("ruta");
@@ -73,8 +83,8 @@ class CATEGORIAS{
 						data:datos,
 						success: function(msg){
 
-							$("#modal .modal-inner").html(msg);
-							var wbm = $(".modal .modal-inner").height();
+							$(".modal-form .modal-inner").html(msg);
+							var wbm = $(".modal-form .modal-inner").height();
               var wbmx = wbm - 108;
               console.log("body-modulo:"+wbmx);
               $(".body-modulo").height(wbmx);
@@ -203,7 +213,7 @@ class CATEGORIAS{
 				<?php
 					$this->fmt->form->input_form("<span class='obligatorio'>*</span> Nombre:","inputNombre","",$fila["cat_nombre"],"input-lg","","");
 					$this->fmt->form->input_hidden_form("inputId",$id);
-					$this->fmt->form->ruta_amigable_form("inputNombre",_RUTA_WEB,$fila['cat_ruta_amigable'],"inputRutaamigable"); //$id,$ruta,$valor,$form
+					$this->fmt->form->ruta_amigable_form("inputNombre",_RUTA_WEB,$fila['cat_ruta_amigable'],"inputRutaamigable","","","1"); //$id,$ruta="",$valor,$id_form,$ext="",$div_class,$modo="0",$placeholder,$mensaje
 					$this->fmt->form->textarea_form('Descripcion:','inputDescripcion','',$fila["cat_descripcion"],'','','3',''); //label,$id,$placeholder,$valor,$class,$class_div,$rows,$mensaje
 					$this->fmt->form->select_form_cat_id("Categoría padre:","inputPadre",$fila['cat_id_padre']); //$label,$id,$id_item,$div_class
 					$this->fmt->form->input_icono_form("Icono:","inputIcono",$fila["cat_icono"]); //($label,$id,$icono,$class_div
@@ -211,7 +221,7 @@ class CATEGORIAS{
 					//if ($fila["cat_imagen"]){ $text="Actualizar"; $aux=_RUTA_WEB; }else{ $text="Cargar archivo"; $aux=""; }
 					$this->fmt->form->imagen_unica_form("inputImagen",$fila["cat_imagen"],"","","Imagen relacionada:");
 					//$id,$valor,$titulo="Imagen principal",$class_div,$label_form="" //$label,$label_btn,$id,$id_item,$valor,$img,$class_div
-					$this->fmt->form->input_form('Orden:','inputOrden','',$fila['cat_orden'],'box-md-2','','');
+					// $this->fmt->form->input_form('Orden:','inputOrden','',$fila['cat_orden'],'box-md-2','','');
 					?>
 					<div class="form-group">
 						<a class="btn btn-link btn-collapse" href="#collapseAvanzado" collapse='collapseAvanzado'>
@@ -251,7 +261,7 @@ class CATEGORIAS{
 						</div> <!-- fin div collapse -->
 					</div>  <!-- fin form-group -->
 					<?php
-					$this->fmt->form->radio_activar_form($fila['cat_activar']);
+					// $this->fmt->form->radio_activar_form($fila['cat_activar']);
 					$this->fmt->form->btn_actualizar($id_form,$this->id_mod,"modificar");
 					 ?>
       </form>
@@ -273,13 +283,13 @@ class CATEGORIAS{
 				<?php
 
 					$this->fmt->form->input_form("<span class='obligatorio'>*</span> Nombre:","inputNombre","","","input-lg","","");
-					$this->fmt->form->ruta_amigable_form("inputNombre",_RUTA_WEB,"","inputRutaamigable"); //$id,$ruta,$valor,$form
+					$this->fmt->form->ruta_amigable_form("inputNombre",_RUTA_WEB,"","inputRutaamigable","","","1"); //$id,$ruta,$valor,$form
 					$this->fmt->form->textarea_form('Descripcion:','inputDescripcion','','','','','3',''); //label,$id,$placeholder,$valor,$class,$class_div,$rows,$mensaje
 					$this->fmt->form->select_form_cat_id("Categoría padre:","inputPadre",$id); //$label,$id,$id_item,$div_class,$id_padre
 					$this->fmt->form->input_icono_form("Icono:","inputIcono",""); //($label,$id,$icono,$class_div
 					$this->fmt->form->input_color_form("Color:","inputColor",""); //($label,$id,$color="#ffff",$class_div
-					$this->fmt->form->imagen_form("Imagen:","Cargar Imagen","inputImagen","",""); //$label,$label_btn,$id,$id_item,$valor,$img,$class_div
-					$this->fmt->form->input_form('Orden:','inputOrden','',$fila['cat_orden'],'box-md-2','','');
+					$this->fmt->form->imagen_unica_form("inputImagen","","","","Imagen relacionada:"); //$label,$label_btn,$id,$id_item,$valor,$img,$class_div
+					//$this->fmt->form->input_form('Orden:','inputOrden','',$fila['cat_orden'],'box-md-2','','');
 					?>
 					<div class="form-group">
 						<a class="btn btn-link btn-collapse" href="#collapseAvanzado" collapse='collapseAvanzado'>
@@ -324,6 +334,7 @@ class CATEGORIAS{
 			</form>
 		</div>
 		<?php
+		$this->fmt->finder->finder_window();
 		$this->fmt->class_modulo->modal_script($this->id_mod);
   }
 
@@ -345,9 +356,7 @@ class CATEGORIAS{
           cat_destino='".$_POST['inputDestino']."',
           cat_favicon='".$_POST['inputFavicon']."',
           cat_ruta_sitio='".$_POST['inputRutasitio']."',
-          cat_dominio='".$_POST['inputDominio']."',
-					cat_orden='".$_POST['inputOrden']."',
-          cat_activar='".$_POST['inputActivar']."'
+          cat_dominio='".$_POST['inputDominio']."'
           WHERE cat_id='".$_POST['inputId']."'";
     $this->fmt->query->consulta($sql,__METHOD__);
 		$this->fmt->class_sistema->update_htaccess();
@@ -357,12 +366,14 @@ class CATEGORIAS{
   function ingresar(){
     if ($_POST["estado-mod"]=="activar"){ $activar=1; }else{ $activar=0;}
 
+    $num= $this->fmt->categoria->numero_hijos($_POST['inputPadre']) + 1; 
+
     $ingresar ="cat_nombre, cat_descripcion, cat_ruta_amigable, cat_imagen,cat_orden, cat_icono, cat_color, cat_clase, cat_meta, cat_id_padre, cat_id_plantilla, cat_tipo, cat_url, cat_destino, cat_favicon, cat_dominio,cat_ruta_sitio, cat_activar";
 		$valores  ="'".$_POST['inputNombre']."','".
 									 $_POST['inputDescripcion']."','".
                    $_POST['inputRutaamigable']."','".
                    $_POST['inputImagen']."','".
-                   $_POST['inputOrden']."','".
+                   $num."','".
                    $_POST['inputIcono']."','".
                    $_POST['inputColor']."','".
                    $_POST['inputClase']."','".
@@ -377,7 +388,7 @@ class CATEGORIAS{
 									 $_POST['inputRutasitio']."','".
 									 $activar."'";
 
-		$sql="insert into categoria (".$ingresar.") values (".$valores.")";
+		 $sql="insert into categoria (".$ingresar.") values (".$valores.")";
 
 		$this->fmt->query->consulta($sql,__METHOD__);
 
@@ -401,6 +412,94 @@ class CATEGORIAS{
 		$up_sqr6 = "ALTER TABLE categoria AUTO_INCREMENT=1";
 		$this->fmt->query->consulta($up_sqr6,__METHOD__);
 		$this->fmt->class_modulo->script_location($this->id_mod,"busqueda");
+	}
+
+	function ordenar(){
+		$id_cat = $this->id_item;
+		$this->fmt->class_pagina->crear_head_form("Ordenar: ".$this->fmt->categoria->nombre_categoria($id_cat),"","");
+		$id_form="form-ordenar";
+		?>
+		<div class="body-modulo">
+		  <form class="form form-modulo form-ordenar"  method="POST" id="<?php echo $id_form?>">
+				<ul id="orden-cat" class="list-group">
+					<?php
+					$sql="SELECT cat_id, cat_nombre, cat_orden FROM categoria where cat_id_padre=$id_cat ORDER BY cat_orden asc";
+
+	        $rs =$this->fmt->query->consulta($sql,__METHOD__);
+	        $num=$this->fmt->query->num_registros($rs);
+	        if($num>0){
+		        for($i=0;$i<$num;$i++){
+		          $row=$this->fmt->query->obt_fila($rs);
+							$row_id=$row["cat_id"];
+							$row_nom=$row["cat_nombre"];
+							
+							echo "<li id_var='$row_id'><i class='icn icn-reorder'></i><span class='nombre'>$row_nom</span></li>";
+						}
+					}
+					?>
+				</ul>
+				<div class="form-group form-botones box-botones-form">
+					<div class="group">
+						<?php
+						echo $this->fmt->class_pagina->crear_btn_m("Actualizar","icn-sync","update","btn btn-info btn-update",$this->id_mod,"ordenar_update");
+						 ?>
+					</div>
+				</div>
+			</form>
+			<script type="text/javascript">
+				$(document).ready(function() {
+					$("#orden-cat" ).sortable();
+					$(".btn-update").click(function(){
+						var formdata = new FormData();
+						var id_mod = $(this).attr("id_mod");
+						var vars = $(this).attr("vars");
+						formdata.append("inputVars", vars);
+						formdata.append("cat", "<?php echo $id_cat;?>");
+						formdata.append("ajax", "ajax-adm");
+						formdata.append("inputIdMod", id_mod);
+						$('#orden-cat li').each(function(index){
+						  var id_var = $(this).attr("id_var");
+						  console.log(id_var);
+						  var orden = index+1;
+						  formdata.append("id_item[]", id_var);
+						  //formdata.append("orden[]", orden);
+						});
+
+						var ruta = "<?php echo _RUTA_WEB; ?>ajax.php";
+
+						$.ajax({
+						      url:ruta,
+						      type:"post",
+						      data:formdata,
+						      processData: false,
+						    contentType: false,
+						      success: function(msg){
+
+						        $("#popup-div").html(msg);
+										document.location.href="<?php echo $this->ruta_modulo; ?>";
+						      }
+						});
+					});
+				});
+			</script>
+		</div>
+		<?php
+	}
+
+	function ordenar_update(){
+		//$id_cat=$_POST["cat"];
+		//$ingresar2 ="cat_id,cat_orden";
+		$valor_doc= $_POST['id_item'];
+		$num=count( $valor_doc );
+		for ($i=0; $i<$num;$i++){
+
+			$sql="UPDATE categoria SET
+          cat_orden='".$i."'
+          WHERE cat_id='".$valor_doc[$i]."'";
+
+			 $this->fmt->query->consulta($sql,__METHOD__);
+		}
+	  $this->fmt->class_modulo->redireccionar($this->ruta_modulo,"1");
 	}
 }
 

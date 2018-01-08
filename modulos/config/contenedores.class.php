@@ -34,6 +34,7 @@ class CONTENEDORES{
 			?>
 			</div>
 			<script type="text/javascript">
+
 			$(".btn-editar-i").click(function(e){
 				var id_mod = "<?php echo $this->id_mod; ?>";
 				var cat = $( this ).attr("cat");
@@ -42,6 +43,7 @@ class CONTENEDORES{
 				var datos = {ajax:ruta, inputIdMod:id_mod , inputVars : variables };
 				abrir_modulo(datos);
 			});
+
 			$(".btn-nuevo-i").click(function(e){
 				var id_mod = "<?php echo $this->id_mod; ?>";
 				var cat = $( this ).attr("cat");
@@ -50,16 +52,17 @@ class CONTENEDORES{
 				var datos = {ajax:ruta, inputIdMod:id_mod , inputVars : variables };
 				abrir_modulo(datos);
 			});
+
 			function abrir_modulo(datos){
-				$(".modal").addClass("on");
-				$(".modal").addClass("<?php echo $url_a; ?>");
+				$(".modal-form").addClass("on");
+				$(".modal-form").addClass("<?php echo $url_a; ?>");
 				$(".body-page").css("overflow-y","hidden");
 				$.ajax({
 					url:"<?php echo _RUTA_WEB; ?>ajax.php",
 					type:"post",
 					data:datos,
 					success: function(msg){
-						$("#modal .modal-inner").html(msg);
+						$(".modal-form .modal-inner").html(msg);
 					},
 					complete : function() {
 						$('.preloader-page').fadeOut('slow');
@@ -175,12 +178,20 @@ class CONTENEDORES{
 
 		$id = $this->id_item;
 
-	  $sql="SELECT * FROM ".$this->nombre_tabla." where ".$this->prefijo_tabla."id='".$id."'";
+	  $sql="SELECT * FROM contenedor where cont_id='".$id."'";
 	  $rs=$this->fmt->query->consulta($sql);
 	  $num=$this->fmt->query->num_registros($rs);
 	  if($num>0){
 	    for($i=0;$i<$num;$i++){
-	      list($fila_id,$fila_nombre,$fila_clase,$fila_css,$fila_codigos,$fila_id_padre,$fila_orden,$fila_activar)=$this->fmt->query->obt_fila($rs);
+	      $row=$this->fmt->query->obt_fila($rs);
+	      $fila_id =$row["cont_id"];
+	      $fila_nombre=$row["cont_nombre"];
+	      $fila_clase=$row["cont_clase"];
+	      $fila_css=$row["cont_css"];
+	      $fila_codigos=$row["cont_codigos"];
+	      $fila_id_padre=$row["cont_id_padre"];
+	      $fila_orden=$row["cont_orden"];
+	      $fila_activar=$row["cont_activar"];
 	    }
 	  }
 	  ?>
