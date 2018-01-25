@@ -129,7 +129,14 @@ class CONTENIDOS{
 				$this->fmt->form->input_form_sololectura('Usuario:','','',$usuario_n,'','','');//$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
 				$this->fmt->form->input_hidden_form("inputUsuario",$usuario);
 				$this->fmt->form->input_form("Clase:","inputClase","","","","","");
-				$this->fmt->form->radio_activar_form();
+
+				$label[0]="No mostrar titulo";
+		      $nombreinput[0]="inputActTitulo";
+		      $valor_in[0]="1";
+		      $campo_in[0]="";
+		      $this->fmt->form->input_check_form($label,$nombreinput,$valor_in,$campo_in);
+
+				// $this->fmt->form->radio_activar_form();
 				$this->fmt->form->botones_nuevo($id_form,$this->id_mod,"","ingresar");
 				?>
 			</form>
@@ -154,7 +161,7 @@ class CONTENIDOS{
 			else
 				$imagen=$_POST['inputImagen'];
 
-			$ingresar ="conte_titulo, conte_ruta_amigable, conte_subtitulo, conte_cuerpo, conte_foto, conte_fecha, conte_id_usuario, conte_clase, conte_tag, conte_id_dominio, conte_activar";
+			$ingresar ="conte_titulo, conte_ruta_amigable, conte_subtitulo, conte_cuerpo, conte_foto, conte_fecha, conte_id_usuario, conte_clase, conte_tag, conte_id_dominio, conte_activar_titulo,conte_activar";
 			$valores  ="'".$_POST['inputTitulo']."','".
 						$_POST['inputNombreAmigable']."','".
 						$_POST['inputSubtitulo']."','".
@@ -165,6 +172,7 @@ class CONTENIDOS{
 						$_POST['inputClase']."','".
 						$_POST['inputTags']."','".
 						$_POST['inputDominio']."','".
+						$_POST['inputActTitulo']."','".
 						$activar."'";
 			$sql="insert into contenido (".$ingresar.") values (".$valores.")";
 			$this->fmt->query->consulta($sql,__METHOD__);
@@ -216,12 +224,15 @@ class CONTENIDOS{
 			<form class="form form-modulo form-multimedia"  method="POST" id="<?php echo $id_form?>">
 				<?php
 				$this->fmt->form->input_form("<span class='obligatorio'>*</span> Titulo:","inputTitulo","",$fila["conte_titulo"],"input-lg","","");
-				if (!empty($fila['conte_ruta_amigable'])){
-					$valor_ra = $fila['conte_ruta_amigable'];
-				}else{
-					$valor_ra = $this->fmt->get->convertir_url_amigable($fila['conte_titulo']);
-				}
-				$this->fmt->form->input_form("Nombre Amigable:","inputNombreAmigable","",$valor_ra,"","","","");
+				// if (!empty($fila['conte_ruta_amigable'])){
+				// 	$valor_ra = $fila['conte_ruta_amigable'];
+				// }else{
+				// 	$valor_ra = $this->fmt->get->convertir_url_amigable($fila['conte_titulo']);
+				// }
+				// $this->fmt->form->input_form("Nombre Amigable:","inputNombreAmigable","",$valor_ra,"","","","");
+
+				$this->fmt->form->ruta_amigable_form("inputNombre",_RUTA_WEB,$fila['conte_ruta_amigable'],"inputRutaamigable","","","1"); //
+
 				$this->fmt->form->input_hidden_form("inputId",$id);
 				//$this->fmt->form->hidden_modulo($this->id_mod,"modificar");
 				$this->fmt->form->input_form("Subtitulo:","inputSubtitulo","",$fila["conte_subtitulo"],"","","");
@@ -269,6 +280,12 @@ class CONTENIDOS{
 				$this->fmt->form->input_form_sololectura('Usuario:','','',$usuario_n,'','','');//$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
 				$this->fmt->form->input_hidden_form("inputUsuario",$usuario);
 				$this->fmt->form->input_form("Clase:","inputClase","",$fila["conte_clase"],"","","");
+				$label[0]="No mostrar titulo";
+		      $nombreinput[0]="inputActTitulo";
+		      $valor_in[0]="1";
+		      $campo_in[0]=$fila['conte_activar_titulo'];
+		      $this->fmt->form->input_check_form($label,$nombreinput,$valor_in,$campo_in);
+
 				$this->fmt->form->radio_activar_form($fila['conte_activar']);
 				$this->fmt->form->btn_actualizar($id_form,$this->id_mod,"modificar");
 				?>
@@ -290,9 +307,9 @@ class CONTENIDOS{
 				else
 					$imagen=$_POST['inputImagen'];
 
-				$sql="UPDATE contenido SET
+				 $sql="UPDATE contenido SET
 							conte_titulo='".$_POST['inputTitulo']."',
-							conte_ruta_amigable ='".$_POST['inputNombreAmigable']."',
+							conte_ruta_amigable ='".$_POST['inputRutaamigable']."',
 							conte_subtitulo ='".$_POST['inputSubtitulo']."',
 							conte_cuerpo='".$_POST['inputCuerpo']."',
 							conte_foto='".$imagen."',
@@ -301,6 +318,7 @@ class CONTENIDOS{
 							conte_tag='".$_POST['inputTags']."',
 							conte_clase='".$_POST['inputClase']."',
 							conte_id_dominio='".$_POST['inputDominio']."',
+							conte_activar_titulo='".$_POST['inputActTitulo']."',
 							conte_activar='".$_POST['inputActivar']."'
 							WHERE conte_id='".$_POST['inputId']."'";
 

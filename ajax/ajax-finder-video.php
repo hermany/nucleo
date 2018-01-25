@@ -1,5 +1,5 @@
 <?php
- $consulta = "SELECT mul_id,mul_nombre,mul_tags,mul_url_archivo,mul_tipo_archivo,mul_id_dominio,mul_usuario,mul_fecha, mul_embed,mul_activar FROM multimedia WHERE mul_tipo_archivo='mp4' or mul_tipo_archivo='embed' and mul_activar=1 ORDER BY mul_id asc";
+ $consulta = "SELECT mul_id,mul_nombre,mul_tags,mul_url_archivo,mul_tipo_archivo,mul_id_dominio,mul_usuario,mul_fecha, mul_embed,mul_activar FROM multimedia WHERE mul_tipo_archivo='mp4' or mul_tipo_archivo='embed' and mul_activar=1 ORDER BY mul_id desc";
 
 $rs =$fmt->query->consulta($consulta);
 $num=$fmt->query->num_registros($rs);

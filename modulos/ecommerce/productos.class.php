@@ -151,7 +151,7 @@ class PRODUCTOS{
 		$this->fmt->class_modulo->script_table("table_id",$this->id_mod,"desc","0","25",true);
   }
 
-	function productos_cat($cat,$limite="0,1",$tipo_orden="id",$orden="desc",$addend="",$tipo_img="thumb"){
+	function productos_cat($cat,$limite="0,1",$tipo_orden="id",$orden="desc",$addend="",$tipo_img="thumb",$active_btn="1"){
 
 		require_once(_RUTA_NUCLEO."modulos/finanzas/finanzas.class.php");
 		$finanzas = new FINANZAS($this->fmt);
@@ -186,6 +186,11 @@ class PRODUCTOS{
 				if($tipo_img=="web"){
 					$img = _RUTA_IMAGES.$this->fmt->archivos->convertir_url_web($imagen);
 				}
+
+				if($active_btn==1){
+					$url_btn = "href='"._RUTA_WEB.$ra_cat.$ra.".prod'";
+				}
+
 				$url = _RUTA_WEB.$ra_cat.$ra.".prod";
 
 				if ($i%2==0){
@@ -214,7 +219,7 @@ class PRODUCTOS{
 						<div class="precio-anterior"><?php echo $precio_detalle; ?></div>
 						<?php
 						if (!empty($addend)){
-							echo "<a class='item item-btn' href='$url' item='$id' >$addend</a>";
+							echo "<a class='item item-btn' $url_btn nom='$nombre' item='$id' >$addend</a>";
 						}
 						if (!empty($precio)){
 							?>

@@ -309,6 +309,7 @@ function traer_cat_hijos_menu_raiz($cat,$nivel,$nivel_tope){
   function fmt_li($id, $clase, $icono, $nombre,$ruta_amigable,$url,$destino,$imagen,$cat,$cat_active){
 
     $nombre_x = $this->convertir_url_amigable($nombre);
+    // echo "url:".$url;
     // if(_MULTIPLE_SITE=="on"){
     // 	$url=_RUTA_WEB_SERVER.$this->fmt->categoria->traer_ruta_amigable_padre($id, $cat);
     // }else{
@@ -318,7 +319,12 @@ function traer_cat_hijos_menu_raiz($cat,$nivel,$nivel_tope){
 	    //$url=_RUTA_WEB.$this->fmt->categoria->ruta_amigable($id);
     }else{
       if(preg_match('#^http://.*#s', trim($Message))){
-        $urlx=_RUTA_WEB.$url;
+        if ($url=="#"){
+          $urlx="";
+        }else{
+          $urlx=_RUTA_WEB.$url;
+        }
+        
       }else{
         $urlx=$url;
       }

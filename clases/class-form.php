@@ -1991,9 +1991,9 @@ class FORM{
 		echo "<div class='form-control form-multimedia form-multimedia-list $class_div'>";
 		echo "<ul class='box-multimedia' id='sortable'>";
 		if ($prefijo_mod!=""){
-    	$consulta = "SELECT DISTINCT mul_id,mul_url_archivo, mul_embed  FROM multimedia,$from WHERE ".$prefijo.$prefijo_mod."id='".$id_item."' and ".$prefijo."mul_id=mul_id ORDER BY ".$prefijo."orden asc";
+    	$consulta = "SELECT DISTINCT mul_id,mul_url_archivo, mul_nombre, mul_embed,mul_tipo_archivo  FROM multimedia,$from WHERE ".$prefijo.$prefijo_mod."id='".$id_item."' and ".$prefijo."mul_id=mul_id ORDER BY ".$prefijo."orden asc";
 		}else{
-			$consulta = "SELECT DISTINCT mod_prod_mul_prod_id,mod_prod_mul_mul_id,mul_url_archivo, mul_embed  FROM mod_productos_mul,multimedia WHERE mod_prod_mul_prod_id='$id_item' and mod_prod_mul_mul_id=mul_id  ORDER BY mod_prod_mul_orden asc";
+			$consulta = "SELECT DISTINCT mod_prod_mul_prod_id,mod_prod_mul_mul_id,mul_url_archivo, mul_embed,mul_tipo_archivo,mul_nombre  FROM mod_productos_mul,multimedia WHERE mod_prod_mul_prod_id='$id_item' and mod_prod_mul_mul_id=mul_id  ORDER BY mod_prod_mul_orden asc";
 		}
 
 		$rs =$this->fmt->query->consulta($consulta,__METHOD__);
@@ -2002,6 +2002,11 @@ class FORM{
 		if($num>0){
 		  for($i=0;$i<$num;$i++){
 		    $row=$this->fmt->query->obt_fila($rs);
+
+		     $fila_tipo=$row["mul_tipo_archivo"];
+		     $fila_nombre=$row["mul_nombre"];
+
+		     $nom= $this->fmt->class_modulo->recortar_texto($fila_nombre,"14")."";
 
 				if ($prefijo_mod!=""){
 					$id_item=$id_item;
@@ -2017,6 +2022,9 @@ class FORM{
 		    $url = $this->fmt->archivos->convertir_url_mini($ruta);
 				$extension = $this->fmt->archivos->saber_extension_archivo($ruta);
 				$nombre_archivo=$this->fmt->archivos->saber_nombre_archivo($ruta);
+
+				 
+				
 				if($extension=="mp4"){
 					//$link = _RUTA_WEB_NUCLEO."images/video-icon.png";
 					$link =_RUTA_IMAGES."archivos/multimedia/".$nombre_archivo.".jpg";
@@ -2025,17 +2033,25 @@ class FORM{
 					$link=_RUTA_IMAGES.$url;
 				}
 
-		    echo  "<li id_mul='$id_mul' id='mul-$id_mul' orden='' class='box-image box-image-block box-image-mul ui-state-default'>";
+				if ($fila_tipo=="embed" || $fila_tipo=="mp4"){
+					$class_tipo="item-video";
+				}else{
+					$class_tipo="";
+				}
+				
+
+		    echo  "<li id_mul='$id_mul' id='mul-$id_mul' orden='' class='box-image box-image-block box-image-mul ui-state-default $class_tipo'>";
 		    echo  "<i class='icn icn-sorteable icn-reorder'></i>";
 				echo  "<div class='box-acciones-img'>";
 				echo  "<a class='btn btn-eliminar-mul' eliminar='$id_mul' tipo_item='multimedia' id_mul='$id_mul'><i class='icn icn-close' /></a>";
 				echo  "<a id_prod='$id_item' id_mul='$id_mul' mul='$ruta'  class='btn btn-editar-mul'><i class='icn icn-pencil' /></a>";
 				echo  "</div>";
 
-				if ($extension=="embed" ){
+				if ($fila_tipo=="embed" ){
 					$rutax =   _RUTA_WEB_NUCLEO;
 					echo "<div class='box-embed'>".$embed."</div>";
 					$link = "images/video-icon.png";
+					echo "<span class='box-nombre' title='$fila_nombre'>".$nom."</span>";
 				}else{
 					$rutax = _RUTA_IMAGES;
 					$link = $ruta;
@@ -2046,8 +2062,10 @@ class FORM{
 					$link = "images/video-icon.png";
 					echo "<video muted  src='"._RUTA_IMAGES.$link."' ></video>";
 				}
-
+				 
 		    echo "<img class='img-catalogo img-file img-responsive' id='img-".$i."' src='".$rutax.$link."' />";
+		  	 
+
 				echo "<input type='hidden' id='inputModItemMul[]' name='inputModItemMul[]' value='$id_mul'/>";
 		    echo "</li>";
 
