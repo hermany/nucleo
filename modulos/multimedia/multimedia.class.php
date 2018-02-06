@@ -25,7 +25,12 @@ class MULTIMEDIA{
 		<div class="body-modulo container-fluid">
 			<div class="container">
 				<?php
-					$botones = $this->fmt->class_pagina->crear_btn_m("Crear","icn-plus","Crear","btn btn-primary btn-menu-ajax btn-new btn-small",$this->id_mod,"form_nuevo");  //$nom,$icon,$title,$clase,$id_mod,$vars
+					
+					
+					$botones = $this->fmt->class_pagina->crear_btn_m("Crear embed","icn-plus","Crear Embed","btn btn-primary btn-menu-ajax btn-new btn-small",$this->id_mod,"form_nuevo_embed");
+
+					$botones .= $this->fmt->class_pagina->crear_btn_m("Crear","icn-plus","Crear","btn btn-primary btn-menu-ajax btn-new btn-small",$this->id_mod,"form_nuevo");
+					 //$nom,$icon,$title,$clase,$id_mod,$vars
 					$this->fmt->class_pagina->head_modulo_inner("Multimedia activos", $botones); // bd, id modulo, botones
 					$this->fmt->form->head_table("table_id");
 					$this->fmt->form->thead_table('Previo:Archivo:Autor:Categoria:Fecha:Estado:Acciones','img-previo');
@@ -216,6 +221,36 @@ class MULTIMEDIA{
 				echo "- <a class='btn-menu-ajax' id_mod='".$this->id_mod."' vars='ordenar,".$row["cat_id"]."' > ".$row["cat_nombre"]."</a><br/>";
 			}
 		}
+	}
+
+	function form_nuevo_embed(){
+		$this->fmt->class_pagina->crear_head_form("Nuevo Embed","","");
+		$id_form="form-nuevo";
+		$this->fmt->class_pagina->head_form_mod();
+		$this->fmt->class_pagina->form_ini_mod($id_form,"");
+		$this->fmt->form->input_form('Nombre Archivo:','inputNombre','','','requerido requerido-texto input-lg','',''); //$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
+		$this->fmt->form->textarea_form('Descripción:','inputDescripcion','','','editor-texto','','3',''); //$label,$id,$placeholder,$valor,$class,$class_div,$rows,$mensaje,$editor=false
+
+				//$this->fmt->form->input_form('Dominio:','inputDominio','',$aux,'','','');
+
+		$this->fmt->form->textarea_form('Embed:','inputEmbed','','','','','3','');
+
+		$this->fmt->form->input_hidden_form("inputTipo","embed");
+
+		$this->fmt->form->categoria_form('Categoria','inputCat',"0","","","");
+		//$label,$id,$cat_raiz,$cat_valor,$class,$class_div
+		$fecha=$this->fmt->class_modulo->fecha_hoy('America/La_Paz');
+		$this->fmt->form->input_form_sololectura('Fecha:','inputFecha','',$fecha,'','','');//$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
+		$usuario = $this->fmt->sesion->get_variable('usu_id');
+		$usuario_n = $this->fmt->sesion->get_variable('usu_nombre');
+		$this->fmt->form->input_form_sololectura('Usuario:','','',$usuario_n,'','','');//$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
+		$this->fmt->form->input_hidden_form("inputUsuario",$usuario);
+		$this->fmt->form->input_form('Orden:','inputOrden','','','','','');
+		//$this->fmt->form->radio_activar_form();
+		$this->fmt->form->botones_nuevo($id_form,$this->id_mod,"","ingresar");
+
+		$this->fmt->class_pagina->footer_form_mod();
+		$this->fmt->class_modulo->modal_script($this->id_mod);
 	}
 
   function form_nuevo(){

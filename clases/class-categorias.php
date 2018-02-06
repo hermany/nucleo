@@ -165,6 +165,14 @@ class CATEGORIA{
     return $nombre;
   }
 
+  function descripcion_cat($cat ){
+    $consulta = "SELECT cat_descripcion FROM categoria WHERE cat_id='$cat' ";
+    $rs = $this->fmt->query->consulta($consulta,__METHOD__);
+    $fila = $this->fmt->query->obt_fila($rs);
+    $id=$fila["cat_descripcion"];
+    return $id;
+  }
+
   function nombre($cat,$from,$prefijo){
     $this->fmt->get->validar_get($cat);
     if ($cat==0){

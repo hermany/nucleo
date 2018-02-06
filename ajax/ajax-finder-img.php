@@ -25,7 +25,8 @@ if($num>0){
         $nombre= $fila_nombre;
     }
 
-    $url = $fmt->archivos->convertir_url_mini($fila_url);
+    $url = $fmt->archivos->convertir_url_thumb($fila_url);
+
     echo "<li class='finder-item' item='".$fila_id."'  seleccionado='off' title='$fila_nombre' tipo_item='".$fila_tipo."'  id='item-i-$i' url='".$fila_url."' url_mini='".$url."' style='background:url("._RUTA_WEB.$url.") no-repeat; background-size: 100% auto;' ><span class='nombre'>".$nombre."</span><span class='etiquetas'>".$etiquetas."</span></li>";
   }
 }

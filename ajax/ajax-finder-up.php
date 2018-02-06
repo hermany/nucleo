@@ -44,29 +44,31 @@
 
       if ($tipo == 'image/jpg' || $tipo == 'image/jpeg' || $tipo == 'image/png' || $tipo == 'image/gif'){
         //Crea mini-thumb.
-        $nombre_t=$fmt->archivos->convertir_url_mini($nombre_url);
-        $nombre_w=$fmt->archivos->url_add($nombre_url,"-web");
-        $nombre_wx=$fmt->archivos->url_add($nombre_url,"-thumb");
-        $nombre_tm=$fmt->archivos->url_add($nombre_url,"-mini");
-        $nombre_md=$fmt->archivos->url_add($nombre_url,"-medium");
+       //$nombre_t=$fmt->archivos->convertir_url_mini($nombre_url);
+        
+        $nombre_thumb=$fmt->archivos->url_add($nombre_url,"-thumb");
+        $nombre_mini=$fmt->archivos->url_add($nombre_url,"-mini");
+        $nombre_medium=$fmt->archivos->url_add($nombre_url,"-medium");
+        $nombre_web=$fmt->archivos->url_add($nombre_url,"-web");
         //$nombre_tb=$fmt->archivos->convertir_url_thumb($nombre_url);
 
         $src =  $output_dir.$nombre_url;
 
-        $fmt->archivos->crear_thumb($src,$output_dir.$nombre_t,100,100,1);
-        $fmt->archivos->crear_thumb($src,$output_dir.$nombre_tm,180,180,0);
+        $fmt->archivos->crear_thumb($src,$output_dir.$nombre_thumb,100,100,1);
+        $fmt->archivos->crear_thumb($src,$output_dir.$nombre_mini,180,180,0);
         
 
         if (($width > 250) && ( $height > 250)){
-          $fmt->archivos->crear_thumb($src,$output_dir.$nombre_wx,250,250,0);
-          $fmt->archivos->crear_thumb($src,$output_dir.$nombre_md,450,450,0);
+          $fmt->archivos->crear_thumb($src,$output_dir.$nombre_medium,450,450,0);
+
           if (($width > 900) || ( $height > 600 )){
-            $fmt->archivos->crear_thumb($src,$output_dir.$nombre_w,900,600,0);
+            $fmt->archivos->crear_thumb($src,$output_dir.$nombre_web,900,600,0);
+          }else{
+            $fmt->archivos->crear_thumb($src,$output_dir.$nombre_web,$width,$height,0);
           }
         }else{
-          $fmt->archivos->crear_thumb($src,$output_dir.$nombre_wx,$width,$height,0);
-          $fmt->archivos->crear_thumb($src,$output_dir.$nombre_w,$width,$height,0);
-          $fmt->archivos->crear_thumb($src,$output_dir.$nombre_md,$width,$height,0);
+          $fmt->archivos->crear_thumb($src,$output_dir.$nombre_web,$width,$height,0);
+          $fmt->archivos->crear_thumb($src,$output_dir.$nombre_medium,$width,$height,0);
         }
       }
       if ($tipo == 'video/mp4'){
@@ -82,7 +84,7 @@
          shell_exec($cmd);
       }
       $inputUrl= "archivos/multimedia/".$nombre_url;
-      $url_mini ="archivos/multimedia/".$nombre_t;
+      $url_mini ="archivos/multimedia/".$nombre_thumb;
 
       $usuario = $fmt->sesion->get_variable('usu_id');
       //$src, $dst, $width, $height, $crop=0
