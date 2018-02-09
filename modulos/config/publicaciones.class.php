@@ -113,7 +113,7 @@ class PUBLICACIONES{
 				</div>
 				<div class="form-group">
 					<label>Ruta Archivo:</label>
-					<input class="form-control" id="inputArchivo" name="inputArchivo" placeholder="" value=""/>
+					<input class="form-control" id="inputArchivo" name="inputArchivo" placeholder="" value="modulos/"/>
 				</div>
 				<div class="form-group">
 					<label>Ruta Archivo Config:</label>
@@ -131,7 +131,7 @@ class PUBLICACIONES{
 					<label>Tipo:<?php //echo $fila_tipo; ?></label>
 
 						<select class="form-control form-select" name="inputTipo" id="inputTipo">
-						<?php  echo $this->opciones_tipo();  ?></select>
+						<?php  echo $this->opciones_tipo("1");  ?></select>
 				</div>
 
 				<div class="form-group">

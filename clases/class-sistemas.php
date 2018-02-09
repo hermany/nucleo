@@ -397,6 +397,8 @@ class CLASSSISTEMAS{
                      fwrite($archivo, "Rewriterule ^".$ruta1."/prod=([0-9]+)$  index.php?cat=".$id_cat."&pla=1&prod=$1".PHP_EOL);
                      fwrite($archivo, "Rewriterule ^".$ruta1."/([^/]*).prod$  index.php?cat=".$id_cat."&pla=3&ra_prod=$1".PHP_EOL);
 
+                     fwrite($archivo, "Rewriterule ^".$ruta1."/([^/]*)-catg$  index.php?cat=".$id_cat."&pla=2&catg=$1".PHP_EOL);
+
                      fwrite($archivo, "Rewriterule ^".$ruta1."/prod=([0-9]+)&ruta=([^/]*)$  index.php?cat=".$id_cat."&pla=1&prod=$1&ruta=$2".PHP_EOL);
 
                      //escribir en htaccess las categorias del producdo

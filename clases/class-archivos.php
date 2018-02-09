@@ -312,4 +312,20 @@ class ARCHIVOS{
     chmod($ruta_archivo, 0766) or die(print_r(error_get_last(),true));
   }
 
+  function crear_carpeta($carpeta){
+    if (!is_dir($carpeta)) {
+        mkdir($carpeta, 0777, true);
+    }
+  }
+
+  function eliminar_carpeta($carpeta){
+    if (!is_dir($carpeta)) {
+        rmdir($carpeta);
+    }
+  }
+
+  function eliminar_archivo($archivo){
+    unlink($archivo);
+  }
+
 }

@@ -264,7 +264,7 @@ function traer_cat_hijos_menu_raiz($cat,$nivel,$nivel_tope){
     return $aux;
   }
 
-  function traer_cat_hijos_menu($cat,$nivel,$nivel_tope,$cat_active){
+  function traer_cat_hijos_menu($cat,$nivel,$nivel_tope,$cat_active,$pre="",$pos=""){
     $sql="SELECT cat_id, cat_nombre, cat_id_padre, cat_icono, cat_imagen, cat_url, cat_tipo,cat_destino, cat_ruta_amigable FROM categoria WHERE cat_id_padre='$cat' and cat_activar='1' ORDER BY cat_orden ASC";
     $rs = $this->fmt->query->consulta($sql,__METHOD__);
     $num = $this->fmt->query->num_registros($rs);
@@ -295,10 +295,10 @@ function traer_cat_hijos_menu_raiz($cat,$nivel,$nivel_tope){
 	        if ( $this->tiene_cat_hijos($fila_id) ){
 	          $aux .= $this->fmt_li_hijos($fila_id, $fila_nombre,$nivel);
 	        } else {
-	          $aux .= $this->fmt_li($fila_id,"","",$fila_nombre, $fila_ruta_amigable,$fila_url, $fila_destino, $fila_imagen,$cat, $cat_a);
+	          $aux .= $this->fmt_li($fila_id,"","",$fila_nombre, $pre.$fila_ruta_amigable.$pos,$fila_url, $fila_destino, $fila_imagen,$cat, $cat_a);
 	        }
         }else{
-	        $aux .= $this->fmt_li($fila_id,"","",$fila_nombre,$fila_ruta_amigable,$fila_url, $fila_destino, $fila_imagen,$cat, $cat_a);
+	        $aux .= $this->fmt_li($fila_id,"","",$fila_nombre,$pre.$fila_ruta_amigable.$pos,$fila_url, $fila_destino, $fila_imagen,$cat, $cat_a);
         }
       }
       return $aux;
@@ -315,7 +315,8 @@ function traer_cat_hijos_menu_raiz($cat,$nivel,$nivel_tope){
     // }else{
 
     if (empty($url)){
-	    $urlx=_RUTA_WEB.$this->fmt->categoria->traer_ruta_amigable_padre($id, $cat);
+      //$urlx=_RUTA_WEB.$this->fmt->categoria->traer_ruta_amigable_padre($id, $cat);
+	    $urlx=_RUTA_WEB.$ruta_amigable;
 	    //$url=_RUTA_WEB.$this->fmt->categoria->ruta_amigable($id);
     }else{
       if(preg_match('#^http://.*#s', trim($Message))){

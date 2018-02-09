@@ -26,6 +26,7 @@ class CONTENIDOS{
 			 <div class="container">
 				 <?php
 					 $botones = $this->fmt->class_pagina->crear_btn_m("Crear","icn-plus","Crear","btn btn-primary btn-menu-ajax btn-new btn-small",$this->id_mod,"form_nuevo");  //$nom,$icon,$title,$clase,$id_mod,$vars
+
 					 $this->fmt->class_pagina->head_modulo_inner("Contenidos web activos", $botones); // bd, id modulo, botones
 					 $this->fmt->form->head_table("table_id");
 					 $this->fmt->form->thead_table('#:Titulo:Creado por:Categorías:Fecha:Estado:Acciones');
@@ -363,17 +364,7 @@ class CONTENIDOS{
 		}
 		$this->fmt->class_modulo->redireccionar($ruta_modulo,"1");
 	}
-	function eliminar(){
-  		$this->fmt->class_modulo->eliminar_get_id("contenidos","conte_",$this->id_item);
-  		$this->fmt->class_modulo->eliminar_get_id("contenidos_categorias","conte_cat_conte_",$this->id_item);
-  		$this->fmt->class_modulo->eliminar_get_id("contenidos_documentos","conte_doc_conte_",$this->id_item);
-  		$this->fmt->class_modulo->script_location($this->id_mod,"busqueda");
-  	}
 
-  	function activar(){
-	    $this->fmt->class_modulo->activar_get_id("contenidos","conte_",$this->id_estado,$this->id_item);
-	   $this->fmt->class_modulo->script_location($this->id_mod,"busqueda");
-  	}
 }
 
 ?>

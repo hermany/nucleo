@@ -77,7 +77,11 @@ class LUGAR{
 		$this->fmt->form->imagen_unica_form("inputImagen","","","form-normal","Imagen relacionada:");
 		$this->fmt->form->input_form("Coordenada Principal:","inputCoordPrincipal","","");
 		$this->fmt->form->input_form("Coordenadas:","inputCoordenadas","","");
+		$this->fmt->form->textarea_form('Content:','inputContenido','','','','','12');
+		$this->fmt->form->input_form("Icono:","inputIcono","","");
+		$this->fmt->form->input_form("Usuario:","inputUsuario","","");
 		$this->fmt->form->input_form("Estado:","inputEstado","","1");
+		$this->fmt->form->categoria_form('Categoria','inputCat',"0","","",""); //
 
 		$this->fmt->form->botones_nuevo($id_form,$this->id_mod,"","ingresar");
 		$this->fmt->class_pagina->form_fin_mod();
@@ -94,7 +98,7 @@ class LUGAR{
 		}else{
 			$activar=0;
 		}
-		$ingresar ="mod_lug_nombre, mod_lug_direccion, mod_lug_telefono, mod_lug_info, mod_lug_imagen, mod_lug_coordenada_principal, mod_lug_coordenadas, mod_lug_estado, mod_lug_activar";
+		$ingresar ="mod_lug_nombre, mod_lug_direccion, mod_lug_telefono, mod_lug_info, mod_lug_imagen, mod_lug_coordenada_principal, mod_lug_coordenadas, mod_lug_icono, mod_lug_contenido, mod_lug_usuario, mod_lug_estado, mod_lug_activar";
 
 		$valores  ="'".$_POST['inputNombre']."','".
 					$_POST['inputDireccion']."','".
@@ -103,10 +107,28 @@ class LUGAR{
 					$_POST['inputImagen']."','".
 					$_POST['inputCoordPrincipal']."','".
 					$_POST['inputCoordenadas']."','".
+					$_POST['inputIcono']."','".
+					$_POST['inputContenido']."','".
+					$_POST['inputUsuario']."','".
 					$_POST['inputEstado']."','".
 					$activar."'";
 		$sql="insert into mod_lugar (".$ingresar.") values (".$valores.")";
 		$this->fmt->query->consulta($sql);
+
+		$sql="select max(mod_lug_id) as id from mod_lugar";
+		$rs= $this->fmt->query->consulta($sql);
+		$fila = $this->fmt->query->obt_fila($rs);
+		$id = $fila ["id"];
+
+		$ingresar1 ="mod_lug_cat_lug_id, mod_lug_cat_cat_id, mod_lug_cat_orden";
+		$valor_cat= $_POST['inputCat'];
+		$num=count( $valor_cat );
+		for ($i=0; $i<$num;$i++){
+			$valores1 = "'".$id."','".$valor_cat[$i]."','".$i."'";
+			$sql1="insert into mod_lugar_categorias (".$ingresar1.") values (".$valores1.")";
+			$this->fmt->query->consulta($sql1);
+		}
+
 		$this->fmt->class_modulo->redireccionar($ruta_modulo,"1");
 	} // fin ingresar
 
@@ -128,12 +150,19 @@ class LUGAR{
 
 		$this->fmt->form->input_form("Dirección:","inputDireccion","",$row["mod_lug_direccion"]);
 		$this->fmt->form->input_form("Teléfonos:","inputTelefono","",$row["mod_lug_telefono"]);
-		$this->fmt->form->textarea_form('Información:','inputInfo','',$row["mod_lug_info"],'','3','');
+		$this->fmt->form->textarea_form('Información:','inputInfo','',$row["mod_lug_info"],'','','');
 		// echo "imagen:".$row['mod_lug_imagen'];
 		$this->fmt->form->imagen_unica_form("inputImagen",$row['mod_lug_imagen'],"","form-normal","Imagen relacionada:");
 		$this->fmt->form->input_form("Coordenada Principal:","inputCoordPrincipal","",$row['mod_lug_coordenada_principal']);
 		$this->fmt->form->input_form("Coordenadas:","inputCoordenadas","",$row['mod_lug_coordenadas']);
+		$this->fmt->form->textarea_form('Content:','inputContenido','',$row["mod_lug_contenido"],'','','12'); //$label,$id,$placeholder,$valor,$class,$class_div,$rows,$mensaje
+		$this->fmt->form->input_form("Icono:","inputIcono","",$row["mod_lug_icono"]);
+		$this->fmt->form->input_form("Usuario:","inputUsuario","",$row["mod_lug_usuario"]);
+
 		$this->fmt->form->input_form("Estado:","inputEstado","",$row['mod_lug_estado']);
+
+		$cats_id = $this->fmt->categoria->traer_rel_cat_id($id,'mod_lugar_categorias','mod_lug_cat_cat_id','mod_lug_cat_lug_id'); //$fila_id,$from,$prefijo_cat,$prefijo_rel
+		$this->fmt->form->categoria_form('Categoria','inputCat',"0",$cats_id,"",""); //
 
 		$this->fmt->form->btn_actualizar($id_form,$this->id_mod,"modificar");
 		$this->fmt->class_pagina->form_fin_mod();
@@ -154,12 +183,26 @@ class LUGAR{
 						mod_lug_imagen ='".$_POST['inputImagen']."',
 						mod_lug_coordenada_principal='".$_POST['inputCoordPrincipal']."',
 						mod_lug_coordenadas='".$_POST['inputCoordenadas']."',
+						mod_lug_contenido='".$_POST['inputContenido']."',
+						mod_lug_usuario='".$_POST['inputUsuario']."',
+						mod_lug_icono='".$_POST['inputIcono']."',
 						mod_lug_estado='".$_POST['inputEstado']."'
 
 
 						WHERE mod_lug_id='".$_POST['inputId']."'";
 			//echo $sql;
 			$this->fmt->query->consulta($sql);
+
+			$this->fmt->class_modulo->eliminar_fila($_POST['inputId'],"mod_lugar_categorias","mod_lug_cat_lug_id");
+			$ingresar1 ="mod_lug_cat_lug_id, mod_lug_cat_cat_id, mod_lug_cat_orden";
+			$valor_cat= $_POST['inputCat'];
+			$num=count( $valor_cat );
+			for ($i=0; $i<$num;$i++){
+				$valores1 = "'".$_POST['inputId']."','".$valor_cat[$i]."','".$i."'";
+				$sql1="insert into mod_lugar_categorias (".$ingresar1.") values (".$valores1.")";
+				$this->fmt->query->consulta($sql1);
+			}
+
 			$this->fmt->class_modulo->redireccionar($ruta_modulo,"1");
 	}
 

@@ -67,7 +67,7 @@ class MULTIMEDIA{
 									$findme   = 'http';
 									$pos = strpos($mystring, $findme);
 									if ($pos===false){
-										$imgx=$this->fmt->archivos->convertir_url_mini($fila_url);
+										$imgx=$this->fmt->archivos->convertir_url_thumb($fila_url);
 										if(file_exists(_RUTA_HOST.$imgx)){
 											$img=$aux.$imgx;
 										}else{

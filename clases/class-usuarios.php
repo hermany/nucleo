@@ -53,6 +53,36 @@ class USUARIO{
     }
   }
 
+  function traer_num_seguidores($usu){
+    $sql ="SELECT usu_sgd_seguidor_usu_id FROM usuario_seguidos WHERE usu_sgd_seguido_usu_id='$usu'";
+    $rs = $this->fmt->query->consulta($sql,__METHOD__);
+    $num = $this->fmt->query->num_registros($rs);
+    return  $num;
+  }  
+
+  function traer_num_seguidos($usu){
+    $sql ="SELECT usu_sgd_seguido_usu_id FROM usuario_seguidos WHERE usu_sgd_seguidor_usu_id='$usu'";
+    $rs = $this->fmt->query->consulta($sql,__METHOD__);
+    $num = $this->fmt->query->num_registros($rs);
+    return  $num;
+  }
+
+  function traer_seguidos($usu){
+    $sql ="SELECT usu_sgd_seguido_usu_id FROM usuario_seguidos WHERE usu_sgd_seguidor_usu_id='$usu'";
+    $rs = $this->fmt->query->consulta($sql,__METHOD__);
+    $num=$this->fmt->query->num_registros($rs);
+    
+    if($num>0){
+      for ($i=0; $i < $num; $i++) { 
+        $fila = $this->fmt->query->obt_fila($rs);
+        $aux[$i] = $fila["usu_sgd_seguido_usu_id"];
+      }
+      return $aux;
+    }else{
+      return 0;
+    }
+  }
+
   function rol_usuario($id_usu){
     $sql ="SELECT usu_rol_rol_id FROM usuario_roles WHERE usu_rol_usu_id='$id_usu'";
     $rs = $this->fmt->query-> consulta($sql,__METHOD__);

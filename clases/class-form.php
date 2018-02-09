@@ -1849,7 +1849,7 @@ class FORM{
 				$aux_mul ="";
 				$aux_btn ="off";
 				$id_mul=$this->fmt->class_multimedia->traer_id_multimedia_ruta_archivo($valor);
-				$valorx = $this->fmt->archivos->convertir_url_mini($valor);
+				$valorx = $this->fmt->archivos->convertir_url_thumb($valor);
 			}else{
 				$aux_mul ="off";
 				$aux_btn ="";
@@ -2019,7 +2019,7 @@ class FORM{
 
 				$ruta=$row["mul_url_archivo"];
 				$embed=$row[" mul_embed"];
-		    $url = $this->fmt->archivos->convertir_url_mini($ruta);
+		    $url = $this->fmt->archivos->convertir_url_thumb($ruta);
 				$extension = $this->fmt->archivos->saber_extension_archivo($ruta);
 				$nombre_archivo=$this->fmt->archivos->saber_nombre_archivo($ruta);
 
