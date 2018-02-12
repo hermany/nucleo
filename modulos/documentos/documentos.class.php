@@ -33,7 +33,7 @@ class DOCUMENTOS{
 		    $fila=$this->fmt->query->obt_fila($rs);
 				$fila_id = $fila["doc_id"];
 		    if (empty($fila["doc_id_dominio"])){ $aux=_RUTA_WEB; } else { $aux = $this->fmt->categoria->traer_dominio_cat_id($fila["doc_id_dominio"]); }
-				  echo "<tr class='row row-".$fila["not_id"]."'>";
+				  echo "<tr class='row row-".$fila["doc_id"]."' >";
 				  echo '<td class="row-id">'.$fila['doc_id'].'</td>'; 
 					echo '<td class="fila-url"><strong><a href="'.$aux.$fila["doc_url"].'" target="_blank">'.$fila["doc_nombre"].'</a></strong> ( '.$fila["doc_tipo_archivo"].' orden: '.$fila["doc_orden"].' )</td>';
 					echo '<td class="">'.$this->fmt->usuario->nombre_usuario( $fila["doc_usuario"]).'</td>';
@@ -67,20 +67,35 @@ class DOCUMENTOS{
 
 	function form_nuevo($modo){
 
-		$this->fmt->form->head_nuevo('Nuevo archivo','documentos',$this->id_mod,'','form_nuevo-doc','',''); //$nom,$archivo,$id_mod,$botones,$id_form,$class,$modo
+    $this->fmt->class_pagina->crear_head_form("Nuevo Lugar","","");
+		$id_form="form-nuevo";
 
-		$this->fmt->form->file_form_doc("<span class='obligatorio'>*</span> Cargar archivo (pdf, doc/x, pptx, xls/x, zip):","","form_nuevo","input-form-doc","","","docs","required"); //$nom,$ruta,$id_form,$class,$class_div,$id_div,$directorio_p
+		$this->fmt->class_pagina->head_form_mod();
+		$this->fmt->class_pagina->form_ini_mod($id_form,"form-lugares");
+
+		//$this->fmt->form->head_nuevo('Nuevo archivo','documentos',$this->id_mod,'','form_nuevo-doc','',''); //$nom,$archivo,$id_mod,$botones,$id_form,$class,$modo
+
+		//$this->fmt->form->file_form_doc("<span class='obligatorio'>*</span> Cargar archivo (pdf, doc/x, pptx, xls/x, zip):","","form_nuevo","input-form-doc","","","docs","required"); //$nom,$ruta,$id_form,$class,$class_div,$id_div,$directorio_p
+
+		$this->fmt->form->documentos_form($fila_id,$this->id_mod,"","Documentos:");
+
 		$this->fmt->form->categoria_form('Categoria','inputCat',"0","","",""); //$label,$id,$cat_raiz,$cat_valor,$class,$class_div
 		$fecha=$this->fmt->class_modulo->fecha_hoy('America/La_Paz');
 		$this->fmt->form->input_form_sololectura('Fecha:','inputFecha','',$fecha,'','','');//$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
 		$usuario = $this->fmt->sesion->get_variable('usu_id');
 		$usuario_n = $this->fmt->sesion->get_variable('usu_nombre');
 		$this->fmt->form->input_form_sololectura('Usuario:','','',$usuario_n,'','','');//$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
-		$this->fmt->form->hidden_modulo($this->id_mod,"ingresar");
+		//$this->fmt->form->hidden_modulo($this->id_mod,"ingresar");
 		$this->fmt->form->input_hidden_form("inputUsuario",$usuario);
 		$this->fmt->form->input_form('Orden:','inputOrden','','0','','','');
-		$this->fmt->form->botones_nuevo('form_nuevo-doc',$modo);
-		$this->fmt->form->footer_page();
+		// $this->fmt->form->botones_nuevo('form_nuevo-doc',$modo);
+		$this->fmt->form->botones_nuevo($id_form,$this->id_mod,"","ingresar"); //
+		// $this->fmt->form->footer_page();
+
+		$this->fmt->class_pagina->form_fin_mod();
+		$this->fmt->class_pagina->footer_form_mod();
+
+		$this->fmt->finder->finder_window();
 		$this->fmt->class_modulo->modal_script($this->id_mod);
 	}
 
@@ -100,8 +115,8 @@ class DOCUMENTOS{
 		<?php
 		$this->fmt->form->input_hidden_form("inputId",$id);
 		$this->fmt->form->hidden_modulo($this->id_mod,"modificar");
-		$this->fmt->form->file_form_doc("<span class='obligatorio'>*</span> Cargar archivo para reemplazar (pdf, doc/x, pptx, xls/x, zip):","","form_editar","input-form-doc","","","docs"); //
-		if (empty($fila_dominio)){ $aux=_RUTA_WEB; } else { $aux = $this->fmt->categoria->traer_dominio_cat_id($fila['mul_id_dominio']); }
+		//$this->fmt->form->file_form_doc("<span class='obligatorio'>*</span> Cargar archivo para reemplazar (pdf, doc/x, pptx, xls/x, zip):","","form_editar","input-form-doc","","","docs"); //
+		//if (empty($fila_dominio)){ $aux=_RUTA_WEB; } else { $aux = $this->fmt->categoria->traer_dominio_cat_id($fila['mul_id_dominio']); }
 		echo "<div id='aux_editar'>";
 		$this->fmt->form->input_form("<span class='obligatorio'>*</span> Nombre archivo actual:","inputNombreDoc","",$fila['doc_nombre'],"","","");
 		$this->fmt->form->input_form('Nombre amigable:','inputNombreAmigableDoc','',$fila['doc_ruta_amigable'],'disabled','','');
@@ -154,63 +169,29 @@ class DOCUMENTOS{
 		$this->fmt->class_modulo->modal_script($this->id_mod);
 	}
 
-	function ingresar($modo){
-		if ($_POST["estado-mod"]=="activar"){
-			$activar=1;
-		}else{
-			$activar=0;
-		}
-		$ingresar ="doc_nombre,
-                doc_ruta_amigable,
-                doc_descripcion,
-                doc_url,
-                doc_imagen,
-                doc_tipo_archivo,
-                doc_tamano,
-                doc_tags,
-                doc_fecha,
-                doc_usuario,
-                doc_id_dominio,
-                doc_orden,
-                doc_activar";
-		$valores  ="'".$_POST['inputNombreDoc']."','".
-					$_POST['inputNombreAmigableDoc']."','".
-					$_POST['inputDescripcionDoc']."','".
-					$_POST['inputUrlDoc']."','".
-					$_POST['inputImagenDoc']."','".
-					$_POST['inputTipoDoc']."','".
-					$_POST['inputTamanoDoc']."','".
-					$_POST['inputTags']."','".
-					$_POST['inputFecha']."','".
-					$_POST['inputUsuario']."','".
-					$_POST['inputDominioDoc']."','".
-					$_POST['inputOrden']."','".
-					$activar."'";
+	function ingresar(){
 
-		$sql="insert into documento (".$ingresar.") values (".$valores.")";
-		$this->fmt->query->consulta($sql);
-
-		$sql="select max(doc_id) as id from documento";
-		$rs= $this->fmt->query->consulta($sql);
-		$fila = $this->fmt->query->obt_fila($rs);
-	  	$id = $fila ["id"];
-		$ingresar1 ="doc_cat_doc_id, doc_cat_cat_id";
+		$ingresar1 ="doc_cat_doc_id, doc_cat_cat_id, doc_cat_orden";
 		$valor_cat= $_POST['inputCat'];
+		$doc_id= $_POST['inputModItemDoc'];
+
 		$num=count( $valor_cat );
+		$num_doc=count( $doc_id );
+
+		echo "num:".$num."\n";
+		echo "num_doc:".$num_doc;
+
 		for ($i=0; $i<$num;$i++){
-			$valores1 = "'".$id."','".$valor_cat[$i]."'";
-			$sql1="insert into documento_categorias (".$ingresar1.") values (".$valores1.")";
-			$this->fmt->query->consulta($sql1);
-		}
-		if (empty($modo)){
-			$this->fmt->class_modulo->script_location($this->id_mod,"busqueda");
-		}else{
-			if ($modo=="modal"){
-				echo $this->fmt->mensaje->documento_subido();
-				$botones = $this->fmt->class_pagina->crear_btn_m("Agregar otro nuevo documento","icn-plus","Nuevo archivo","btn btn-primary btn-menu-ajax",$this->id_mod,"form_nuevo");
-				echo "<div class='otro-nuevo'><i class='icn-plus'></i> ".$botones."</div>";
+			for ($j=0; $j < $num_doc; $j++) { 
+				$valores1 = "'".$doc_id[$j]."','".$valor_cat[$i]."','".$j."'";
+				$sql1="insert into documento_categorias (".$ingresar1.") values (".$valores1.")";
+				//echo "\n";
+				$this->fmt->query->consulta($sql1);
 			}
 		}
+
+		$this->fmt->class_modulo->redireccionar($this->ruta_modulo,"1");
+		
 	}
 
 	function modificar(){

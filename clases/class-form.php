@@ -1605,10 +1605,16 @@ class FORM{
 
 			<ul class="box-docs" id='sortable-docs'>
 				<?php
-				$consulta = "SELECT DISTINCT doc_id,doc_nombre,doc_tags,doc_url,doc_tipo_archivo FROM documento,$from WHERE ".$prefijo.$prefijo_mod."id='".$id."' and ".$prefijo."doc_id=doc_id ORDER BY ".$prefijo."orden asc";
-				$rs =$this->fmt->query->consulta($consulta,__METHOD__);
-				$num=$this->fmt->query->num_registros($rs);
-				$aux="";
+				if (empty($from)){
+					$num = 0;
+				}else{
+					$consulta = "SELECT DISTINCT doc_id,doc_nombre,doc_tags,doc_url,doc_tipo_archivo FROM documento,$from WHERE ".$prefijo.$prefijo_mod."id='".$id."' and ".$prefijo."doc_id=doc_id ORDER BY ".$prefijo."orden asc";
+					$rs =$this->fmt->query->consulta($consulta,__METHOD__);
+					$num=$this->fmt->query->num_registros($rs);
+					$aux="";
+				}
+				
+				
 				if($num>0){
 					for($i=0;$i<$num;$i++){
 						$row=$this->fmt->query->obt_fila($rs);

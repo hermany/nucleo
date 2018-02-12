@@ -264,7 +264,7 @@ function traer_cat_hijos_menu_raiz($cat,$nivel,$nivel_tope){
     return $aux;
   }
 
-  function traer_cat_hijos_menu($cat,$nivel,$nivel_tope,$cat_active,$pre="",$pos=""){
+  function traer_cat_hijos_menu($cat,$nivel,$nivel_tope,$cat_active,$pre="",$pos="",$image_cat="0"){
     $sql="SELECT cat_id, cat_nombre, cat_id_padre, cat_icono, cat_imagen, cat_url, cat_tipo,cat_destino, cat_ruta_amigable FROM categoria WHERE cat_id_padre='$cat' and cat_activar='1' ORDER BY cat_orden ASC";
     $rs = $this->fmt->query->consulta($sql,__METHOD__);
     $num = $this->fmt->query->num_registros($rs);
@@ -278,7 +278,12 @@ function traer_cat_hijos_menu_raiz($cat,$nivel,$nivel_tope){
          $fila_nombre= $row["cat_nombre"];
          $fila_id_padre= $row["cat_id_padre"];
          $fila_icono= $row["cat_icono"];
-         $fila_imagen= $row["cat_imagen"];
+         if($image_cat==1){
+          $fila_imagen= $row["cat_imagen"];
+        }else{
+          $fila_imagen="";
+        }
+         
          $fila_url= $row["cat_url"];
          $fila_destino= $row["cat_destino"];
          $fila_ruta_amigable= $row["cat_ruta_amigable"];

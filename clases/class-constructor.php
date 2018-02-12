@@ -48,8 +48,6 @@ class CONSTRUCTOR{
       exit(0);
     }
 
-
-
     if(isset($_GET["id"])){
     	if (!is_numeric($_GET["id"])){
     		header("Location:../index.php?s="._RUTA_DEFAULT."&cat=".$cat."&pla=".$pla."&tarea=error-id");

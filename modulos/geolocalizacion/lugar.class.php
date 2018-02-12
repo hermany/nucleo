@@ -19,7 +19,7 @@ class LUGAR{
 
 	function busqueda(){
 
-		$this->fmt->class_pagina->crear_head( $this->id_mod, $botones);
+		$this->fmt->class_pagina->crear_head( $this->id_mod,$botones);
 		$this->fmt->class_pagina->head_mod();
 
 		$botones = $this->fmt->class_pagina->crear_btn_m("Crear","icn-plus","Nuevo Punto","btn btn-primary btn-menu-ajax btn-new btn-small",$this->id_mod,"form_nuevo");  //$nom,$icon,$title,$clase,$id_mod,$vars

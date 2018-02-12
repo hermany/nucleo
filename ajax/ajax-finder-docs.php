@@ -32,7 +32,7 @@ if($num>0){
 
     $nom= $fmt->class_modulo->recortar_texto($fila_nombre,"40")." <span class='tipo-archivo'>(".$fila_tipo.")</span>";
     $nomx= $fmt->class_modulo->recortar_texto($fila_nombre,"35")." (".$fila_tipo.")";
-    echo "<li class='finder-item item-doc' seleccionado='off' nombre='".$nomx."' item='".$fila_id."' tipo_item='$icon' id='item-d-$i' url='".$fila_url."'  url_mini='".$url."' style='' ><i class='icn $icon'></i><span class='nombre' title='$fila_nombre'>".$nom."</span><span class='etiquetas'>".$etiquetas."</span></li>";
+    echo "<li class='finder-item item-doc' seleccionado='off' nombre='".$nomx."' item='".$fila_id."' tipo_item='$icon' id='item-d-$i' url='".$fila_url."'  url_mini='".$url."' style='' ><i class='icn $icon'></i><span class='nombre' title='$fila_nombre'>".$nom."</span><div class='etiquetas'>".$etiquetas."</div></li>";
   }
 }
 ?>

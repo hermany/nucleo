@@ -1,4 +1,5 @@
 <?php
+header("Content-Type: text/html;charset=utf-8");
   //var_dump($_POST);
   $output_dir = _RUTA_HOST."archivos/docs/";
   //echo "f:".$_POST["ito"];
@@ -90,7 +91,7 @@
 
 
       $nom= $inputNombre." (".$inputTipo.")";
-      echo "<li class='finder-item item-doc' item='".$id."' tipo_item='".$inputTipo."' id='item-s-$i' url=' '  url_mini=' ' style='' ><i class='icn $icon'></i><span class='nombre' title='$inputNombre'>".$nom."</span><span class='etiquetas'>".$tags."</span></li>";
+      echo "<li class='finder-item item-doc' item='".$id."' tipo_item='".$inputTipo."' id='item-s-$i' url=' '  url_mini=' ' style='' nombre='$inputNombre' ><i class='icn $icon'></i><span class='nombre' title='$inputNombre'>".$nom."</span><span class='etiquetas'>".$tags."</span></li>";
 
     }
   }

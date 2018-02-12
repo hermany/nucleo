@@ -360,7 +360,6 @@ class PRODUCTOS{
 		return $valor;
 	}
 
-
 	function form_editar(){
 
 		$this->fmt->class_pagina->crear_head_form("Editar Producto","","");
@@ -764,9 +763,6 @@ class PRODUCTOS{
 		}
 		$this->fmt->class_modulo->redireccionar($this->ruta_modulo,"1");
 	}
-
-
-
 
 	function activar(){
 		$this->fmt->class_modulo->activar_get_id("mod_productos","mod_prod_",$this->id_estado,$this->id_item);
