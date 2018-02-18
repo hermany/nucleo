@@ -11,7 +11,7 @@ class MYSQL {
 
 	var $conexion;
 	var $fechmode = PDO::FETCH_ASSOC;
-	var $error;
+	var $error_db;
 	var $sql_query;
 	var $sql_array;
 	var $sql_row;
@@ -40,7 +40,7 @@ class MYSQL {
 			));
 		} catch (PDOException $e) {
 			echo "Error de conexión de base de datos: ".$e->getMessage();
-			$this->error = $e->getMessage();
+			$this->error_db = $e->getMessage();
 			exit(0);
 		}
 
@@ -49,7 +49,7 @@ class MYSQL {
 	}
 
 	function ErrorInfo(){
-		return $this->error;
+		return $this->error_db;
 	}
 
 	function SetFetchMode($tipo){
@@ -59,7 +59,7 @@ class MYSQL {
 
 	function consulta($sql="",$clase="",$array = NULL){
 		if ($sql == ""){
-			$this->error = "No ha especificado una consulta SQL";
+			$this->error_db = "No ha especificado una consulta SQL";
 			return 0;
 		}
 		if ($clase!=""){
@@ -70,6 +70,7 @@ class MYSQL {
 		$consulta = $this->conexion->prepare($sql);
 		$consulta->setFetchMode($this->fechmode);
 		$retorna = $consulta->execute($array);
+		
 		if(!$retorna){
 			$errorinfo = $consulta->ErrorInfo();
 			if(conf_debug){

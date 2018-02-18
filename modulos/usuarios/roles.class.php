@@ -72,7 +72,7 @@ class ROLES{
 
 		$this->fmt->form->categoria_form("Accesos a categoría:","inputCat","0","","","rol-cat"); //$label,$id,$cat_raiz,$cat_valor,$class,$class_div
 
-		$this->fmt->form->select_form("Redireccion","InputRedireccion","sitio_","sitio","");
+		$this->fmt->form->select_form("Redireccion:","inputRedireccion","sitio_","sitio","");
 
 		$this->fmt->class_modulo->sistemas_modulos_select("Accesos a Sistemas y modulos","inputMod","","rol-cat box-sm"); //$label,$id,$class_div,$ids_sis,$isd_mod
 		//$this->fmt->class_modulo->grupos_select("Definición de grupos","inputGrupos",""); //$label,$id,$class_div
@@ -104,7 +104,7 @@ class ROLES{
 		$cats_id = $this->fmt->categoria->traer_rel_cat_id($id,'rol_categorias','rol_cat_cat_id','rol_cat_rol_id'); //$fila_id,$from,$prefijo_cat,$prefijo_rel
 		$this->fmt->form->categoria_form('Accesos a categoría:','inputCat',"0", $cats_id,"","rol-cat"); //$label,$id,$cat_raiz,$cat_valor,$class,$class_div
 
-	$this->fmt->form->select_form("Redireccion","InputRedireccion","sitio_","sitio",$fila["rol_redireccion"]);
+	$this->fmt->form->select_form("Redireccion","inputRedireccion","sitio_","sitio",$fila["rol_redireccion"]);
 
 
 		//$ids_sis = $this->fmt->class_modulo->traer_sistemas_roles($id);
@@ -158,7 +158,7 @@ class ROLES{
 									 $_POST['inputFunciones']."','".
 									 $_POST['inputPadre']."','".
 									 $_POST['inputPermisos']."','".
-									 $_POST['InputRedireccion']."','".
+									 $_POST['inputRedireccion']."','".
 									 $activar."'";
 
 		$sql="insert into rol (".$ingresar.") values (".$valores.")";
@@ -169,6 +169,14 @@ class ROLES{
 		$rs= $this->fmt->query->consulta($sql,__METHOD__);
 		$fila = $this->fmt->query->obt_fila($rs);
 		$id = $fila ["id"];
+
+
+		$ingresar2 = "sitio_rol_sitio_id,sitio_rol_rol_id";
+		$valores2 = "'".$_POST['inputRedireccion']."','".$id."'";
+		$sql2="insert into sitio_roles (".$ingresar2.") values (".$valores2.")";
+		$this->fmt->query->consulta($sql2,__METHOD__);
+
+		
 
 		//var_dump( $_POST['inputCat']);
 		$ingresar1 ="rol_cat_rol_id, rol_cat_cat_id";
@@ -214,7 +222,7 @@ class ROLES{
 						rol_funciones='".$_POST['inputFunciones']."',
 						rol_id_padre ='".$_POST['inputPadre']."',
 						rol_permisos='".$_POST['inputPermisos']."',
-						rol_redireccion='".$_POST['InputRedireccion']."',
+						rol_redireccion='".$_POST['inputRedireccion']."',
 						rol_activar='".$_POST['inputActivar']."'
 	          WHERE rol_id='".$id."'";
 
@@ -226,8 +234,20 @@ class ROLES{
 			// $up_sqr7 = "ALTER TABLE roles_rel AUTO_INCREMENT=1";
 			// $this->fmt->query->consulta($up_sqr7,__METHOD__);
 
+			$sql2="DELETE FROM sitio_roles WHERE sitio_rol_rol_id='".$id."'";
+			$this->fmt->query->consulta($sql2,__METHOD__);
+
+			$ingresar2 = "sitio_rol_sitio_id,sitio_rol_rol_id";
+			$valores2 = "'".$_POST['inputRedireccion']."','".$id."'";
+			$sql2="insert into sitio_roles (".$ingresar2.") values (".$valores2.")";
+			$this->fmt->query->consulta($sql2,__METHOD__);
+
+	 
+
+
 			$sql1="DELETE FROM rol_categorias WHERE rol_cat_rol_id='".$id."'";
 			$this->fmt->query->consulta($sql1,__METHOD__);
+
 			$ingresar1 ="rol_cat_rol_id, rol_cat_cat_id";
 			$valor_cat= $_POST['inputCat'];
 			$num=count( $valor_cat );

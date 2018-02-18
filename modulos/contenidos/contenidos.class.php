@@ -90,7 +90,8 @@ class CONTENIDOS{
 			<form class="form form-modulo form-multimedia"  method="POST" id="<?php echo $id_form?>">
 				<?php
 				$this->fmt->form->input_form("<span class='obligatorio'>*</span> Titulo:","inputTitulo","","","input-lg","","");
-				$this->fmt->form->input_form("Nombre Amigable:","inputNombreAmigable","","","","","","");
+				//$this->fmt->form->input_form("Nombre Amigable:","inputNombreAmigable","","","","","","");
+				$this->fmt->form->ruta_amigable_form("inputTitulo","","","inputNombreAmigable","","","1");
 				$this->fmt->form->input_hidden_form("inputId",$id);
 				//$this->fmt->form->hidden_modulo($this->id_mod,"modificar");
 				$this->fmt->form->input_form("Subtitulo:","inputSubtitulo","","","","","");

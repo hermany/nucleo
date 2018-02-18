@@ -1,0 +1,187 @@
+// out:  clientes-proyectos.css, sourcemap: true, compress: true
+@import "variables.less";
+
+.body-modulo-inner {
+  padding-left: 10px;
+  padding-right: 10px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.box-cliente {
+  margin: 10px;
+  width: 170px;
+  border: 1px solid @box-border-color;
+  padding: 10px;
+  display: inline-block;
+  border-radius: 4px;
+  height: 200px;
+  text-align: center;
+  position: relative;
+  z-index: 0;
+  .box-shadow-m();
+}
+
+.box-cliente .nombre {
+  text-align: center;
+  font-size: 14px;
+  float: left;
+  clear: both;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 110px;
+}
+
+.box-cliente .btn-editar {
+  position: absolute;
+  left: 13px;
+  bottom: 15px;
+  opacity: 0.3;
+}
+
+.box-cliente .btn-editar:hover,
+.box-cliente .btn-m-eliminar:hover {
+  opacity: 1;
+}
+
+.box-cliente .btn-m-eliminar {
+  position: absolute;
+  right: 15px;
+  width: 35px;
+  bottom: 15px;
+  height: 30px;
+  opacity: .3;
+}
+
+.box-cliente .logo {
+  width: 90px;
+  height: 90px;
+  display: inline-block;
+  border: 1px solid @box-border-color;
+  background-size: 90% !important;
+  border-radius: 90px;
+  margin-top: 5px;
+
+  h2 {
+    margin-top: 26px;
+    color: @color-gray-b;
+  }
+}
+
+.box-cliente .etiqueta {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  background: @box-border-color;
+  border-radius: 20px;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.box-cliente .etiqueta:hover {
+  border: 1px solid @color-black;
+}
+
+.box-cliente .etiqueta-1 {
+  background-color: @color-red;
+}
+
+.box-cliente .etiqueta-2 {
+  background-color: @color-orange;
+}
+
+.box-cliente .etiqueta-3 {
+  background-color: @color-yellow;
+}
+
+.box-cliente .etiqueta-4 {
+  background-color: @color-blue-a;
+}
+
+.box-cliente .etiqueta-5 {
+  background-color: @box-border-color;
+}
+
+.btn-cliente {
+  cursor: pointer;
+}
+
+.btn-cliente.nombre:hover {
+  text-decoration: underline;
+}
+
+.nivel {
+  z-index: 10;
+}
+
+.btn-etiqueta {
+  z-index: 13;
+}
+
+.bloque-etiquetas {
+  position: absolute;
+  width: 230px;
+  padding: 15px 10px;
+  background-color: #fff;
+  display: inline-block;
+  font-size: 14px;
+  top: 33px;
+  display: none;
+  left: 32px;
+  z-index: 2;
+  text-align: center;
+  border: 1px solid #eee;
+  -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, .2);
+  box-shadow: 0 3px 7px rgba(0, 0, 0, .2);
+  -webkit-border-radius: 5px;
+
+  .box-shadow();
+
+  &.on {
+    z-index: 12;
+    display: inline-block;
+
+    .inner {
+      .icn-arrow-o-up {
+        color: white;
+        position: absolute;
+        margin-left: -12px;
+        text-shadow: 0px -1px 1px #ccc;
+        font-size: 21px;
+        top: -20px;
+        z-index: 1;
+      }
+      .botones {
+        text-align: left;
+        .boton {
+          width: 22px;
+          height: 22px;
+          display: inline-block;
+          border: 1px solid white;
+          margin: 0px 5px;
+          border-radius: 20px;
+        }
+      }
+      .btn-cerrar {
+        width: 21px;
+        height: 21px;
+        border-radius: 20px;
+        font-size: 12px;
+        line-height: 17px;
+        position: absolute;
+        top: 16px;
+        right: 12px;
+        border: 1px solid @color-gray-b;
+        color: @color-gray-b;
+      }
+
+      .texto{
+        height: 20px;
+        margin-top: 5px;
+        color:@color-gray-c;
+      }
+    }
+  }
+}

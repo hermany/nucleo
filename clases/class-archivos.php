@@ -145,6 +145,7 @@ class ARCHIVOS{
 
     $type = strtolower(substr(strrchr($src,"."),1));
     if($type == 'jpeg') $type = 'jpg';
+    if($type == 'pjpeg"') $type = 'jpg';
     switch($type){
       case 'bmp': $img = imagecreatefromwbmp($src); break;
       case 'gif': $img = imagecreatefromgif($src); break;
@@ -187,6 +188,9 @@ class ARCHIVOS{
       imagecolortransparent($new, imagecolorallocatealpha($new, 0, 0, 0, 127));
       imagealphablending($new, false);
       imagesavealpha($new, true);
+
+      $color =   imagecolorallocate ($new,0x00,0x00,0x00,127);  
+      imagefill($new, 0, 0, $color);
     }
 
     imagecopyresampled($new, $img, 0, 0, $x, 0, $width, $height, $w, $h);
@@ -196,10 +200,13 @@ class ARCHIVOS{
     switch($type){
       case 'bmp': imagewbmp($new, $dst,98); break;
       case 'gif': imagegif($new, $dst,98); break;
-      case 'jpg': imagejpeg($new, $dst,98); break;
+      case 'jpg': imagejpeg($new, $dst,$quality); break;
       case 'png': imagepng($new, $dst,$quality); break;
     }
     return true;
+
+    imagedestroy($ds);
+    imagedestroy($src);
   }
 
 

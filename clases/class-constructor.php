@@ -10,7 +10,7 @@ class CONSTRUCTOR{
   var $plantilla;
   var $brand;
   var $mensaje;
-  var $error;
+  var $errores;
   var $usuario;
   var $redireccion;
   var $header;
@@ -105,7 +105,7 @@ class CONSTRUCTOR{
 
     $this->brand = new BRAND($this);
     $this->mensaje = new MENSAJE($this);
-    $this->error = new ERROR($this);
+    $this->errores = new ERRORES($this);
     $this->usuario = new USUARIO($this);
     $this->redireccion =  new REDIRECCION($this);
     $this->header = new CLASSHEADER($this);

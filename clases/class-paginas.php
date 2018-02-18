@@ -223,6 +223,17 @@ class CLASSPAGINAS{
 			<?php
 		}  // fin crear head
 
+		function inicio_form($label,$id_form,$class,$botones_pre,$botones_pos){
+			$this->fmt->class_pagina->crear_head_form($label,$botones_pre,$botones_pos);
+			$this->fmt->class_pagina->head_form_mod();
+			$this->fmt->class_pagina->form_ini_mod($id_form,"form-lugares");
+		}
+
+		function fin_form(){
+			$this->fmt->class_pagina->form_fin_mod();
+			$this->fmt->class_pagina->footer_form_mod();
+		}
+
 /* ---------------- Funcion btn nuevo ---------------------- */
 
 	function crear_btn($link,$clase,$icon,$nom){

@@ -48,23 +48,23 @@ $fmt = new CONSTRUCTOR();
 			success: function(msg){
         //alert(msg);
 
-if ((msg!="false")&&(msg!="sin-rol")&&(msg!="rol-desactivado")) {
+				if ((msg!="false")&&(msg!="sin-rol")&&(msg!="rol-desactivado")) {
 	        $("#mensaje-login").html("<?php echo $fmt->mensaje->login_ok(); ?>");
 	          redireccionar_tiempo(msg,800); // core.js
 	        }
 
 	        if(msg=="sin-rol"){
-	          $("#mensaje-login").html("<?php echo $fmt->error->error_rol(); ?>");
+	          $("#mensaje-login").html("<?php echo $fmt->errores->error_rol(); ?>");
 	          toggleIdCerrar("error_login", 8000);  // core.js
 	        }
 
 	        if(msg=="rol-desactivado"){
-	          $("#mensaje-login").html("<?php echo $fmt->error->error_rol_desactivado(); ?>");
+	          $("#mensaje-login").html("<?php echo $fmt->errores->error_rol_desactivado(); ?>");
 	          toggleIdCerrar("error_login", 6000);  // core.js
 	        }
 
 	        if (msg=="false") {
-	          $("#mensaje-login").html("<?php echo $fmt->error->error_login(); ?>");
+	          $("#mensaje-login").html("<?php echo $fmt->errores->error_login(); ?>");
 	          toggleIdCerrar("error_login", 6000); // core.js
 	        }
 			//$("#mensaje-login").html(msg);

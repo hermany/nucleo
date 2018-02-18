@@ -145,6 +145,8 @@ class USUARIOS{
 		$this->fmt->class_modulo->modal_script($this->id_mod);
 	}
 
+
+
 	function opciones_roles($rol){
 		$sql="select rol_id, rol_nombre from rol ORDER BY rol_id asc";
             $rs =$this->fmt->query->consulta($sql,__METHOD__);
