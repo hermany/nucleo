@@ -1,0 +1,74 @@
+
+@import "color.less";
+
+
+@font-face {
+    font-family: 'lato-bold';
+    src: url('../font/Lato-Bold.woff2') format('woff2'),
+         url('../font/Lato-Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    text-rendering: optimizeLegibility;
+}
+
+@font-face {
+    font-family: 'lato-light';
+    src: url('../font/Lato-Light.woff2') format('woff2'),
+         url('../font/Lato-Light.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    text-rendering: optimizeLegibility;
+}
+
+@font-face {
+    font-family: 'lato-regular';
+    src: url('../font/Lato-Regular.woff2') format('woff2'),
+         url('../font/Lato-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    text-rendering: optimizeLegibility;
+}
+
+@font-light: 'lato-light',arial, sans-serif !important;
+@font-regular: 'lato-regular',arial, sans-serif !important;
+@font-bold: 'lato-bold',arial, sans-serif !important;
+@font:  @font-regular;
+
+@box-border-radius: 5px;
+@box-padding: 15px;
+@box-border-color: @color-gray-a;
+@z-index-navbar:100;
+@heigth_navbar:47px;
+
+
+@heigth_navbar:47px;
+@width_brand_navbar:50px;
+@min_width_btn:45px;
+@min_width_btn_navbar:100px;
+@width_menu: 290px;
+
+
+@h1:  30px;
+@h2:  24px;
+@h3:  20px;
+@h4:  16px;
+@font-size:14px;
+@font-size-small:12px;
+@font-size-xsmall:11px;
+
+.box-shadow(){
+  -webkit-box-shadow: 0 3px 7px rgba(0,0,0,0.2);
+  box-shadow: 0 3px 7px rgba(0,0,0,0.2);
+  -webkit-border-radius: @box-border-radius;
+}
+.box-shadow-m(){
+  -webkit-box-shadow: 0 2px 3px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 3px rgba(0,0,0,0.05);
+  -webkit-border-radius: @box-border-radius;
+  border-color:@color-gray-a;
+}
+
+.transition(){
+  transition: all ease 0.3s;
+}
+

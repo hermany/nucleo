@@ -71,6 +71,8 @@ $('#content-page').on('click touchend', function(e) {
   $(".box-nav-modulos").removeClass("on");
   $(".box-sites").removeClass("on");
   $(".btn-salto").removeClass("on");
+  // $(".bloque-etiquetas").removeClass('on');
+  // $(".box-cliente").removeClass('nivel');
 });
 
 	function resize(){
