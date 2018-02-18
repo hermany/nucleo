@@ -1,0 +1,81 @@
+/* estilos */
+.head-kardex .title-form{
+  text-align: left;
+  text-indent: 3%;
+  width: 20%;
+  font-size: 20px !important;
+  clear: left;
+}
+
+.body-kardex{
+  margin-left: 3%;
+  width: 95%;
+}
+
+.box-pasos{
+  width: 70%;
+  position: absolute;
+  top:-75px; right: 0;
+}
+
+.box-pasos .paso{
+  float: left;
+  width: 20%;
+  top:0;
+  text-align: center;
+  position: relative;
+}
+
+.box-pasos .paso .barra{
+  position: absolute;
+  display: inline-block;
+  height: 2px;
+  background:  : #afc4ed;
+  top:-8px;
+  left: 50%;
+  width: 100%;
+  z-index: 0;
+}
+
+.box-pasos .paso num{
+  display: inline-block;
+  background-color: #afc4ed;
+  color: #fff;
+  border-radius: 30px;
+  padding: 4px 10px;
+  z-index: 10;
+  position: relative;
+}
+
+.box-pasos .paso label{
+  width: 100%;
+  font-size: 12px;
+  color:#555;
+}
+
+.box-pasos .paso.on num{
+  background-color: #5286eb;
+}
+
+.input-icon{
+  position: absolute;
+  top:32px;
+  right: 10px;
+  color:#ccc;
+}
+
+.btn-eliminar-box-hijo{
+  border-radius: 5px;
+  margin-top: 30px;
+  margin-left: 8px;
+  display: inline-block;
+}
+
+.form-paso{
+  display: none;
+}
+.form-paso.on{
+  display: block;
+}
+
+/* theme */
