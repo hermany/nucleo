@@ -53,17 +53,17 @@ if ((msg!="false")&&(msg!="sin-rol")&&(msg!="rol-desactivado")) {
 	        }
 
 	        if(msg=="sin-rol"){
-	          $("#mensaje-login").html("<?php echo $fmt->errores->error_rol(); ?>");
+	          $("#mensaje-login").html("<?php echo $fmt->error->error_rol(); ?>");
 	          toggleIdCerrar("error_login", 8000);  // core.js
 	        }
 
 	        if(msg=="rol-desactivado"){
-	          $("#mensaje-login").html("<?php echo $fmt->errores->error_rol_desactivado(); ?>");
+	          $("#mensaje-login").html("<?php echo $fmt->error->error_rol_desactivado(); ?>");
 	          toggleIdCerrar("error_login", 6000);  // core.js
 	        }
 
 	        if (msg=="false") {
-	          $("#mensaje-login").html("<?php echo $fmt->errores->error_rol(); ?>");
+	          $("#mensaje-login").html("<?php echo $fmt->error->error_rol(); ?>");
 	          toggleIdCerrar("error_login", 6000); // core.js
 	        }
 			//$("#mensaje-login").html(msg);

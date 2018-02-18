@@ -99,7 +99,7 @@ class CLASSMODULOS{
         });
 
         $("a.btn-m-eliminar").on('click',function (e) {
-          // e.preventDefault();
+          e.preventDefault();
           var nom= $(this).attr('nombre');
           var variablesx = $(this).attr('vars');
           var id_mod= $(this).attr('id_mod');
@@ -107,18 +107,18 @@ class CLASSMODULOS{
           $(".modal-form").addClass("on");
           $(".content-page").css("overflow-y","hidden");
           $(".modal-form .modal-inner").addClass("mensaje-eliminar");
-          $(".modal-form .modal-inner").html('<div class="modal-title"></div><div class="modal-body"> <i class="icn icn-trash"></i> <label>"'+nom+'" se eliminará, estas seguro de eliminarlo. </label><span>No podrás deshacer esta acción.<span> </div><div class="modal-footer"><a class="btn btn-cancelar btn-small btn-full">Cancelar</a><a class="btn btn-info btn-modal-m-eliminar btn-small" id_mod="'+id_mod+'" vars="'+variablesx+'" >Eliminar</a></div>');
+          $(".modal-form .modal-inner").html('<div class="modal-title"></div><div class="modal-body"> <i class="icn icn-trash"></i> <label>"'+nom+'" se eliminará, estas seguro de eliminarlo. </label><span>No podrás deshacer esta acción.<span> </div><div class="modal-footer"><a class="btn btn-cancelar btn-small btn-full">Cancelar</a><a class="btn btn-info btn-m-eliminar btn-small" id_mod="'+id_mod+'" vars="'+variablesx+'" >Eliminar</a></div>');
 
           $(".btn-cancelar").on("click",function(e){
-            // e.preventDefault();
+            e.preventDefault();
             $(".modal-form").removeClass("on");
             $(".modal-form .modal-inner").removeClass("mensaje-eliminar");
             $(".modal-form .modal-inner").html(" ");
             $(".content-page").css("overflow-y","auto");
           });
 
-          $(".btn-modal-m-eliminar").on("click",function(e){
-            // e.preventDefault();
+          $(".btn-m-eliminar").on("click",function(e){
+            e.preventDefault();
             var variables = $(this).attr('vars');
             var id_mod= $(this).attr('id_mod');
             var ruta='ajax-eliminar';
@@ -731,7 +731,7 @@ class CLASSMODULOS{
   }
 
   function botones_tabla($id_item,$id_mod,$nombre_item){
-    echo $this->fmt->class_pagina->crear_btn_m("","icn-pencil","editar ".$id_item,"btn btn-accion btn-menu-ajax ",$id_mod,"form_editar,".$id_item);
+    echo $this->fmt->class_pagina->crear_btn_m("","icn-pencil","editar ".$id_item,"btn btn-accion btn-m-editar ",$id_mod,"form_editar,".$id_item);
     echo $this->fmt->class_pagina->crear_btn_m("","icn-trash","eliminar ".$id_item,"btn btn-accion btn-fila-eliminar",$id_mod,"eliminar,".$id_item,"",$nombre_item);
   }
 
@@ -780,56 +780,8 @@ class CLASSMODULOS{
           //  $(".modal").empty();
           //  $(".modal").removeClass("<?php echo $this->ruta_amigable_modulo($id_mod); ?>");
           //  $(".modal").removeClass("on");
-
-          //console.log(datos);
-
-          $("#"+formk +" input").each(function(index){
-
-              var validar = $(this).attr("validar");
-              var id_input = $(this).attr("id");
-              var valor_id = $(this).val();
-              var obj = $(this);
-              var tipo_obj = obj[0].tagName;
-
-              if ((validar!="") && (validar!= undefined)){
-                 // console.log(id_input+":"+validar+":"+valor_id+":"+tipo_obj);
-                  validar_campo(id_input,validar,valor_id,tipo_obj,datos);
-              }
-          });
-
-           //abrir_modulos(datos);
+           abrir_modulos(datos);
         });
-
-        
-
-        function validar_campo(id,tipo_validacion,valor,tipo_obj,datos){
-          // console.log("valor:"+valor);
-          if (valor==""){
-            switch (tipo_obj){
-              case "INPUT":
-                $("#"+id).attr("data-validar",1);
-                $("#"+id).addClass('foco-validar');
-                $(".mensajes-aux-"+id).html("El campo requiere datos.");
-
-                $( "input[data-validar=1]").on('keyup', function(){
-                    $("#"+id).removeClass('foco-validar');
-                    $(".mensajes-aux-"+id).html("");
-                });
-              break;
-            }
-          }else{
-            switch(tipo_validacion) {
-                case "literal":
-                  console.log ( typeof(valor) );
-                  abrir_modulos(datos);
-                break;
-
-                case n:
-                     
-                break;
-            } 
-          }
-        }
 
         function abrir_modulos(datos){
           $.ajax({

@@ -30,7 +30,6 @@ if($num > 0){
   //$fmt->sesion->imprimir();
   //$redireccion = new REDIRECCION();
   $ruta = $fmt->redireccion->login($cat,$pla,$usu_id);
-  
   if ($usu_activar=='0'){
     echo "rol-desactivado";
     $fmt->sesion->cerrar_sesion();

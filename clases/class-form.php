@@ -1135,16 +1135,14 @@ class FORM{
 		<?php
 	}
 	function input_form($label,$id,$placeholder,$valor,$class,$class_div,$mensaje,$disabled,$validar,$otros){
-		$label = str_replace("<span class='obligatorio'>*</span>","*",$label);
-		$label = str_replace("*","<span class='obligatorio'>*</span>",$label);
     ?>
     <div class="form-group <?php echo $class_div; ?>" id="input-<?php echo $id; ?>" >
       <label><?php echo $label; ?></label>
-      <input class="form-control <?php echo $class; ?>" id="<?php echo $id; ?>" name="<?php echo $id; ?>" validar="<?php echo $validar; ?>" data-validar="" placeholder="<?php echo $placeholder; ?>" value="<?php echo $valor; ?>" <?php echo $disabled; echo $otros; ?> />
+      <input class="form-control <?php echo $class; ?>" id="<?php echo $id; ?>" name="<?php echo $id; ?>" validar="<?php echo $validar; ?>" placeholder="<?php echo $placeholder; ?>" value="<?php echo $valor; ?>" <?php echo $disabled; echo $otros; ?> />
 			<?php if (!empty($mensaje)){ ?>
 			<p class="help-block"><?php echo $mensaje; ?></p>
 			<?php } ?>
-			<div class="mensajes-aux mensajes-aux-<?php echo $id; ?>" ></div>
+			<div class="mensajes-aux"></div>
     </div>
     <?php
   }
@@ -1464,24 +1462,6 @@ class FORM{
 			<?php if (!empty($mensaje)){ ?>
 			<p class="help-block"><?php echo $mensaje; ?></p>
 			<?php } ?>
-    </div>
-    <?php
-  }
-
-  function select_form_num($label,$id,$valores,$select,$class_div,$class_select){
-  	 ?>
-    <div class="form-group <?php echo $class_div; ?>">
-      <label><?php echo $label; ?></label>
-      <select class="form-control box-md-4 <?php echo $class_select; ?>" id="<?php echo $id; ?>" name="<?php echo $id; ?>">
-      	<?php 
-      	  $val = explode(",",$valores);
-      	  $nv = count($val);
-      		for ($i=0; $i < $nv ; $i++) { 
-      			echo "<option class='' value='$i'>".$val[$i]."</option>";
-      			# code...
-      		}
-      	?>
-      </select>
     </div>
     <?php
   }
@@ -2314,22 +2294,6 @@ class FORM{
 		<?php
 	}
 
-	function select_target($id,$target,$class,$class_option){
-		?>
-		<div class="form-group <?php echo $class_div; ?> ">
-			<label>Destino:</label>
-			<select class="form-control box-md-4" id="<?php echo $id; ?>" name="<?php echo $id; ?>">
-				<?php 
-					if ($target=="_self") {  $auxs="selected";  }else{  $auxs=""; }
-					if ($target=="_black"){  $auxb="selected";  }else{  $auxb=""; }
-				?>
-				<option class='<?php echo $class_option; ?>' value='_self' <?php echo $auxs; ?> >Dentro de la página</option>";
-				<option class='<?php echo $class_option; ?>' value='_blank' <?php echo $auxb; ?> >Fuera de la página</option>";
-			</select>
-		</div>
-		<?php
-	}
-
 	function select_form_cat_id($label,$id,$id_item,$div_class,$id_padre=""){
 		?>
 		<div class="form-group <?php echo $div_class; ?>">
@@ -2337,38 +2301,6 @@ class FORM{
 			<select class="form-control" id="<?php echo $id; ?>" name="<?php echo $id; ?>">
 				<?php $this->fmt->categoria->traer_opciones_cat($id_item,$id_padre); ?>
 			</select>
-		</div>
-		<?php
-	}
-
-	function roles_usuarios_checkbox($label,$id,$rol,$class_div,$class_select){
-		?>
-		<div class="form-group <?php echo $class_div; ?>">
-      <label><?php echo $label; ?></label>
-			<div class="group <?php echo $class_select; ?>">
-				<?php
-					$sql="select rol_id, rol_nombre from rol ORDER BY rol_id asc";
-					$rs =$this->fmt->query->consulta($sql,__METHOD__);
-					$num=$this->fmt->query->num_registros($rs);
-					if($num>0){
-						for($i=0;$i<$num;$i++){
-							$row=$this->fmt->query->obt_fila($rs);
-							$fila_id=$row["rol_id"];
-							$fila_nombre=$row["rol_nombre"];
-							$ch="";
-							if (in_array($fila_id, $rol)){
-								$ch="checked";
-							}
-							?>
-							<div class="checkbox">
-								<input name="<?php echo $id; ?>" <?php echo $ch; ?> id="<?php echo $id; ?>" type="radio" value="<?php echo $fila_id; ?>">
-								<label><?php echo $fila_nombre; ?></label>
-							</div>
-							<?php
-						}
-					}
-				?>			 
-			</div>
 		</div>
 		<?php
 	}
@@ -2624,21 +2556,10 @@ class FORM{
   function btn_nuevo($form,$modo,$id_mod,$tarea){
 			$this->fmt->form->hidden_modulo($id_mod,$tarea);
     ?>
-    <div class="form-group form-botones box-botones-form">
+    <div class="form-group form-botones">
 			<div class="group">
-	       <!-- <button type="button" class="btn-accion-form btn btn-info  btn-guardar btn-form<?php echo $modo; ?> color-bg-celecte-b btn-lg" name="btn-accion" form="<?php echo $form;?>" id="btn-guardar" value="guardar"><i class="icn-save" ></i> Guardar</button> -->
+	       <button type="button" class="btn-accion-form btn btn-info  btn-guardar btn-form<?php echo $modo; ?> color-bg-celecte-b btn-lg" name="btn-accion" form="<?php echo $form;?>" id="btn-guardar" value="guardar"><i class="icn-save" ></i> Guardar</button>
 	       <button type="button" class="btn-accion-form btn btn-success btn-form color-bg-verde btn-activar btn-lg" name="btn-accion" form="<?php echo $form;?>" id="btn-activar" value="activar"><i class="icn-eye-open" ></i> Activar</button>
-		 	</div>
-    </div>
-    <?php
-  }  
-
-  function boton_guardar($form,$id_mod,$modo="",$tarea){
-			$this->fmt->form->hidden_modulo($id_mod,$tarea);
-    ?>
-    <div class="form-group form-botones box-botones-form">
-			<div class="group">
-	       <button type="button" class="btn-accion-form btn btn-info  btn-guardar btn-form <?php echo $modo; ?> color-bg-celecte-b" name="btn-accion" form="<?php echo $form;?>" id="btn-guardar" value="guardar"><i class="icn-save" ></i> Guardar</button>
 		 	</div>
     </div>
     <?php
