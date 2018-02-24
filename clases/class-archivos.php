@@ -139,13 +139,60 @@ class ARCHIVOS{
  }
 
 
+  function crear_imagen_Gmagick($src,$dest,$nombre){
+    $imagen = new Gmagick($src);
+    $imagen->thumbnailImage(100, 0);
+    $imagen->write($dest.$nombre);
+  }
+
+  function rotar_imagen($src,$color="#000000",$grados){
+    $image = new Imagick($src);
+    $image->rotateImage($color,$grados);
+    $image->writeImages($src, true);
+  }
+
+
+  function crear_imagen_imagick($src,$dest,$nombre,$width=null,$height=null,$valor_1=null,$valor_2=null){
+        
+          $image = new Imagick($src);
+
+  
+          if ($width < $height ) {
+            $image->rotateImage(new ImagickPixel("#000000"),-90); 
+          } else{
+            $image->thumbnailImage($width,$height,$valor_1,$valor_2);
+          }  
+
+          //$image->flopImage();
+           //$image->cropThumbnailImage( 100,100 );
+          $image->writeImages($dest.$nombre, true);
+
+          ?>
+            <script type="text/javascript">
+             // console.log("<?php echo $width."x".$height; ?>")
+            </script>
+          <?php
+
+          // if ($width > $height ) {
+          //   $this->rotar_imagen($dest.$nombre,"#000000","-270");
+          // }
+          
+     // }
+  }
+
   function crear_thumb($src, $dst, $width, $height, $crop=0){
+
+    //$tamano = getimagesize($src);
+
+    
 
     if(!list($w, $h) = getimagesize($src)) return "Unsupported picture type!";
 
     $type = strtolower(substr(strrchr($src,"."),1));
+    
     if($type == 'jpeg') $type = 'jpg';
-    if($type == 'pjpeg"') $type = 'jpg';
+    if($type == 'pjpeg"') $type = 'jpg';//
+    
     switch($type){
       case 'bmp': $img = imagecreatefromwbmp($src); break;
       case 'gif': $img = imagecreatefromgif($src); break;
@@ -188,19 +235,22 @@ class ARCHIVOS{
       imagecolortransparent($new, imagecolorallocatealpha($new, 0, 0, 0, 127));
       imagealphablending($new, false);
       imagesavealpha($new, true);
-
       $color =   imagecolorallocate ($new,0x00,0x00,0x00,127);  
-      imagefill($new, 0, 0, $color);
+    imagefill($new, 0, 0, $color);
     }
 
-    imagecopyresampled($new, $img, 0, 0, $x, 0, $width, $height, $w, $h);
+    
+
+    //imagecopyresampled($new, $img, 0, 0, $x, 0, $width, $height, $w, $h);
+
+    imagecopyresampled( $new, $img, 0, 0, $x, 0, $width, $height, $w, $h );
     $q=9/100;
     $quality*=$q;
 
     switch($type){
       case 'bmp': imagewbmp($new, $dst,98); break;
       case 'gif': imagegif($new, $dst,98); break;
-      case 'jpg': imagejpeg($new, $dst,$quality); break;
+      case 'jpg': imagejpeg($new, $dst,80); break;
       case 'png': imagepng($new, $dst,$quality); break;
     }
     return true;

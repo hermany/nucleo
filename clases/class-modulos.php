@@ -27,6 +27,12 @@ class CLASSMODULOS{
     <?php
 	}
 
+  function script_console($imprimir){
+    return  '<script>
+      console.log("'.$imprimir.'")
+    </script>';
+  }
+
   function script_tabs(){
     return '$(".group-tabs .category").click(function(){
       var idf = $(this).attr("idtab");
@@ -783,6 +789,8 @@ class CLASSMODULOS{
 
           //console.log(datos);
 
+          $num_val=0;
+
           $("#"+formk +" input").each(function(index){
 
               var validar = $(this).attr("validar");
@@ -793,11 +801,14 @@ class CLASSMODULOS{
 
               if ((validar!="") && (validar!= undefined)){
                  // console.log(id_input+":"+validar+":"+valor_id+":"+tipo_obj);
+                 $num_val++;
                   validar_campo(id_input,validar,valor_id,tipo_obj,datos);
-              }
+              } 
           });
 
-           //abrir_modulos(datos);
+          if ($num_val==0){
+            abrir_modulos(datos);
+          }
         });
 
         
@@ -1100,8 +1111,14 @@ function traer_fecha_literal($fecha_hora){
 
   function fecha_hoy($zona){
     setlocale(LC_TIME,"es_ES");
-	  date_default_timezone_set($zona);
+    date_default_timezone_set($zona);
     return date("Y-m-d H:i:s");
+  }
+
+  function fecha_hoy_imagenes($zona){
+    setlocale(LC_TIME,"es_ES");
+	  date_default_timezone_set($zona);
+    return date("YmdHis");
   }
 
 	function Estructurar_Fecha($Fecha){
