@@ -99,12 +99,18 @@
             <!-- <a class="btn-navbar btn-search" href="#" ><i class="icn-search"></i></a> -->
           </li>
           <?php
-            $consulta= "SELECT * FROM aplicacion WHERE app_activar=1";
+            $consulta= "SELECT app_id,  app_ruta_amigable, app_nav_url, app_icono, app_color FROM aplicacion WHERE app_activar=1 ORDER BY app_orden";
             $rs =$fmt->query->consulta($consulta,__METHOD__);
             $num=$fmt->query->num_registros($rs);
             if($num>0){
               for($i=0;$i<$num;$i++){
-                list($fila_id,$fila_nombre,$fila_d,$fila_ra,$fila_nav_url,$fila_url,$fila_icono,$fila_color,$fila_orden,$fila_activar)=$fmt->query->obt_fila($rs);
+               $row=$fmt->query->obt_fila($rs);
+               $fila_id = $row["app_id"];
+               $fila_nombre = $row["app_nombre"];
+               $fila_ra = _RUTA_WEB."dashboard/webapp/".$row["app_ruta_amigable"];
+               $fila_nav_url = $row["app_nav_url"];
+               $fila_icono = $row["app_icono"];
+               $fila_color = $row["app_color"];
                 ?>
                 <li class="">
                   <a class="btn-navbar btn-site-<?php echo $fila_id; ?>" href="<?php echo $fila_ra; ?>" sitio="<?php echo $fila_id; ?>" ><i style="color:<?php echo $fila_color; ?>"class="icn <?php echo $fila_icono; ?>"></i></a>
@@ -163,6 +169,8 @@
               </li>
             </ul>
           </li><!-- fin perfil general -->
+          <?php 
+          if (($fmt->nav->num_sistemas_rol($id_rol)>0)||($id_rol==1)){ ?>
           <li class="nav-menu dropdown">
             <a class="btn-navbar btn-menu dropdown-toggle" >
               <i class="icn-reorder"></i>
@@ -183,6 +191,7 @@
               <?php }  ?>
             </ul>
           </li><!-- fin nav-menu -->
+          <?php  }  ?>
         </ul><!-- fin nav -->
       </div><!-- fin navbar-header  rigth -->
     </div><!-- fin rigth  -->

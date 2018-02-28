@@ -946,8 +946,44 @@ function traer_fecha_literal($fecha_hora){
         //$F .= "</div>";
       }
 
+      if ($modo=="data-calculo"){
+        $F ="";
+        $day = array(' ','lun','mar','mie','jue','vie','sab',"dom");
+        $F = $day[date('N', strtotime($fecha))].",".$dia."-".$mes."-".$ano." ".$hora.":".$min.":".$seg;
+      }
+
 		return $F;
 	}
+
+  function cambiar_dia_mini_normal($dia){
+    switch ($dia) {
+      case 'lun':
+        return "Lunes";
+        break;      
+      case 'mar':
+        return "Martes";
+        break;      
+      case 'mie':
+        return "Miercoles";
+        break;      
+      case 'jue':
+        return "Jueves";
+        break;      
+      case 'vie':
+        return "Viernes";
+        break;      
+      case 'sab':
+        return "Sábado";
+        break;      
+      case 'dom':
+        return "Domingo";
+        break;
+      
+      default:
+        return "error";
+        break;
+    }
+  }
 
   function formatear_hora($hora){
     $h = explode(":",$hora);
@@ -1270,7 +1306,7 @@ function traer_fecha_literal($fecha_hora){
 	    $month = array(' ','Ene','Feb','Mar','Abr','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre');
 
 
-	    $F .= "<span class='Dia'>".$dia." </span>";
+	    $F .= "<span class='Dia'>".$day[$dia]." </span>";
 	    $F .= "<span class='Mes'>".$month[$mes]." </span>";
 	    $F .= "<span class='Ano'>".$ano." </span>";
 

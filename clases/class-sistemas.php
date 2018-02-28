@@ -162,6 +162,7 @@ class CLASSSISTEMAS{
          //exit(0);
       }else{
          $nombre_archivo = _RUTA_HOST.".htaccess";
+         // $this->chmod_R($nombre_archivo, 0777);÷÷
       	 $this->escribir_htaccess($nombre_archivo);
       }
 
@@ -197,9 +198,15 @@ class CLASSSISTEMAS{
           fwrite($archivo, "#".PHP_EOL);
 
           fwrite($archivo, "RewriteEngine On".PHP_EOL);
-          $ruta = str_replace("http://","www.",_RUTA_WEB);
-          $ruta = str_replace("https://","www.",_RUTA_WEB);
-          $ruta = str_replace("/","",$ruta);
+
+          if (_TIPO_CONEXION=="localhost"){
+            $ruta = str_replace("http://","",_RUTA_WEB);
+            $ruta = str_replace("https://","",_RUTA_WEB);
+          }else{
+            $ruta = str_replace("http://","www.",_RUTA_WEB);
+            $ruta = str_replace("https://","www.",_RUTA_WEB);
+            $ruta = str_replace("/","",$ruta);
+          }
 
           fwrite($archivo, "RewriteCond %{HTTP_HOST} ^".$ruta." [NC]".PHP_EOL);
           // fwrite($archivo, "RewriteCond %{HTTP_HOST} ^www\.candire\.net$ [NC]".PHP_EOL);
@@ -360,6 +367,9 @@ class CLASSSISTEMAS{
         fwrite($archivo, "Rewriterule ^dashboard/([^/]*)$   dashboard.php?m=$1".PHP_EOL);
         fwrite($archivo, "Rewriterule ^dashboard/([^/]*)/([0-9]*)$   dashboard.php?m=$1&cat=$2".PHP_EOL);
         fwrite($archivo, "Rewriterule ^dashboard/([^/]*)/([^/]*)-catg$   dashboard.php?m=$1&catg=$2".PHP_EOL);
+        fwrite($archivo, "Rewriterule ^dashboard/webapp/([^/]*)$   dashboard.php?app=$1".PHP_EOL);        
+        fwrite($archivo, "Rewriterule ^dashboard/webapp/([^/]*)/([^/]*)$   dashboard.php?app=$1&accion=$2".PHP_EOL);        
+
         fwrite($archivo, "Rewriterule ^login$  login.php".PHP_EOL);
         fwrite($archivo, "Rewriterule ^logout$  logout.php".PHP_EOL);
         fwrite($archivo, "Rewriterule ^forgot$  forgot.php".PHP_EOL);

@@ -49,9 +49,9 @@ $fmt->header->title_page("Dashboard");
   <?php
   require_once(_RUTA_NUCLEO.'modulos/nav/navbar.adm.php');
   ?>
-  
   <div class="container-fluid content-page" id="content-page">
   <?php
+
     if ($_GET["m"]){
       $sql ="SELECT mod_url,mod_id,mod_ruta_amigable FROM modulo WHERE mod_ruta_amigable='".$_GET["m"]."'";
       $rs = $fmt->query->consulta($sql,__METHOD__);
@@ -63,7 +63,21 @@ $fmt->header->title_page("Dashboard");
         $id_mod = $row["mod_id"];
         require_once($url_mod);
       }else{
-        $fmt->error->error_pag_no_encontrada();
+        $fmt->errores->error_pag_no_encontrada();
+      }
+    }
+
+    if ($_GET["app"]){
+      $sql ="SELECT app_url,app_id,app_ruta_amigable FROM aplicacion WHERE app_ruta_amigable='".$_GET["app"]."'";
+      $rs = $fmt->query->consulta($sql,__METHOD__);
+      $row = $fmt->query->obt_fila($rs);
+      $url_app = _RUTA_NUCLEO."".$row["app_url"];
+      $url_a = $row["app_ruta_amigable"];
+      if (file_exists($url_app)) {
+        $id_app = $row["app_id"];
+        require_once($url_app);
+      }else{
+        $fmt->errores->error_pag_no_encontrada();
       }
     }
   ?>

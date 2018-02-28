@@ -1093,9 +1093,9 @@ class FORM{
     <?php
   }
 
-  function tbody_table_open(){
+  function tbody_table_open($id,$class){
     ?>
-    <tbody>
+    <tbody id="<?php echo $id; ?>" class="<?php echo $class; ?>">
   	<?php
   }
 

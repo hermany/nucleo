@@ -118,7 +118,7 @@ class CLASSPAGINAS{
 		<?php
 	}
 
- 	function tabs_mod($titulo,$id,$tabs,$icono,$tab_active="0",$div_class){
+ 	function tabs_mod($titulo,$id,$tabs,$icono,$tab_active="0",$div_class, $class_categoria,$aux_lat){
 		$bx ="";
 		?>
 		<div class="block-tabs <?php echo $div_class; ?>" id="<?php echo $id; ?>">
@@ -141,9 +141,10 @@ class CLASSPAGINAS{
 								if ($tab_active==$i){ $active="active"; }
 								if ($tab_active=="0" && $i==0 ){ $active="active";   }
 								?>
-								<a class="category <?php echo $active; ?>" id="tab-<?php echo $i; ?>" idtab="<?php echo $i; ?>" ><i class="<?php echo $icono[$i]; ?>"></i><?php echo $tabs[$i]; ?></a>
+								<a class="category <?php echo $active." ".$class_categoria; ?>" id="tab-<?php echo $i; ?>" idtab="<?php echo $i; ?>" ><i class="<?php echo $icono[$i]; ?>"></i><?php echo $tabs[$i]; ?></a>
 								<?php
 							}
+							echo $aux_lat;
 						?>
 					</div>
 				</div> <!-- fin   tabs-header -->
@@ -155,7 +156,9 @@ class CLASSPAGINAS{
 					var idtab = $(this).attr("idtab");
 					console.log(idtab);
 					$(".tab-content").removeClass('on');
-					$("#<?php echo $id; ?> #content-"+idtab).addClass('on');
+					$(".category").removeClass('active');
+					$("#content-<?php echo $id; ?>-"+idtab).addClass('on');
+					$("#<?php echo $id; ?> #tab-"+idtab).addClass('active');
 				});
 			});
 		</script>
@@ -226,7 +229,7 @@ class CLASSPAGINAS{
 		function inicio_form($label,$id_form,$class,$botones_pre,$botones_pos){
 			$this->fmt->class_pagina->crear_head_form($label,$botones_pre,$botones_pos);
 			$this->fmt->class_pagina->head_form_mod();
-			$this->fmt->class_pagina->form_ini_mod($id_form,"form-lugares");
+			$this->fmt->class_pagina->form_ini_mod($id_form,$class);
 		}
 
 		function fin_form(){

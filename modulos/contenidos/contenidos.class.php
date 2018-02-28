@@ -123,6 +123,12 @@ class CONTENIDOS{
 				<?php
 				//$this->fmt->form->agregar_documentos("Documentos:","inputDoc",$fila["conte_id"],"","","","contenidos_documento","conte_doc_conte_id","conte_doc_doc_id"); //$label,$id,$valor,$class,$class_div,$mensaje,$from,$id_item
 
+				$this->fmt->form->imagen_unica_form("inputImagen","","","form-normal","Imagen relacionada:");
+
+				$this->fmt->form->multimedia_form_block("",$this->id_mod,"","","Multimedia Adicional:","contenido_multimedia","conte_mul_","conte_");//$id_item,$id_mod,$class_div,$label="Subir archivo",$label_form=""
+
+				$this->fmt->form->documentos_form("",$this->id_mod,"","Documentos relacionados:","contenido_documentos","conte_doc_","conte_");
+
 				$this->fmt->form->categoria_form('Categoria','inputCat',"0","","",""); //$label,$id,$cat_raiz,$cat_valor,$class,$class_div
 				$fecha=$this->fmt->class_modulo->fecha_hoy('America/La_Paz');
 				$this->fmt->form->input_form('Fecha:','inputFecha','',$fecha,'','','');//$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
@@ -158,9 +164,9 @@ class CONTENIDOS{
 			$activar=0;
 		}
 		if($_POST["inputTitulo"]!=""){
-			if(isset($_POST["inputUrl"]))
-				$imagen=$_POST["inputUrl"];
-			else
+			// if(isset($_POST["inputUrl"]))
+			// 	$imagen=$_POST["inputUrl"];
+			// else
 				$imagen=$_POST['inputImagen'];
 
 			$ingresar ="conte_titulo, conte_ruta_amigable, conte_subtitulo, conte_cuerpo, conte_foto, conte_fecha, conte_id_usuario, conte_clase, conte_tag, conte_id_dominio, conte_activar_titulo,conte_activar";
@@ -202,6 +208,15 @@ class CONTENIDOS{
 				$sql1="insert into contenido_documentos  (".$ingresar1.") values (".$valores1.")";
 				$this->fmt->query->consulta($sql1,__METHOD__);
 			}
+
+			$ingresar1 = "conte_mul_conte_id,conte_mul_mul_id,conte_mul_orden";
+				$valor_mul= $_POST['inputModItemMul'];
+				$num=count( $valor_mul );
+				for ($i=0; $i<$num;$i++){
+					$valores1 = "'".$id."','".$valor_mul[$i]."','$i'";
+					$sql1="insert into contenido_multimedia  (".$ingresar1.") values (".$valores1.")";
+					$this->fmt->query->consulta($sql1,__METHOD__);
+				}
 
 		}
 		$this->fmt->class_modulo->redireccionar($ruta_modulo,"1");
