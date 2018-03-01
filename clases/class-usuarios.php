@@ -106,7 +106,7 @@ class USUARIO{
   }
 
   function nombre_usuario($usuario){
-    $sql="select usu_nombre, usu_apellidos from usuario where usu_id=$usuario";
+    $sql="select usu_nombre from usuario where usu_id='$usuario'";
     $rs = $this->fmt->query-> consulta($sql,__METHOD__);
     $fila = $this->fmt->query->obt_fila($rs);
     return $fila["usu_nombre"];
@@ -132,11 +132,27 @@ class USUARIO{
     return $fila["usu_amigos"];
   }
 
-  function nombre_apellidos($usuario){
+  function nombre_apellidos($usuario,$apellidos="0"){
     $sql="select usu_nombre, usu_apellidos from usuario where usu_id=$usuario";
     $rs = $this->fmt->query-> consulta($sql,__METHOD__);
     $fila = $this->fmt->query->obt_fila($rs);
-    return $fila["usu_nombre"]." ".$fila["usu_apellidos"];
+    if ($apellidos=="1"){
+       $apx = explode(" ",$fila["usu_apellidos"]);
+       $ap = $apx[0];
+    }else{
+      $ap = $fila["usu_apellidos"];
+    }
+    return $fila["usu_nombre"]." ".$ap;
+  } 
+
+  function siglas_nombre($nombre){
+    $nombrex = explode(" ", $nombre);
+    if (!empty($nombrex[1])){
+      $ap = substr($nombrex[1], 0, 1);
+    }else{
+      $ap="";
+    }
+    return  substr($nombrex[0], 0, 1).$ap;
   } 
 
   function usuario_siglas($usuario){
@@ -186,6 +202,12 @@ class USUARIO{
       $r = $fila["usu_imagen"];
     }
     return $r;
+  }  
+  function imagen_usuario_thumb($usuario){
+    $sql="select usu_imagen from usuario where usu_id=$usuario";
+    $rs = $this->fmt->query-> consulta($sql,__METHOD__);
+    $fila = $this->fmt->query->obt_fila($rs);
+    return $this->fmt->archivos->convertir_url_thumb($fila["usu_imagen"]);
   }
   function imagen_usuario_mini($usuario){
     if (!empty($usuario)){
@@ -329,7 +351,7 @@ class USUARIO{
     			$.ajax({
     				url:ruta,
     				type:"post",
-    				data:form_finder,
+    				data:form_list,
     				processData: false,
     				contentType: false,
     				success: function(msg){

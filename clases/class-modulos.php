@@ -738,7 +738,7 @@ class CLASSMODULOS{
 
   function botones_tabla($id_item,$id_mod,$nombre_item){
     echo $this->fmt->class_pagina->crear_btn_m("","icn-pencil","editar ".$id_item,"btn btn-accion btn-menu-ajax ",$id_mod,"form_editar,".$id_item);
-    echo $this->fmt->class_pagina->crear_btn_m("","icn-trash","eliminar ".$id_item,"btn btn-accion btn-fila-eliminar",$id_mod,"eliminar,".$id_item,"",$nombre_item);
+    echo $this->fmt->class_pagina->crear_btn_m("","icn-trash","eliminar ".$id_item,"btn btn-accion btn-m-eliminar",$id_mod,"eliminar,".$id_item,"",$nombre_item);
   }
 
   function modal_script($id_mod){
@@ -1149,6 +1149,18 @@ function traer_fecha_literal($fecha_hora){
     setlocale(LC_TIME,"es_ES");
     date_default_timezone_set($zona);
     return date("Y-m-d H:i:s");
+  }   
+
+  function date_formateado($zona,$formato){
+    setlocale(LC_TIME,"es_ES");
+    date_default_timezone_set($zona);
+    return date($formato);
+  }  
+
+  function hora_min($zona){
+    setlocale(LC_TIME,"es_ES");
+    date_default_timezone_set($zona);
+    return date("H:i");
   }
 
   function fecha_hoy_imagenes($zona){

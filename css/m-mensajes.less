@@ -26,8 +26,9 @@
 .block-chat {
 
   .tablero {
-    width: 300px;
+    width: 350px;
     height: 100%;
+    float: left;
     border-right: 1px solid @box-border-color;
 
     .box-buscar {
@@ -42,7 +43,7 @@
         left: 24px;
         color: @color-gray-c;
       }
-      
+
       input {
         margin: 15px 18px 8px 18px;
         width: 88.5%;
@@ -56,33 +57,269 @@
         color: @color-gray-c;
       }
     } //box-buscar
-    .block-tabs{
-    	.category{
-    		padding: 0px 15px 5px 15px;
-    		color: @color-gray-a;
+    .block-tabs {
+      .category {
+        padding: 0px 15px 5px 15px;
+        color: @color-gray-a;
 
-    		.icn{
-    			font-size: 23px;
-    			margin-right: 0;
-    		}
-    		&.active{
-    			color:@color-gray-e;
-    			border-color:@color-gray-e;
-    		}
-    	}
-    	.btn-activar-chat{
-				float: right;
-				/* border: 1px solid red; */
-				font-size: 17px;
-				padding: 7px 10px;
-				.icn-checkmark-circle{
-					color:@color-green;
-				}
-				.icn-close-circle{
-					color:@color-red;
-				}
-    	}
+        .icn {
+          font-size: 23px;
+          margin-right: 0;
+        }
+        &.active {
+          color: @color-gray-e;
+          border-color: @color-gray-e;
+        }
+      }
+      .btn-activar-chat {
+        float: right;
+        /* border: 1px solid red; */
+        font-size: 17px;
+        padding: 7px 10px;
+        .icn-checkmark-circle {
+          color: @color-green;
+        }
+        .icn-minus-circle {
+          color: @color-red;
+        }
+      }
     } // block-tabs
+    .bloque-lista-chats {
+      float: left;
+      width: 100%;
+      height: 89.5%;
+      overflow-y: auto;
+
+      .info-emisor {
+        float: left;
+        width: 100%;
+        padding: 10px 0px 10px 15px;
+        position: relative;
+
+        .siglas {
+          text-transform: uppercase;
+          width: 45px;
+          height: 45px;
+          display: inline-block;
+          background: @color-gray-a;
+          color: @color-gray-c;
+          float: left;
+          border-radius: 45px;
+          font-size: 17px;
+          line-height: 45px;
+          text-align: center;
+        }
+
+        .nombre {
+          width: 275px;
+          float: right;
+          color: @color-gray-e;
+          margin-top: 10px;
+          font-size: 16px;
+          padding-bottom: 20px;
+          border-bottom: 1px solid @box-border-color;
+        }
+
+        .hora {
+          position: absolute;
+          color: @color-gray-c;
+          font-size: 12px;
+          right: 20px;
+          top: 22px;
+
+          .icn-check-label {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            background: @color-green;
+            /* margin-top: 5px; */
+            float: right;
+            margin-left: 5px;
+            border-radius: 10px;
+            &.off {
+              display: none;
+            }
+
+            &.on {
+              display: inline-block;
+            }
+          }
+        }
+      }
+    }
   } // tablero
-  .box-chat {}
+  .box-chat {
+    height: 100%;
+    display: inline-block;
+    float: right;
+    position: relative;
+
+    .charla {
+      width: 100%;
+      height: 100%;
+      display: inline-block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      background-color: @blanco-3;
+
+      &.off {
+        display: none;
+      }
+
+      &.on {
+        display: inline-block;
+      }
+
+      .header {
+        width: 100%;
+        padding: 10px;
+        /* background: #eee; */
+        border-bottom: 1px solid @box-border-color;
+        float: left;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        display: inline-block;
+        background-color: @color-white;
+
+        .info {
+          width: 40%;
+          float: left;
+
+          .siglas {
+            width: 35px;
+            height: 35px;
+            float: left;
+          }
+
+          .nombre {
+            margin-top: 6px;
+            display: inline-block;
+            margin-left: 12px;
+            font-size: 16px;
+          }
+        }
+        .btn-cerrar-atencion {
+          float: right;
+        }
+      }
+
+      .box-conversacion {
+        margin-top: 55px;
+        width: 100%;
+        padding: 0px 15px;
+        display: inline-block;
+
+        .fecha-hora {
+          width: 100%;
+          text-align: center;
+          margin: 10px 0px;
+          font-size: 12px;
+          display: block;
+          color: @color-gray-b;
+        }
+
+        .bloque-mensaje {
+          width: 100%;
+          padding: 15px 10px 10px 10px;
+          display: block;
+          float: left;
+
+          .info {
+            width: 32px;
+            height: 32px;
+            display: inline-block;
+            border-radius: 40px;
+            float: left;
+
+            .imagen {
+              width: 100%;
+              height: 100%;
+              display: inline-block;
+              background-size: cover !important;
+              border-radius: 30px;
+            }
+
+            .nombre {
+              font-weight: bold;
+            }
+
+            .siglas {
+              text-transform: uppercase;
+              font-size: 14px;
+              padding: 7px;
+              text-align: center;
+              line-height: 18px;
+              background-color: @color-gray-a;
+            }
+          }
+
+          .mensaje {
+            width: auto;
+            max-width: 60%;
+            background: @color-white;
+            margin-right: 8px;
+            margin-left: 8px;
+            border-radius: 5px;
+            padding: 10px;
+            /* float: right; */
+            font-size: 13px;
+            border-top-left-radius: 0px;
+            float: left;
+          }
+
+          .info-receptor {
+            float: right !important;
+          }
+          .mensaje-receptor {
+            float: right !important;
+            border-top-right-radius: 0px;
+          }
+
+          .mensaje-emisor {
+            background: @color-blue-b;
+            color: @color-white;
+          }
+        }
+      }
+
+      .bloque-enviar-mensaje {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        padding: 10px 20px;
+        background-color: @color-white;
+        border-top: 1px solid @box-border-color;
+
+        input {
+          padding: 10px 12px;
+          border-radius: 5px;
+          border: 0px;
+          width: 81%;
+        }
+
+        .btn {
+          border: 1px solid;
+          /* margin-right: 10px; */
+          position: absolute;
+          right: 12px;
+          height: 40px;
+          line-height: 28px;
+        }
+      }
+    }
+  }
+}
+
+.siglas {
+  width: 100%;
+  height: 100%;
+  display: inline-block;
+  background-color: @blanco-3;
+  border-radius: 100px;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 34px;
 }

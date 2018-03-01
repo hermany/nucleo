@@ -144,7 +144,7 @@ class LUGAR{
 		$this->fmt->class_pagina->head_form_mod();
 		$this->fmt->class_pagina->form_ini_mod($id_form,"form-lugares");
 		
-		$this->fmt->form->hidden_modulo($this->id_mod,"modificar");
+		// $this->fmt->form->hidden_modulo($this->id_mod,"modificar");
 		$this->fmt->form->input_form("<span class='obligatorio'>*</span> Nombre:","inputNombre","",$row["mod_lug_nombre"],"input-lg","","");
 		$this->fmt->form->input_hidden_form("inputId",$id);
 
