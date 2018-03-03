@@ -1855,5 +1855,26 @@ function traer_fecha_literal($fecha_hora){
     return strlen($texto);
   }
 
+  function convertir_ruta_amigable($ruta){
+    $cadena= utf8_decode($cadena);
+    $cadena = strtolower($cadena);
+    $cadena = str_replace(' ', '-', $cadena);
+    $cadena = str_replace('?', '', $cadena);
+    $cadena = str_replace('+', '', $cadena);
+    $cadena = str_replace(':', '', $cadena);
+    $cadena = str_replace('??', '', $cadena);
+    $cadena = str_replace('`', '', $cadena);
+    $cadena = str_replace('!', '', $cadena);
+    $cadena = str_replace('¿', '', $cadena);
+    $cadena = str_replace(',', '-', $cadena);
+    $cadena = str_replace('(', '', $cadena);
+    $cadena = str_replace(')', '', $cadena);
+    $originales = 'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿ??';
+    $modificadas = 'aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuyybyRr';
+    $cadena = strtr($cadena, utf8_decode($originales), $modificadas);
+
+    return $cadena;
+  }
+
 }
 ?>

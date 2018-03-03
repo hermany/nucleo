@@ -38,10 +38,9 @@ if(isset($_POST["action"])){
 					   $(this).removeClass("icn-eye-close");
 				   }
 				   $("#pub-"+pub).attr("act", act);
+				   $("#pub-c-"+pub).attr("act", act);
 				   $(this).attr("act", act);
 			    });
-
-
 
 			  });
 			  </script>
@@ -71,7 +70,7 @@ if(isset($_POST["action"])){
 				$act=$acts[$j];
 				$sql="insert into publicacion_rel (pubrel_cat_id, pubrel_pla_id, pubrel_cont_id, pubrel_pub_id, pubrel_activar, pubrel_orden) values ('$cat','$pla','$con','$pub','$act','$j')";
 				$rs=$fmt->query->consulta($sql,__METHOD__);
-				echo $sql.":";
+				//echo $sql.":";
 			}
 		}
 		//echo $sqld.":".$cat.":".$pla.":".$num;
@@ -122,7 +121,7 @@ function traerpublicaciones($cat,$pla,$cont,$fmt){
 			$im = _RUTA_WEB.$imagen;
 		}
 		echo "<li id='pub-c-".$pub."' pub='".$pub."' act='".$act."' class='ui-state'><i class='ui-state-disabled icn-move'></i><span class='ui-state-disabled'>".$nombre;
-		echo '</span><span class="box-accion pull-right ui-state-disabled"><i pub="'.$pub.'" class="icn icn-pencil ui-state-disabled"></i>';
+		echo '</span><span class="box-accion pull-right ui-state-disabled"><i pub="'.$pub.'" class="icn icn-pencil btn-editar-pub ui-state-disabled"></i>';
 		echo '<i pub="'.$pub.'" act="'.$act.'" class="ui-state-disabled icn icn-eye '.$cls.'"></i>';
 		echo '<i pub="'.$pub.'" class="ui-state-disabled icn icn-trash" aria-hidden="true"></i></span>';
 		echo "</li>";

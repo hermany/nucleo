@@ -8,9 +8,9 @@ if ($fmt->get->validar_get($_POST["inputItem"])){
 
   echo '<label class="title title-head">Editar documento</label>';
   echo      '</div><div class="block-form">
-              <form class="form form-modulo form-multimedia" method="POST" id="form-editar">
+              <form class="form form-modulo form-multimedia" method="POST" id="form-editar-doc-modificar">
               <input type="hidden" id="inputId" name="inputId" value="'.$fila["doc_id"].'">';
-              $fmt->form->input_form("<span class='obligatorio'>*</span> Nombre documento:","inputNombre","",$fila['doc_nombre'],"","","");
+              $fmt->form->input_form("* Nombre documento:","inputNombre","",$fila['doc_nombre'],"","","");
               $fmt->form->input_form('Tags:','inputTags','',$fila['doc_tags'],'','','');
               $fmt->form->input_form('Ruta amigable:','inputRutaAmigable','',$fila['doc_ruta_amigable'],'');
               $fmt->form->textarea_form('Descripción:','inputDescripcion','',$fila['doc_descripcion'],'editor-texto','','3','');
@@ -24,7 +24,7 @@ if ($fmt->get->validar_get($_POST["inputItem"])){
           <div class="footer-modal">
             <div class="bloque-botones pull-right">
               <a class="btn btn-full btn-cancelar-modal-doc">Cancelar</a>
-              <a class="btn btn-primary btn-actualizar-modal-doc"><i class="icn icn-sync"/> Actualizar</a>
+              <a class="btn btn-primary btn-actualizar-modal-doc" item="'.$fila["doc_id"].'" ><i class="icn icn-sync"/> Actualizar</a>
             </div>
           </div>
         </div>';

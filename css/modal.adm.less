@@ -174,7 +174,7 @@ border: 0;
 
 .modal .form-modulo .form-group .form-control,
 .modal .form-modulo .form-group .input-group {
-  width: 67.55%;
+  width: 67.25%;
   display: inline-block;
   float: right;
   margin-right: 15px;
@@ -748,9 +748,25 @@ border: 0;
 
 .modal-editar {
   z-index: 340 !important;
-  .modal-editar-inner{
-    top:-10000px;
-  } 
+
+  &.on{
+
+    .modal-editar-inner{
+      width: 630px;
+      height: 60vh;
+      background: white;
+      margin-left: -300px;
+      left: 50%;
+      position: absolute;
+      margin-top: 10vh;
+      border-radius: 4px;
+
+      .block-form{
+        margin-top: 10px;
+      }
+    }  
+  }
+  
 }
 
 .modal-list.on {
@@ -769,16 +785,7 @@ border: 0;
   border-radius: @box-border-radius;
 }
 
-.modal-editar.on .modal-editar-inner {
-  width: 630px;
-  height: 60vh;
-  background: white;
-  margin-left: -300px;
-  left: 50%;
-  position: absolute;
-  margin-top: 10vh;
-  border-radius: 4px;
-}
+
 
 .modal .title-head {
   background-color: #F6F7F9;

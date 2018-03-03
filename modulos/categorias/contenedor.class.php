@@ -170,21 +170,46 @@ class CONTENEDOR{
 				});
 		    });
 
+		    $("body").on('click', '.btn-editar-pub', function() {
+		    	var pub = $(this).attr("pub");
+		    	//event.preventDefault();
+		    	//console.log("editar pub "+ pub);
+		    	var datos = {ajax:"ajax-adm", inputIdMod:"<?php echo $this->id_mod; ?>" , inputVars : "form_editar,"+pub };
+					abrir_modulo(datos);
+		    });
+
 	    });
 
 			function abrir_modulo(datos){
-				$.ajax({
-					url:"<?php echo _RUTA_WEB; ?>ajax.php",
-					type:"post",
-					data:datos,
-					success: function(msg){
-						$("#contenedor-principal").html(msg);
-					},
-					complete : function() {
-						$('.preloader-page').fadeOut('slow');
-					}
-				});
-			}
+					$(".modal-form").addClass("on");
+					$(".modal-form").addClass("<?php echo $url_a; ?>");
+					$(".body-page").css("overflow-y","hidden");
+					//console.log(datos);
+
+					$.ajax({
+						url:"<?php echo _RUTA_WEB; ?>ajax.php",
+						type:"post",
+						data:datos,
+						success: function(msg){
+
+							$(".modal-form .modal-inner").html(msg);
+							var wbm = $(".modal-form .modal-inner").height();
+              var wbmx = wbm - 108;
+              console.log("body-modulo:"+wbmx);
+              $(".body-modulo").height(wbmx);
+
+						},
+						complete : function() {
+							$('.preloader-page').fadeOut('slow');
+							// var wmi =   $("#modal .modal-inner").width();
+							// var hmi =   $("#modal .modal-inner").height();
+							// var x_wmi = Math.round(wmi /2);
+							// var y_hmi = Math.round(hmi /2);
+							// $("#modal .modal-inner").css("margin-left","-"+x_wmi+"px");
+							// $("#modal .modal-inner").css("margin-top","-"+y_hmi+"px");
+						}
+					});
+				}
 
 	    function tienehijos(con){
 		    var num = $('#cont-'+con+'>li').length;
@@ -238,100 +263,164 @@ class CONTENEDOR{
   }
 
   function form_editar(){
-    $this->fmt->get->validar_get ( $_GET['cat'] );
-    $this->fmt->get->validar_get ( $_GET['id'] );
-    $modo = $_GET['modo'];
-    $id = $_GET['id'];
-    $cat = $_GET['cat'];
+    $sql="select * from publicacion	where pub_id='".$this->id_item."'";
+		$rs=$this->fmt->query->consulta($sql);
+		$num=$this->fmt->query->num_registros($rs);
+			if($num>0){
+				for($i=0;$i<$num;$i++){
+					$row=$this->fmt->query->obt_fila($rs);
+					$fila_id= $row["pub_id"];
+					$fila_nombre= $row["pub_nombre"];
+					$fila_descripcion= $row["pub_descripcion"];
+					$fila_imagen= $row["pub_imagen"];
+					$fila_titulo= $row["pub_titulo"];
+					$fila_tipo= $row["pub_tipo"];
+					$fila_archivo= $row["pub_archivo"];
+					$fila_archivo_config= $row["pub_archivo_config"];
+					$fila_css= $row["pub_css"];
+					$fila_clase= $row["pub_clase"];
+					$fila_item= $row["pub_id_item"];
+					$fila_numero= $row["pub_numero"];
+					$fila_cat= $row["pub_id_cat"];
+					$fila_activar= $row["pub_activar"];
+				}
+			}
 
-    if ($modo=="busqueda"){ $tarea="busqueda" ;}
-    if ($modo=="editar_contenidos"){ $tarea="editar_contenidos" ;}
-    $botones = $this->fmt->class_pagina->crear_btn("contenedores.adm.php?cat=".$cat."&tarea=".$tarea,"btn btn-link  btn-volver","icn-chevron-left","volver"); // link, clase, icono, nombre
-    $this->fmt->class_pagina->crear_head_form("Editar Contenedor", $botones,"");
+		// $botones = $this->fmt->class_pagina->crear_btn_m("volver","icn-chevron-left","volver","btn btn-link btn-volver btn-menu-ajax ",$this->id_mod,"busqueda");
 
+		//$this->fmt->class_pagina->crear_head_form("Editar Publicación", $botones,"","",$this->id_mod,"form_editar,".$fila_id);
+		$this->fmt->class_pagina->crear_head_form("Editar Publicación");
+		$id_form="form-editar";
 
-    $sql="select * from contenedor	where cont_id='".$id."'";
-    $rs=$this->fmt->query->consulta($sql,__METHOD__);
-    $num=$this->fmt->query->num_registros($rs);
-      if($num>0){
-        for($i=0;$i<$num;$i++){
-          // list($fila_id,$fila_nombre,$fila_clase,$fila_css,$fila_codigos,$fila_activar,$fila_id_padre,$fila_orden)=$this->fmt->query->obt_fila($rs);
-					$row = $this->fmt->query->obt_fila($rs);
-          $fila_id= $row["cont_id"];
-					$fila_nombre= $row["cont_nombre"];
-					$fila_clase= $row["cont_clase"];
-					$fila_css= $row["cont_css"];
-					$fila_codigos= $row["cont_codigos"];
-					$fila_id_padre= $row["cont_id_padre"];
-					$fila_orden = $row["cont_orden"];
-					$fila_activar = $row["cont_activar"];
-        }
-      }
+		 //$nombre,$botones_left, $botones_right, $class_modo,$id_mod,$vars
+		?>
+		<div class="body-modulo col-xs-6 col-xs-offset-3">
+			<form class="form form-modulo"  method="POST" id="<?php echo $id_form?>">
+				<div class="form-group" id="mensaje-form"></div> <!--Mensaje form -->
 
-    ?>
-    <div class="body-modulo col-xs-6 col-xs-offset-3">
-      <form class="form form-modulo" action="contenedores.adm.php?modo=<?php echo $modo; ?>&tarea=modificar&cat=<?php echo $cat; ?>"  method="POST" id="form-nuevo">
-        <div class="form-group" id="mensaje-form"></div> <!--Mensaje form -->
+				<div class="form-group">
+					<label>Nombre publicación:</label>
+					<input class="form-control input-lg"  id="inputNombre" name="inputNombre" placeholder=" " value="<?php echo $fila_nombre; ?>" type="text" autofocus />
+					<input id="inputId" name="inputId" type="hidden" value="<?php echo $fila_id; ?>" />
+				</div>
+				<div class="form-group form-descripcion">
+					<label>Descripción:</label>
+					<textarea class="form-control" rows="2" id="inputDescripcion" name="inputDescripcion" placeholder=""><?php echo $fila_descripcion; ?></textarea>
+				</div>
+				<div class="form-group">
+					<label>Ruta Archivo:</label>
+					<input class="form-control" id="inputArchivo" name="inputArchivo" placeholder="" value="<?php echo $fila_archivo; ?>"/>
+				</div>
+				<div class="form-group">
+					<label>Ruta Archivo Config:</label>
+					<input class="form-control" id="inputArchivoConfig" name="inputArchivoConfig" placeholder="" value="<?php echo $fila_archivo_config; ?>"/>
+				</div>
+				<div class="form-group">
+					<label>Imagen:</label>
+					<input class="form-control" id="inputImagen" name="inputImagen" placeholder="" value="<?php echo $fila_imagen; ?>"/>
+				</div>
+				<div class="form-group">
+					<label>Titulo:</label>
+					<input class="form-control" id="inputTitulo" name="inputTitulo" placeholder="" value="<?php echo $fila_titulo; ?>"/>
+				</div>
+				<div class="form-group">
+					<label>Tipo:<?php //echo $fila_tipo; ?></label>
+					<!-- <input class="form-control" id="inputTipo" name="inputTipo" placeholder="" value="<?php echo $fila_tipo; ?>" /> -->
+						<select class="form-control form-select" name="inputTipo" id="inputTipo">
+						<?php  echo $this->opciones_tipo($fila_tipo);  ?></select>
+				</div>
 
-        <div class="form-group control-group">
-          <label>Nombre contenedor:</label>
-          <input class="form-control input-lg color-border-gris-a color-text-gris"  id="inputNombre" name="inputNombre" placeholder=" " value="<?php echo $fila_nombre; ?>" type="text" autofocus />
-          <input id="inputId" name="inputId" type="hidden" value="<?php echo $fila_id; ?>" />
-        </div>
-        <div class="form-group form-descripcion">
-          <label>Clase:</label>
-          <input class="form-control" id="inputClase" name="inputClase" placeholder="" value="<?php echo $fila_clase; ?>"/>
-        </div>
-        <div class="form-group">
-          <label>Css:</label>
-          <input class="form-control" id="inputCss" name="inputCss" placeholder="" value="<?php echo $fila_css; ?>"/>
-        </div>
-        <div class="form-group">
-          <label>Codigos:</label>
-          <textarea class="form-control" id="inputCodigos" name="inputCodigos"><?php echo $fila_codigos; ?></textarea>
-        </div>
-        <div class="form-group">
-          <label>Id Padre:</label>
-          <input class="form-control" id="inputPadre" name="inputPadre" placeholder="" value="<?php echo $fila_id_padre; ?>"/>
-        </div>
-        <div class="form-group">
-          <label>Id Orden:</label>
-          <input class="form-control" id="inputOrden" name="inputOrden" placeholder="" value="<?php echo $fila_orden; ?>"/>
-        </div>
-        <div class="form-group form-botones">
-           <button  type="button" class="btn btn-danger btn-eliminar color-bg-rojo-a" id_eliminar="<?php echo $fila_id; ?>" nombre_eliminar="<?php echo $fila_nombre; ?>" name="btn-accion" id="btn-eliminar" value="eliminar"><i class="icn-trash" ></i> Eliminar Contenedores</button>
+				<div class="form-group">
+					<label>Ruta Css:</label>
+					<input class="form-control" id="inputUrlCss" name="inputUrlCss" placeholder="" value="<?php echo $fila_css; ?>"/>
+				</div>
+				<div class="form-group">
+					<label>Clase:</label>
+					<input class="form-control" id="inputClase" name="inputClase"  placeholder="" value="<?php echo $fila_clase; ?>" />
+				</div>
+				<div class="form-group">
+					<label>Id Item:</label>
+					<input class="form-control" id="inputItem" name="inputItem"  placeholder="" value="<?php echo $fila_item; ?>"/>
+				</div>
+				<div class="form-group">
+					<label>Número/Items:</label>
+					<input class="form-control" id="inputNumero" name="inputNumero"  placeholder="" value="<?php echo $fila_numero; ?>"/>
+				</div>
 
-           <button type="submit" class="btn btn-info  btn-actualizar hvr-fade btn-lg color-bg-celecte-c btn-lg" name="btn-accion" id="btn-activar" value="actualizar"><i class="icn-sync" ></i> Actualizar</button>
-        </div>
-      </form>
-    </div>
-    <?php
-      $this->fmt->class_modulo->script_form("modulos/categorias/contenedores.adm.php",$this->id_mod);
+				<!-- <div class="form-group">
+					<label>Id categoria:</label>
+					<input class="form-control" id="inputCat" name="inputCat"  placeholder="" value="<?php echo $fila_cat; ?>"/>
+				</div> -->
+				<?php
+				$this->fmt->form->select_form_cat_id("Categoría:","inputCat",$fila_cat); //$label,$id,$id_item,$div_class
+
+					$this->fmt->form->radio_activar_form($fila_activar);
+					$this->fmt->form->btn_actualizar("form-editar",$this->id_mod,"modificar"); //$id_form,$id_mod,$tarea
+				?>
+					 <!-- <button type="submit" class="btn btn-info  btn-actualizar hvr-fade btn-lg color-bg-celecte-c btn-lg" name="btn-accion" id="btn-activar" value="actualizar"><i class="icn-sync" ></i> Actualizar</button> -->
+				</div>
+			</form>
+		</div>
+		<?php
+		$this->fmt->class_modulo->modal_script($this->id_mod);
   }
 
-  function modificar(){
-    $this->fmt->get->validar_get ( $_GET['cat'] );
-    $modo = $_GET['modo'];
-    $cat = $_GET['cat'];
-    if ($modo=="busqueda"){ $tarea="busqueda" ;}
-    if ($modo=="editar_contenidos"){ $tarea="editar_contenidos" ;}
+  function tipo_publicacion($mod_tipo){
 
-		if ($_POST["btn-accion"]=="eliminar"){}
-		if ($_POST["btn-accion"]=="actualizar"){
+		switch ($mod_tipo) {
+			case '0':
+				$mod_tipo="0: Modulo Nucleo";
+				break;
+			case '1':
+				$mod_tipo="1: Modulo de sitio";
+				break;
+			case '2':
+				$mod_tipo="2: JSON / AJAX / Web Service";
+				break;
+			default:
+				$mod_tipo="no definido";
+				break;
+		}
+		return $mod_tipo;
+	}
 
-			$sql="UPDATE contenedor SET
-						cont_nombre='".$_POST['inputNombre']."',
-						cont_clase='".$_POST['inputClase']."',
-						cont_css ='".$_POST['inputCss']."',
-						cont_codigos='".$_POST['inputCodigos']."',
-						cont_activar='".$_POST['inputActivar']."',
-						cont_id_padre='".$_POST['inputPadre']."',
-						cont_orden='".$_POST['inputOrden']."'
-	          WHERE cont_id='".$_POST['inputId']."'";
-
-			$this->fmt->query->consulta($sql,__METHOD__);
+	function opciones_tipo($fila_tipo){
+		$tipos = Array();
+		for ($i = 0; $i <= 3; $i++) {
+			$tipos [$i]= $this->tipo_publicacion($i);
 		}
 
+		for ($i = 0; $i <= 3; $i++) {
+			$sel="";
+			if ($fila_tipo==$i){
+					$sel="selected";
+			}
+			$aux .='<option value="'.$i.'" '.$sel.' >'.$tipos[$i].'</option>';
+		}
+		return $aux;
+	}
+
+  function modificar(){
+    if ($_POST["estado-mod"]=="eliminar"){
+		}else{
+		 $sql="UPDATE publicacion SET
+						pub_nombre='".$_POST['inputNombre']."',
+						pub_descripcion='".$_POST['inputDescripcion']."',
+						pub_imagen ='".$_POST['inputImagen']."',
+						pub_titulo='".$_POST['inputTitulo']."',
+						pub_tipo='".$_POST['inputTipo']."',
+						pub_archivo='".$_POST['inputArchivo']."',
+						pub_archivo_config='".$_POST['inputArchivoConfig']."',
+						pub_css='".$_POST['inputUrlCss']."',
+						pub_clase='".$_POST['inputClase']."',
+						pub_id_item='".$_POST['inputItem']."',
+						pub_numero='".$_POST['inputNumero']."',
+						pub_id_cat='".$_POST['inputCat']."',
+						pub_activar='".$_POST['inputActivar']."'
+	          WHERE pub_id='".$_POST['inputId']."'";
+
+			$this->fmt->query->consulta($sql);
+		}
 		$this->fmt->class_modulo->redireccionar($ruta_modulo,"1");
 	}
 

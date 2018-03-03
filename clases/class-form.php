@@ -1193,7 +1193,7 @@ class FORM{
 
 	function ruta_amigable_form($id,$ruta="",$valor,$id_form,$ext="",$div_class,$modo="0",$placeholder,$mensaje){
 
-		if($modo==0){
+		if($modo==0){ 
 		?>
 			<div class="btn-link-ra <?php echo $div_class; ?>">
 				<a class="btn-link-ra-<?php echo $id; ?>"><i class="icn icn-link"></i></a>
@@ -1254,11 +1254,22 @@ class FORM{
  					      text = text.replace(/[^a-zA-Z0-9-]/, '');
  					      // text = text.replace(/(')s+/, 's');
  					      text = text.replace(/(_)$/, '-');
+ 					      text = text.replace(/[?¡¿!]/, '');
  					      text = text.replace(/(')$/, '+');
  					      text = text.replace(/^(_)/, '');
  					      text = text.replace(/^(:)/, '-');
  					      text = text.replace(/ +/g,'-');
  					      text = text.replace(/-+/g,'-');
+
+
+ 					      texto = text.split('');
+
+ 					      //console.log(texto[ texto.length -1 ]);
+ 					     
+ 					      if (texto[ texto.length -1 ]=="-"){
+ 					      	text = text.substring(0,texto.length -1 );
+ 					      }
+
  					      return text;
 					}
 
@@ -1778,6 +1789,37 @@ class FORM{
 						$(".modal-editar .modal-editar-inner").html("");
 						$(".modal-editar").removeClass("on");
 					});
+
+					$(".btn-actualizar-modal-doc").click(function(){
+						var id_doc= $(this).attr("item");
+						var formdata_a = new FormData();
+						formdata_a.append("ajax", "ajax-editar-doc-modificar");
+						formdata_a.append("inputItem", id_doc );
+						formdata_a.append("inputNombre", $("#form-editar-doc-modificar #inputNombre").val() );
+						formdata_a.append("inputTags", $("#form-editar-doc-modificar #inputTags").val() );
+						formdata_a.append("inputRutaAmigable", $("#form-editar-doc-modificar #inputRutaAmigable").val() );
+						formdata_a.append("inputDescripcion", $("#form-editar-doc-modificar #inputDescripcion").val() );
+						formdata_a.append("inputUrl", $("#form-editar-doc-modificar #inputUrl").val() );
+						formdata_a.append("inputTipo", $("#form-editar-doc-modificar #inputTipo").val() );
+						var ruta_a = "<?php echo _RUTA_WEB; ?>ajax.php";
+						$.ajax({
+							url:ruta_a,
+							type:"post",
+							data:formdata_a,
+							processData: false,
+							contentType: false,
+							success: function(msgx){
+							  console.log(msgx);
+								if (msg!="error"){
+								  var dat = msgx.split(","); 
+								  $("#doc-"+dat[0]+" .nombre").html(dat[1]);
+									$(".modal-editar .modal-editar-inner").html("");
+									$(".modal-editar").removeClass("on");
+								}
+							}
+						});
+					});
+
 				}
 			});
 		});

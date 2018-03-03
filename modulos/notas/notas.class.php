@@ -397,9 +397,15 @@ function ingresar(){
 
 				$imagen=$_POST['inputImagen'];
 
+				$ruta_a = $_POST['inputRutaamigable'];
+
+				if (empty($ruta_a)){
+					$ruta_a = $this->fmt->class_modulo->convertir_ruta_amigable($ruta_a);
+				}
+
 			  $sql="UPDATE nota SET
 						not_titulo='".$_POST['inputTitulo']."',
-						not_ruta_amigable ='".$_POST['inputRutaamigable']."',
+						not_ruta_amigable ='".$ruta_a."',
 						not_tags ='".trim($_POST['inputTags'])."',
 						not_resumen ='".$_POST['inputResumen']."',
 						not_cuerpo ='".$_POST['inputCuerpo']."',
