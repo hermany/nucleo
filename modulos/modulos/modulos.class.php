@@ -129,7 +129,7 @@ class MODULOS{
 					<span class="input-link"><a href="<?php echo _RUTA_WEB_NUCLEO; ?>includes/icons.php" target="_blank">ver iconos</a></span>
 				</div>
 
-				<div class="form-group">
+				<div class="form-group form-group-color">
 					<label>Color</label>
 					<?php
 					 if (empty($fila_color)){
@@ -227,7 +227,7 @@ class MODULOS{
 					<span class="input-link"><a href="<?php echo _RUTA_WEB_NUCLEO; ?>includes/icons.php" target="_blank">ver iconos</a></span>
 				</div>
 
-				<div class="form-group">
+				<div class="form-group form-group-color">
 					<label>Color</label>
 					<?php
 					 if (empty($fila_color)){

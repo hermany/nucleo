@@ -69,7 +69,7 @@ class PUBLICACIONES{
 							    <?php
 									echo $this->fmt->class_pagina->crear_btn_m("","icn-pencil","editar:".$fila_id,"btn btn-accion btn-editar btn-menu-ajax ".$aux,$this->id_mod,"form_editar,".$fila_id); //$nom,$icon,$title,$clase,$id_mod,$vars
 
-									echo $this->fmt->class_pagina->crear_btn_m("","icn-trash","eliminar:".$fila_id,"btn btn-accion btn-eliminar ".$aux,$this->id_mod,"eliminar,".$fila_id,"nombre=".$fila_nombre); //$nom,$icon,$title,$clase,$id_mod,$vars,$attr
+									echo $this->fmt->class_pagina->crear_btn_m("","icn-trash","eliminar:".$fila_id,"btn btn-accion btn-m-eliminar ".$aux,$this->id_mod,"eliminar,".$fila_id,"nombre=".$fila_nombre); //$nom,$icon,$title,$clase,$id_mod,$vars,$attr
 									?>
 										<!-- <a  title="eliminar <?php echo $fila_id; ?>" type="button" idEliminar="<?php echo $fila_id; ?>" nombreEliminar="<?php echo $fila_nombre; ?>" class="btn btn-eliminar btn-accion <?php echo $aux; ?>"><i class="icn-trash"></i></a> -->
 							    </td>

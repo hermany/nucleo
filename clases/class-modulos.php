@@ -242,7 +242,7 @@ class CLASSMODULOS{
           "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
           "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
           "sInfoPostFix":    "",
-          "sSearch":         "<i class='icn icn-zoom'></i>",
+          "sSearch":         "<i class='icn icn-search'></i>",
           "sUrl":            "",
           "sInfoThousands":  ",",
           "sLoadingRecords": "Cargando...",
@@ -734,7 +734,28 @@ class CLASSMODULOS{
       }
     }
     return $aux;
+  } 
+
+
+  function traer_rel_modulos_list($var){
+     //var_dump(json_decode($var));
+      $dato =json_decode($var);
+      $dat = explode(",",$dato->{'select'});
+      $consulta = "SELECT ".$dato->{'select'}." FROM ".$dato->{'from'}." WHERE ".$dato->{'where'};
+      $rs = $this->fmt->query->consulta($consulta,__METHOD__);
+      $num=$this->fmt->query->num_registros($rs);
+      $aux ="";
+      if ($num>0){
+        for ($i=0;$i<$num;$i++){
+          $row=$this->fmt->query->obt_fila($rs);
+             $aux .= "- <a class='btn-menu-ajax' id_mod='".$dato->{'id_mod'}."'  vars='ordenar,".$row[$dat[0]].",,".$dato->{'vars_mod'}."' > ".$row[$dat[1]]."</a><br/>";
+        }
+      }
+       
+      return $aux;
   }
+
+
 
   function botones_tabla($id_item,$id_mod,$nombre_item){
     echo $this->fmt->class_pagina->crear_btn_m("","icn-pencil","editar ".$id_item,"btn btn-accion btn-menu-ajax ",$id_mod,"form_editar,".$id_item);

@@ -167,7 +167,7 @@ class NOTICIAS{
 			$sql2="insert into nota_categorias (".$ingresar2.") values (".$valores2.")";
 			$this->fmt->query->consulta($sql2);
 		}
-	  $this->fmt->class_modulo->redireccionar($this->ruta_modulo,"1");
+	  //$this->fmt->class_modulo->redireccionar($this->ruta_modulo,"1");
 	}
 
 		function form_nuevo(){

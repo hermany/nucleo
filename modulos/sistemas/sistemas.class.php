@@ -162,7 +162,7 @@ class SISTEMAS{
 					<input class="form-control box-md-4" id="inputIcono" name="inputIcono"  placeholder="" />
 					<span class="input-link"><a href="<?php echo _RUTA_WEB_NUCLEO; ?>includes/icons.php" target="_blank">ver iconos</a></span>
 				</div>
-					<div class="form-group">
+					<div class="form-group form-group-color">
 						<label>Color</label>
 						<input type="color" class="form-control box-md-2" id="inputColor" name="inputColor"  placeholder="" />
 					 	<?php
@@ -235,7 +235,7 @@ class SISTEMAS{
 					<input class="form-control box-md-4" id="inputIcono" name="inputIcono"  placeholder="" value="<?php echo $fila_icono; ?>"/>
           <span class="input-link"><a href="<?php echo _RUTA_WEB_NUCLEO; ?>includes/icons.php" target="_blank">ver iconos</a></span>
         </div>
-					<div class="form-group">
+					<div class="form-group form-group-color">
 						<label>Color</label>
             <?php
   					 if (empty($fila_color)){

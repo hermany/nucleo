@@ -548,7 +548,8 @@
   font-size: 16px;
 }
 
-.note-editor.note-frame .note-editing-area .note-editable ul{
+.note-editor.note-frame .note-editing-area .note-editable ul,
+.note-editor.note-frame .note-editing-area .note-editable ol{
   margin-left: 20px;
 }
 .note-editor.note-frame .note-editing-area .note-editable ul > li{

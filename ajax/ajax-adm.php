@@ -8,6 +8,7 @@ if(!empty($_POST["inputVars"])){
 	$tarea = $data[0];
 	$id_item = $data[1];
 	$id_estado = $data[2];
+	$vars_mod = $data[3];
 }
 
 $sql ="SELECT mod_url,mod_ruta_amigable FROM modulo WHERE mod_id=$id_mod";

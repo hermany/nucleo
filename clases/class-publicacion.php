@@ -18,12 +18,13 @@ class PUBLICACION{
 	var $pub_id_cat;
 	var $pub_activar;
 
-  function __construct($fmt) {
+  function  __construct($fmt) {
     $this->fmt = $fmt;
   }
-  function cargar_publicacion($id){
-		echo "id:".$id;
-  	echo $consulta = "SELECT	* from publicacion WHERE pub_id = '".$id."'";
+
+  public function  cargar_publicacion($id){
+		//echo "id:".$id;
+  	$consulta = "SELECT	* from publicacion WHERE pub_id = '".$id."'";
 
 	$rs = $this->fmt->query->consulta($consulta,__METHOD__);
 	if ($rs){
@@ -51,7 +52,8 @@ class PUBLICACION{
 	}
 	  $this->fmt->query->liberar_consulta($rs);
   }
-  function publicacion($fmt,$id){
+  
+  public function  publicacion($fmt,$id){
 		$this->fmt = $fmt;
 		//echo "id:".$id;
   	$consulta = "SELECT	* from publicacion WHERE pub_id = '".$id."'";
@@ -83,44 +85,49 @@ class PUBLICACION{
 		  $this->fmt->query->liberar_consulta($rs);
   }
 
-  function get_pub_id(){
+  public function  get_pub_id(){
 	  return $this->pub_id;
   }
-  function get_pub_nombre(){
+  public function  get_pub_nombre(){
 	  return $this->pub_nombre;
   }
-  function get_pub_descripcion(){
+  public function  get_pub_descripcion(){
 	  return $this->pub_descripcion;
   }
-  function get_pub_imagen(){
+  public function  get_pub_imagen(){
 	  return $this->pub_imagen;
   }
-  function get_pub_titulo(){
+  public function  get_pub_titulo(){
 	  return $this->pub_titulo;
   }
-  function get_pub_tipo(){
+  public function  get_pub_tipo(){
 	  return $this->pub_tipo;
   }
-  function get_pub_archivo(){
+  public function  get_pub_archivo(){
 	  return $this->pub_archivo;
   }
-  function get_pub_css(){
+  public function  get_pub_css(){
 	  return $this->pub_css;
   }
-  function get_pub_clase(){
+  public function  get_pub_clase(){
 	  return $this->pub_clase;
   }
-  function get_pub_id_item(){
+  public function  get_pub_id_item(){
 	  return $this->pub_id_item;
   }
-  function get_pub_numero_items(){
+  public function  get_pub_numero_items(){
 	  return $this->pub_numero;
   }
-  function get_pub_id_cat(){
+  public function  get_pub_id_cat(){
 	  return $this->pub_id_cat;
   }
-  function get_pub_activar(){
+  public function  get_pub_activar(){
 	  return $this->pub_activar;
+  }
+
+  public function nombre_publicacion($id){
+  	$this->cargar_publicacion($id);
+  	return $this->pub_nombre;
   }
 
 }
