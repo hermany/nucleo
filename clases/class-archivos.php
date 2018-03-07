@@ -302,7 +302,7 @@ class ARCHIVOS{
     $nombrex = $this->saber_nombre_archivo($nombre);
     $extencion=$this->saber_extension_archivo($url);
     //return $ruta_x.$this->convertir_nombre_thumb($nombrex."-mini.".$extencion);
-    return  $ruta_x.$nombrex."-mini-thumb.".$extencion;
+    return  $ruta_x.$nombrex."-mini.".$extencion;
   }  
 
   function convertir_url_web($url){

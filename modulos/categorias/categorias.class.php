@@ -255,7 +255,7 @@ class CATEGORIAS{
 	               </div>
 								 <?php
 								 	$this->fmt->form->input_form("Ruta Sitio:","inputRutasitio","",$fila["cat_ruta_sitio"],"","","");
-								 	$this->fmt->form->input_form("Ruta Dominio:","inputDominio","",$fila["cat_dominio"],"","","");
+								 	// $this->fmt->form->input_form("Ruta Dominio:","inputDominio","",$fila["cat_dominio"],"","","");
 								  ?>
 							</div> <!-- fin well -->
 						</div> <!-- fin div collapse -->
@@ -274,8 +274,8 @@ class CATEGORIAS{
   function form_nuevo(){
 		$this->fmt->class_pagina->crear_head_form("Nueva Categoria","","");
 		$id_form="form-nuevo";
-		$id = $this->id_item;
-		$this->fmt->form->finder("inputImagen",$this->id_mod,"","individual","imagenes");
+		// $id = $this->id_item;
+		// $this->fmt->form->finder("inputImagen",$this->id_mod,"","individual","imagenes");
 		?>
 		<div class="body-modulo">
 			<form class="form form-modulo"  method="POST" id="<?php echo $id_form ;?>">
@@ -288,7 +288,9 @@ class CATEGORIAS{
 					$this->fmt->form->select_form_cat_id("Categoría padre:","inputPadre",$id); //$label,$id,$id_item,$div_class,$id_padre
 					$this->fmt->form->input_icono_form("Icono:","inputIcono",""); //($label,$id,$icono,$class_div
 					$this->fmt->form->input_color_form("Color:","inputColor",""); //($label,$id,$color="#ffff",$class_div
-					$this->fmt->form->imagen_unica_form("inputImagen","","","","Imagen relacionada:"); //$label,$label_btn,$id,$id_item,$valor,$img,$class_div
+
+					// $this->fmt->form->imagen_unica_form("inputImagen","","","","Imagen relacionada:"); //$label,$label_btn,$id,$id_item,$valor,$img,$class_div
+					$this->fmt->form->imagen_unica_form("inputImagen","","","","Imagen relacionada:");
 					//$this->fmt->form->input_form('Orden:','inputOrden','',$fila['cat_orden'],'box-md-2','','');
 					?>
 					<div class="form-group">
@@ -323,7 +325,7 @@ class CATEGORIAS{
 								 </div>
 								 <?php
 									$this->fmt->form->input_form("Ruta Sitio:","inputRutasitio","","","","","");
-									$this->fmt->form->input_form("Ruta Dominio:","inputDominio","","","","","");
+									// $this->fmt->form->input_form("Ruta Dominio:","inputDominio","","","","","");
 									?>
 							</div> <!-- fin well -->
 						</div> <!-- fin div collapse -->

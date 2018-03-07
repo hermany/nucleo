@@ -93,7 +93,6 @@ class MENSAJES{
 		 			 		  clearInterval(myVar);
 		 			 		}
 		 			 		if (dat[0]=="estado"){
-		 			 			 
 		 			 			if (dat[1]=="1"){
 		 			 				ejecutarTimer();
 		 			 				$(".btn-activar-chat").attr("activar","1");
@@ -105,10 +104,8 @@ class MENSAJES{
 		 			 				detenerTimer();
 		 			 				$(".btn-activar-chat").attr("activar","0");
 		 			 				$(".btn-activar-chat i").removeClass();
-		 			 				$(".btn-activar-chat i").addClass("icn icn-minus-circle");
-		 			 				
-		 			 			}
-		 			 			
+		 			 				$(".btn-activar-chat i").addClass("icn icn-minus-circle");	
+		 			 			}	
 		 			 		}
 		 				}
 		 			});
@@ -124,7 +121,7 @@ class MENSAJES{
 
 					var ruta_ajax="ajax-cargar-chat";
           var variables = "<?php echo _USU_ID; ?>,"+id_emisor;
-          var datos = {ajax:ruta_ajax, inputIdMod:<?php echo $this->id_app; ?> , inputVars : variables };
+          var datos = {ajax:ruta_ajax, inputIdMod:<?php echo $this->id_app; ?>, inputVars : variables };
           var ruta = "<?php echo _RUTA_WEB; ?>ajax.php";
           $.ajax({ 
             url:ruta,
@@ -139,7 +136,6 @@ class MENSAJES{
 		 			 			var hc = $(".charla").outerHeight() - 56 - 61;
 		 			 			$(".box-conversacion").height(hc);
 		 			 			ejecutarTimerConversacion();
-
 		 			 		}
             }
           });
