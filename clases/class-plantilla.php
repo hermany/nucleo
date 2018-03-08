@@ -104,7 +104,7 @@ class PLANTILLA{
 
 			echo "\n"."	<!--  meta personalizada -->"."\n";
 
-			$id_p=$this->fmt->categoria->traer_id_cat_dominio(_RUTA_WEB);
+			$id_p=$this->fmt->categoria->traer_id_cat_sitio(_RUTA_WEB);
 			//echo $id_p."Aqui"."\n";
 
 			if (!empty($id_p)){

@@ -214,12 +214,14 @@ class CATEGORIAS{
 					$this->fmt->form->input_form("<span class='obligatorio'>*</span> Nombre:","inputNombre","",$fila["cat_nombre"],"input-lg","","");
 					$this->fmt->form->input_hidden_form("inputId",$id);
 					$this->fmt->form->ruta_amigable_form("inputNombre",_RUTA_WEB,$fila['cat_ruta_amigable'],"inputRutaamigable","","","1"); //$id,$ruta="",$valor,$id_form,$ext="",$div_class,$modo="0",$placeholder,$mensaje
+					$this->fmt->form->input_form("Tags:","inputTags","",$fila["cat_tags"],"","","");
 					$this->fmt->form->textarea_form('Descripcion:','inputDescripcion','',$fila["cat_descripcion"],'','','3',''); //label,$id,$placeholder,$valor,$class,$class_div,$rows,$mensaje
 					$this->fmt->form->select_form_cat_id("Categoría padre:","inputPadre",$fila['cat_id_padre']); //$label,$id,$id_item,$div_class
 					$this->fmt->form->input_icono_form("Icono:","inputIcono",$fila["cat_icono"]); //($label,$id,$icono,$class_div
 					$this->fmt->form->input_color_form("Color:","inputColor",$fila["cat_color"]); //($label,$id,$color="#ffff",$class_div
 					//if ($fila["cat_imagen"]){ $text="Actualizar"; $aux=_RUTA_WEB; }else{ $text="Cargar archivo"; $aux=""; }
 					$this->fmt->form->imagen_unica_form("inputImagen",$fila["cat_imagen"],"","","Imagen relacionada:");
+					$this->fmt->form->imagen_unica_form("inputBanner",$fila["cat_banner"],"","","Banner:");
 					//$id,$valor,$titulo="Imagen principal",$class_div,$label_form="" //$label,$label_btn,$id,$id_item,$valor,$img,$class_div
 					// $this->fmt->form->input_form('Orden:','inputOrden','',$fila['cat_orden'],'box-md-2','','');
 					?>
@@ -274,7 +276,7 @@ class CATEGORIAS{
   function form_nuevo(){
 		$this->fmt->class_pagina->crear_head_form("Nueva Categoria","","");
 		$id_form="form-nuevo";
-		// $id = $this->id_item;
+		$id = $this->id_item;
 		// $this->fmt->form->finder("inputImagen",$this->id_mod,"","individual","imagenes");
 		?>
 		<div class="body-modulo">
@@ -284,6 +286,7 @@ class CATEGORIAS{
 
 					$this->fmt->form->input_form("<span class='obligatorio'>*</span> Nombre:","inputNombre","","","input-lg","","");
 					$this->fmt->form->ruta_amigable_form("inputNombre",_RUTA_WEB,"","inputRutaamigable","","","1"); //$id,$ruta,$valor,$form
+					$this->fmt->form->input_form("Tags:","inputTags","","","","","");
 					$this->fmt->form->textarea_form('Descripcion:','inputDescripcion','','','','','3',''); //label,$id,$placeholder,$valor,$class,$class_div,$rows,$mensaje
 					$this->fmt->form->select_form_cat_id("Categoría padre:","inputPadre",$id); //$label,$id,$id_item,$div_class,$id_padre
 					$this->fmt->form->input_icono_form("Icono:","inputIcono",""); //($label,$id,$icono,$class_div
@@ -291,6 +294,7 @@ class CATEGORIAS{
 
 					// $this->fmt->form->imagen_unica_form("inputImagen","","","","Imagen relacionada:"); //$label,$label_btn,$id,$id_item,$valor,$img,$class_div
 					$this->fmt->form->imagen_unica_form("inputImagen","","","","Imagen relacionada:");
+					$this->fmt->form->imagen_unica_form("inputBanner","","","","Banner:");
 					//$this->fmt->form->input_form('Orden:','inputOrden','',$fila['cat_orden'],'box-md-2','','');
 					?>
 					<div class="form-group">
@@ -324,7 +328,7 @@ class CATEGORIAS{
 									 </select>
 								 </div>
 								 <?php
-									$this->fmt->form->input_form("Ruta Sitio:","inputRutasitio","","","","","");
+									// $this->fmt->form->input_form("Ruta Sitio:","inputRutasitio","","","","","");
 									// $this->fmt->form->input_form("Ruta Dominio:","inputDominio","","","","","");
 									?>
 							</div> <!-- fin well -->
@@ -342,11 +346,13 @@ class CATEGORIAS{
 
   function modificar(){
 
-    $sql="UPDATE categoria SET
+   $sql="UPDATE categoria SET
           cat_nombre='".$_POST['inputNombre']."',
+          cat_tags='".$_POST['inputTags']."',
           cat_descripcion='".$_POST['inputDescripcion']."',
           cat_ruta_amigable='".$_POST['inputRutaamigable']."',
           cat_imagen ='".$_POST['inputImagen']."',
+          cat_banner ='".$_POST['inputBanner']."',
           cat_icono='".$_POST['inputIcono']."',
           cat_color='".$_POST['inputColor']."',
           cat_clase='".$_POST['inputClase']."',
@@ -356,10 +362,10 @@ class CATEGORIAS{
           cat_tipo='".$_POST['inputTipo']."',
           cat_url ='".$_POST['inputUrl']."',
           cat_destino='".$_POST['inputDestino']."',
-          cat_favicon='".$_POST['inputFavicon']."',
-          cat_ruta_sitio='".$_POST['inputRutasitio']."',
-          cat_dominio='".$_POST['inputDominio']."'
+          cat_favicon='".$_POST['inputFavicon']."'
           WHERE cat_id='".$_POST['inputId']."'";
+     // exit(0);
+
     $this->fmt->query->consulta($sql,__METHOD__);
 		$this->fmt->class_sistema->update_htaccess();
     $this->fmt->class_modulo->redireccionar($ruta_modulo,"1");
@@ -370,11 +376,13 @@ class CATEGORIAS{
 
     $num= $this->fmt->categoria->numero_hijos($_POST['inputPadre']) + 1; 
 
-    $ingresar ="cat_nombre, cat_descripcion, cat_ruta_amigable, cat_imagen,cat_orden, cat_icono, cat_color, cat_clase, cat_meta, cat_id_padre, cat_id_plantilla, cat_tipo, cat_url, cat_destino, cat_favicon, cat_dominio,cat_ruta_sitio, cat_activar";
+    $ingresar ="cat_nombre, cat_tags,cat_descripcion, cat_ruta_amigable, cat_imagen,cat_banner,cat_orden, cat_icono, cat_color, cat_clase, cat_meta, cat_id_padre, cat_id_plantilla, cat_tipo, cat_url, cat_destino, cat_favicon,cat_activar";
 		$valores  ="'".$_POST['inputNombre']."','".
+		 							 $_POST['inputTags']."','".
 									 $_POST['inputDescripcion']."','".
                    $_POST['inputRutaamigable']."','".
                    $_POST['inputImagen']."','".
+                   $_POST['inputBanner']."','".
                    $num."','".
                    $_POST['inputIcono']."','".
                    $_POST['inputColor']."','".
@@ -386,11 +394,10 @@ class CATEGORIAS{
 									 $_POST['inputUrl']."','".
 									 $_POST['inputDestino']."','".
 									 $_POST['inputFavicon']."','".
-									 $_POST['inputDominio']."','".
-									 $_POST['inputRutasitio']."','".
 									 $activar."'";
 
-		 $sql="insert into categoria (".$ingresar.") values (".$valores.")";
+		$sql="insert into categoria (".$ingresar.") values (".$valores.")";
+		
 
 		$this->fmt->query->consulta($sql,__METHOD__);
 

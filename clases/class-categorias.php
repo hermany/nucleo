@@ -794,7 +794,7 @@ class CATEGORIA{
 
     for($i=0;$i<4;$i++){
       if ($fila["cat_tipo"]==$i){ $aux="selected"; }else{ $aux=""; }
-      echo "<option class='' value='".$i."' ".$aux." > ".$this->tipo_cat($i);
+      echo "<option class='".$fila["cat_tipo"]."' value='".$i."' ".$aux." > ".$this->tipo_cat($i);
       echo "</option>";
     }
   }
@@ -887,8 +887,8 @@ class CATEGORIA{
 
   }
 
-  function traer_id_cat_dominio($dato){
-    $consulta = "SELECT cat_id FROM categoria WHERE cat_dominio='".$dato."' and cat_tipo='2'";
+  function traer_id_cat_sitio($ruta_web){
+    $consulta = "SELECT cat_id FROM sitio,sitio_categorias,categoria WHERE sitio_ruta_amigable='".$dato."' and sitio_cat_sitio_id=sitio_id and sitio_cat_cat_id=cat_id";
     $rs = $this->fmt->query->consulta($consulta,__METHOD__);
     $fila=$this->fmt->query->obt_fila($rs);
     if ( $fila["cat_id"] ){

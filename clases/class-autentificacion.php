@@ -112,21 +112,22 @@ class AUTENTIFICACION{
 	  //echo $dominio;
 	  //$rd = explode("//", $dominio);
 	  //$rx = str_replace("/","", $rd['1']);
-	  $consulta="SELECT cat_id FROM categoria WHERE cat_dominio='$dominio'";
-	  $rs = $this->fmt->query->consulta($consulta,__METHOD__);
-	  $num =$this->fmt->query->num_registros($rs);
-	  $fila = $this->fmt->query->obt_fila($rs);
-	  if($num>0){
-		if ($_GET['cat']!=""){ if (!is_numeric($_GET['cat'])){   return false; } }
-		if ($_GET['cat']==""){
-			return $fila["cat_id"];
-		}else{
-			return false;
-		}
+	 //  $consulta="SELECT cat_id FROM categoria WHERE cat_dominio='$dominio'";
+	 //  $rs = $this->fmt->query->consulta($consulta,__METHOD__);
+	 //  $num =$this->fmt->query->num_registros($rs);
+	 //  $fila = $this->fmt->query->obt_fila($rs);
+	 //  if($num>0){
+		// if ($_GET['cat']!=""){ if (!is_numeric($_GET['cat'])){   return false; } }
+		// if ($_GET['cat']==""){
+		// 	return $fila["cat_id"];
+		// }else{
+		// 	return false;
+		// }
 
-	  }else{
-		return false;
-	  }
+	 //  }else{
+		// return false;
+	 //  }
+    return true;
   }
 
 }
