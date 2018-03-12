@@ -42,7 +42,7 @@ $fmt->header->title_page("Dashboard");
 
   <?php
   if(_THEME_DEFAULT_ADMIN){ ?>
-  <link rel="stylesheet" href="<?php echo _RUTA_WEB._THEME_DEFAULT_ADMIN; ?>?reload" rel="stylesheet" type="text/css">\
+  <link rel="stylesheet" href="<?php echo _RUTA_WEB._THEME_DEFAULT_ADMIN; ?>?reload" rel="stylesheet" type="text/css">
   <?php } ?>
 
   <div class='preloader-modulo'></div>

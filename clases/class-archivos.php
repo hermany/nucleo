@@ -244,13 +244,13 @@ class ARCHIVOS{
     //imagecopyresampled($new, $img, 0, 0, $x, 0, $width, $height, $w, $h);
 
     imagecopyresampled( $new, $img, 0, 0, $x, 0, $width, $height, $w, $h );
-    $q=9/100;
+    $q=7/100;
     $quality*=$q;
 
     switch($type){
       case 'bmp': imagewbmp($new, $dst,98); break;
       case 'gif': imagegif($new, $dst,98); break;
-      case 'jpg': imagejpeg($new, $dst,80); break;
+      case 'jpg': imagejpeg($new, $dst,85); break;
       case 'png': imagepng($new, $dst,$quality); break;
     }
     return true;

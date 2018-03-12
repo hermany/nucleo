@@ -100,7 +100,7 @@ function num_sistemas_rol($id_rol){
     $this->fmt->query->liberar_consulta();
 }
 
-function traer_cat_hijos_menu_raiz($cat,$nivel,$nivel_tope){
+function traer_cat_hijos_menu_raiz($cat,$nivel,$nivel_tope,$iconos="0"){
   	$inputDominio = _RUTA_WEB;
     $sql="SELECT cat_id, cat_nombre, cat_id_padre, cat_icono, cat_imagen, cat_url, cat_destino, cat_ruta_amigable FROM categoria WHERE cat_id_padre='$cat' and cat_activar='1' ORDER BY cat_orden ASC";
     $rs = $this->fmt->query->consulta($sql,__METHOD__);
@@ -129,10 +129,10 @@ function traer_cat_hijos_menu_raiz($cat,$nivel,$nivel_tope){
 	        if ( $this->tiene_cat_hijos($fila_id) ){
 	          $aux .= $this->fmt_li_hijos($fila_id, $fila_nombre,$nivel);
 	        } else {
-	          $aux .= $this->fmt_li($fila_id,"","",$fila_nombre, $url, $destino, $fila_imagen,$this->fmt->categoria->traer_id_cat_dominio($inputDominio));
+	          $aux .= $this->fmt_li($fila_id,"",$fila_icono,$fila_nombre, $url, $destino, $fila_imagen,$this->fmt->categoria->traer_id_cat_dominio($inputDominio));
 	        }
         }else{
-	        $aux .= $this->fmt_li($fila_id,"","",$fila_nombre, $url, $destino, $fila_imagen,$this->fmt->categoria->traer_id_cat_dominio($inputDominio));
+	        $aux .= $this->fmt_li($fila_id,"",$fila_icono,$fila_nombre, $url, $destino, $fila_imagen,$this->fmt->categoria->traer_id_cat_dominio($inputDominio));
         }
       }
       return $aux;
@@ -352,7 +352,9 @@ function traer_cat_hijos_menu_raiz($cat,$nivel,$nivel_tope){
     $aux  = '<li id="btn-m'.$id.'" class="item-m btn-m'.$id.' '.$clase.' '.$cat_active.' btn-m-'.$nombre_x.'">';
     $aux .= '<a class="btn-nav-item btn-nav-item-'.$id.'" href="'.$urlx.'" target="'.$destino.'">';
     $aux .= $aux_x;
-    $aux .= '<i class="'.$icono.'"></i>';
+    if (!empty($icono)){
+      $aux .= '<i class="'.$icono.'"></i>';
+    }
     $aux .= '<span>'.$nombre.'</span></a>';
     $aux .= '</li>';
     return $aux;

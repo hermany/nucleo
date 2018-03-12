@@ -56,7 +56,7 @@ class PUBLICACIONES{
 									$fila_activar= $row["pub_activar"];
 							  ?>
 							  <tr>
-								  <td class=""><?php echo $fila_id; ?></td>
+								  <td class="row-<?php echo $fila_id; ?>"><?php echo $fila_id; ?></td>
 							    <td class="col-nombre"><?php echo $fila_nombre; ?></td>
 							    <td class=""><?php echo $fila_url; ?></td>
 							    <td class="estado">

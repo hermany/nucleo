@@ -124,6 +124,13 @@ class USUARIO{
     return $fila["usu_nivel"];
   }  
 
+  function  numero_usuarios_rol($rol){
+    $sql="SELECT usu_id FROM usuario,usuario_roles WHERE usu_rol_usu_id=usu_id and usu_rol_rol_id='$rol' and usu_activar=1";
+    $rs = $this->fmt->query-> consulta($sql,__METHOD__);
+    $num = $this->fmt->query -> num_registros($rs);
+    return $num;
+  }
+
   function  usuario_amigos($usuario){
     $sql="select usu_amigos from usuario where usu_id=$usuario";
     $rs = $this->fmt->query-> consulta($sql,__METHOD__);
