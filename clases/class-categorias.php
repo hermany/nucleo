@@ -829,14 +829,16 @@ class CATEGORIA{
       echo "<option class='' value='_blank' $aux_b> En otra pestaña (_blank)</option>";
   }
 
-  function traer_rel_cat_nombres($fila_id,$from,$prefijo_cat,$prefijo_rel){
+  function traer_rel_cat_nombres($fila_id,$from,$prefijo_cat,$prefijo_rel,$obviar){
     $consulta = "SELECT ".$prefijo_cat." FROM ".$from." WHERE ".$prefijo_rel."='".$fila_id."'";
     $rs = $this->fmt->query->consulta($consulta,__METHOD__);
     $num=$this->fmt->query->num_registros($rs);
     if ($num>0){
       for ($i=0;$i<$num;$i++){
         $row=$this->fmt->query->obt_fila($rs);
+        if ($row[$prefijo_cat]!=$obviar){
         echo "- ".$this->nombre_categoria($row[$prefijo_cat])."<br/>";
+        }
       }
     }
   }

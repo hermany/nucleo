@@ -864,6 +864,7 @@ class CLASSMODULOS{
         }
 
         function abrir_modulos(datos){
+          console.log("abrir_modulos:"+datos);
           $.ajax({
             url:"<?php echo _RUTA_WEB; ?>ajax.php",
             type:"post",
@@ -1173,7 +1174,7 @@ function traer_fecha_literal($fecha_hora){
   }   
 
   function date_formateado($zona,$formato){
-    setlocale(LC_TIME,"es_ES");
+    setlocale(LC_TIME,"es_ES");  // America/La_Paz
     date_default_timezone_set($zona);
     return date($formato);
   }  
@@ -1345,6 +1346,31 @@ function traer_fecha_literal($fecha_hora){
 
 		return $F;
 	}
+
+  function  num_dia($dia,$modo="normal"){
+     $dia = intval($dia);
+     $day_mini = array(' ','Lun','Mar','Mie','Jue','Vie','Sab','Dom');
+     $day = array(' ','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo');
+     if ($modo=="normal"){
+      return $day[$dia];
+     }     
+     if ($modo=="mini"){
+      return $day_mini[$dia];
+     }
+  }  
+
+  function  num_mes($mes,$modo="normal"){
+    $mes = intval($mes);
+    $vmes = array(' ','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre');
+    $vmes_mini= array(' ','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic');
+
+    if ($modo=="normal"){
+      return $vmes[$mes];
+    }     
+    if ($modo=="mini"){
+      return $vmes_mini[$mes];
+    }
+  }
 
 	function icono_modulo($id){
 		$sql="select mod_icono from modulo where mod_id=$id";

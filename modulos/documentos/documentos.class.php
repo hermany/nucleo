@@ -32,6 +32,7 @@ class DOCUMENTOS{
 		  for($i=0;$i<$num;$i++){
 		    $fila=$this->fmt->query->obt_fila($rs);
 				$fila_id = $fila["doc_id"];
+				$nombre = $fila["doc_nombre"];
 		    if (empty($fila["doc_id_dominio"])){ $aux=_RUTA_WEB; } else { $aux = $this->fmt->categoria->traer_dominio_cat_id($fila["doc_id_dominio"]); }
 				  echo "<tr class='row row-".$fila["doc_id"]."' >";
 				  echo '<td class="row-id">'.$fila['doc_id'].'</td>'; 

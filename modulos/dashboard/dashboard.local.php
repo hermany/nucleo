@@ -53,11 +53,17 @@ $fmt->header->title_page("Dashboard");
   <?php
 
     if ($_GET["m"]){
-      $sql ="SELECT mod_url,mod_id,mod_ruta_amigable FROM modulo WHERE mod_ruta_amigable='".$_GET["m"]."'";
+      $sql ="SELECT mod_url,mod_id,mod_ruta_amigable,mod_tipo FROM modulo WHERE mod_ruta_amigable='".$_GET["m"]."'";
       $rs = $fmt->query->consulta($sql,__METHOD__);
       $row = $fmt->query->obt_fila($rs);
-      $url_mod = _RUTA_NUCLEO."".$row["mod_url"];
-      $url = _RUTA_NUCLEO."".$row["mod_url"];
+      if ($row["mod_tipo"]!=4){
+        $url_mod = _RUTA_NUCLEO."".$row["mod_url"];
+        $url = _RUTA_NUCLEO."".$row["mod_url"];
+      }else{
+        $url_mod = _RUTA_HOST."".$row["mod_url"];
+        $url = _RUTA_HOST."".$row["mod_url"];
+      }
+      
       $url_a= $row["mod_ruta_amigable"];
       if (file_exists($url)) {
         $id_mod = $row["mod_id"];

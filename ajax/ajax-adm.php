@@ -11,12 +11,20 @@ if(!empty($_POST["inputVars"])){
 	$vars_mod = $data[3];
 }
 
-$sql ="SELECT mod_url,mod_ruta_amigable FROM modulo WHERE mod_id=$id_mod";
+$sql ="SELECT mod_url,mod_ruta_amigable,mod_tipo FROM modulo WHERE mod_id=$id_mod";
 $rs = $fmt->query -> consulta($sql,__METHOD__);
 $row = $fmt->query -> obt_fila($rs);
 $url_mod = _RUTA_WEB_NUCLEO.$row["mod_url"]."?id_mod=".$id_mod."&sitio="._RUTA_DEFAULT;
-$url_mod = _RUTA_NUCLEO."".$row["mod_url"];
-$url = _RUTA_NUCLEO."".$row["mod_url"];
+if ($row["mod_tipo"]!=4){
+	$url_mod = _RUTA_NUCLEO."".$row["mod_url"];
+	$url = _RUTA_NUCLEO."".$row["mod_url"];
+}else{
+	$url_mod = _RUTA_HOST."".$row["mod_url"];
+	$url = _RUTA_HOST."".$row["mod_url"];
+}
+
+// echo '</br></br></br> '.$url_mod.'</br>';
+
 
 if (file_exists($url)) {
   echo "<div class='container-fluid dialog'>";

@@ -26,6 +26,14 @@ if (!empty($bd_relaciones)){
 	}
 }
 
+if ($bd == "documento"){
+	$consulta = "SELECT doc_url FROM documento WHERE doc_id='$id_item'";
+	$rs =$fmt->query->consulta($consulta);
+	$row=$fmt->query->obt_fila($rs);
+	$archivo = _RUTA_HOST.$row["doc_url"];
+	$fmt->archivos->eliminar_archivo($archivo);
+}
+
 $sqle="DELETE FROM ".$bd." WHERE ".$bd_prefijo."id='".$id_item."'";
 $fmt->query->consulta($sqle,__METHOD__);
 $aux .= "[ ".$sqle." ]";

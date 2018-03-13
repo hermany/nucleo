@@ -390,8 +390,11 @@ class MODULOS{
 			case '2':
 				$mod_tipo="Esencial";
 				break;
-			default:
+			case '3':
 				$mod_tipo="no definido";
+				break;			
+			case '4':
+				$mod_tipo="Personalizado";
 				break;
 		}
 		return $mod_tipo;
@@ -399,11 +402,11 @@ class MODULOS{
 
 	function opciones_tipo($fila_tipo){
 		$tipos = Array();
-		for ($i = 0; $i <= 3; $i++) {
+		for ($i = 0; $i <= 4; $i++) {
 			$tipos [$i]= $this->tipo_modulo($i);
 		}
 
-		for ($i = 0; $i <= 3; $i++) {
+		for ($i = 0; $i <= 4; $i++) {
 			if (isset($fila_tipo)){
 				if ($fila_tipo==$i){ $sel="selected"; } else {$sel="";}
 			}else {
