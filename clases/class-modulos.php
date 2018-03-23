@@ -83,7 +83,7 @@ class CLASSMODULOS{
 		?>
     <script type="text/javascript">
       $(document).ready(function(){
-        $(".btn-menu-ajax").click( function(e){
+        $("body").on( 'click','.btn-menu-ajax', function(e){
           $(".modal-form").addClass("on");
           $(".modal-form").addClass("<?php echo $url_a; ?>");
           $(".body-page").css("overflow-y","hidden");
@@ -1361,7 +1361,7 @@ function traer_fecha_literal($fecha_hora){
 
   function  num_mes($mes,$modo="normal"){
     $mes = intval($mes);
-    $vmes = array(' ','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre');
+    $vmes = array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre');
     $vmes_mini= array(' ','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic');
 
     if ($modo=="normal"){

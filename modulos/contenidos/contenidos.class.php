@@ -29,7 +29,7 @@ class CONTENIDOS{
 
 					 $this->fmt->class_pagina->head_modulo_inner("Contenidos web activos", $botones); // bd, id modulo, botones
 					 $this->fmt->form->head_table("table_id");
-					 $this->fmt->form->thead_table('#:Titulo:Creado por:Categorías:Fecha:Estado:Acciones');
+					 $this->fmt->form->thead_table('#:Titulo:Creador:Categorías:Fecha:Estado:Acciones');
 					 $this->fmt->form->tbody_table_open();
 					 $consulta="select conte_id, conte_titulo, conte_fecha, conte_activar, conte_id_usuario from contenido ORDER BY conte_id desc";
 					 $rs =$this->fmt->query->consulta($consulta,__METHOD__);
@@ -128,6 +128,8 @@ class CONTENIDOS{
 				$this->fmt->form->multimedia_form_block("",$this->id_mod,"","","Multimedia Adicional:","contenido_multimedia","conte_mul_","conte_");//$id_item,$id_mod,$class_div,$label="Subir archivo",$label_form=""
 
 				$this->fmt->form->documentos_form("",$this->id_mod,"","Documentos relacionados:","contenido_documentos","conte_doc_","conte_");
+
+
 
 				$this->fmt->form->categoria_form('Categoria','inputCat',"0","","",""); //$label,$id,$cat_raiz,$cat_valor,$class,$class_div
 				$fecha=$this->fmt->class_modulo->fecha_hoy('America/La_Paz');

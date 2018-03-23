@@ -856,19 +856,19 @@ class CATEGORIA{
     return $aux;
   }
 
-  function traer_dominio_cat_ruta($dato){
-    $consulta = "SELECT cat_dominio FROM categoria WHERE cat_ruta_sitio='".$dato."' and cat_tipo='2'";
-    $rs = $this->fmt->query->consulta($consulta,__METHOD__);
-    $fila=$this->fmt->query->obt_fila($rs);
-    return $fila["cat_dominio"];
-  }
+  // function traer_dominio_cat_ruta($dato){
+  //   $consulta = "SELECT cat_dominio FROM categoria WHERE cat_ruta_sitio='".$dato."' and cat_tipo='2'";
+  //   $rs = $this->fmt->query->consulta($consulta,__METHOD__);
+  //   $fila=$this->fmt->query->obt_fila($rs);
+  //   return $fila["cat_dominio"];
+  // }
 
-    function traer_dominio_cat_id($dato){
-    $consulta = "SELECT cat_dominio FROM categoria WHERE cat_id='".$dato."' and cat_tipo='2'";
-    $rs = $this->fmt->query->consulta($consulta,__METHOD__);
-    $fila=$this->fmt->query->obt_fila($rs);
-    return $fila["cat_dominio"];
-  }
+  //   function traer_dominio_cat_id($dato){
+  //   $consulta = "SELECT cat_dominio FROM categoria WHERE cat_id='".$dato."' and cat_tipo='2'";
+  //   $rs = $this->fmt->query->consulta($consulta,__METHOD__);
+  //   $fila=$this->fmt->query->obt_fila($rs);
+  //   return $fila["cat_dominio"];
+  // }
 
    function traer_meta_cat($cat){
     $consulta = "SELECT cat_meta FROM categoria WHERE cat_id=".$cat;

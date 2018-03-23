@@ -1497,16 +1497,16 @@ class FORM{
     <?php
   }
 
-  function select_form($label,$id,$prefijo,$from,$id_select,$id_disabled,$class_div,$class_select,$aux){
+  public function select_form($label,$id,$prefijo,$from,$id_select,$id_disabled,$class_div,$class_select,$aux,$option_inicial="Sin selección (0)"){
     ?>
     <div class="form-group <?php echo $class_div; ?>">
       <label><?php echo $label; ?></label>
       <select class="form-control <?php echo $class_select; ?>" id="<?php echo $id; ?>" name="<?php echo $id; ?>">
     <?php
     $consulta ="SELECT ".$prefijo."id, ".$prefijo."nombre FROM ".$from;
-    $rs = $this->fmt->query->consulta($consulta,__METHOD__);
+    $rs = $this->fmt->query->consulta($consulta,_METHOD_);
     $num=$this->fmt->query->num_registros($rs);
-		echo "<option class='' value='0'>Sin selección (0)</option>";
+		echo "<option class='' value='0'>".$option_inicial."</option>";
 		if($num>0){
       for($i=0;$i<$num;$i++){
         $row=$this->fmt->query->obt_fila($rs);
@@ -1524,6 +1524,7 @@ class FORM{
     </div>
     <?php
   }
+
 	function input_icono_form ($label,$id,$icono,$class_div){
 		?>
 		<div class="form-group <?php echo $class_div; ?>">
@@ -1770,7 +1771,7 @@ class FORM{
 
 	function btn_editar_doc(){
 		?>
-		$(".btn-editar-doc").click(function(){
+		$("body").on('click','.btn-editar-doc', function(){
 			$(".modal-editar").addClass("on");
 			var id_doc= $(this).attr("id_doc");
 			var formdata_m = new FormData();

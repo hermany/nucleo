@@ -216,12 +216,15 @@ class FINDER{
 								aux = aux + "<li item='"+temp_item+"'  id='doc-"+temp_item+"' class='box-doc-li box-doc-"+temp_tipo_item+" ui-state-default'>";
 								aux = aux + "<i class='icn icn-sorteable icn-reorder'></i>";
 								aux = aux + "<div class='box-acciones-docs ui-state-disabled'>";
+
 								aux = aux + "<a class='btn btn-eliminar-doc' eliminar='"+temp_item+"' tipo_item='documento' id_doc='"+temp_item+"'><i class='icn icn-close' /></a>";
+								aux = aux + "<a class='btn btn-editar-doc' id_doc='"+temp_item+"'><i class='icn icn-pencil' /></a>";
 								aux = aux + "<a target='_blank' href='<?php echo _RUTA_WEB; ?>archivos/docs/"+temp_url+"' class='btn btn-link'><i class='icn icn-skip'/></a>";
+								
 								aux = aux + "</div>";
 
-								aux = aux +  "<i class='icn icon-tipo "+temp_tipo_item+"'/></i><span class='nombre'>"+ nom +"</span>";
-								aux = aux +  "<input type='hidden' id='inputModItemDoc[]' name='inputModItemDoc[]' value='"+temp_item+"'  />"
+								aux = aux +  "<i class='icn icon-tipo icn-"+ temp_tipo_item +"'/></i> <span class='nombre'>"+ nom +"</span>";
+								aux = aux +  "<input type='hidden' id='inputModItemDoc[]' name='inputModItemDoc[]' value='"+temp_item+"'  />";
 								aux = aux +  "</li>";
 							});
 							$("#sortable-docs").prepend( aux );

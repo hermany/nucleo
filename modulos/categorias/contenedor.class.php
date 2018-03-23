@@ -30,7 +30,7 @@ class CONTENEDOR{
 			?>
 			<link rel="stylesheet" href="<?php echo _RUTA_WEB_NUCLEO;?>css/estilos.cont.css?reload" rel="stylesheet" type="text/css">
 			<script type="text/javascript" src="<?php echo _RUTA_WEB_NUCLEO;?>js/jquery-ui.min.js"></script>
-	    <div class="box-md-2 box-publicaciones">
+	    <div class="box-publicaciones ui-state-disabled">
 		    <label><a class='btn-volver-o' vars="busqueda" href="<?php echo _RUTA_WEB."dashboard/estructura#nod-$cat"; ?>"><i class='icn-chevron-left'></i></a><i class="icn-block-page"></i>  <span><?php echo $nombre_cat; ?></span><a class='small' href='javascript:location.reload()'><i class='icn-sync'></i></a></label>
 		    <div class="tipo-pub">
 			    <div class="group-tabs">
@@ -41,12 +41,13 @@ class CONTENEDOR{
 					    </ul>
 						</div>
 			    </div>
-			    <div class="tab-content">
-					<div  class="tab-content on" id="todos">
-						<div class="box-buscador">
+			    <div class="tab-content ui-state-disabled">
+					<div  class="tab-content on ui-state-disabled" id="todos">
+						<div class="box-buscador ui-state-disabled">
 							<i class="icn icn-search"></i>
 							<input id="filtrar" type="text" class="form-control" placeholder="Buscar publicación">
-							<a target="_blank" title="Nueva publicación" href="<?php echo _RUTA_WEB; ?>dashboard/publicaciones" class="btn btn-full btn-small btn-new-pub"><i class="icn icn-rocket"></i></a>
+							<a target="_blank" title="Publicaciónes" href="<?php echo _RUTA_WEB; ?>dashboard/publicaciones" class="btn btn-full btn-small btn-pubs"><i class="icn icn-rocket"></i></a>
+							
 						</div>
 						<ul class="pub-all connectedSortable">
 						<?php
@@ -74,6 +75,9 @@ class CONTENEDOR{
 							}
 						?>
 						</ul>
+						<div class="box-nueva-pub">
+							<a  title="Nueva publicación" class="btn btn-full btn-small btn-new-pub"><i class="icn icn-plus"></i> <span>Nueva Publicación</span></a>
+						</div>
 					</div>
 					<!-- <div  class="tab-content" id="elementales">
 						<?php
@@ -82,7 +86,7 @@ class CONTENEDOR{
 			    </div>
 			</div>
 	    </div>
-	    <div class="box-md-9 box-estructura">
+	    <div class="box-estructura">
 				<div class="box-header">
 					<form class="form-vertical">
 		        <div class="form-group box-plantilla">
@@ -121,6 +125,25 @@ class CONTENEDOR{
 	    </div>
 	    <script>
 	    $(document).ready(function(){
+    	 function resize_cont(){
+    	 	 var w = $(window).width();
+    	 	 var h = $(window).height();
+    	 	 var h_nav = $(".nav").outerHeight();
+    	 	 var w_e = w - 210;
+    	 	 var h_e = h - h_nav;
+    	 	 var h_cont = h - 154;
+    	 	 $(".box-estructura").width(w_e);
+    	 	 $(".box-estructura").height(h_e);
+    	 	 $(".tab-content").height(h_cont);
+    	 };
+
+	    	resize_cont();
+
+	    	$(window).resize(function(event) {
+	    		/* Act on the event */
+	    		resize_cont();
+	    	});
+
 		    $("#inputPlantilla").change(function(){
 			   cargarcontenedor($(this).val());
 		    });
@@ -175,6 +198,14 @@ class CONTENEDOR{
 		    	//event.preventDefault();
 		    	//console.log("editar pub "+ pub);
 		    	var datos = {ajax:"ajax-adm", inputIdMod:"<?php echo $this->id_mod; ?>" , inputVars : "form_editar,"+pub };
+					abrir_modulo(datos);
+		    });
+ 				
+ 				$("body").on('click', '.btn-new-pub', function() {
+		    	var pub = $(this).attr("pub");
+		    	//event.preventDefault();
+		    	//console.log("editar pub "+ pub);
+		    	var datos = {ajax:"ajax-adm", inputIdMod:"<?php echo $this->id_mod; ?>" , inputVars : "form_nuevo," };
 					abrir_modulo(datos);
 		    });
 
@@ -310,7 +341,31 @@ class CONTENEDOR{
 				<div class="form-group">
 					<label>Ruta Archivo:</label>
 					<input class="form-control" id="inputArchivo" name="inputArchivo" placeholder="" value="<?php echo $fila_archivo; ?>"/>
+					<a class="btn-lista-pubs"><i class="icn icn-plus"></i></a>
 				</div>
+				<div class="lista-pubs">
+					<ul class="lista-pubs-tipo lista-local">
+					<?php 
+						$archivos= $this->fmt->archivos->listar_archivos_pub("modulos/","local");
+						$n_a = count($archivos);
+						for ($i=0; $i < $n_a ; $i++) { 
+							# code...
+							echo "<li class='btn-archivo' item='modulos/".$archivos[$i]."' >modulos/".$archivos[$i]."</li>";
+						}
+					?>
+					</ul>
+					<ul class="lista-pubs-tipo lista-nucleo off">
+						<?php 
+						 $archivos=$this->fmt->archivos->listar_archivos_pub("modulos/","nucleo");
+						 $n_a = count($archivos);
+						  for ($i=0; $i < $n_a ; $i++) { 
+								# code...
+								echo "<li class='btn-archivo' item='modulos/".$archivos[$i]."' >modulos/".$archivos[$i]."</li>";
+						  }
+						?>
+					</ul>
+				</div>
+				
 				<div class="form-group">
 					<label>Ruta Archivo Config:</label>
 					<input class="form-control" id="inputArchivoConfig" name="inputArchivoConfig" placeholder="" value="<?php echo $fila_archivo_config; ?>"/>
@@ -361,9 +416,204 @@ class CONTENEDOR{
 				</div>
 			</form>
 		</div>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$(".btn-lista-pubs").click(function(event) {
+					/* Act on the event */
+					$(".lista-pubs").toggleClass('on');
+				});
+
+				$(".btn-archivo").click(function(event) {
+					var item = $(this).attr("item");
+					$("#inputArchivo").val(item);
+					$(".lista-pubs").removeClass('on');
+				});
+
+				$("body").on('change', '#inputTipo', function(event) {
+					 var tipo =$(this).val();
+					 console.log(tipo);
+					 if (tipo==0){
+					 	 $(".lista-nucleo").removeClass("off");
+					 	 $(".lista-local").addClass("off");
+					 }else{
+					  	$(".lista-local").removeClass("off");
+					 	 $(".lista-nucleo").addClass("off");
+					 }
+				});
+			});
+		</script>
 		<?php
 		$this->fmt->class_modulo->modal_script($this->id_mod);
   }
+
+  function form_nuevo(){
+		// $botones = $this->fmt->class_pagina->crear_btn("publicaciones.adm.php?tarea=busqueda","btn btn-link  btn-volver","icn-chevron-left","volver"); // link, clase, icono, nombre
+
+		// $botones = $this->fmt->class_pagina->crear_btn_m("volver","icn-chevron-left","volver","btn btn-link btn-volver btn-menu-ajax ",$this->id_mod,"busqueda");
+
+		$this->fmt->class_pagina->crear_head_form("Nueva Publicación");
+		$id_form="form-nuevo";
+
+		 //$nombre,$botones_left, $botones_right, $class_modo,$id_mod,$vars
+		?>
+		<div class="body-modulo col-xs-6 col-xs-offset-3">
+			<form class="form form-modulo"  method="POST" id="<?php echo $id_form?>">
+				<div class="form-group" id="mensaje-form"></div> <!--Mensaje form -->
+
+				<div class="form-group">
+					<label>Nombre publicación:</label>
+					<input class="form-control input-lg"  id="inputNombre" name="inputNombre" placeholder=" " value="" type="text" autofocus />
+
+				</div>
+				<div class="form-group form-descripcion">
+					<label>Descripción:</label>
+					<textarea class="form-control" rows="2" id="inputDescripcion" name="inputDescripcion" placeholder=""></textarea>
+				</div>
+				<div class="form-group">
+					<label>Ruta Archivo:</label>
+					<input class="form-control" id="inputArchivo" name="inputArchivo" placeholder="" value="modulos/"/>
+					<a class="btn-lista-pubs"><i class="icn icn-plus"></i></a>
+				</div>
+				<div class="lista-pubs">
+					<ul class="lista-pubs-tipo lista-local">
+					<?php 
+						$archivos= $this->fmt->archivos->listar_archivos_pub("modulos/","local");
+						$n_a = count($archivos);
+						for ($i=0; $i < $n_a ; $i++) { 
+							# code...
+							echo "<li class='btn-archivo' item='modulos/".$archivos[$i]."' >modulos/".$archivos[$i]."</li>";
+						}
+					?>
+					</ul>
+					<ul class="lista-pubs-tipo lista-nucleo off">
+						<?php 
+						 $archivos=$this->fmt->archivos->listar_archivos_pub("modulos/","nucleo");
+						 $n_a = count($archivos);
+						  for ($i=0; $i < $n_a ; $i++) { 
+								# code...
+								echo "<li class='btn-archivo' item='modulos/".$archivos[$i]."' >modulos/".$archivos[$i]."</li>";
+						  }
+						?>
+					</ul>
+				</div>
+				<div class="form-group">
+					<label>Ruta Archivo Config:</label>
+					<input class="form-control" id="inputArchivoConfig" name="inputArchivoConfig" placeholder="" value=""/>
+				</div>
+				<div class="form-group">
+					<label>Imagen:</label>
+					<input class="form-control" id="inputImagen" name="inputImagen" placeholder="" value=""/>
+				</div>
+				<div class="form-group">
+					<label>Titulo:</label>
+					<input class="form-control" id="inputTitulo" name="inputTitulo" placeholder="" value=""/>
+				</div>
+				<div class="form-group">
+					<label>Tipo:<?php //echo $fila_tipo; ?></label>
+
+						<select class="form-control form-select" name="inputTipo" id="inputTipo">
+						<?php  echo $this->opciones_tipo("1");  ?></select>
+				</div>
+
+				<div class="form-group">
+					<label>Ruta Css:</label>
+					<input class="form-control" id="inputUrlCss" name="inputUrlCss" placeholder="" value=""/>
+				</div>
+				<div class="form-group">
+					<label>Clase:</label>
+					<input class="form-control" id="inputClase" name="inputClase"  placeholder="" value="" />
+				</div>
+				<div class="form-group">
+					<label>Id Item:</label>
+					<input class="form-control" id="inputItem" name="inputItem"  placeholder="" value=""/>
+				</div>
+				<div class="form-group">
+					<label>Número/Items:</label>
+					<input class="form-control" id="inputNumero" name="inputNumero"  placeholder="" value=""/>
+				</div>
+
+				<div class="form-group">
+					<label>Id categoria:</label>
+					<input class="form-control" id="inputCat" name="inputCat"  placeholder="" value=""/>
+				</div>
+				<?php
+
+					$this->fmt->form->btn_nuevo($id_form,"",$this->id_mod,"ingresar"); //$id_form,$id_mod,$tarea
+				?>
+					 <!-- <button type="submit" class="btn btn-info  btn-actualizar hvr-fade btn-lg color-bg-celecte-c btn-lg" name="btn-accion" id="btn-activar" value="actualizar"><i class="icn-sync" ></i> Actualizar</button> -->
+				</div>
+			</form>
+		</div>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$(".btn-lista-pubs").click(function(event) {
+					/* Act on the event */
+					$(".lista-pubs").toggleClass('on');
+				});
+
+				$(".btn-archivo").click(function(event) {
+					var item = $(this).attr("item");
+					$("#inputArchivo").val(item);
+					$(".lista-pubs").removeClass('on');
+				});
+
+				$("body").on('change', '#inputTipo', function(event) {
+					 var tipo =$(this).val();
+					 console.log(tipo);
+					 if (tipo==0){
+					 	 $(".lista-nucleo").removeClass("off");
+					 	 $(".lista-local").addClass("off");
+					 }else{
+					  	$(".lista-local").removeClass("off");
+					 	 $(".lista-nucleo").addClass("off");
+					 }
+				});
+			});
+		</script>
+		<?php
+		$this->fmt->class_modulo->modal_script($this->id_mod);
+	}
+
+	function ingresar(){
+
+		if ($_POST["estado-mod"]=="activar"){ $activar=1; }else{ $activar=0;}
+
+		$ingresar ="pub_nombre, pub_descripcion, pub_imagen, pub_titulo, pub_tipo, pub_archivo,pub_archivo_config, pub_css, pub_clase, pub_id_item, pub_numero, pub_id_cat, pub_activar";
+		$valores  ="'".$_POST['inputNombre']."','".
+									 $_POST['inputDescripcion']."','".
+									 $_POST['inputImagen']."','".
+									 $_POST['inputTitulo']."','".
+									 $_POST['inputTipo']."','".
+									 $_POST['inputArchivo']."','".
+									 $_POST['inputArchivoConfig']."','".
+									 $_POST['inputUrlCss']."','".
+									 $_POST['inputClase']."','".
+									 $_POST['inputItem']."','".
+									 $_POST['inputNumero']."','".
+									 $_POST['inputCat']."','".
+									 $activar."'";
+
+		$sql="insert into publicacion (".$ingresar.") values (".$valores.")";
+
+		$this->fmt->query->consulta($sql);
+
+		$sql="select max(pub_id) as id from publicacion";
+			$rs= $this->fmt->query->consulta($sql,__METHOD__);
+			$fila = $this->fmt->query->obt_fila($rs);
+			$id = $fila ["id"];
+			$nom = $_POST['inputNombre'];
+			$pub = "<li class='cnt-publicacion ui-sortable-handle animated fadeIn' pub='$id' id='pub-$id' act='1'><img src='"._RUTA_WEB_NUCLEO."images/pub-icon.png'> <i class='btn-i icn-move btn-mover ui-state-disabled'></i> <span class='ui-state-disabled'>$nom</span><span class='ui-state-disabled box-accion pull-right'>  <i class='btn-i icn-pencil btn-editar-i ui-state-disabled' idpub='$id'></i><i class='btn-i icn-eye icn-eye-open btn-activar-i ui-state-disabled' idpub='$id'></i><i class='btn-i icn-trash btn-eliminar-i ui-state-disabled' pub='$id'></i></span></li>";
+
+		echo '<script type="text/javascript">
+			$(".modal-form").removeClass("on");
+      $(".modal-form .modal-inner").removeClass("mensaje-eliminar");
+      $(".modal-form .modal-inner").html(" ");
+      $(".content-page").css("overflow-y","auto");
+      $(".pub-all").prepend("'.$pub.'");
+		</script>';
+
+	// $this->fmt->class_modulo->redireccionar($ruta_modulo,"1");
+	} // fin funcion ingresar
 
   function tipo_publicacion($mod_tipo){
 

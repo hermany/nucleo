@@ -24,7 +24,7 @@ class MARCA{
 		  <div class="container">
 				<?php
 					$botones = $this->fmt->class_pagina->crear_btn_m("Crear","icn-plus","Nueva noticia","btn btn-primary btn-menu-ajax btn-new btn-small",$this->id_mod,"form_nuevo");  //$nom,$icon,$title,$clase,$id_mod,$vars
-					$this->fmt->class_pagina->head_modulo_inner("Lista de Sucursales", $botones);
+					$this->fmt->class_pagina->head_modulo_inner("Lista de Marcas", $botones);
 				?>
 				<div class="table-responsive">
 		      <table class="table table-hover" id="table_id">
@@ -79,7 +79,7 @@ class MARCA{
 		      	</table>
 		    	</div>
 		  </div>
-  	</div>
+  	</div> 
   	<?php
   	//$this->fmt->class_modulo->script_form("modulos/productos/marcas.adm.php",$this->id_mod);
 		$this->fmt->class_modulo->script_accion_modulo();

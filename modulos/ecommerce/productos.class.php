@@ -51,7 +51,7 @@ class PRODUCTOS{
 				    <tbody>
 				      <?php
 				      	if($id_rol==1)
-				        	$sql="select mod_prod_id, mod_prod_nombre, mod_prod_imagen,  mod_prod_id_dominio, mod_prod_activar from mod_productos ORDER BY mod_prod_id desc";
+				        	$sql="select mod_prod_id, mod_prod_nombre, mod_prod_imagen, mod_prod_activar from mod_productos ORDER BY mod_prod_id desc";
 				        else{
 				        	$aux="";
 				        	$or="";
@@ -76,7 +76,7 @@ class PRODUCTOS{
 								}
 							}
 					      }
-				        	$sql="select mod_prod_id, mod_prod_nombre, mod_prod_imagen,  mod_prod_id_dominio, mod_prod_activar from mod_productos, mod_productos_rel where mod_prod_rel_prod_id=mod_prod_id and ($aux) ORDER BY mod_prod_id desc";
+				        	$sql="select mod_prod_id, mod_prod_nombre, mod_prod_imagen,  mod_prod_activar from mod_productos, mod_productos_rel where mod_prod_rel_prod_id=mod_prod_id and ($aux) ORDER BY mod_prod_id desc";
 
 				        }
 				        $rs =$this->fmt->query->consulta($sql);
@@ -92,8 +92,8 @@ class PRODUCTOS{
 									//if (empty($fila_dominio)){ $aux=_RUTA_WEB; } else { $aux = $this->fmt->categoria->traer_dominio_cat_id($fila_dominio); }
 									//$img=$this->fmt->archivos->convertir_url_thumb( $fila_imagen );
 									$imgx=$this->fmt->archivos->convertir_url_mini( $fila_imagen );
-									$id_cat = $this->fmt->categoria->traer_id_cat_dominio($aux);
-									$sit_cat = $this->fmt->categoria->ruta_amigable($id_cat);
+									// $id_cat = $this->fmt->categoria->traer_id_cat_dominio($aux);
+									// $sit_cat = $this->fmt->categoria->ruta_amigable($id_cat);
 
 									$mystring = $fila_url;
 									$findme   = 'http';
@@ -151,7 +151,7 @@ class PRODUCTOS{
 		$this->fmt->class_modulo->script_table("table_id",$this->id_mod,"desc","0","25",true);
   }
 
-	function productos_cat($cat,$limite="0,1",$tipo_orden="id",$orden="desc",$addend="",$tipo_img="thumb",$active_btn="1"){
+	function productos_cat($cat,$limite="0,1",$tipo_orden="id",$orden="desc",$addend="",$tipo_img="thumb",$active_btn="1",$productos_hijos="0",$cat_alt="0"){
 
 		require_once(_RUTA_NUCLEO."modulos/finanzas/finanzas.class.php");
 		$finanzas = new FINANZAS($this->fmt);
@@ -187,11 +187,20 @@ class PRODUCTOS{
 					$img = _RUTA_IMAGES.$this->fmt->archivos->convertir_url_web($imagen);
 				}
 
+				if($tipo_img=="medium"){
+					$img = _RUTA_IMAGES.$this->fmt->archivos->url_add($imagen,"-medium");
+				}
+
 				if($active_btn==1){
 					$url_btn = "href='"._RUTA_WEB.$ra_cat.$ra.".prod'";
 				}
 
-				$url = _RUTA_WEB.$ra_cat.$ra.".prod";
+				if($cat_alt==0){
+					$url = _RUTA_WEB.$ra_cat.$ra.".prod";
+				}else{
+					$ra_cat = $this->fmt->categoria->ruta_amigable($cat_alt)."/";
+					$url = _RUTA_WEB.$ra_cat.$ra.".prod";
+				}
 
 				if ($i%2==0){
 				    $au = "par";

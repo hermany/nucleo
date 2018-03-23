@@ -915,7 +915,7 @@ select {
   padding-top: @heigth_navbar; //border:1px solid red;
   position: relative;
   display: block;
-  height: 99.5vh;
+  height: 99.95vh;
   overflow-y: auto;
 }
 
@@ -1286,10 +1286,16 @@ select {
 }
 
 .group-tabs {
-  width: 100%;
-  // height: 52px;
-  height: auto !important;
-  font-size: 0;
+    width: 100%;
+    height: 100% !important;
+    font-size: 0;
+    float: left;
+
+    .tab{
+          float: left;
+    width: 100%;
+        height: 100%;
+    }
 }
 
 .group-tabs .tab .title {
@@ -1297,12 +1303,14 @@ select {
   padding: 16px;
   font-weight: bold;
   display: inline-block;
+  float: left;
 }
 
 .group-tabs .tab .group {
   width: 90%;
-  height: 52px;
+  height: 100%;
   margin: 0;
+  float: left;
   /* position: absolute; */
 }
 

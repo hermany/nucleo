@@ -6,12 +6,17 @@ if ($fmt->sesion->get_variable("usu_id")!=false){
   $id_usu = $fmt->sesion->get_variable("usu_id");
   $id_rol=$fmt->usuario->id_rol_usuario($id_usu);
   $ruta_rol=_RUTA_WEB.$fmt->usuario->traer_ruta_rol($id_rol);
+  if ($ruta_rol==""){
+    echo $fmt->errores->error_rol();
+    exit(0);
+  }else{
   ?>
   <script type="text/javascript" language="javascript" src="<?php echo _RUTA_WEB_NUCLEO; ?>js/core.js"></script>
   <script type="text/javascript" >
     redireccionar_tiempo("<?php echo $ruta_rol; ?>",1);
   </script>
   <?php
+  }
 }
 echo $fmt->header->header_html();
 //$fmt->header->title_page("Logeo - Next Sistemas Integrados");

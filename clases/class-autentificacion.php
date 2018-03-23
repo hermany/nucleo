@@ -10,11 +10,14 @@ class AUTENTIFICACION{
   }
 
   function index(){
+
     if (_MULTIPLE_SITE=="on") {
-      $cat = $this->fmt->get->get_categoria_index();
-      $pla = $this->fmt->get->get_plantilla_index($this->fmt->query, $cat);
+      
       if ( $this->dominio_cat(_RUTA_WEB) ) {
   	    $cat= $this->dominio_cat(_RUTA_WEB);
+        $pla = $this->fmt->get->get_plantilla_index($this->fmt->query, $cat);
+      }else{
+        $cat = $this->fmt->get->get_categoria_index();
         $pla = $this->fmt->get->get_plantilla_index($this->fmt->query, $cat);
       }
     }else{
@@ -112,22 +115,23 @@ class AUTENTIFICACION{
 	  //echo $dominio;
 	  //$rd = explode("//", $dominio);
 	  //$rx = str_replace("/","", $rd['1']);
-	 //  $consulta="SELECT cat_id FROM categoria WHERE cat_dominio='$dominio'";
-	 //  $rs = $this->fmt->query->consulta($consulta,__METHOD__);
-	 //  $num =$this->fmt->query->num_registros($rs);
-	 //  $fila = $this->fmt->query->obt_fila($rs);
-	 //  if($num>0){
+
+	 $consulta="SELECT cat_id FROM sitio, sitio_categorias,categoria WHERE sitio_url='$dominio' and sitio_cat_cat_id=cat_id and sitio_cat_sitio_id=sitio_id";
+	  $rs = $this->fmt->query->consulta($consulta,__METHOD__);
+	  $num =$this->fmt->query->num_registros($rs);
+	  $fila = $this->fmt->query->obt_fila($rs);
+	  if($num>0){
 		// if ($_GET['cat']!=""){ if (!is_numeric($_GET['cat'])){   return false; } }
 		// if ($_GET['cat']==""){
-		// 	return $fila["cat_id"];
-		// }else{
-		// 	return false;
-		// }
+			return $fila["cat_id"];
+		}else{
+			return false;
+		}
 
 	 //  }else{
 		// return false;
 	 //  }
-    return true;
+    // return true;
   }
 
 }

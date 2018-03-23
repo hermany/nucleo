@@ -100,7 +100,7 @@ function num_sistemas_rol($id_rol){
     $this->fmt->query->liberar_consulta();
 }
 
-function traer_cat_hijos_menu_raiz($cat,$nivel,$nivel_tope,$iconos="0"){
+function traer_cat_hijos_menu_raiz($cat,$nivel,$nivel_tope,$iconos="0",$active=""){
   	$inputDominio = _RUTA_WEB;
     $sql="SELECT cat_id, cat_nombre, cat_id_padre, cat_icono, cat_imagen, cat_url, cat_destino, cat_ruta_amigable FROM categoria WHERE cat_id_padre='$cat' and cat_activar='1' ORDER BY cat_orden ASC";
     $rs = $this->fmt->query->consulta($sql,__METHOD__);

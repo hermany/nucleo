@@ -208,7 +208,6 @@ class DOCUMENTOS{
 						doc_ruta_amigable='".$_POST['inputRutaAmigableDoc']."',
 						doc_descripcion='".$_POST['inputDescripcionDoc']."',
 						doc_tamano='".$_POST['inputTamanoDoc']."',
-						doc_id_dominio='".$this->fmt->categoria->traer_id_cat_dominio($_POST['inputDominio'])."',
 						doc_fecha='".$_POST['inputFecha']."',
 						doc_usuario='".$_POST['inputUsuario']."',
 						doc_orden='".$_POST['inputOrden']."',

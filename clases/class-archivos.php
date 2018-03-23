@@ -35,7 +35,79 @@ class ARCHIVOS{
     <?php
   }
 
+  function listar_archivos($carpeta){
+    $i =0;
+    if(is_dir($carpeta)){
+        if($dir = opendir($carpeta)){
+            while(($archivo = readdir($dir)) !== false){
 
+                if($archivo != '.' && $archivo != '..' && $archivo != '.htaccess'){
+                    $aux[$i] = '<li><a target="_blank" href="'.$carpeta.'/'.$archivo.'">'.$archivo.'</a></li>';
+                    $i++;
+                }
+            }
+            closedir($dir);
+            return $aux;
+        }
+    }
+  }   
+
+  function listar_archivos_var($ruta,$carpeta){
+    $i =0;
+    if(is_dir($ruta.$carpeta)){
+        if($dir = opendir($ruta.$carpeta)){
+            while(($archivo = readdir($dir)) !== false){
+
+                if($archivo != '.' && $archivo != '..' && $archivo != '.htaccess' && $archivo!=".DS_Store"){
+                  $pos = strpos($archivo,'.pub');
+                  if ($pos === false) {
+                  }else{
+                    $aux[$i] = $archivo;
+                    $i++;
+                  }
+                }
+            }
+            closedir($dir);
+            return $aux;
+        }
+    }
+  }  
+
+
+
+  function listar_archivos_pub($carpeta,$rutax="local"){
+    $i =0;
+    $j =0;
+    $aux="";
+    $files="";
+    // echo $ruta;
+    // echo $carpeta;
+    if ($rutax=="nucleo"){
+      $ruta = _RUTA_NUCLEO;
+      $directorio = opendir($ruta.$carpeta);
+      while ($file = readdir($directorio)) {
+        if ((is_dir($ruta.$carpeta."/".$file)) && ( $file!=".") && ($file!="..")){
+          //$files[$j] = $file;
+          $j++;
+          $files[$j]=$this->listar_archivos_var($ruta,$carpeta.$file."/");
+          $num = count($files[$j]);
+
+          for ($x=0; $x < $num; $x++) {
+           $aux[$i] = $file."/".$files[$j][$x];
+           $i++;
+          }
+        }
+      }
+      closedir($directorio);
+
+      return  $aux;
+    }
+
+    if ($rutax=="local"){
+      $ruta = _RUTA_HOST;
+      return $this->listar_archivos_var($ruta,$carpeta);  
+    }
+  }
 
   function listar_directorios_ruta($ruta,$nivel,$directorio_p){
     //if(_MULTIPLE_SITE=="on")

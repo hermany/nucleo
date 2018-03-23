@@ -15,24 +15,24 @@ if($num>0){
     $ruta = _RUTA_WEB_NUCLEO;
     //$nom= $fmt->class_modulo->recortar_texto($fila_nombre,"8")."...";
     if ($fila_tipo=="xls"||$fila_tipo=="xlsx" ){
-      $icon="icn-excel";
+      $icon="excel";
     }
 
     if ($fila_tipo=="pdf"){
-      $icon="icn-pdf";
+      $icon="pdf";
     }
 
     if ($fila_tipo=="doc"||$fila_tipo=="docx" ){
-      $icon="icn-word";
+      $icon="word";
     }
 
     if ($fila_tipo=="ppt" ||$fila_tipo=="pptx"){
-      $icon="icn-powerpoint";
+      $icon="powerpoint";
     }
 
     $nom= $fmt->class_modulo->recortar_texto($fila_nombre,"40")." <span class='tipo-archivo'>(".$fila_tipo.")</span>";
     $nomx= $fmt->class_modulo->recortar_texto($fila_nombre,"35")." (".$fila_tipo.")";
-    echo "<li class='finder-item item-doc' seleccionado='off' nombre='".$nomx."' item='".$fila_id."' tipo_item='$icon' id='item-d-$i' url='".$fila_url."'  url_mini='".$url."' style='' ><i class='icn $icon'></i><span class='nombre' title='$fila_nombre'>".$nom."</span><div class='etiquetas'>".$etiquetas."</div></li>";
+    echo "<li class='finder-item item-doc' seleccionado='off' nombre='".$nomx."' item='".$fila_id."' tipo_item='$icon' id='item-d-$i' url='".$fila_url."'  url_mini='".$url."' style='' ><i class='icn icn-$icon'></i><span class='nombre' title='$fila_nombre'>".$nom."</span><div class='etiquetas'>".$etiquetas."</div></li>";
   }
 }
 ?>

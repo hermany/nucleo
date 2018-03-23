@@ -98,7 +98,9 @@
   height: 98%;
 }
 
-.finder .finder-head {}
+.finder .finder-head {
+      height: 54px;
+}
 
 .finder .finder-head .title-finder {}
 
@@ -168,7 +170,8 @@
   width: 99.8%;
   padding: 10px;
   list-style: none;
-  display: inline-block;
+  display: flex;
+  flex-wrap: wrap;
   height: 83vh;
   overflow-y: auto;
   z-index: 3;
@@ -193,7 +196,7 @@
   position: relative;
 }
 
-.finder .finder-body .tbody ul .finder-item span {
+.finder .finder-body .tbody ul .finder-item .nombre {
   width: 90px;
   color: #777;
   word-wrap: break-word;
