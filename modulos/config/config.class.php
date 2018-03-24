@@ -36,6 +36,7 @@ class CONFIG{
 				$fila_script_head=$row["conf_script_head"];
 				$fila_script_footer=$row["conf_script_footer"];
 				$fila_ruta_analitica=$row["conf_meta"];
+				$fila_thumbs=$row["conf_thumbs"];
 			}
 		}
 		?>
@@ -49,7 +50,7 @@ class CONFIG{
 							$this->fmt->form->input_form('Imagen:','inputImagen','',$fila_imagen,'','',''); //$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
 							$this->fmt->form->input_form('Favicon:','inputIcono','',$fila_favicon,'','',''); //$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
 							$this->fmt->form->input_form('Meta:','inputMeta','',$fila_ruta_analitica,'','',''); //$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
-
+							$this->fmt->form->input_form('Tamaño Thumbs (web,medium,thumb,mini,...):','inputThumbs','',$fila_thumbs,'','','');
 						?>
 						</div>
 						<div class="box-md-6 box-md-left">

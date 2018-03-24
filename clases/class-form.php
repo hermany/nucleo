@@ -1191,7 +1191,7 @@ class FORM{
 		<?php
 	}
 
-	function ruta_amigable_form($id,$ruta="",$valor,$id_form,$ext="",$div_class,$modo="0",$placeholder,$mensaje){
+	function ruta_amigable_form($id,$ruta="Ruta Amigable:",$valor,$id_form,$ext="",$div_class,$modo="0",$placeholder,$mensaje){
 
 		if($modo==0){ 
 		?>
@@ -1211,7 +1211,7 @@ class FORM{
 		if($modo==1){
 		?>
 		<div class="form-group form-group-ra <?php echo $class_div; ?>" id="input-<?php echo $id; ?>" >
-      <label>Ruta Amigable:</label>
+      <label><?php echo $ruta; ?></label>
       <input class="form-control <?php echo $class; ?>" id="<?php echo $id_form; ?>" name="<?php echo $id_form; ?>" validar="<?php echo $validar; ?>" placeholder="<?php echo $placeholder; ?>" value="<?php echo $valor; ?>" <?php echo $disabled; echo $otros; ?> />
 			<?php if (!empty($mensaje)){ ?>
 			<p class="help-block"><?php echo $mensaje; ?></p>
@@ -1488,7 +1488,12 @@ class FORM{
       	  $val = explode(",",$valores);
       	  $nv = count($val);
       		for ($i=0; $i < $nv ; $i++) { 
-      			echo "<option class='' value='$i'>".$val[$i]."</option>";
+      			 if ($select== $i){
+      			 	$ext="selected";
+      			 }else{
+      			 	$ext="";
+      			 }
+      			echo "<option class='' value='$i' $ext>".$val[$i]."</option>";
       			# code...
       		}
       	?>

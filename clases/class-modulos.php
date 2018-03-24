@@ -44,6 +44,16 @@ class CLASSMODULOS{
     });';
   }
 
+  function script_cerrar_ventana($devolver){
+    echo '<script type="text/javascript">
+      $(".modal-form").removeClass("on");
+      $(".modal-form .modal-inner").removeClass("mensaje-eliminar");
+      $(".modal-form .modal-inner").html(" ");
+      $(".content-page").css("overflow-y","auto");
+      '.$devolver.'
+    </script>';
+  }
+
 
   function estado_activar( $estado,$link,$id_mod,$disabled,$id){
 		$link = _RUTA_WEB.$link;
@@ -94,7 +104,7 @@ class CLASSMODULOS{
           abrir_modulos(datos);
         });
 
-        $('a.btn-m-activar').on('click',function (e) {
+        $('body').on('click','a.btn-m-activar', function (e) {
           e.preventDefault();
           var variables = $(this).attr('vars');
           var id_mod= $(this).attr('id_mod');
@@ -104,7 +114,7 @@ class CLASSMODULOS{
           accion_modulo(datos);
         });
 
-        $("a.btn-m-eliminar").on('click',function (e) {
+        $("body").on('click','a.btn-m-eliminar', function (e) {
           // e.preventDefault();
           var nom= $(this).attr('nombre');
           var variablesx = $(this).attr('vars');
@@ -852,7 +862,7 @@ class CLASSMODULOS{
           }else{
             switch(tipo_validacion) {
                 case "literal":
-                  console.log ( typeof(valor) );
+                  //console.log ( typeof(valor) );
                   abrir_modulos(datos);
                 break;
 
@@ -864,7 +874,7 @@ class CLASSMODULOS{
         }
 
         function abrir_modulos(datos){
-          console.log("abrir_modulos:"+datos);
+          // console.log("abrir_modulos:"+datos);
           $.ajax({
             url:"<?php echo _RUTA_WEB; ?>ajax.php",
             type:"post",
