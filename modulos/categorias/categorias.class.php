@@ -213,8 +213,7 @@ class CATEGORIAS{
 				<?php
 					$this->fmt->form->input_form("<span class='obligatorio'>*</span> Nombre:","inputNombre","",$fila["cat_nombre"],"input-lg","","");
 					$this->fmt->form->input_hidden_form("inputId",$id);
-					$this->fmt->form->ruta_amigable_form("inputNombre",_RUTA_WEB,$fila['cat_ruta_amigable'],"inputRutaamigable","","","1"); //$id,$ruta="",$valor,$id_form,$ext="",$div_class,$modo="0",$placeholder,$mensaje
-					$this->fmt->form->input_form("Tags:","inputTags","",$fila["cat_tags"],"","","");
+					$this->fmt->form->ruta_amigable_form("inputNombre","",$fila['cat_ruta_amigable'],"inputRutaamigable","","","1"); //$id,$ruta="Ruta Amigable:",$valor,$id_form,$ext="",$div_class,$modo="0",$placeholder,$mensaje
 					$this->fmt->form->textarea_form('Descripcion:','inputDescripcion','',$fila["cat_descripcion"],'','','3',''); //label,$id,$placeholder,$valor,$class,$class_div,$rows,$mensaje
 					$this->fmt->form->select_form_cat_id("Categoría padre:","inputPadre",$fila['cat_id_padre']); //$label,$id,$id_item,$div_class
 					$this->fmt->form->input_icono_form("Icono:","inputIcono",$fila["cat_icono"]); //($label,$id,$icono,$class_div
@@ -285,7 +284,7 @@ class CATEGORIAS{
 				<?php
 
 					$this->fmt->form->input_form("<span class='obligatorio'>*</span> Nombre:","inputNombre","","","input-lg","","");
-					$this->fmt->form->ruta_amigable_form("inputNombre",_RUTA_WEB,"","inputRutaamigable","","","1"); //$id,$ruta,$valor,$form
+					$this->fmt->form->ruta_amigable_form("inputNombre","","","inputRutaamigable","","","1"); //$id,$ruta,$valor,$form
 					$this->fmt->form->input_form("Tags:","inputTags","","","","","");
 					$this->fmt->form->textarea_form('Descripcion:','inputDescripcion','','','','','3',''); //label,$id,$placeholder,$valor,$class,$class_div,$rows,$mensaje
 					$this->fmt->form->select_form_cat_id("Categoría padre:","inputPadre",$id); //$label,$id,$id_item,$div_class,$id_padre

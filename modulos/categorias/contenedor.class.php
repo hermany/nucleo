@@ -129,7 +129,7 @@ class CONTENEDOR{
     	 	 var w = $(window).width();
     	 	 var h = $(window).height();
     	 	 var h_nav = $(".nav").outerHeight();
-    	 	 var w_e = w - 210;
+    	 	 var w_e = w - 207;
     	 	 var h_e = h - h_nav;
     	 	 var h_cont = h - 154;
     	 	 $(".box-estructura").width(w_e);

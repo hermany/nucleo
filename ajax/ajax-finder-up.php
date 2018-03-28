@@ -54,8 +54,8 @@
 
         $src =  $output_dir.$nombre_url;
 
-        $fmt->archivos->crear_thumb($src,$output_dir.$nombre_thumb,100,100,1);
-        $fmt->archivos->crear_thumb($src,$output_dir.$nombre_mini,180,180,0);
+        $fmt->archivos->crear_thumb($src,$output_dir.$nombre_thumb,180,180,1);
+        $fmt->archivos->crear_thumb($src,$output_dir.$nombre_mini,60,60,0);
         
 
         if (($width > 250) && ( $height > 250)){

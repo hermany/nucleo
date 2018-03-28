@@ -749,6 +749,14 @@ class CLASSMODULOS{
 
   function traer_rel_modulos_list($var){
      //var_dump(json_decode($var));
+
+      /*echo $this->fmt->class_modulo->traer_rel_modulos_list('{
+                    "select":"pub_id,pub_nombre",
+                    "from":"enlace_publicaciones,publicacion",
+                    "where":"enl_pub_enl_id='.$fila_id.' and pub_id = enl_pub_pub_id",
+                    "vars_mod":"publicacion",
+                    "id_mod":"'.$this->id_mod.'"}'); */
+
       $dato =json_decode($var);
       $dat = explode(",",$dato->{'select'});
       $consulta = "SELECT ".$dato->{'select'}." FROM ".$dato->{'from'}." WHERE ".$dato->{'where'};
@@ -1287,19 +1295,25 @@ function traer_fecha_literal($fecha_hora){
 
 		return $F;
 	}
-  function estructurar_fecha_hora($fecha){
+  function estructurar_fecha_hora($fecha,$format){
       $fechaHora = explode(" ", $fecha);
       $fechas = explode("-", $fechaHora[0]);
       $tiempo = explode (":", $fechaHora[1]);
 
 
       $ano=$fechas[0];
-      $mes=(string)(int)$fechas[1];
+      $mes=$fechas[1];
       $dia=$fechas[2];
       $hora = $tiempo[0];
       $min = $tiempo[1];
       $seg = substr($tiempo[2], 0, 2);
-      return $dia."-".$mes."-".$ano." ".$hora.":".$min;
+
+      if ($format=="dd-mm-yyyy hh:ii"){
+        return $dia."-".$mes."-".$ano." ".$hora.":".$min;
+      }      
+      if ($format=="dd-mm-yyyy"){
+        return $dia."-".$mes."-".$ano;
+      }
 
   }
   function desestructurar_fecha_hora($fecha){

@@ -56,4 +56,25 @@ class OFERTA{
     $this->fmt->class_modulo->script_table("table_id",$this->id_mod,"desc","0","10",true);
 		$this->fmt->class_modulo->script_accion_modulo();
 	}
+
+	function form_nuevo(){
+		$id_form="form-oferta";
+		$this->fmt->class_pagina->crear_head_form("Nueva oferta","","");
+		$this->fmt->class_pagina->head_form_mod();
+		$this->fmt->class_pagina->form_ini_mod($id_form,"form-oferta");
+		$this->fmt->form->input_form("* Nombre:","inputNombre","","","input-lg","","","","texto");
+		$this->fmt->form->textarea_form('Descripción:','inputDescripcion','','','','textarea-descripcion','',''); //label,$id,$placeholder,$valor,$class,$class_div,$rows,$mensaje
+		$fecha=$this->fmt->class_modulo->fecha_hoy('America/La_Paz');
+		$this->fmt->form->input_form_date('{
+				"label":"Fecha:",
+				"id":"inputFecha",
+				"format":"dd-mm-yyyy",
+				"fecha":"'.$fecha.'"
+		}');
+		$usuario = $this->fmt->sesion->get_variable('usu_id');
+		$usuario_n =  $this->fmt->usuario->nombre_usuario( $usuario );
+		$this->fmt->form->input_form_sololectura('Usuario:','','',$usuario_n,'','','');//$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
+		$this->fmt->form->input_hidden_form("inputUsuario",$usuario);
+		
+	}
 }

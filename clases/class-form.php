@@ -1148,14 +1148,14 @@ class FORM{
     </div>
     <?php
   }
-	function input_date_form($label,$id,$placeholder,$valor,$class,$class_div,$mensaje,$disabled,$validar,$otros){
+	function input_date_form($label,$id,$placeholder,$valor,$class,$class_div,$mensaje,$disabled,$validar,$otros,$format='dd-mm-yyyy hh:ii'){
 		$fecha = $this->fmt->class_modulo->estructurar_fecha_hora($valor);
     ?>
 		<script type="text/javascript">
 						$(function () {
 								$('#<?php echo $id; ?>').datetimepicker({
 									language:  'es',
-									format: 'dd-mm-yyyy hh:ii',
+									format: '<?php echo $format; ?>',
 									autoclose: true,
 									minuteStep: 5,
 									weekStart: 1,
@@ -1170,7 +1170,7 @@ class FORM{
 			<?php } ?>
 			<div class="group">
 				<i class="icn icn-calendar-clock"></i>
-				<input  data-date-format="yyyy-mm-dd hh:ii" class="form-control  date form-datetime <?php echo $class; ?>" id="<?php echo $id; ?>" name="<?php echo $id; ?>" validar="<?php echo $validar; ?>" placeholder="" value="<?php echo $fecha; ?>" <?php echo $disabled; echo $otros; ?> />
+				<input  data-date-format="<?php echo $format; ?>" class="form-control form-control-date  date form-datetime <?php echo $class; ?>" id="<?php echo $id; ?>" name="<?php echo $id; ?>" validar="<?php echo $validar; ?>" placeholder="" value="<?php echo $fecha; ?>" <?php echo $disabled; echo $otros; ?> />
 				<?php if (!empty($mensaje)){ ?>
 				<p class="help-block"><?php echo $mensaje; ?></p>
 				<?php } ?>
@@ -1178,6 +1178,67 @@ class FORM{
 
     </div>
 
+    <?php
+  }
+
+  public function input_form_date($vars){
+  	$dato =json_decode($vars);
+  	$class="";
+  	$class_div="";
+  	if ($dato->{'minuteStep'}){
+			$minuteStep=$dato->{'minuteStep'};
+  	}else{
+  		$minuteStep="5";
+  	}
+  	
+  	$mensaje="";
+  	$disabled="";
+  	$validar="";
+  	$otros="";
+  	if ($dato->{'format'}){
+  		$format=$dato->{'format'};
+  	}else{
+  		$format='dd-mm-yyyy hh:ii';
+  	}
+  	$label = $dato->{'label'};
+  	$id = $dato->{'id'};
+  	$fechax = $dato->{'fecha'};
+  	$fecha = $this->fmt->class_modulo->estructurar_fecha_hora($fechax,$format);
+
+  	if ($format=="dd-mm-yyyy hh:ii"){
+      $minView ='0';
+    }      
+    if ($format=="dd-mm-yyyy"){
+      $minView ='2';
+    }
+
+    ?>
+		<script type="text/javascript">
+						$(function () {
+								$('#<?php echo $id; ?>').datetimepicker({
+									language:  'es',
+									format: '<?php echo $format; ?>',
+									autoclose: true,
+									minView: <?php echo $minView; ?>,
+									minuteStep: <?php echo $minuteStep; ?>,
+									weekStart: 1,
+									forceParse: 0,
+									todayBtn: true
+								});
+						});
+		</script>
+    <div class="form-group form-date <?php echo $class_div; ?>" >
+			<?php if (!empty($label)){ ?>
+      <label><?php echo $label; ?></label>
+			<?php } ?>
+			<div class="group">
+				<i class="icn icn-calendar-clock"></i>
+				<input  data-date-format="<?php echo $format; ?>" class="form-control form-control-date  date form-datetime <?php echo $class; ?>" id="<?php echo $id; ?>" name="<?php echo $id; ?>" validar="<?php echo $validar; ?>" placeholder="" value="<?php echo $fecha; ?>" <?php echo $disabled; echo $otros; ?> />
+				<?php if (!empty($mensaje)){ ?>
+				<p class="help-block"><?php echo $mensaje; ?></p>
+				<?php } ?>
+			</div>
+    </div>
     <?php
   }
 
@@ -1375,7 +1436,7 @@ class FORM{
 
   function input_form_sololectura($label,$id,$placeholder,$valor,$class,$class_div,$mensaje){
     ?>
-    <div class="form-group <?php echo $class_div; ?>" id="input-<?php echo $id; ?>">
+    <div class="form-group form-group-solo-lectura <?php echo $class_div; ?>" id="input-<?php echo $id; ?>">
       <label><?php echo $label; ?></label>
       <input class="form-control <?php echo $class; ?>" id="<?php echo $id; ?>" name="<?php echo $id; ?>"  placeholder="<?php echo $placeholder; ?>" value="<?php echo $valor; ?>" readonly/>
 			<?php if (!empty($mensaje)){ ?>

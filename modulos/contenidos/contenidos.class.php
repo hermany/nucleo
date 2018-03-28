@@ -250,7 +250,7 @@ class CONTENIDOS{
 				// }
 				// $this->fmt->form->input_form("Nombre Amigable:","inputNombreAmigable","",$valor_ra,"","","","");
 
-				$this->fmt->form->ruta_amigable_form("inputNombre",_RUTA_WEB,$fila['conte_ruta_amigable'],"inputRutaamigable","","","1"); //
+				$this->fmt->form->ruta_amigable_form("inputNombre","",$fila['conte_ruta_amigable'],"inputRutaamigable","","","1"); //
 
 				$this->fmt->form->input_hidden_form("inputId",$id);
 				//$this->fmt->form->hidden_modulo($this->id_mod,"modificar");

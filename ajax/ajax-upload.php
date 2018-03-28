@@ -53,7 +53,7 @@
           echo "<img width='100%' src='".$inputDominio.$inputUrl."'></br></br>";
           $fmt->form->input_form('Url archivo:','inputUrlArchivo','',$inputUrl,'');
           $fmt->form->input_form('Dominio:','inputDominio','',$inputDominio,'','','');
-          $fmt->form->input_hidden_form('inputDominio',$fmt->categoria->traer_id_cat_dominio($inputDominio));
+          // $fmt->form->input_hidden_form('inputDominio',$fmt->categoria->traer_id_cat_dominio($inputDominio));
         } else {
           $rt .= "editar";
           $rt .= ','.$inputUrl;

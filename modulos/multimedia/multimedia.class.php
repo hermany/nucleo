@@ -618,7 +618,7 @@ class MULTIMEDIA{
 		if ($_POST["estado-mod"]=="eliminar"){
 		}else{
 
-		   		$sql="UPDATE multimedia SET
+		   		echo $sql="UPDATE multimedia SET
 						mul_nombre='".$_POST['inputNombre']."',
 						mul_url_archivo ='".$_POST['inputUrl']."',
 						mul_tipo_archivo='".$_POST['inputTipo']."',
@@ -627,7 +627,6 @@ class MULTIMEDIA{
 						mul_descripcion='".$_POST['inputDescripcion']."',
 						mul_dimension='".$_POST['inputDimension']."',
 						mul_tamano='".$_POST['inputTamano']."',
-						mul_id_dominio='".$this->fmt->categoria->traer_id_cat_dominio($_POST['inputDominio'])."',
 						mul_fecha='".$_POST['inputFecha']."',
 						mul_embed='".$_POST['inputEmbed']."',
 						mul_url='".$_POST['inputLink']."',
@@ -638,7 +637,6 @@ class MULTIMEDIA{
 
 					$this->fmt->query->consulta($sql);
 
-
 					$sql="DELETE FROM multimedia_categorias WHERE mul_cat_mul_id='".$_POST['inputId']."'";
 					$this->fmt->query->consulta($sql);
 
@@ -646,8 +644,6 @@ class MULTIMEDIA{
 					$this->fmt->query->consulta($up_sqr7);
 
 					$valor_cat= $_POST['inputCat'];
-
-
 
 					$ingresar1 ="mul_cat_mul_id, mul_cat_cat_id, mul_cat_orden";
 
