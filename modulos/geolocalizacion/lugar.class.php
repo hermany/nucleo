@@ -70,7 +70,7 @@ class LUGAR{
 		$this->fmt->class_pagina->head_form_mod();
 		$this->fmt->class_pagina->form_ini_mod($id_form,"form-lugares");
 
-		$this->fmt->form->input_form("* Nombre:","inputNombre","","","input-lg","","","","texto"); //$label,$id,$placeholder,$valor,$class,$class_div,$mensaje,$disabled,$validar,$otros
+		$this->fmt->form->input_form("* Nombre:","inputNombre","","","input-lg","","","",""); //$label,$id,$placeholder,$valor,$class,$class_div,$mensaje,$disabled,$validar,$otros
 		$this->fmt->form->input_form("Dirección:","inputDireccion","","");
 		$this->fmt->form->input_form("Teléfonos:","inputTelefono","","");
 		$this->fmt->form->textarea_form('Información:','inputInfo','','','','3','');

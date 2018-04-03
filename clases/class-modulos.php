@@ -1295,7 +1295,7 @@ function traer_fecha_literal($fecha_hora){
 
 		return $F;
 	}
-  function estructurar_fecha_hora($fecha,$format){
+  function estructurar_fecha_hora($fecha,$format='dd-mm-yyyy hh:ii'){
       $fechaHora = explode(" ", $fecha);
       $fechas = explode("-", $fechaHora[0]);
       $tiempo = explode (":", $fechaHora[1]);

@@ -12,10 +12,14 @@ class AUTENTIFICACION{
   function index(){
 
     if (_MULTIPLE_SITE=="on") {
-      
-      if ( $this->dominio_cat(_RUTA_WEB) ) {
-  	    $cat= $this->dominio_cat(_RUTA_WEB);
-        $pla = $this->fmt->get->get_plantilla_index($this->fmt->query, $cat);
+      if (!isset($_GET[cat])){
+        if ( $this->dominio_cat(_RUTA_WEB) ) {
+  	     $cat= $this->dominio_cat(_RUTA_WEB);
+         $pla = $this->fmt->get->get_plantilla_index($this->fmt->query, $cat);
+        }else{
+          $cat=1;
+          $pla=1;
+        }
       }else{
         $cat = $this->fmt->get->get_categoria_index();
         $pla = $this->fmt->get->get_plantilla_index($this->fmt->query, $cat);
@@ -116,7 +120,7 @@ class AUTENTIFICACION{
 	  //$rd = explode("//", $dominio);
 	  //$rx = str_replace("/","", $rd['1']);
 
-	 $consulta="SELECT cat_id FROM sitio, sitio_categorias,categoria WHERE sitio_url='$dominio' and sitio_cat_cat_id=cat_id and sitio_cat_sitio_id=sitio_id";
+	  $consulta="SELECT cat_id FROM sitio, sitio_categorias,categoria WHERE sitio_ruta_amigable='$dominio' and sitio_cat_cat_id=cat_id and sitio_cat_sitio_id=sitio_id";
 	  $rs = $this->fmt->query->consulta($consulta,__METHOD__);
 	  $num =$this->fmt->query->num_registros($rs);
 	  $fila = $this->fmt->query->obt_fila($rs);

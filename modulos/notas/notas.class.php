@@ -68,7 +68,7 @@ class NOTICIAS{
 
 		<?php
 
-		$this->fmt->class_modulo->script_table("table_id",$this->id_mod,"desc","4","10",true);
+		$this->fmt->class_modulo->script_table("table_id",$this->id_mod,"desc","0","10",true);
 		$this->fmt->class_modulo->script_accion_modulo();
  //$id,$id_mod,$tipo="asc",$orden=0,$cant=25,$pag_up=fals
 	}
@@ -181,7 +181,7 @@ class NOTICIAS{
 			<form class="form form-modulo form-noticia"  method="POST" id="<?php echo $id_form?>">
 				<div class=" col-form">
 					<?php
-						$this->fmt->form->input_form("<span class='obligatorio'>*</span> Titulo:","inputTitulo","","","input-lg","row-lg","","","","autocomplete=off"); //$label,$id,$placeholder,$valor,$class,$class_div,$mensaje,$disabled,$validar,$otros
+						$this->fmt->form->input_form("* Titulo:","inputTitulo","","","input-lg","row-lg","","","","autocomplete=off"); //$label,$id,$placeholder,$valor,$class,$class_div,$mensaje,$disabled,$validar,$otros
 						$this->fmt->form->ruta_amigable_form("inputTitulo","","","inputRutaamigable","","input-lg","1"); //$id,$ruta,$valor,$form
 
 						$this->fmt->form->input_form('Tags:','inputTags','','','');
