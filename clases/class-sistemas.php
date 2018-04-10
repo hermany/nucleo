@@ -150,6 +150,7 @@ class CLASSSISTEMAS{
   function update_htaccess(){
       ini_set('memory_limit', '-1');
 
+    if (_TIPO_CONFIGURACION=="htaccess"){
       if(_MULTIPLE_SITE=="on"){
          $carpetas_sitios=$this->fmt->class_sitios->traer_carpeta_sitios();
          //var_dump($carpetas_sitios);
@@ -165,6 +166,10 @@ class CLASSSISTEMAS{
          // $this->chmod_R($nombre_archivo, 0777);÷÷
       	 $this->escribir_htaccess($nombre_archivo);
       }
+    }else{
+      $nombre_archivo = _RUTA_SERVER.$carpetas_sitios[$i]."/web.config";
+      $this->escribir_webcongif($nombre_archivo);
+    }
 
       //this->chmod_R($nombre_archivo, 0777);
       //$this->chmod_R($nombre_archivo,"0777");
@@ -173,6 +178,135 @@ class CLASSSISTEMAS{
       //  $this->fmt->archivos->permitir_escritura($nombre_archivo); }
 
         //$this->fmt->archivos->quitar_escritura($nombre_archivo);
+    }
+
+    public function escribir_webcongif($nombre_archivo){
+      $datos = $this->get_data_on($nombre_archivo);
+
+      if($archivo = fopen($nombre_archivo, "w+") or die(print_r(error_get_last(),true))){
+        // fwrite($archivo, "<!-- # web.congif ".$datos. PHP_EOL);
+        // fwrite($archivo, "# Fecha de modificacion:". date("d m Y H:m:s").PHP_EOL);
+        // fwrite($archivo, "# -->".PHP_EOL);
+
+        fwrite($archivo, '<?xml version="1.0" encoding="UTF-8"?>'.PHP_EOL);
+        fwrite($archivo, '<configuration>'.PHP_EOL);
+        fwrite($archivo, '<system.webServer>'.PHP_EOL);
+        fwrite($archivo, '<rewrite>'.PHP_EOL);
+        fwrite($archivo, '<rules>'.PHP_EOL);
+
+        fwrite($archivo, '<rule name="Rewrite to login.php" stopProcessing="true">'.PHP_EOL);
+        fwrite($archivo, '        <match url="login$" />'.PHP_EOL);
+        fwrite($archivo, '        <action type="Rewrite" url="/login.php" appendQueryString="false"/>'.PHP_EOL);
+        fwrite($archivo, '</rule>'.PHP_EOL);
+
+        fwrite($archivo, '<rule name="Rewrite to dashboard.php" stopProcessing="true">'.PHP_EOL);
+        fwrite($archivo, '    <match url="dashboard$" />'.PHP_EOL);
+        fwrite($archivo, '    <action type="Rewrite" url="/dashboard.php" appendQueryString="false"/>'.PHP_EOL);
+        fwrite($archivo, '</rule>'.PHP_EOL);
+
+        fwrite($archivo, '<rule name="Rewrite to dashboard.php modulos" stopProcessing="true">'.PHP_EOL);
+        fwrite($archivo, '    <match url="dashboard/([^/]*)$" />'.PHP_EOL);
+        fwrite($archivo, '    <action type="Rewrite" url="/dashboard.php?m={R:1}" appendQueryString="false"/>'.PHP_EOL);
+        fwrite($archivo, '</rule>'.PHP_EOL);
+
+        $sql="SELECT cat_id, cat_ruta_amigable, cat_id_plantilla FROM categoria";
+        $rs=$this->fmt->query->consulta($sql,__METHOD__);
+        while ($R = $this->fmt->query->obt_fila($rs)) {
+               $id_cat=$R["cat_id"];
+               $ruta1=$R["cat_ruta_amigable"];
+               $pla=$R["cat_id_plantilla"];
+
+               if(!empty($ruta1)){
+
+                 // fwrite($archivo, "Rewriterule ^".$ruta1."$  index.php?cat=".$id_cat."&pla=".$pla.PHP_EOL);
+
+                 fwrite($archivo, '<rule name="Rewrite to '.$ruta1.'" stopProcessing="true">'.PHP_EOL);
+                 fwrite($archivo, '        <match url="'.$ruta1.'$" />'.PHP_EOL);
+                 fwrite($archivo, '        <action type="Rewrite" url="/index.php?cat='.$id_cat.'&amp;pla='.$pla.'" appendQueryString="false"/>'.PHP_EOL);
+                 fwrite($archivo, '</rule>'.PHP_EOL);
+
+
+                 // fwrite($archivo, "Rewriterule ^".$ruta1."#([^/]*)$  index.php?cat=".$id_cat."&pla=".$pla."#$1".PHP_EOL);
+
+                 fwrite($archivo, '<rule name="Rewrite to '.$ruta1.'([^/]*)#" stopProcessing="true">'.PHP_EOL);
+                 fwrite($archivo, '        <match url="'.$ruta1.'#([^/]*)$" />'.PHP_EOL);
+                 fwrite($archivo, '        <action type="Rewrite" url="/index.php?cat='.$id_cat.'&amp;pla='.$pla.'#{R:1}" appendQueryString="false"/>'.PHP_EOL);
+                 fwrite($archivo, '</rule>'.PHP_EOL);
+
+                 // sitios con pla!=1
+                 // fwrite($archivo, "Rewriterule ^".$ruta1."/p=([0-9]+)([^/]*)$  index.php?cat=".$id_cat."&pla=$1$2".PHP_EOL);
+
+                 fwrite($archivo, '<rule name="Rewrite to '.$ruta1.'p=([0-9]+)([^/]*)" stopProcessing="true">'.PHP_EOL);
+                 fwrite($archivo, '        <match url="'.$ruta1.'/p=([0-9]+)([^/]*)$" />'.PHP_EOL);
+                 fwrite($archivo, '        <action type="Rewrite" url="/index.php?cat='.$id_cat.'&amp;pla='.$pla.'{R:1}{R:2}" appendQueryString="false"/>'.PHP_EOL);
+                 fwrite($archivo, '</rule>'.PHP_EOL);
+
+                 // sitios con paginación
+                 // fwrite($archivo, "Rewriterule ^".$ruta1."/pag=([0-9]+)$  index.php?cat=".$id_cat."&pla=".$pla."&pag=$1".PHP_EOL);
+
+                 fwrite($archivo, '<rule name="Rewrite to '.$ruta1.'/pag=([0-9]+)" stopProcessing="true">'.PHP_EOL);
+                 fwrite($archivo, '        <match url="'.$ruta1.'/pag=([0-9]+)$" />'.PHP_EOL);
+                 fwrite($archivo, '        <action type="Rewrite" url="/index.php?cat='.$id_cat.'&amp;pla='.$pla.'&amp;pag={R:1}" appendQueryString="false"/>'.PHP_EOL);
+                 fwrite($archivo, '</rule>'.PHP_EOL);
+
+                 // fwrite($archivo, "Rewriterule ^".$ruta1."/([^/]*).html$  index.php?cat=".$id_cat."&pla=3&nota=$1".PHP_EOL);
+
+                 fwrite($archivo, '<rule name="Rewrite to '.$ruta1.'/([^/]*).html" stopProcessing="true">'.PHP_EOL);
+                 fwrite($archivo, '        <match url="'.$ruta1.'/([^/]*).html$" />'.PHP_EOL);
+                 fwrite($archivo, '        <action type="Rewrite" url="/index.php?cat='.$id_cat.'&amp;pla=3&amp;nota={R:1}" appendQueryString="false"/>'.PHP_EOL);
+                 fwrite($archivo, '</rule>'.PHP_EOL);
+
+                 // fwrite($archivo, "Rewriterule ^".$ruta1."/prod=([0-9]+)$  index.php?cat=".$id_cat."&pla=1&prod=$1".PHP_EOL);
+                 fwrite($archivo, '<rule name="Rewrite to '.$ruta1.'/prod=([0-9]+)" stopProcessing="true">'.PHP_EOL);
+                 fwrite($archivo, '        <match url="'.$ruta1.'/prod=([0-9]+)$" />'.PHP_EOL);
+                 fwrite($archivo, '        <action type="Rewrite" url="/index.php?cat='.$id_cat.'&amp;pla=1&amp;vprod={R:1}" appendQueryString="false"/>'.PHP_EOL);
+                 fwrite($archivo, '</rule>'.PHP_EOL);
+
+                 // fwrite($archivo, "Rewriterule ^".$ruta1."/([^/]*).prod$  index.php?cat=".$id_cat."&pla=3&ra_prod=$1".PHP_EOL);
+
+                 fwrite($archivo, '<rule name="Rewrite to '.$ruta1.'/([^/]*).prod" stopProcessing="true">'.PHP_EOL);
+                 fwrite($archivo, '        <match url="'.$ruta1.'/([^/]*).prod$" />'.PHP_EOL);
+                 fwrite($archivo, '        <action type="Rewrite" url="/index.php?cat='.$id_cat.'&amp;pla=3&amp;ra_prod={R:1}" appendQueryString="false"/>'.PHP_EOL);
+                 fwrite($archivo, '</rule>'.PHP_EOL);
+
+               }
+        }
+
+        // fwrite($archivo, '<rule name="Remove html" stopProcessing="true">'.PHP_EOL);
+        // fwrite($archivo, '    <match url="(.*).html$" />'.PHP_EOL);
+        // fwrite($archivo, '      <conditions>'.PHP_EOL);
+        // fwrite($archivo, '          <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />'.PHP_EOL);
+        // fwrite($archivo, '          <add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />'.PHP_EOL);
+        // fwrite($archivo, '      </conditions>'.PHP_EOL);
+        // fwrite($archivo, '    <action type="Redirect" redirectType="Permanent" url="{R:1}" />'.PHP_EOL);
+        // fwrite($archivo, '</rule>'.PHP_EOL);
+
+        // fwrite($archivo, '<rule name="Main Rule" stopProcessing="true">'.PHP_EOL);
+        // fwrite($archivo, '  <match url=".*" />'.PHP_EOL);
+        // fwrite($archivo, '    <conditions logicalGrouping="MatchAll">'.PHP_EOL);
+        // fwrite($archivo, '      <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />'.PHP_EOL);
+        // fwrite($archivo, '      <add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />'.PHP_EOL);
+        // fwrite($archivo, '    </conditions>'.PHP_EOL);
+        // fwrite($archivo, '    <action type="Rewrite" url="/index.php" />'.PHP_EOL);
+        // fwrite($archivo, '</rule>'.PHP_EOL);
+
+        // fwrite($archivo, '<rule name="wordpress" patternSyntax="Wildcard">'.PHP_EOL);
+        // fwrite($archivo, '  <match url="*" />'.PHP_EOL);
+        // fwrite($archivo, '    <conditions>'.PHP_EOL);
+        // fwrite($archivo, '      <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />'.PHP_EOL);
+        // fwrite($archivo, '      <add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />'.PHP_EOL);
+        // fwrite($archivo, '      </conditions>'.PHP_EOL);
+        // fwrite($archivo, '    <action type="Rewrite" url="index.php" />'.PHP_EOL);
+            
+        // fwrite($archivo, '</rule>'.PHP_EOL);
+
+        fwrite($archivo, '</rules>'.PHP_EOL);
+        fwrite($archivo, '</rewrite>'.PHP_EOL);
+        fwrite($archivo, '</system.webServer>'.PHP_EOL);
+        fwrite($archivo, '</configuration>'.PHP_EOL);
+
+        fclose($archivo);
+      }
     }
 
     function escribir_htaccess($nombre_archivo){

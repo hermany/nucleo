@@ -58,6 +58,19 @@ class CLASSMULTIMEDIA{
     }else{
       return false;
     }
+  }  
+
+  function multimedia_cat_last($cat){
+    $consulta= "SELECT DISTINCT mul_url_archivo FROM multimedia,multimedia_categorias,categoria WHERE mul_id=mul_cat_mul_id and mul_cat_cat_id='$cat' and mul_activar=1 ORDER BY mul_cat_orden asc";
+		$rs =$this->fmt->query->consulta($consulta,__METHOD__);
+    $num =$this->fmt->query->num_registros($rs);
+    $fila=$this->fmt->query->obt_fila($rs);
+    $row= $fila["mul_url_archivo"];
+    if ($num>0){
+      return $row;
+    }else{
+      return false;
+    }
   }
 	function imagen_album($id_album){
 		$consulta= "SELECT  mul_tipo_archivo,mul_url_archivo FROM album,album_multimedia,multimedia WHERE mul_id=alb_mul_mul_id and alb_mul_alb_id='$id_album'  ORDER BY alb_mul_orden asc";

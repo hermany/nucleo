@@ -1058,7 +1058,7 @@ function traer_fecha_literal($fecha_hora){
 	}
 
 
-	function tiempo_restante($desde,$hasta) {
+	function tiempo_restante($desde,$hasta,$modo="normal") {
 	    $ini = explode(" ",$desde);
 	    $fIni = $ini[0];
 	    $hIni = $ini[1];
@@ -1135,16 +1135,31 @@ function traer_fecha_literal($fecha_hora){
           if($dias==0){
             if($horas==0){
               if($minutos==0){
-                $tiempo="Hace instantes";
+                if ($modo=="normal"){
+                  $tiempo="Hace instantes";
+                }
+                if ($modo=="mini"){
+                  $tiempo="5 s";
+                }
               }else{
-                $tiempo="Hace ".$minutos." min.";
+                if ($modo=="normal"){
+                  $tiempo="Hace ".$minutos." min.";
+                }
+                if ($modo=="mini"){
+                  $tiempo= $minutos." m.";
+                }
               } // fin min
             }else{
               if ($horas<0){
                 $tiempo .=$this->fmt->mensaje->programado();
                 $tiempo .=$this->fecha_hora_compacta($desde);
               }else{
-                $tiempo="Hace ".$horas." hr.";
+                if ($modo=="normal"){
+                  $tiempo="Hace ".$horas." hr.";
+                }
+                if ($modo=="mini"){
+                  $tiempo= $horas." h.";
+                }
               }
             }// fin horas
           }else{
@@ -1160,7 +1175,12 @@ function traer_fecha_literal($fecha_hora){
                 if($dias>7){
                   $tiempo=$this->fecha_hora_compacta($desde);
                 }else{
-                  $tiempo="Hace ".$dias." días.";
+                  if ($modo=="normal"){
+                    $tiempo="Hace ".$dias." días.";
+                  }
+                  if ($modo=="mini"){
+                    $tiempo= $dias." d.";
+                  }
                 }
               }
             }
@@ -1168,7 +1188,12 @@ function traer_fecha_literal($fecha_hora){
         }else{
           $d = $dias + $dias_mes_anterior;
           if($d<=7){
-            $tiempo="Hace ".$d." días.";
+            if ($modo=="normal"){
+              $tiempo="Hace ".$d." días.";
+            }
+            if ($modo=="mini"){
+              $tiempo= $d." d.";
+            }
           }else{
             //echo $meses;
             if ($meses<0){
