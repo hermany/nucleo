@@ -53,8 +53,6 @@ class LUGAR{
   		}
   	}
   	$this->fmt->query->liberar_consulta();
-
-		
 		
 		$this->fmt->form->tbody_table_close();
     $this->fmt->form->footer_table();
@@ -82,6 +80,8 @@ class LUGAR{
 		$this->fmt->form->input_form("Usuario:","inputUsuario","","");
 		$this->fmt->form->input_form("Estado:","inputEstado","","1");
 		$this->fmt->form->categoria_form('Categoria','inputCat',"0","","",""); //
+
+		$this->fmt->form->arbol_editable_nodo('mod_lista','mod_list_','0',$this->id_mod);
 
 		$this->fmt->form->botones_nuevo($id_form,$this->id_mod,"","ingresar");
 		$this->fmt->class_pagina->form_fin_mod();
@@ -163,6 +163,16 @@ class LUGAR{
 
 		$cats_id = $this->fmt->categoria->traer_rel_cat_id($id,'mod_lugar_categorias','mod_lug_cat_cat_id','mod_lug_cat_lug_id'); //$fila_id,$from,$prefijo_cat,$prefijo_rel
 		$this->fmt->form->categoria_form('Categoria','inputCat',"0",$cats_id,"",""); //
+
+		$nodo_id = $this->fmt->categoria->traer_rel_cat_id($id,'mod_lugar_listas','mod_lug_list_lug_id','mod_lug_list_list_id'); //$fila_id,$from,$prefijo_cat,$prefijo_rel
+		$this->fmt->form->nodo_form('{
+																	"label":"Listas:",
+																	"id":"inputList",
+																	"id_raiz":"0",
+																	"valores":"",
+																	"from":"mod_lista",
+																	"prefijo":"mod_list_"
+																}');
 
 		$this->fmt->form->btn_actualizar($id_form,$this->id_mod,"modificar");
 		$this->fmt->class_pagina->form_fin_mod();

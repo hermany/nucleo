@@ -209,6 +209,13 @@ class USUARIO{
       $r = $fila["usu_imagen"];
     }
     return $r;
+  }   
+
+  function img_usuario($usuario){
+    $sql="select usu_imagen from usuario where usu_id=$usuario";
+    $rs = $this->fmt->query-> consulta($sql,__METHOD__);
+    $fila = $this->fmt->query->obt_fila($rs);
+    return $fila["usu_imagen"];
   }  
   function imagen_usuario_thumb($usuario){
     $sql="select usu_imagen from usuario where usu_id=$usuario";

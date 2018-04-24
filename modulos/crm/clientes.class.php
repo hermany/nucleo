@@ -21,7 +21,7 @@ class CLIENTES{
 		$this->fmt->class_pagina->crear_head( $this->id_mod, $botones);
 		$this->fmt->class_pagina->head_mod();
     $botones = $this->fmt->class_pagina->crear_btn_m("Crear","icn-plus","Nueva zona","btn btn-primary btn-menu-ajax btn-new btn-small",$this->id_mod,"form_nuevo");  //$nom,$icon,$title,$clase,$id_mod,$vars
-    $this->fmt->class_pagina->head_modulo_inner("Lista de Tipo de pedidos", $botones); // bd, id modulo, botones
+    $this->fmt->class_pagina->head_modulo_inner("Lista de Clientes de pedidos", $botones); // bd, id modulo, botones
     $this->fmt->form->head_table("table_id");
     $this->fmt->form->thead_table('Id:Nombre:Estado:Acciones');
     $this->fmt->form->tbody_table_open();
@@ -64,12 +64,14 @@ class CLIENTES{
 		return  $fila["mod_cli_est_nombre"];
 		$this->fmt->query->liberar_consulta($rs);
 	}
-	function nombre_cliente($id){
-		$consulta = "SELECT mod_cli_nombre FROM mod_cliente WHERE mod_cli_id=$id";
-    $rs =$this->fmt->query->consulta($consulta);
-    $num=$this->fmt->query->num_registros($rs);
-		$fila = $this->fmt->query->obt_fila($rs);
-		return  $fila["mod_cli_nombre"];
-		$this->fmt->query->liberar_consulta($rs);
-	}
+
+    function nombre_cliente($id){
+        $consulta = "SELECT mod_cli_nombre FROM mod_cliente WHERE mod_cli_id='$id'";
+        $rs =$this->fmt->query->consulta($consulta);
+        $num=$this->fmt->query->num_registros($rs);
+        $fila = $this->fmt->query->obt_fila($rs);
+        return  $fila["mod_cli_nombre"];
+        $this->fmt->query->liberar_consulta($rs);
+    }	
+
 }

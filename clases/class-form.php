@@ -1134,6 +1134,23 @@ class FORM{
 		</div>
 		<?php
 	}
+
+	function input_info($vars){
+		$dato =json_decode($vars);
+		//variables
+		$label = $dato->{'label'};
+		$id = $dato->{'id'};
+		$value = $this->var_empty($dato->{'value'},"raiz");
+		$class_div = $dato->{'class_div'};
+		?>
+    <div class="form-group <?php echo $class_div; ?>" id="input-<?php echo $id; ?>" >
+      <label><?php echo $label; ?></label>
+      <div class="form-control form-control-info"><?php echo $value; ?></div>
+      <input type="hidden" id="<?php echo $id; ?>" name="<?php echo $id; ?>" value="<?php echo $value; ?>" >
+    </div>
+    <?php
+	}
+
 	function input_form($label,$id,$placeholder,$valor,$class,$class_div,$mensaje,$disabled,$validar,$otros){
 		$label = str_replace("<span class='obligatorio'>*</span>","*",$label);
 		$label = str_replace("*","<span class='obligatorio'>*</span>",$label);
@@ -1148,6 +1165,8 @@ class FORM{
     </div>
     <?php
   }
+
+
 	function input_date_form($label,$id,$placeholder,$valor,$class,$class_div,$mensaje,$disabled,$validar,$otros,$format='dd-mm-yyyy hh:ii'){
 		$fecha = $this->fmt->class_modulo->estructurar_fecha_hora($valor);
     ?>
@@ -1489,7 +1508,138 @@ class FORM{
 			</div>
     </div>
     <?php
+  }		
+
+  public function nodo_form($vars){
+  	$dato =json_decode($vars);
+  	//var_dump($dato);
+  	$label = $dato->{'label'};
+  	$id = $dato->{'id'};
+  	$id_raiz = $dato->{'id_raiz'};
+  	$valores = $dato->{'valores'};
+  	$from = $dato->{'from'};
+  	$prefijo = $dato->{'prefijo'};
+  	$class = $dato->{'class'};
+  	$class_div = $dato->{'class_div'};
+    ?>
+    <div class="form-group <?php echo $class_div; ?>">
+      <label><?php echo $label; ?></label>
+			<div class="group group-cat">
+				<?php 
+					$this->arbol_nodo('{
+															"from":"'.$from.'",
+															"prefijo":"'.$prefijo.'",
+															"id":"'.$id.'",
+															"id_raiz":"'.$id_raiz.'",
+															"valores":"'.$valores.'"
+														 }');  //$from,$prefijo,$id,$id_raiz,$valores
+				?>
+			</div>
+    </div>
+    <?php
   }	
+
+
+  public function arbol_nodo($vars){
+  	$dato = json_decode($vars);
+  	//var_dump($dato);
+  	$id = $dato->{'id'};
+  	$id_raiz = $dato->{'id_raiz'};
+  	$valores = $dato->{'valores'};
+  	$from = $dato->{'from'};
+  	$prefijo = $dato->{'prefijo'};
+  	echo "<div class='arbol-cat'>";
+    echo "<div class='header'>";
+    echo "<input id='filtrar-cat' type='text' class='form-control' placeholder='Buscar'>";
+    echo "<label id='check-la'><input name='check-a' type='checkbox' id='check-a' accion='check-todo'><span>Seleccionar Todo</span></label>";
+    echo "</div>";
+    echo "<div class='body-cats'>";
+    $sql="SELECT ".$prefijo."id, ".$prefijo."nombre FROM ".$from." WHERE ".$prefijo."id_padre='".$id_raiz."' ORDER BY  ".$prefijo."orden asc";
+    $rs = $this->fmt->query->consulta($sql,__METHOD__);
+    $num=$this->fmt->query->num_registros($rs);
+    $nivel=0;
+    $espacio = 0;
+    $num_v = count($valores);
+    if($num>0){
+      for($i=0;$i<$num;$i++){
+        $row=$this->fmt->query->obt_fila($rs);
+        $fila_id = $row[$prefijo."id"];
+        $fila_nombre = $row[$prefijo."nombre"];
+        echo "<label class='item_cat' style='margin-left:".$espacio."px'><input name='".$id."[]' type='checkbox' id='cat-$fila_id' value='$fila_id' $aux> <span>".$fila_nombre."</span></label>";
+        if ($this->tiene_hijos_nodo($fila_id,$from,$prefijo)){
+     				$this->hijos_check_nodo($id,$fila_id,$from,$prefijo,$nivel);
+    		}
+       }
+    }
+    echo "</div>";
+    echo "</div>";
+
+    ?>
+    	<script language="JavaScript">
+	    	$(document).ready( function () {
+          $(".arbol-cat :checkbox").change(function() {
+            var acc = $(this).attr("accion");
+            //console.log(acc);
+            if (acc=="check-todo"){
+              $(".item_cat input").prop('checked', true );
+              $("#check-a").attr('accion', 'check-nada' );
+              $("#check-la span").html("Deseleccionar Todo");
+            }
+            if (acc=="check-nada"){
+              $(".item_cat input").prop('checked', false );
+              $("#check-a").attr('accion', 'check-todo' );
+              $("#check-la span").html("Seleccionar Todo");
+            }
+
+          });
+          $('#filtrar-cat').keyup(function () {
+            var rex = new RegExp($(this).val(), 'i');
+            $('.arbol-cat .item_cat').hide();
+            $('.arbol-cat .item_cat').filter(function () {
+                return rex.test($(this).text());
+            }).show();
+          });
+
+		    	<?php
+          if (!empty($valores)){
+            for ($j=0;$j<$num_v;$j++){
+          ?>
+		    	    var dato<?php echo $j; ?> = <?php echo $valores[$j]; ?>;
+		    	    $("#cat-<?php echo $valores[$j]; ?>").prop("checked", true);
+		    	<?php
+            }
+          }
+          ?>
+          // $(".arbol-cat").hover( function(){
+          //   $(".modal-inner .body-modulo").css("overflow-y","hidden");
+          // });
+          // $(".arbol-cat").mouseleave( function(){
+          //   $(".modal-inner .body-modulo").css("overflow-y","auto");
+          // });
+
+		    });
+	    </script>
+    <?php
+  }
+
+  public function hijos_check_nodo($id,$id_item,$from,$prefijo,$nivel){
+  	$consulta = "SELECT ".$prefijo."id,".$prefijo."nombre  FROM ".$from." WHERE ".$prefijo."id_padre='$id_item' ORDER BY ".$prefijo."orden";
+    $rs = $this->fmt->query->consulta($consulta,__METHOD__);
+    $num=$this->fmt->query->num_registros($rs);
+    if ($num>0){
+	  $nivel++;
+      for($i=0;$i<$num;$i++){
+        $row=$this->fmt->query->obt_fila($rs);
+        $fila_id= $row[$prefijo."id"];
+        $fila_nombre= $row[$prefijo."nombre"];
+        $espacio=  $nivel * 10;
+        echo "<label class='item_cat' style='margin-left:".$espacio."px'><input name='".$id."[]' id='cat-$fila_id' type='checkbox' value='$fila_id' $aux> <span>".$fila_nombre."</span></label>";
+        if ( $this->tiene_hijos_nodo($fila_id,$from,$prefijo)){
+          $this->hijos_check_nodo($id,$fila_id,$from,$prefijo,$nivel);
+        }
+      }
+    }
+  }
 
   function list_checkbox_form($label,$id,$from,$prefijo,$campos,$class_div){
     ?>
@@ -2450,6 +2600,90 @@ class FORM{
 		<?php
 	}
 
+  public function select_form_nodo($vars){
+    $dato =json_decode($vars);
+    $label = $dato->{'label'};
+    $id = $dato->{'id'};
+    $item =  $this->var_empty($dato->{'item'},"");
+    $from = $dato->{'from'};
+    $prefijo = $dato->{'prefijo'};
+    $id_inicio= $dato->{'id_inicio'};
+    $div_class = $dato->{'div_class'};
+    $id_padre = $this->var_empty($dato->{'id_padre'},"");
+
+    if($id_inicio=="" || $id_inicio=="0"){
+      $id_padrex="";
+      $consulta = "SELECT ".$prefijo."id, ".$prefijo."nombre FROM ".$from." WHERE ".$prefijo."id_padre='0'  ORDER BY ".$prefijo."orden";
+    }else{
+
+      $id_padrex=$this->traer_id_padre('{
+                    "id_item":"'.$item.'",
+                    "from":"'.$from.'",
+                    "prefijo":"'.$prefijo.'"
+                  }');
+
+      $consulta = "SELECT ".$prefijo."id, ".$prefijo."nombre FROM ".$from." WHERE ".$prefijo."id_padre='$id_padrex'  ORDER BY ".$prefijo."orden";
+    }
+    // echo $consulta;
+    ?>
+    <div class="form-group <?php echo $div_class; ?>">
+      <label><?php echo $label; ?></label>
+      <select class="form-control" id="<?php echo $id; ?>" name="<?php echo $id; ?>">
+	    <?php 
+	    $rs = $this->fmt->query->consulta($consulta,__METHOD__);
+	    $num=$this->fmt->query->num_registros($rs);
+	    echo "<option class='raiz' value='0'>Raiz (0)</option>";
+	    if($num>0){
+	      for($i=0;$i<$num;$i++){
+	        $row=$this->fmt->query->obt_fila($rs);
+	        $fila_id= $row[$prefijo."id"];
+	        $fila_nombre= $row[$prefijo."nombre"];
+
+	        if ($fila_id==$id_padre){ $aux1="selected"; }else{ $aux1=""; }
+	        if ($fila_id==$item){ $aux2="disabled"; }else{ $aux2=""; }
+
+	        echo "<option class='' value='$fila_id' $aux1 $aux2 > ".$fila_id.":".$fila_nombre;
+	        echo "</option>";
+	        if ($this->tiene_hijos_nodo($fila_id,$from,$prefijo)){
+	        	//echo "<option>si tiene</option>";
+	        	$this->hijos_opciones_nodo($fila_id,$item,$id_padre,$from,$prefijo,"0");
+	        }
+	      }
+	    }
+	    ?>
+      </select>
+    </div>
+    <?php
+  }
+
+  function hijos_opciones_nodo($id_item,$item,$id_padre,$from,$prefijo,$nivel){
+    $consulta = "SELECT ".$prefijo."id,".$prefijo."nombre,".$prefijo."id_padre  FROM ".$from." WHERE ".$prefijo."id_padre='$id_item' ORDER BY ".$prefijo."orden";
+    $rs = $this->fmt->query->consulta($consulta,__METHOD__);
+    $num=$this->fmt->query->num_registros($rs);
+    $nivel++;
+    $valor_n="";
+    for ($j=0;$j<$nivel;$j++){
+      $valor_n .='--';
+    }
+    if ($num>0){
+      for($i=0;$i<$num;$i++){
+ 
+        $row=$this->fmt->query->obt_fila($rs);
+        $fila_idx= $row[$prefijo."id"];
+        $fila_nombre= $row[$prefijo."nombre"];
+         
+        if ($fila_idx==$id_padre){ $aux1="selected"; }else{ $aux1=""; }
+        if ($fila_idx==$item){ $aux2="disabled"; }else{ $aux2=""; }
+
+        echo "<option class='' value='$fila_idx'  $aux1 $aux2 > ".$valor_n." ".$fila_nombre;
+        echo "</option>";
+        if ( $this->tiene_hijos_nodo($fila_idx,$from,$prefijo) ){
+        	$this->hijos_opciones_nodo($fila_idx,$item,$id_padre,$from,$prefijo,$nivel);
+        }
+      }
+    }
+  }
+
 	function roles_usuarios_checkbox($label,$id,$rol,$class_div,$class_select){
 		?>
 		<div class="form-group <?php echo $class_div; ?>">
@@ -2691,13 +2925,29 @@ class FORM{
     <?php
   }
 
-  function botones_nuevo($form,$id_mod,$modo="",$tarea){
+  function botones_nuevo($form,$id_mod,$modo="",$tarea,$botones="ambos"){
 		$this->fmt->form->hidden_modulo($id_mod,$tarea);
     ?>
     <div class="form-group form-botones box-botones-form">
 			<div class="group">
+			<?php 
+				if ($botones=="ambos") {
+			?>
        <button type="button" class="btn-accion-form btn btn-info  btn-guardar btn-form<?php echo $modo; ?>" name="btn-accion" form="<?php echo $form;?>" id="btn-guardar" value="guardar"><i class="icn-save" ></i> Guardar</button>
        <button type="button" class="btn-accion-form btn btn-success btn-form btn-activar" name="btn-accion" form="<?php echo $form;?>" id="btn-activar" value="activar"><i class="icn-eye-open" ></i> Activar</button>
+       <?php 
+     		}
+     		if ($botones=="guardar") {
+     			?>
+     			<button type="button" class="btn-accion-form btn btn-info  btn-guardar btn-form<?php echo $modo; ?>" name="btn-accion" form="<?php echo $form;?>" id="btn-guardar" value="guardar"><i class="icn-save" ></i> Guardar</button>
+     			<?php
+     		}
+     		if ($botones=="activar") {
+     			?>
+     			<button type="button" class="btn-accion-form btn btn-success btn-form btn-activar" name="btn-accion" form="<?php echo $form;?>" id="btn-activar" value="activar"><i class="icn-eye-open" ></i> Activar</button>
+     			<?php
+     		}
+       ?>
 			</div>
     </div>
     <?php
@@ -2777,6 +3027,39 @@ class FORM{
 			$this->head_editar($nom,$archivo,$id_mod,'','form_editar',$class); //$nom,$archivo,$id_mod,$botones,$id_form,$class
 			return $fila;
 	}
+
+	public function var_empty($var,$valor){
+		if (empty($var)){
+			return $valor;
+		}else{
+			return $var;
+		}
+	}
+
+  public function tiene_hijos_nodo($id_item,$from,$prefijo){
+    $consulta = "SELECT ".$prefijo."id FROM ".$from." WHERE ".$prefijo."id_padre='$id_item'";
+    $rs = $this->fmt->query->consulta($consulta,__METHOD__);
+    $num=$this->fmt->query->num_registros($rs);
+    if ($num>0){
+      return true;
+    }else{
+      return false;
+    }
+    $this->fmt->query->liberar_consulta($rs);
+	}
+
+	public function traer_id_padre($vars){
+		$dato =json_decode($vars); 
+		$id_item = $dato->{'id_item'};
+		$from = $dato->{'from'};
+		$prefijo = $dato->{'prefijo'};
+
+		$consulta = "SELECT ".$prefijo."id_padre FROM ".$from." WHERE ".$prefijo."id='$id_item' ";
+	  $rs = $this->fmt->query->consulta($consulta,__METHOD__);
+	  $fila = $this->fmt->query->obt_fila($rs);
+	  $id=$fila[$prefijo."id_padre"];
+	  return $id;
+	}	 
 
 }
 ?>

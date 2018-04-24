@@ -2,6 +2,8 @@
 // Variables
 @import "variables.less";
 
+
+
 /* ----------  Escenciales ----------*/
 
 * {
@@ -230,6 +232,8 @@ body::-webkit-scrollbar-corner {
 }
 
 
+
+
 /*   forms   */
 
 .form {}
@@ -254,7 +258,31 @@ body::-webkit-scrollbar-corner {
   z-index: 0;
 }
 
-.form-group-color{
+.group-new {
+  margin-top: 30px;
+
+  .header {
+    label {
+      width: 40% !important;
+      text-align: left !important;
+    }
+    .btn {
+      float: right;
+    }
+  }
+
+  .list-elem {
+    width: 91.7%;
+    margin-top: 15px;
+    position: relative;
+    clear: both;
+    float: left; // border: 1px solid;
+    text-align: left;
+    margin-left: 25px;
+  }
+}
+
+.form-group-color {
   z-index: 1;
 }
 
@@ -571,6 +599,8 @@ body::-webkit-scrollbar-corner {
 }
 
 
+
+
 /*  Menu    */
 
 .collapse {
@@ -652,6 +682,8 @@ body::-webkit-scrollbar-corner {
 .pull-right {
   float: right;
 }
+
+
 
 
 /* Table    */
@@ -778,7 +810,7 @@ body::-webkit-scrollbar-corner {
   text-align: center;
 }
 
-.table .col-img-nom{
+.table .col-img-nom {
   display: flex;
   align-items: center;
   min-height: 40px;
@@ -796,11 +828,11 @@ body::-webkit-scrollbar-corner {
   display: inline-block;
 }
 
-.table tr td .img{
-    width: 40px;
-    height: 40px;
-    display: inline-block;
-    margin-right: 10px;
+.table tr td .img {
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+  margin-right: 10px;
 }
 
 .table .col-name .text-ref {
@@ -810,7 +842,8 @@ body::-webkit-scrollbar-corner {
   width: 100%;
   margin-top: 5px;
 }
-.table .col-acciones{
+
+.table .col-acciones {
   width: 140px !important;
 }
 
@@ -838,12 +871,12 @@ body::-webkit-scrollbar-corner {
     }
   }
 
-  .item-nuevo{
-  	span{
+  .item-nuevo {
+    span {
       margin-top: 20px;
       display: inline-block;
 
-      .icn{
+      .icn {
         display: block;
       }
     }
@@ -905,6 +938,8 @@ select {
   padding-bottom: 5px;
   height: 33px;
 }
+
+
 
 
 /* content-page */
@@ -1107,7 +1142,7 @@ select {
 
 .form-date .group {
   margin-bottom: 0;
-  .form-control-date{
+  .form-control-date {
     margin-left: 2px !important;
   }
 }
@@ -1191,6 +1226,8 @@ select {
 }
 
 
+
+
 /* vista */
 
 .form-vista {
@@ -1214,6 +1251,8 @@ select {
   position: absolute;
   display: none;
 }
+
+
 
 
 /*   arbol cat  */
@@ -1281,24 +1320,27 @@ select {
 }
 
 
+
+
 /*   tabs   */
+
 .block-tabs.head-modulo-inner {
   padding: 0;
-  line-height: initial; 
-  font-size: 0; 
+  line-height: initial;
+  font-size: 0;
 }
 
 .group-tabs {
-    width: 100%;
-    height: 100% !important;
-    font-size: 0;
-    float: left;
+  width: 100%;
+  height: 100% !important;
+  font-size: 0;
+  float: left;
 
-    .tab{
-          float: left;
+  .tab {
+    float: left;
     width: 100%;
-        height: 100%;
-    }
+    height: 100%;
+  }
 }
 
 .group-tabs .tab .title {
@@ -1331,8 +1373,7 @@ select {
 }
 
 .group-tabs .tabs-header .group {
-  width: 90%;
-  // height: 52px;
+  width: 90%; // height: 52px;
   margin: 0;
   /* position: absolute; */
 }
@@ -1359,7 +1400,7 @@ select {
   display: inline-block;
   height: 100%;
 
-  i{
+  i {
     margin-right: 5px;
   }
 }
@@ -1390,6 +1431,8 @@ select {
 .tab-content.on {
   display: block;
 }
+
+
 
 
 /* arbol categorias  */
@@ -1480,6 +1523,7 @@ select {
   z-index: 0;
   max-height: 300px;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 // list-sorteable

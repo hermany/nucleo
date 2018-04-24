@@ -747,7 +747,7 @@ class CLASSMODULOS{
   } 
 
 
-  function traer_rel_modulos_list($var){
+  function traer_rel_modulos_list($vars){
      //var_dump(json_decode($var));
 
       /*echo $this->fmt->class_modulo->traer_rel_modulos_list('{
@@ -757,7 +757,7 @@ class CLASSMODULOS{
                     "vars_mod":"publicacion",
                     "id_mod":"'.$this->id_mod.'"}'); */
 
-      $dato =json_decode($var);
+      $dato =json_decode($vars);
       $dat = explode(",",$dato->{'select'});
       $consulta = "SELECT ".$dato->{'select'}." FROM ".$dato->{'from'}." WHERE ".$dato->{'where'};
       $rs = $this->fmt->query->consulta($consulta,__METHOD__);
@@ -1124,11 +1124,11 @@ function traer_fecha_literal($fecha_hora){
         }
 	    }
 
-	    // if ($meses < 0)
-	    // {
-	    //     --$anos;
-	    //     $meses = $meses + 12;
-	    // }
+	    if ($meses < 0)
+	    {
+	        --$anos;
+	        $meses = $meses + 12;
+	    }
 
       if($anos==0){
         if($meses==0){
@@ -1199,8 +1199,15 @@ function traer_fecha_literal($fecha_hora){
             if ($meses<0){
               $tiempo .=$this->fmt->mensaje->programado();
               $tiempo .=$this->fecha_hora_compacta($desde);
+              if ($modo=="mini"){
+                $tiempo .=$this->fmt->mensaje->programado();
+                $tiempo .=$this->fecha_hora_compacta($desde,"d,m,a");
+              }
             }else{
               $tiempo=$this->fecha_hora_compacta($desde);
+              if ($modo=="mini"){
+                $tiempo .=$this->fecha_hora_compacta($desde,"d,m,a");
+              }
             }
           }
         }// fin meses
@@ -1294,7 +1301,7 @@ function traer_fecha_literal($fecha_hora){
 		return $F;
 	}*/
 
-  function fecha_hora_compacta($fecha){
+  function fecha_hora_compacta($fecha,$formato="d,m,a,h,m,s"){
 	    $fechaHora = explode(" ", $fecha);
 	    $fechas = explode("-", $fechaHora[0]);
 	    $tiempo = explode (":", $fechaHora[1]);
@@ -1308,14 +1315,27 @@ function traer_fecha_literal($fecha_hora){
 
 	    $day = array(' ','Lun','Mar','Mie','Jue','Vie');
 	    $month = array(' ','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic');
+      $fx = explode(",",$formato);
+      $nfx = count($fx);
 
       $F .= "<div class='block-date'>";
-	    $F .= " <span class='dia'>".$dia." </span>";
-	    $F .= " <span class='mes'>".$month[$mes]." </span>";
-	    $F .= " <span class='ano'>".$ano." </span>";
-	    $F .= "<span class='hora'>".$hora."</span>";
-	    $F .= "<span class='min'>".$min."</span>";
-	    $F .= "<span class='seg'>".$seg."</span>";
+
+	    $d = " <span class='dia'>".$dia." </span>";
+	    $m = " <span class='mes'>".$month[$mes]." </span>";
+	    $a = " <span class='ano'>".$ano." </span>";
+	    $h = " <span class='hora'>".$hora."</span>";
+	    $m = " <span class='min'>".$min."</span>";
+	    $s = " <span class='seg'>".$seg."</span>";
+
+      for ($j=0; $j < $nfx ; $j++) { 
+        if ($fx[$j]=="d"){ $F .= $d;  }
+        if ($fx[$j]=="m"){ $F .= $m;  }
+        if ($fx[$j]=="a"){ $F .= $a;  }
+        if ($fx[$j]=="h"){ $F .= $h;  }
+        if ($fx[$j]=="m"){ $F .= $m;  }
+        if ($fx[$j]=="s"){ $F .= $s;  }
+      }
+
       $F .= "</div>";
 
 		return $F;

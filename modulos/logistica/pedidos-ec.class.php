@@ -70,7 +70,7 @@ class PEDIDOS{
         echo '  <td class="col-acciones acciones">';
         echo $this->fmt->class_pagina->crear_btn_m("","icn-search","ver ".$fila_id,"btn btn-accion btn-m-ver ",$this->id_mod,"form_ver,".$fila_id);
         echo $this->fmt->class_pagina->crear_btn_m("","icn-pencil","editar ".$fila_id,"btn btn-accion btn-m-editar ",$this->id_mod,"form_editar,".$fila_id);
-        echo $this->fmt->class_pagina->crear_btn_m("","icn-trash","eliminar ".$fila_id,"btn btn-accion btn-fila-eliminar",$this->id_mod,"eliminar,".$fila_id.",".$cliente->nombre_cliente($id_cliente));
+        echo $this->fmt->class_pagina->crear_btn_m("","icn-trash","eliminar ".$fila_id,"btn btn-accion btn-fila-eliminar",$this->id_mod,"eliminar,".$fila_id.",".$num_pedido);
         echo '  </td>';
         echo "</tr>";
 
@@ -124,7 +124,7 @@ class PEDIDOS{
       require_once(_RUTA_NUCLEO."modulos/finanzas/finanzas.class.php");
       $finanzas = new FINANZAS($fmt);
 
-      $consulta = "SELECT mod_prod_id, mod_prod_nombre,mod_ped_prod_precio_unidad,mod_ped_prod_cantidad FROM mod_pedidos_productos, mod_productos, mod_pedidos_clientes WHERE mod_ped_prod_ped_id=$id_pedido and mod_ped_prod_prod_id=mod_prod_id";
+      $consulta = "SELECT mod_prod_id, mod_prod_nombre,mod_ped_prod_precio_unidad,mod_ped_prod_cantidad FROM mod_pedidos_productos, mod_productos, mod_pedidos_clientes WHERE mod_ped_prod_ped_id='$id_pedido' and mod_ped_prod_prod_id=mod_prod_id";
       $rs =$fmt->query->consulta($consulta);
       $num=$fmt->query->num_registros($rs);
       if($num>0){
@@ -140,7 +140,12 @@ class PEDIDOS{
           echo "</tr>";
         $suma=0;
         for($i=0;$i<$num;$i++){
-          list($fila_id,$prod_nombre,$precio,$cantidad)=$fmt->query->obt_fila($rs);
+          //list($fila_id,$prod_nombre,$precio,$cantidad)=$fmt->query->obt_fila($rs);
+          $row=$fmt->query->obt_fila($rs);
+          $fila_id = $row["mod_prod_id"];
+          $prod_nombre = $row["mod_prod_nombre"];
+          $precio = $row["mod_ped_prod_precio_unidad"];
+          $cantidad = $row["mod_ped_prod_cantidad"];
           echo "<tr>";
           echo "  <td>".$prod_nombre."</td>";
           echo "  <td class='align-right'>".$finanzas->convertir_moneda($precio)."</td>";

@@ -165,7 +165,7 @@ class CATEGORIA{
     return $nombre;
   }
 
-  function descripcion_cat($cat ){
+  function descripcion_cat($cat){
     $consulta = "SELECT cat_descripcion FROM categoria WHERE cat_id='$cat' ";
     $rs = $this->fmt->query->consulta($consulta,__METHOD__);
     $fila = $this->fmt->query->obt_fila($rs);
@@ -235,7 +235,7 @@ class CATEGORIA{
         }
       }
     }else{
-      echo "<div class='arbol-nuevo'><a href='"._RUTA_WEB.$url_modulo."'><i class='icn-plus'></i> nuevo</a></div>";
+      echo "<div class='arbol-nuevo'><a href='"._RUTA_WEB.$url_modulo."' ><i class='icn-plus'></i> nuevo</a></div>";
     }
     echo "</div>";
     return;
@@ -286,7 +286,7 @@ class CATEGORIA{
         }else{
           $tr="";
         }
-        echo "<div class='arbol-nuevo'><a  class='btn-nuevo-i'><i class='icn-plus' ></i> nuevo</a> $tr</div>";
+        echo "<div class='arbol-nuevo'><a  class='btn-nuevo-i' cat='0' ><i class='icn-plus' ></i> nuevo</a> $tr</div>";
          for($i=0;$i<$num;$i++){
           $row=$this->fmt->query->obt_fila($rs);
           $fila_id = $row[$prefijo."id"];
@@ -301,7 +301,7 @@ class CATEGORIA{
               }
          }
       }else{
-        echo "<div class='arbol-nuevo'><a class='btn-nuevo-i' cat='0  ><i class='icn-plus'></i> nuevo</a></div>";
+        echo "<div class='arbol-nuevo'><a class='btn-nuevo-i' cat='0'  ><i class='icn-plus'></i> nuevo</a></div>";
       }
     echo "</div>";
     return;
