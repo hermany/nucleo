@@ -1517,6 +1517,7 @@ class FORM{
   	$id = $dato->{'id'};
   	$id_raiz = $dato->{'id_raiz'};
   	$valores = $dato->{'valores'};
+  	//var_dump($valores);
   	$from = $dato->{'from'};
   	$prefijo = $dato->{'prefijo'};
   	$class = $dato->{'class'};
@@ -1546,12 +1547,18 @@ class FORM{
   	$id = $dato->{'id'};
   	$id_raiz = $dato->{'id_raiz'};
   	$valores = $dato->{'valores'};
+  	$val_valores = explode(",", $valores);
+  	$item = $val_valores[0];
+  	$from_rel = $val_valores[1];
+  	$fila_1 = $val_valores[2];
+  	$fila_2 = $val_valores[3];
+  	$nodo_id = $this->fmt->categoria->traer_rel_cat_id($item,$from_rel,$fila_1,$fila_2); //$fila_id,$from,$prefijo_cat,$prefijo_rel
   	$from = $dato->{'from'};
   	$prefijo = $dato->{'prefijo'};
-  	echo "<div class='arbol-cat'>";
+  	echo "<div class='arbol-cat arbol-$id'>";
     echo "<div class='header'>";
-    echo "<input id='filtrar-cat' type='text' class='form-control' placeholder='Buscar'>";
-    echo "<label id='check-la'><input name='check-a' type='checkbox' id='check-a' accion='check-todo'><span>Seleccionar Todo</span></label>";
+    echo "<input id='filtrar-cat-$id' type='text' class='form-control' placeholder='Buscar'>";
+    echo "<label id='check-la-$id'><input name='check-a-$id' type='checkbox' id='check-a-$id' accion='check-todo'><span>Seleccionar Todo</span></label>";
     echo "</div>";
     echo "<div class='body-cats'>";
     $sql="SELECT ".$prefijo."id, ".$prefijo."nombre FROM ".$from." WHERE ".$prefijo."id_padre='".$id_raiz."' ORDER BY  ".$prefijo."orden asc";
@@ -1559,13 +1566,14 @@ class FORM{
     $num=$this->fmt->query->num_registros($rs);
     $nivel=0;
     $espacio = 0;
-    $num_v = count($valores);
+    
+    
     if($num>0){
       for($i=0;$i<$num;$i++){
         $row=$this->fmt->query->obt_fila($rs);
         $fila_id = $row[$prefijo."id"];
         $fila_nombre = $row[$prefijo."nombre"];
-        echo "<label class='item_cat' style='margin-left:".$espacio."px'><input name='".$id."[]' type='checkbox' id='cat-$fila_id' value='$fila_id' $aux> <span>".$fila_nombre."</span></label>";
+        echo "<label class='item_cat item_cat-$id' style='margin-left:".$espacio."px'><input name='".$id."[]' type='checkbox' id='cat-$id-$fila_id' value='$fila_id' $aux> <span>".$fila_nombre."</span></label>";
         if ($this->tiene_hijos_nodo($fila_id,$from,$prefijo)){
      				$this->hijos_check_nodo($id,$fila_id,$from,$prefijo,$nivel);
     		}
@@ -1577,35 +1585,35 @@ class FORM{
     ?>
     	<script language="JavaScript">
 	    	$(document).ready( function () {
-          $(".arbol-cat :checkbox").change(function() {
+          $("#check-a-<?php echo $id; ?>:checkbox").change(function() {
             var acc = $(this).attr("accion");
             //console.log(acc);
             if (acc=="check-todo"){
-              $(".item_cat input").prop('checked', true );
-              $("#check-a").attr('accion', 'check-nada' );
-              $("#check-la span").html("Deseleccionar Todo");
+              $(".item_cat-<?php echo $id; ?> input").prop('checked', true );
+              $("#check-a-<?php echo $id; ?>").attr('accion', 'check-nada' );
+              $("#check-la-<?php echo $id; ?> span").html("Deseleccionar Todo");
             }
             if (acc=="check-nada"){
-              $(".item_cat input").prop('checked', false );
-              $("#check-a").attr('accion', 'check-todo' );
-              $("#check-la span").html("Seleccionar Todo");
+              $(".item_cat-<?php echo $id; ?> input").prop('checked', false );
+              $("#check-a-<?php echo $id; ?>").attr('accion', 'check-todo' );
+              $("#check-la-<?php echo $id; ?> span").html("Seleccionar Todo");
             }
-
           });
-          $('#filtrar-cat').keyup(function () {
+          $('#filtrar-cat-<?php echo $id; ?>').keyup(function () {
             var rex = new RegExp($(this).val(), 'i');
-            $('.arbol-cat .item_cat').hide();
-            $('.arbol-cat .item_cat').filter(function () {
+            $('.arbol-<?php echo $id; ?> .item_cat-<?php echo $id; ?>').hide();
+            $('.arbol-<?php echo $id; ?> .item_cat-<?php echo $id; ?>').filter(function () {
                 return rex.test($(this).text());
             }).show();
           });
 
 		    	<?php
-          if (!empty($valores)){
+		    	$num_v = count($nodo_id);
+          if (!empty($nodo_id)){
             for ($j=0;$j<$num_v;$j++){
           ?>
-		    	    var dato<?php echo $j; ?> = <?php echo $valores[$j]; ?>;
-		    	    $("#cat-<?php echo $valores[$j]; ?>").prop("checked", true);
+		    	    var dato<?php echo $j.$id; ?> = <?php echo $nodo_id[$j]; ?>;
+		    	    $("#cat-<?php echo $id; ?>-<?php echo $nodo_id[$j]; ?>").prop("checked", true);
 		    	<?php
             }
           }
@@ -1633,7 +1641,7 @@ class FORM{
         $fila_id= $row[$prefijo."id"];
         $fila_nombre= $row[$prefijo."nombre"];
         $espacio=  $nivel * 10;
-        echo "<label class='item_cat' style='margin-left:".$espacio."px'><input name='".$id."[]' id='cat-$fila_id' type='checkbox' value='$fila_id' $aux> <span>".$fila_nombre."</span></label>";
+        echo "<label class='item_cat item_cat-$id' style='margin-left:".$espacio."px'><input name='".$id."[]' id='cat-$id-$fila_id' type='checkbox' value='$fila_id' $aux> <span>".$fila_nombre."</span></label>";
         if ( $this->tiene_hijos_nodo($fila_id,$from,$prefijo)){
           $this->hijos_check_nodo($id,$fila_id,$from,$prefijo,$nivel);
         }

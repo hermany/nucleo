@@ -47,7 +47,7 @@ $fmt = new CONSTRUCTOR();
 			success: function(msg){
         //alert(msg);
 
-if ((msg!="false")&&(msg!="sin-rol")&&(msg!="rol-desactivado")) {
+					if ((msg!="false")&&(msg!="sin-rol")&&(msg!="rol-desactivado")) {
 	          $("#mensaje-login").html("<?php echo $fmt->mensaje->login_ok(); ?>");
 	          redireccionar_tiempo(msg,800); // core.js
 	        }

@@ -164,12 +164,12 @@ class LUGAR{
 		$cats_id = $this->fmt->categoria->traer_rel_cat_id($id,'mod_lugar_categorias','mod_lug_cat_cat_id','mod_lug_cat_lug_id'); //$fila_id,$from,$prefijo_cat,$prefijo_rel
 		$this->fmt->form->categoria_form('Categoria','inputCat',"0",$cats_id,"",""); //
 
-		$nodo_id = $this->fmt->categoria->traer_rel_cat_id($id,'mod_lugar_listas','mod_lug_list_lug_id','mod_lug_list_list_id'); //$fila_id,$from,$prefijo_cat,$prefijo_rel
+		
 		$this->fmt->form->nodo_form('{
 																	"label":"Listas:",
 																	"id":"inputList",
 																	"id_raiz":"0",
-																	"valores":"",
+																	"valores":"'.$id.',mod_lugar_listas,mod_lug_list_list_id,mod_lug_list_lug_id",
 																	"from":"mod_lista",
 																	"prefijo":"mod_list_"
 																}');
@@ -197,19 +197,27 @@ class LUGAR{
 						mod_lug_usuario='".$_POST['inputUsuario']."',
 						mod_lug_icono='".$_POST['inputIcono']."',
 						mod_lug_estado='".$_POST['inputEstado']."'
-
-
 						WHERE mod_lug_id='".$_POST['inputId']."'";
 			//echo $sql;
 			$this->fmt->query->consulta($sql);
 
 			$this->fmt->class_modulo->eliminar_fila($_POST['inputId'],"mod_lugar_categorias","mod_lug_cat_lug_id");
-			$ingresar1 ="mod_lug_cat_lug_id, mod_lug_cat_cat_id, mod_lug_cat_orden";
-			$valor_cat= $_POST['inputCat'];
+			$ingresar2 ="mod_lug_cat_lug_id,mod_lug_cat_cat_id,mod_lug_cat_orden";
+			$valor_cat2= $_POST['inputCat'];
+			$num2=count( $valor_cat2 );
+			for ($i=0; $i<$num2;$i++){
+				$valores2 = "'".$_POST['inputId']."','".$valor_cat2[$i]."','".$i."'";
+				$sql2="insert into mod_lugar_categorias (".$ingresar2.") values (".$valores2.")";
+				$this->fmt->query->consulta($sql2);
+			}
+
+			$this->fmt->class_modulo->eliminar_fila($_POST['inputId'],"mod_lugar_listas","mod_lug_list_lug_id");
+			$ingresar1 ="mod_lug_list_lug_id, mod_lug_list_list_id, mod_lug_list_orden";
+			$valor_cat= $_POST['inputList'];
 			$num=count( $valor_cat );
 			for ($i=0; $i<$num;$i++){
 				$valores1 = "'".$_POST['inputId']."','".$valor_cat[$i]."','".$i."'";
-				$sql1="insert into mod_lugar_categorias (".$ingresar1.") values (".$valores1.")";
+				$sql1="insert into mod_lugar_listas (".$ingresar1.") values (".$valores1.")";
 				$this->fmt->query->consulta($sql1);
 			}
 

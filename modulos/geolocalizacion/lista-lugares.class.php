@@ -18,132 +18,59 @@ class LISTALUGAR{
 	}
 
 	public function busqueda(){
-		$this->fmt->class_pagina->crear_head( $this->id_mod,""); // bd, id modulo, botones
-		?>
-		<link rel="stylesheet" href="<?php echo _RUTA_WEB_NUCLEO;?>css/m-listas-lugares.css?reload" rel="stylesheet" type="text/css">
-		<div class="body-modulo container-fluid">
-			<div class="container">
-      <?php
-			$this->fmt->class_pagina->head_modulo_inner("Estructura de Listas (Taxonomía)", "");
-      // $this->fmt->categoria->arbol_editable('mod_lista','mod_list_',$this->id_mod); //$select,$from,$where,$orderby,$ruta_modulo,$prefijo
-      $this->fmt->categoria->arbol_editable_mod('mod_lista','mod_list_',"mod_list_id_padre=0",$this->ruta_modulo,"estructura-listas-lugares",$this->id_mod); //$from,$prefijo,$where,$url_modulo,$class_div,$id_mod
-			?>
-			</div>
-    </div>
-    <script type="text/javascript">
-    	$(document).ready(function() {
-        $(".btn-contenedores").remove();
+		
+		$this->fmt->class_pagina->crear_head( $this->id_mod,$botones);
+		$this->fmt->class_pagina->head_mod();
 
-    		$(".btn-editar-i").click(function(e){
-					var id_mod = "<?php echo $this->id_mod; ?>";
-					var cat = $( this ).attr("cat");
-					var variables = "form_editar,"+cat;
-					var ruta = "ajax-adm";
-					var datos = {ajax:ruta, inputIdMod:id_mod , inputVars : variables };
-					abrir_modulo(datos);
-				});
-				$(".btn-nuevo-i").click(function(e){
-					var id_mod = "<?php echo $this->id_mod; ?>";
-					var cat = $( this ).attr("cat");
-					var variables = "form_nuevo,"+cat;
-					var ruta = "ajax-adm";
-					var datos = {ajax:ruta, inputIdMod:id_mod , inputVars : variables };
-					abrir_modulo(datos);
-				});				
-				
-				$(".btn-ordenar-i").click(function(e){
-					var id_mod = "<?php echo $this->id_mod; ?>";
-					var cat = $( this ).attr("id_padre");
-					var variables = "ordenar,"+cat;
-					var ruta = "ajax-adm";
-					var datos = {ajax:ruta, inputIdMod:id_mod , inputVars : variables };
-					abrir_modulo(datos);
-				});
+		$botones = $this->fmt->class_pagina->crear_btn_m("Crear","icn-plus","Nuevo Punto","btn btn-primary btn-menu-ajax btn-new btn-small",$this->id_mod,"form_nuevo");  //$nom,$icon,$title,$clase,$id_mod,$vars
+    $this->fmt->class_pagina->head_modulo_inner("Lista de Puntos", $botones); // bd, id modulo, botones
 
-				function abrir_modulo(datos){
-					$(".modal-form").addClass("on");
-					$(".modal-form").addClass("<?php echo $url_a; ?>");
-					$(".body-page").css("overflow-y","hidden");
-					//console.log(datos);
+    $this->fmt->form->head_table("table_id");
+    $this->fmt->form->thead_table('Id:Nombre:Padre:Categoria:Activar:Acciones');
+    $this->fmt->form->tbody_table_open();
 
-					$.ajax({
-						url:"<?php echo _RUTA_WEB; ?>ajax.php",
-						type:"post",
-						data:datos,
-						success: function(msg){
+  	$consulta = "SELECT mod_list_id, mod_list_nombre, mod_list_id_padre , mod_list_activar FROM mod_lista";
+  	$rs =$this->fmt->query->consulta($consulta);
+  	$num=$this->fmt->query->num_registros($rs);
+  	if($num>0){
+  		for($i=0;$i<$num;$i++){
+  			$row=$this->fmt->query->obt_fila($rs);
+  			$row_id = $row["mod_list_id"];
+  			$row_nombre = $row["mod_list_nombre"];
+  			$row_padre = $row["mod_list_id_padre"];
+  			$row_activar = $row["mod_list_activar"];
 
-							$(".modal-form .modal-inner").html(msg);
-							var wbm = $(".modal-form .modal-inner").height();
-              var wbmx = wbm - 108;
-              console.log("body-modulo:"+wbmx);
-              $(".body-modulo").height(wbmx);
+				echo "<tr class='row row-".$row_id."'>";
+				echo '  <td class="col-id">'.$row_id.'</td>';
+				echo '  <td class="col-name">'.$row_nombre.'</td>';
+				echo '  <td class="col-padre">'.$this->traer_nombre_lista($row_padre).'</td>';
+				echo '  <td class="col-padre">';
+				$this->fmt->categoria->traer_rel_cat_nombres($row_id,'mod_lista_categorias','mod_list_cat_cat_id','mod_list_cat_list_id'); 
+				echo '	</td>';
+				echo '  <td class="col-activar">';
+				 $this->fmt->class_modulo->estado_publicacion($row_activar,$this->id_mod,"",$row_id);
+				echo '	</td>';
+				echo '  <td class="col-acciones acciones">';
+				$this->fmt->class_modulo->botones_tabla($row_id,$this->id_mod,$row_nombre);//
+				echo '	</td>';
+  		}
+  	}
+  	$this->fmt->query->liberar_consulta();
+		
+		$this->fmt->form->tbody_table_close();
+    $this->fmt->form->footer_table();
+		
+		$this->fmt->class_pagina->footer_mod();
+    $this->fmt->class_modulo->script_table("table_id",$this->id_mod,"desc","0","10",true);
+		$this->fmt->class_modulo->script_accion_modulo();
+	}
 
-						},
-						complete : function() {
-							$('.preloader-page').fadeOut('slow');
-							// var wmi =   $("#modal .modal-inner").width();
-							// var hmi =   $("#modal .modal-inner").height();
-							// var x_wmi = Math.round(wmi /2);
-							// var y_hmi = Math.round(hmi /2);
-							// $("#modal .modal-inner").css("margin-left","-"+x_wmi+"px");
-							// $("#modal .modal-inner").css("margin-top","-"+y_hmi+"px");
-						}
-					});
-				}
-
-				function accion_modulo(datos){
-				//console.log(datos);
-				$.ajax({
-					url:"<?php echo _RUTA_WEB; ?>ajax.php",
-					type:"post",
-					async: true,
-					data:datos,
-					success: function(msg){
-						console.log("pag:" + msg );
-						var variables = msg;
-						var cadena = variables.split(':');
-						var accion = cadena[0];
-						var id_item = cadena[1];
-						var estado = cadena[2];
-						var id_mod = cadena[3];
-						switch ( accion ){
-							case 'activar':
-								//console.log(id_mod+"-"+id_item+"-"+estado);
-								$("#btn-p-"+id_mod+"-"+id_item+" i").removeClass();
-								$("#btn-pi-"+id_item).removeClass();
-								if(estado==1){
-									$("#btn-pi-"+id_item).addClass("icn-eye-open");
-									$("#btn-pi-"+id_item).attr("vars","activar,"+id_item+",0");
-								}else{
-									$("#btn-pi-"+id_item).addClass("icn-eye-close");
-									$("#btn-pi-"+id_item).attr("vars","activar,"+id_item+",1");
-								}
-								$(".content-page").css("overflow-y","auto");
-							break;
-							case 'eliminar':
-								console.log(id_item);
-								$(".modal").removeClass("on");
-								$(".modal .modal-inner").removeClass("mensaje-eliminar");
-								$(".modal .modal-inner").html("");
-								$(".row-"+id_item).addClass("removiendo");
-								$("#nodo-"+id_item).addClass("removiendo");
-								setTimeout(function() {
-									$(".row-"+id_item).remove();
-									$("#nodo-"+id_item).remove();
-									$(".content-page").css("overflow-y","auto");
-								}, 1500 );
-
-							break;
-							default:
-							alert("no hay una acción determinada, revisar error base de datos");
-						}
-					}
-				});
-			};
-
-    	});
-    </script>
-    <?php
+	public function traer_nombre_lista($id){
+		$consulta = "SELECT mod_list_nombre FROM mod_lista  WHERE mod_list_id='$id'";
+		$rs =$this->fmt->query->consulta($consulta);
+		$row=$this->fmt->query->obt_fila($rs);
+		return $row["mod_list_nombre"];
+		$this->fmt->query->liberar_consulta();
 	}
 
 	public function form_nuevo(){
@@ -158,9 +85,19 @@ class LISTALUGAR{
 		$this->fmt->form->input_form("Descripcion:","inputDescripcion","","");
 		$this->fmt->form->input_form("tags:","inputTags","","");
 		$this->fmt->form->textarea_form('Resumen:','inputResumen','','','','3','');
-		$this->fmt->form->input_info('{"label":"Padre:",
+		/*$this->fmt->form->input_info('{"label":"Padre:",
                     							 "id":"inputPadre",
-								                   "value":"'.$id.'"}');
+								                   "value":"'.$id.'"}');*/
+
+		$this->fmt->form->select_form_nodo('{
+																				"label":"Padre:",
+																				"id":"inputPadre",
+																				"item":"'.$id.'",
+																				"id_padre":"",
+																				"id_inicio":"0",
+																				"from":"mod_lista",
+																				"prefijo":"mod_list_"
+																			}');
 
 		$this->fmt->form->imagen_unica_form("inputImagen","","","form-normal","Imagen relacionada:");
 		$this->fmt->form->imagen_unica_form("inputBanner","","","form-normal","Banner:");
@@ -201,7 +138,8 @@ class LISTALUGAR{
 		$fila = $this->fmt->query->obt_fila($rs);
 		$id = $fila ["id"];
 
-		$ingresar1 ="mod_list_cat_lug_id, mod_list_cat_cat_id, mod_list_cat_orden";
+ 
+		$ingresar1 ="mod_list_cat_list_id, mod_list_cat_cat_id, mod_list_cat_orden";
 		$valor_cat= $_POST['inputCat'];
 		$num=count( $valor_cat );
 		for ($i=0; $i<$num;$i++){
