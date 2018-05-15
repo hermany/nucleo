@@ -23,7 +23,6 @@ class ACCIONES{
     $this->fmt->query->consulta($sql);
   }
 
-  
 
   function valor_interaccion($accion){
     $consulta = "SELECT mod_inta_valor FROM mod_interaccion WHERE mod_inta_id='".$accion."'";
@@ -35,6 +34,21 @@ class ACCIONES{
 
   function puntos_usuario($usu){
     $sql="SELECT mod_bill_usu_valor FROM mod_billetera_usuarios WHERE mod_bill_usu_usu_id='$usu'";
+    $rs= $this->fmt->query->consulta($sql,__METHOD__);
+    $num=$this->fmt->query->num_registros($rs);
+    $valor=0;
+    if($num>0){
+       for($i=0;$i<$num;$i++){
+         $row=$this->fmt->query->obt_fila($rs);
+         $valor = $valor + $row["mod_bill_usu_valor"];
+       }
+    }
+    return $valor;
+    $$this->fmt->query->liberar_consulta();
+  }  
+
+  function puntos_usuario_billetera($usu,$bill){
+    $sql="SELECT mod_bill_usu_valor FROM mod_billetera_usuarios WHERE mod_bill_usu_usu_id='$usu' and mod_bill_usu_bill_id='$bill'";
     $rs= $this->fmt->query->consulta($sql,__METHOD__);
     $num=$this->fmt->query->num_registros($rs);
     $valor=0;

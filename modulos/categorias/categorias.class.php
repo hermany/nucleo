@@ -244,6 +244,7 @@ class CATEGORIAS{
 	              </div>
 								<?php
 									$this->fmt->form->input_form("Ruta Meta:","inputMeta","",$fila["cat_meta"],"","","");
+									$this->fmt->form->input_form("Icono:","inputIcono","",$fila["cat_icono"],"","","");
 									$this->fmt->form->input_form("Favicon:","inputFavicon","",$fila["cat_favicon"],"","","");
 									$this->fmt->form->input_form("Clase:","inputClase","",$fila["cat_clase"],"","","");
 									$this->fmt->form->input_form("Url:","inputUrl","",$fila["cat_url"],"","","");
@@ -316,6 +317,7 @@ class CATEGORIAS{
 								</div>
 								<?php
 									$this->fmt->form->input_form("Ruta Meta:","inputMeta","","","","","");
+									$this->fmt->form->input_form("Icono:","inputIcono","","","","");
 									$this->fmt->form->input_form("Favicon:","inputFavicon","","","","");
 									$this->fmt->form->input_form("Clase:","inputClase","","","","","");
 									$this->fmt->form->input_form("Url:","inputUrl","","","","","");

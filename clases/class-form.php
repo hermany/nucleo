@@ -1157,7 +1157,7 @@ class FORM{
     ?>
     <div class="form-group <?php echo $class_div; ?>" id="input-<?php echo $id; ?>" >
       <label><?php echo $label; ?></label>
-      <input class="form-control <?php echo $class; ?>" id="<?php echo $id; ?>" name="<?php echo $id; ?>" validar="<?php echo $validar; ?>" data-validar="" placeholder="<?php echo $placeholder; ?>" value="<?php echo $valor; ?>" <?php echo $disabled; echo $otros; ?> />
+      <input type="text" class="form-control <?php echo $class; ?>" id="<?php echo $id; ?>" name="<?php echo $id; ?>" validar="<?php echo $validar; ?>" data-validar="" placeholder="<?php echo $placeholder; ?>" value="<?php echo $valor; ?>" <?php echo $disabled; echo $otros; ?> />
 			<?php if (!empty($mensaje)){ ?>
 			<p class="help-block"><?php echo $mensaje; ?></p>
 			<?php } ?>

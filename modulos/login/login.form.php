@@ -1,5 +1,11 @@
 <?php
 $fmt = new CONSTRUCTOR();
+
+if (empty($url_forgot)){
+  $urlforgot =_RUTA_WEB."forgot";
+}else{
+  $urlforgot = $url_forgot;
+}
 ?>
 <div class="box-login" >
   <!-- <div class="btn btn-cerrar color-text-gris-b"  onclick="toggleId('block-login');"  >
@@ -19,7 +25,7 @@ $fmt = new CONSTRUCTOR();
         <span class="input-group-addon"><i class="icn-lock"></i></span>
         <input type="password" class="form-control input-lg color-border-gris-a  color-text-gris" id="password" name="password" placeholder="Password"  >
       </div>
-      <p class="help-block"><a href="<?php echo _RUTA_WEB; ?>forgot" >¿ Olvidaste tu contraseña ?</a></p>
+      <p class="help-block"><a href="<?php echo $urlforgot; ?>" >¿ Olvidaste tu contraseña ?</a></p>
     </div>
     <div class="form-actions">
       <button type="submit" class="btn btn-info btn-lg btn-intro hvr-fade" id="btn-ingresar">Ingresar</button>
@@ -36,7 +42,21 @@ $fmt = new CONSTRUCTOR();
   //echo "sec:".$sesion->existe_variable("usu_id");
 ?>
 <script type="text/javascript" >
+	function seleccionar(campo){
+   if(campo.length < 1){
+   campo.LabelUsuario.display=none;
+   }
+}
+
+function deseleccionarBuscar(campo){
+  if(campo.length < 1){
+    campo.LabelUsuario.display=block;
+  }
+}
+
 	function action_form(){
+
+
 		//alert("entre a acción");
 		var ie = $("#inputEmail").val( );
 		var ip = $("#password").val( );

@@ -300,10 +300,10 @@ function traer_cat_hijos_menu_raiz($cat,$nivel,$nivel_tope,$iconos="0",$active="
 	        if ( $this->tiene_cat_hijos($fila_id) ){
 	          $aux .= $this->fmt_li_hijos($fila_id, $fila_nombre,$nivel);
 	        } else {
-	          $aux .= $this->fmt_li($fila_id,"","",$fila_nombre, $pre.$fila_ruta_amigable.$pos,$fila_url, $fila_destino, $fila_imagen,$cat, $cat_a);
+	          $aux .= $this->fmt_li($fila_id,"",$fila_icono,$fila_nombre, $pre.$fila_ruta_amigable.$pos,$fila_url, $fila_destino, $fila_imagen,$cat, $cat_a);
 	        }
         }else{
-	        $aux .= $this->fmt_li($fila_id,"","",$fila_nombre,$pre.$fila_ruta_amigable.$pos,$fila_url, $fila_destino, $fila_imagen,$cat, $cat_a);
+	        $aux .= $this->fmt_li($fila_id,"",$fila_icono,$fila_nombre,$pre.$fila_ruta_amigable.$pos,$fila_url, $fila_destino, $fila_imagen,$cat, $cat_a);
         }
       }
       return $aux;
@@ -352,6 +352,7 @@ function traer_cat_hijos_menu_raiz($cat,$nivel,$nivel_tope,$iconos="0",$active="
     $aux  = '<li id="btn-m'.$id.'" class="item-m btn-m'.$id.' '.$clase.' '.$cat_active.' btn-m-'.$nombre_x.'">';
     $aux .= '<a class="btn-nav-item btn-nav-item-'.$id.'" href="'.$urlx.'" target="'.$destino.'">';
     $aux .= $aux_x;
+
     if (!empty($icono)){
       $aux .= '<i class="'.$icono.'"></i>';
     }

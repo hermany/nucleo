@@ -78,10 +78,11 @@ class LUGAR{
 		$this->fmt->form->textarea_form('Content:','inputContenido','','','','','12');
 		$this->fmt->form->input_form("Icono:","inputIcono","","");
 		$this->fmt->form->input_form("Usuario:","inputUsuario","","");
+		$this->fmt->form->input_form("Billetera:","inputBilletera","","");
 		$this->fmt->form->input_form("Estado:","inputEstado","","1");
 		$this->fmt->form->categoria_form('Categoria','inputCat',"0","","",""); //
 
-		$this->fmt->form->arbol_editable_nodo('mod_lista','mod_list_','0',$this->id_mod);
+		// $this->fmt->form->arbol_editable_nodo('mod_lista','mod_list_','0',$this->id_mod);
 
 		$this->fmt->form->botones_nuevo($id_form,$this->id_mod,"","ingresar");
 		$this->fmt->class_pagina->form_fin_mod();
@@ -98,7 +99,7 @@ class LUGAR{
 		}else{
 			$activar=0;
 		}
-		$ingresar ="mod_lug_nombre, mod_lug_direccion, mod_lug_telefono, mod_lug_info, mod_lug_imagen, mod_lug_coordenada_principal, mod_lug_coordenadas, mod_lug_icono, mod_lug_contenido, mod_lug_usuario, mod_lug_estado, mod_lug_activar";
+		$ingresar ="mod_lug_nombre, mod_lug_direccion, mod_lug_telefono, mod_lug_info, mod_lug_imagen, mod_lug_coordenada_principal, mod_lug_coordenadas, mod_lug_icono, mod_lug_contenido, mod_lug_usuario,mod_lug_bill_id, mod_lug_estado, mod_lug_activar";
 
 		$valores  ="'".$_POST['inputNombre']."','".
 					$_POST['inputDireccion']."','".
@@ -110,6 +111,7 @@ class LUGAR{
 					$_POST['inputIcono']."','".
 					$_POST['inputContenido']."','".
 					$_POST['inputUsuario']."','".
+					$_POST['inputBilletera']."','".
 					$_POST['inputEstado']."','".
 					$activar."'";
 		$sql="insert into mod_lugar (".$ingresar.") values (".$valores.")";
@@ -158,6 +160,7 @@ class LUGAR{
 		$this->fmt->form->textarea_form('Content:','inputContenido','',$row["mod_lug_contenido"],'','','12'); //$label,$id,$placeholder,$valor,$class,$class_div,$rows,$mensaje
 		$this->fmt->form->input_form("Icono:","inputIcono","",$row["mod_lug_icono"]);
 		$this->fmt->form->input_form("Usuario:","inputUsuario","",$row["mod_lug_usuario"]);
+		$this->fmt->form->input_form("Billetera:","inputBilletera","",$row["mod_lug_bill_id"]);
 
 		$this->fmt->form->input_form("Estado:","inputEstado","",$row['mod_lug_estado']);
 
@@ -195,6 +198,7 @@ class LUGAR{
 						mod_lug_coordenadas='".$_POST['inputCoordenadas']."',
 						mod_lug_contenido='".$_POST['inputContenido']."',
 						mod_lug_usuario='".$_POST['inputUsuario']."',
+						mod_lug_bill_id='".$_POST['inputBilletera']."',
 						mod_lug_icono='".$_POST['inputIcono']."',
 						mod_lug_estado='".$_POST['inputEstado']."'
 						WHERE mod_lug_id='".$_POST['inputId']."'";
