@@ -670,7 +670,7 @@ class CLASSMODULOS{
     <?php
   }
 
-  function modal_editor_texto($id){
+  function modal_editor_texto($id,$height="430"){
 
     ?>
       <script>
@@ -704,7 +704,7 @@ class CLASSMODULOS{
         }
 
         $('#<?php echo $id; ?>').summernote({
-            height: 430,                 // set editor height
+            height: <?php echo $height; ?>,                 // set editor height
             minHeight: null,             // set minimum height of editor
             maxHeight: null,             // set maximum height of editor
             lang: 'es-ES',
@@ -792,7 +792,38 @@ class CLASSMODULOS{
         //$("#modal .modal-inner .body-modulo").height(hmh);
         //$("#modal .modal-inner .form-botones").css("left",pmi.left+2);
 
-        $(".btn-menu-ajax").on("click", function(e){
+        $('.btn-toggle').click(function(event) {
+          /* Act on the event */
+          var id = $(this).attr("toggle");
+          $("#"+id).toggleClass('on');
+        });
+
+        $(".box-seleccionar .item").click(function(event) {
+          var item = $(this).attr("item");
+          var nombre = $(this).attr("nombre");
+          var id_valor = $(this).attr("id_valor");
+          var id_nombre = $(this).attr("id_nombre");
+          $('#'+id_valor).attr("value",item);
+          $('#'+id_nombre).attr("value",nombre);
+          $(".box-seleccionar").removeClass('on');
+        });
+
+        $(".box-seleccionar").mouseleave(function(event) {
+          /* Act on the event */
+          setTimeout(function() {
+            $(".box-seleccionar").removeClass('on');
+          },800);
+        });
+
+        $( ".box-seleccionar  #inputBuscador" ).keyup(function() {
+          var rex = new RegExp($(this).val(), 'i');
+          $('.box-seleccionar .resultados a').hide();
+          $('.box-seleccionar .resultados a').filter(function () {
+              return rex.test($(this).text());
+          }).show();
+        });
+
+        $(".btn-menu-ajax").click( function(e){
           // alert("btn-menu-ajax click");
           e.preventDefault();
 
@@ -813,7 +844,7 @@ class CLASSMODULOS{
           //console.log(id);
         });
 
-        $(".btn-form").on("click",function(e){
+        $(".btn-form").click( function(e){
           e.preventDefault();
            //alert("btn-form click");
            var formk = $(this).attr("form");
@@ -1018,7 +1049,7 @@ function traer_fecha_literal($fecha_hora){
     $min = $tiempo[1];
     $seg = substr($tiempo[2], 0, 2);
 
-      if ($modo=="min"){
+      if ($modo=="min" || $modo=="mini"){
         $day = array(' ','Lun','Mar','Mie','Jue','Vie','Sab',"Dom");
         $month = array(' ','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic');
       }else{
@@ -1177,8 +1208,7 @@ function traer_fecha_literal($fecha_hora){
         }
       }
 
-      if ($meses < 0)
-      {
+      if ($meses < 0){
           --$anos;
           $meses = $meses + 12;
       }
@@ -1255,11 +1285,13 @@ function traer_fecha_literal($fecha_hora){
               if ($modo=="mini"){
                 $tiempo .=$this->fmt->mensaje->programado();
                 $tiempo .=$this->fecha_hora_compacta($desde,"d,m,a");
+                $tiempo .="hace";
               }
             }else{
               $tiempo=$this->fecha_hora_compacta($desde);
               if ($modo=="mini"){
                 $tiempo .=$this->fecha_hora_compacta($desde,"d,m,a");
+                $tiempo .="hace";
               }
             }
           }
@@ -1364,6 +1396,7 @@ function traer_fecha_literal($fecha_hora){
       $hora = $tiempo[0];
       $min = $tiempo[1];
       $seg = substr($tiempo[2], 0, 2);
+      // $F="";
 
 
       $day = array(' ','Lun','Mar','Mie','Jue','Vie');
@@ -1377,7 +1410,7 @@ function traer_fecha_literal($fecha_hora){
       $m = " <span class='mes'>".$month[$mes]." </span>";
       $a = " <span class='ano'>".$ano." </span>";
       $h = " <span class='hora'>".$hora."</span>";
-      $m = " <span class='min'>".$min."</span>";
+      $mi = " <span class='min'>".$min."</span>";
       $s = " <span class='seg'>".$seg."</span>";
 
       for ($j=0; $j < $nfx ; $j++) { 
@@ -1385,7 +1418,7 @@ function traer_fecha_literal($fecha_hora){
         if ($fx[$j]=="m"){ $F .= $m;  }
         if ($fx[$j]=="a"){ $F .= $a;  }
         if ($fx[$j]=="h"){ $F .= $h;  }
-        if ($fx[$j]=="mi"){ $F .= $m;  }
+        if ($fx[$j]=="mi"){ $F .= $mi;  }
         if ($fx[$j]=="s"){ $F .= $s;  }
       }
 

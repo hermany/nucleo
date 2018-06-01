@@ -103,6 +103,14 @@ $c= array(
     $(".form-input-color").val(cc);
     $(".colors").removeClass("on");
   });
+
+  $('#input-color').on('keypress', function (e) {
+     if(e.which === 13){
+       var cc = $(this).val();
+       $(".form-input-color").val(cc);
+       $(".colors").removeClass("on");
+     }
+  });
 </script>
 <div class="block-color">
   <a class="btn-color"></a>
@@ -111,7 +119,9 @@ $c= array(
       <label for="">Colores</label>
       <a class="btn-close-color"><i class="icn icn-close"></i> </a>
     </div>
+    
     <div class="tbody">
+      <input type="text" id='input-color' name='input-color' value="#" />
       <?php
         $nc= count($c);
         for ($i=0; $i < $nc; $i++) {

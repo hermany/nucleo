@@ -6,7 +6,7 @@ $form =new MENSAJES($fmt,$id_app,$id_item,$id_estado);
 echo $fmt->header->header_modulo();
 
 switch( $tarea ){
-  case 'dashboard_mensajes': $form->dashboard_modulo();break;
+  case 'dashboard_mensajes': $form->dashboard_mensajes();break;
   case 'busqueda': $form->busqueda();break;
 
   

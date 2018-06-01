@@ -1201,6 +1201,12 @@ class FORM{
   }
 
   public function input_form_date($vars){
+  // 	$this->fmt->form->input_form_date('{
+		// 		"label":"Fecha:",
+		// 		"id":"inputFecha",
+		// 		"format":"dd-mm-yyyy",
+		// 		"fecha":"'.$fecha.'"
+		// }');
   	$dato =json_decode($vars);
   	$class="";
   	$class_div="";
@@ -1228,6 +1234,9 @@ class FORM{
       $minView ='0';
     }      
     if ($format=="dd-mm-yyyy"){
+      $minView ='2';
+    }    
+    if ($format=="dd-mm-yy"){
       $minView ='2';
     }
 
@@ -1330,12 +1339,14 @@ class FORM{
  					      text = text.replace(/[ýÿ]/, 'y');
  					      text = text.replace(/[ñ]/, 'n');
  					      text = text.replace(/[ç]/, 'c');
- 					      text = text.replace(/['"`]/, '-');
+ 					      text = text.replace(/[&]/, 'y');
+ 					      text = text.replace(/['"`,]/, '-');
  					      text = text.replace(/[^a-zA-Z0-9-]/, '');
  					      // text = text.replace(/(')s+/, 's');
  					      text = text.replace(/(_)$/, '-');
- 					      text = text.replace(/[?¡¿!]/, '');
+ 					      text = text.replace(/[?¡¿!()]/, '');
  					      text = text.replace(/(')$/, '+');
+ 					      text = text.replace(/(,)$/, '-');
  					      text = text.replace(/^(_)/, '');
  					      text = text.replace(/^(:)/, '-');
  					      text = text.replace(/ +/g,'-');
@@ -1522,6 +1533,8 @@ class FORM{
   	$prefijo = $dato->{'prefijo'};
   	$class = $dato->{'class'};
   	$class_div = $dato->{'class_div'};
+  	$tipo = $this->var_empty($dato->{'tipo'},"padre");
+  	$orden = $this->var_empty($dato->{'orden'},"orden");
     ?>
     <div class="form-group <?php echo $class_div; ?>">
       <label><?php echo $label; ?></label>
@@ -1532,6 +1545,8 @@ class FORM{
 															"prefijo":"'.$prefijo.'",
 															"id":"'.$id.'",
 															"id_raiz":"'.$id_raiz.'",
+															"tipo":"'.$tipo.'",
+															"orden":"'.$orden.'",
 															"valores":"'.$valores.'"
 														 }');  //$from,$prefijo,$id,$id_raiz,$valores
 				?>
@@ -1554,14 +1569,25 @@ class FORM{
   	$fila_2 = $val_valores[3];
   	$nodo_id = $this->fmt->categoria->traer_rel_cat_id($item,$from_rel,$fila_1,$fila_2); //$fila_id,$from,$prefijo_cat,$prefijo_rel
   	$from = $dato->{'from'};
+  	$tipo = $dato->{'tipo'};
   	$prefijo = $dato->{'prefijo'};
+  	$tipo_orden = $prefijo.$dato->{'orden'};
+  	
+
   	echo "<div class='arbol-cat arbol-$id'>";
     echo "<div class='header'>";
     echo "<input id='filtrar-cat-$id' type='text' class='form-control' placeholder='Buscar'>";
     echo "<label id='check-la-$id'><input name='check-a-$id' type='checkbox' id='check-a-$id' accion='check-todo'><span>Seleccionar Todo</span></label>";
     echo "</div>";
     echo "<div class='body-cats'>";
-    $sql="SELECT ".$prefijo."id, ".$prefijo."nombre FROM ".$from." WHERE ".$prefijo."id_padre='".$id_raiz."' ORDER BY  ".$prefijo."orden asc";
+    if($tipo == "padre"){
+    	$sql="SELECT ".$prefijo."id, ".$prefijo."nombre FROM ".$from." WHERE ".$prefijo."id_padre='".$id_raiz."' ORDER BY  ".$tipo_orden." asc";
+  	}
+
+  	if($tipo == "lineal"){
+  		$sql="SELECT ".$prefijo."id, ".$prefijo."nombre FROM ".$from." ORDER BY  ".$tipo_orden." asc";
+  	}
+
     $rs = $this->fmt->query->consulta($sql,__METHOD__);
     $num=$this->fmt->query->num_registros($rs);
     $nivel=0;
@@ -1574,9 +1600,11 @@ class FORM{
         $fila_id = $row[$prefijo."id"];
         $fila_nombre = $row[$prefijo."nombre"];
         echo "<label class='item_cat item_cat-$id' style='margin-left:".$espacio."px'><input name='".$id."[]' type='checkbox' id='cat-$id-$fila_id' value='$fila_id' $aux> <span>".$fila_nombre."</span></label>";
-        if ($this->tiene_hijos_nodo($fila_id,$from,$prefijo)){
-     				$this->hijos_check_nodo($id,$fila_id,$from,$prefijo,$nivel);
-    		}
+        if($tipo == "padre"){
+	        if ($this->tiene_hijos_nodo($fila_id,$from,$prefijo)){
+	     				$this->hijos_check_nodo($id,$fila_id,$from,$prefijo,$nivel);
+	    		}
+	    	}
        }
     }
     echo "</div>";

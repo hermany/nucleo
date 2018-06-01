@@ -1,0 +1,115 @@
+//variables
+@bg-sidabar: #F7F7F7;
+@bg-body: #525E76;
+
+@bg-active: #E0EEFA;
+
+@azul: #3F97EE;
+
+// cuerpo
+.main {
+    width: 100%;
+    float: left;
+    height: 99vh;
+    overflow: hidden;
+}
+
+.sidebar {
+    width: 250px;
+    background: @bg-sidabar;
+    height: 100%;
+    display: inline-block;
+    float: left;
+
+    .list {
+        width: 100%;
+        padding: 10px;
+        display: inline-block;
+        font-size: 16px;
+
+        .icn {
+            margin-right: 4px;
+
+            &.icn-cover {
+                color: @azul;
+            }
+        }
+
+        &.active {
+            background: @bg-active;
+        }
+    }
+}
+
+.body-timer {
+    background: @bg-body;
+    height: 100%;
+    float: right;
+
+    .btn-agregar {
+        margin: 15px;
+        float: left;
+        width: 97%;
+        font-size: 16px;
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        background: rgba(104, 119, 152, 0.75);
+
+        .icn {
+            float: left;
+        }
+
+        #inputTarea {
+            width: 60%;
+            float: left;
+            border: 0;
+            background: transparent;
+            color: white;
+            margin-left: 10px;
+
+            &::placeholder {
+                color: white;
+                opacity: .7;
+            }
+        }
+
+        .btn-asigar-tiempo{
+            float: left;
+            opacity: .6;
+            color:white;
+            padding: 0;
+            margin-right: 10px;
+
+            .icn{
+                color:white;
+                margin-top: -2px;
+            }
+            span{
+                float: left;
+                margin-top:1px;
+                margin-left: 3px;
+            }
+        }
+
+        .calendar{
+            float: left;
+            opacity: .6;
+
+            input{
+                background: transparent;
+                color:white;
+                border:0;
+                float: left;
+                font-size: 14px;
+                margin-top: 2px;
+            }
+            .icn{
+                font-size: 18px;
+                margin-right: 5px;
+                float: left;
+                margin-top: -2px;
+            }
+        }
+    }
+}

@@ -75,7 +75,8 @@ class LUGAR{
 		$this->fmt->form->imagen_unica_form("inputImagen","","","form-normal","Imagen relacionada:");
 		$this->fmt->form->input_form("Coordenada Principal:","inputCoordPrincipal","","");
 		$this->fmt->form->input_form("Coordenadas:","inputCoordenadas","","");
-		$this->fmt->form->textarea_form('Content:','inputContenido','','','','','12');
+		$valor='<p><i class="icon icon-puntero icon-mapa-lpz"></i><a href="" class="ads" style="background:url( [{imagen}] )"></a></p><div class="title">[{nombre}]</div><div class="inner-icons"><a class="disabled" href="#"><i class="icon icon-ra"></i><span>Realidad Virtual</span></a><a class="" href="#"><i class="icon icon-visita-guiada"></i><span>Visita Guiada</span></a><a class="" href="#"><i class="icon icon-preguntados"></i><span>Preguntados</span></a><a class="" href="#"><i class="icon icon-zafari"></i><span>Zafari Fotográfico</span></a><a class="" href="#"><i class="icon icon-info-x"></i><span>Información</span></a></div><br><p></p>';
+		$this->fmt->form->textarea_form('Content:','inputContenido','',$valor,'','','12');
 		$this->fmt->form->input_form("Icono:","inputIcono","","");
 		$this->fmt->form->input_form("Usuario:","inputUsuario","","");
 		$this->fmt->form->input_form("Billetera:","inputBilletera","","");

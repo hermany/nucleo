@@ -123,6 +123,7 @@ class CLASSSISTEMAS{
                 // echo '<script type="text/javascript">alert("id_cat' . $id_cat .' ruta='.$ruta_com.' ");</script>';
                 fwrite($archivo, "Rewriterule ^".$ruta_com."$  index.php?cat=".$id_cat."&pla=".$pla.PHP_EOL) or die(print_r(error_get_last(),true));
                 fwrite($archivo, "Rewriterule ^".$ruta_com."/([^/]*).html$  index.php?cat=".$id_cat."&pla=3&nota=$1".PHP_EOL);
+                fwrite($archivo, "Rewriterule ^".$ruta_com."/([^/]*).htm$  index.php?cat=".$id_cat."&pla=3&nota=$1".PHP_EOL);
 
                 $sql2="SELECT mod_prod_id, mod_prod_ruta_amigable FROM mod_productos, mod_productos_categorias WHERE mod_prod_id=mod_prod_cat_prod_id and mod_prod_cat_cat_id=".$id_cat;
 
@@ -253,6 +254,13 @@ class CLASSSISTEMAS{
 
                  fwrite($archivo, '<rule name="Rewrite to '.$ruta1.'/([^/]*).html" stopProcessing="true">'.PHP_EOL);
                  fwrite($archivo, '        <match url="'.$ruta1.'/([^/]*).html$" />'.PHP_EOL);
+                 fwrite($archivo, '        <action type="Rewrite" url="/index.php?cat='.$id_cat.'&amp;pla=3&amp;nota={R:1}" appendQueryString="false"/>'.PHP_EOL);
+                 fwrite($archivo, '</rule>'.PHP_EOL);
+
+                 // fwrite($archivo, "Rewriterule ^".$ruta1."/([^/]*).html$  index.php?cat=".$id_cat."&pla=3&nota=$1".PHP_EOL);
+
+                 fwrite($archivo, '<rule name="Rewrite to '.$ruta1.'/([^/]*).htm" stopProcessing="true">'.PHP_EOL);
+                 fwrite($archivo, '        <match url="'.$ruta1.'/([^/]*).htm$" />'.PHP_EOL);
                  fwrite($archivo, '        <action type="Rewrite" url="/index.php?cat='.$id_cat.'&amp;pla=3&amp;nota={R:1}" appendQueryString="false"/>'.PHP_EOL);
                  fwrite($archivo, '</rule>'.PHP_EOL);
 
@@ -538,6 +546,7 @@ class CLASSSISTEMAS{
                      // sitios con paginación
                      fwrite($archivo, "Rewriterule ^".$ruta1."/pag=([0-9]+)$  index.php?cat=".$id_cat."&pla=".$pla."&pag=$1".PHP_EOL);
                      fwrite($archivo, "Rewriterule ^".$ruta1."/([^/]*).html$  index.php?cat=".$id_cat."&pla=3&nota=$1".PHP_EOL);
+                     fwrite($archivo, "Rewriterule ^".$ruta1."/([^/]*).htm$  index.php?cat=".$id_cat."&pla=3&nota=$1".PHP_EOL);
                      fwrite($archivo, "Rewriterule ^".$ruta1."/prod=([0-9]+)$  index.php?cat=".$id_cat."&pla=1&prod=$1".PHP_EOL);
                      fwrite($archivo, "Rewriterule ^".$ruta1."/([^/]*).prod$  index.php?cat=".$id_cat."&pla=3&ra_prod=$1".PHP_EOL);
 

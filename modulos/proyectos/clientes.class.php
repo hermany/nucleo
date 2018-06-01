@@ -123,9 +123,9 @@ class CLIENTES_PROY{
               var valor = parseInt($(this).attr("valor"));
               // console.log("btn:"+parseInt(valor));
               
-              $texto = ["","Prioridad Alta","Prioridad Media","Prioridad Normal","Prioridad Baja","Cliente sin Actividad"];
+              texto = ["","Prioridad Alta","Prioridad Media","Prioridad Normal","Prioridad Baja","Cliente sin Actividad"];
 
-              $(".bloque-etiquetas-"+id+" .texto").html( $texto[valor] );
+              $(".bloque-etiquetas-"+id+" .texto").html( texto[valor] );
               // console.log("btnx:"+$texto[ valor ]);
             }, function() {
               /* Stuff to do when the mouse leaves the element */
@@ -146,7 +146,7 @@ class CLIENTES_PROY{
     $id_form="form_nuevo";
     $this->fmt->class_pagina->form_ini_mod($id_form,"form-nuevo-clientos-proyectos");
 
-    $this->fmt->form->input_form("* Nombre:","inputNombre","","","input-lg","","","","literal"); //$label,$id,$placeholder,$valor,$class,$class_div,$mensaje,$disabled,$validar,$otros
+    $this->fmt->form->input_form("* Nombre:","inputNombre","","","input-lg","","","",""); //$label,$id,$placeholder,$valor,$class,$class_div,$mensaje,$disabled,$validar,$otros
     $this->fmt->form->input_form("Codigo:","inputCodigo","","");
     $this->fmt->form->textarea_form('Descripción:','inputDescripcion','','','','3','');
     $this->fmt->form->imagen_unica_form("inputLogo","","","form-normal","Logo:");
@@ -177,7 +177,7 @@ class CLIENTES_PROY{
 
     $this->fmt->class_pagina->form_ini_mod($id_form,"form-editar-clientos-proyectos");
 
-    $this->fmt->form->input_form("* Nombre:","inputNombre","",$row["mod_cli_proy_nombre"],"input-lg","","","","literal"); //$label,$id,$placeholder,$valor,$class,$class_div,$mensaje,$disabled,$validar,$otros
+    $this->fmt->form->input_form("* Nombre:","inputNombre","",$row["mod_cli_proy_nombre"],"input-lg","","","",""); //$label,$id,$placeholder,$valor,$class,$class_div,$mensaje,$disabled,$validar,$otros
     $this->fmt->form->input_hidden_form("inputId",$id);
 
     $this->fmt->form->input_form("Codigo:","inputCodigo","",$row["mod_cli_proy_codigo"]);
@@ -217,7 +217,7 @@ class CLIENTES_PROY{
   }
 
   function modificar(){
-    $sql="UPDATE mod_cliente_proyectos SET
+    echo $sql="UPDATE mod_cliente_proyectos SET
                 mod_cli_proy_nombre='".$_POST['inputNombre']."',
                 mod_cli_proy_codigo='".$_POST['inputCodigo']."', 
                 mod_cli_proy_descripcion='".$_POST['inputDescripcion']."', 
@@ -225,8 +225,7 @@ class CLIENTES_PROY{
                 mod_cli_proy_direccion='".$_POST['inputDireccion']."', 
                 mod_cli_proy_ciudad='".$_POST['inputCiudad']."', 
                 mod_cli_proy_pais='".$_POST['inputPais']."', 
-                mod_cli_proy_telefono='".$_POST['inputTelefono']."', 
-                mod_cli_proy_etiqueta='".$_POST['inputEtiqueta']."'
+                mod_cli_proy_telefono='".$_POST['inputTelefono']."' 
                 WHERE mod_cli_proy_id ='".$_POST['inputId']."'";
     $this->fmt->query->consulta($sql);
     $this->fmt->class_modulo->redireccionar($ruta_modulo,"1");

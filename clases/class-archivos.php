@@ -281,8 +281,7 @@ class ARCHIVOS{
       $h = $height / $ratio;
       $x = ($w - $width / $ratio) / 2;
       $w = $width / $ratio;
-    }
-    else{
+    }else{
       if($w < $width and $h < $height) return "Picture is too small!";
       $ratio = min($width/$w, $height/$h);
       $width = $w * $ratio;

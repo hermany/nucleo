@@ -24,7 +24,6 @@ class MAIL {
 
 		$rw=$this->traer_smtp();
 
-
 		$mail = new PHPMailer;
 
 		$mail->SetLanguage('es');
@@ -37,7 +36,7 @@ class MAIL {
 		$mail->SMTPSecure =$rw['seguridad_mail'];                               // Enable TLS encryption, `ssl` also accepted
 		$mail->Port = $rw['port'];                                    // TCP port to connect to
 
-		$mail->setFrom($rw['entrada_correo'], $nombre);
+		$mail->setFrom($rw['entrada_correo'], utf8_decode($nombre));
 
 		//$mail->addReplyTo($rw['entrada_correo'], $nombre);
 		$mail->addAddress($correo, $nombre_c);     // Add a recipient
@@ -45,7 +44,7 @@ class MAIL {
 		$mail->isHTML(true);                                  // Set email format to HTML
 
 		$mail->Subject = utf8_decode($asunto);
-		$mail->Body    = $mensaje;
+		$mail->Body = utf8_decode($mensaje);
 		//$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
 		$exito = $mail->Send();

@@ -264,8 +264,8 @@ function traer_cat_hijos_menu_raiz($cat,$nivel,$nivel_tope,$iconos="0",$active="
     return $aux;
   }
 
-  function traer_cat_hijos_menu($cat,$nivel,$nivel_tope,$cat_active,$pre="",$pos="",$image_cat="0"){
-    $sql="SELECT cat_id, cat_nombre, cat_id_padre, cat_icono, cat_imagen, cat_url, cat_tipo,cat_destino, cat_ruta_amigable FROM categoria WHERE cat_id_padre='$cat' and cat_activar='1' ORDER BY cat_orden ASC";
+  function traer_cat_hijos_menu($cat,$nivel,$nivel_tope,$cat_active,$pre="",$pos="",$image_cat="0",$color="0"){
+    $sql="SELECT cat_id, cat_nombre, cat_id_padre, cat_icono, cat_imagen, cat_color, cat_url, cat_tipo,cat_destino, cat_ruta_amigable FROM categoria WHERE cat_id_padre='$cat' and cat_activar='1' ORDER BY cat_orden ASC";
     $rs = $this->fmt->query->consulta($sql,__METHOD__);
     $num = $this->fmt->query->num_registros($rs);
     if ($num>0){
@@ -278,10 +278,17 @@ function traer_cat_hijos_menu_raiz($cat,$nivel,$nivel_tope,$iconos="0",$active="
          $fila_nombre= $row["cat_nombre"];
          $fila_id_padre= $row["cat_id_padre"];
          $fila_icono= $row["cat_icono"];
+         $fila_color= $row["cat_color"];
+
          if($image_cat==1){
           $fila_imagen= $row["cat_imagen"];
         }else{
           $fila_imagen="";
+        }         
+        if($color==1){
+          $f_color= "style='background-color:".$fila_color."'";
+        }else{
+          $f_color="";
         }
          
          $fila_url= $row["cat_url"];
@@ -300,10 +307,10 @@ function traer_cat_hijos_menu_raiz($cat,$nivel,$nivel_tope,$iconos="0",$active="
 	        if ( $this->tiene_cat_hijos($fila_id) ){
 	          $aux .= $this->fmt_li_hijos($fila_id, $fila_nombre,$nivel);
 	        } else {
-	          $aux .= $this->fmt_li($fila_id,"",$fila_icono,$fila_nombre, $pre.$fila_ruta_amigable.$pos,$fila_url, $fila_destino, $fila_imagen,$cat, $cat_a);
+	          $aux .= $this->fmt_li($fila_id,"",$fila_icono,$fila_nombre, $pre.$fila_ruta_amigable.$pos,$fila_url, $fila_destino, $fila_imagen,$cat, $cat_a,$f_color);
 	        }
         }else{
-	        $aux .= $this->fmt_li($fila_id,"",$fila_icono,$fila_nombre,$pre.$fila_ruta_amigable.$pos,$fila_url, $fila_destino, $fila_imagen,$cat, $cat_a);
+	        $aux .= $this->fmt_li($fila_id,"",$fila_icono,$fila_nombre,$pre.$fila_ruta_amigable.$pos,$fila_url, $fila_destino, $fila_imagen,$cat, $cat_a,$f_color);
         }
       }
       return $aux;
@@ -311,7 +318,7 @@ function traer_cat_hijos_menu_raiz($cat,$nivel,$nivel_tope,$iconos="0",$active="
     $this->fmt->query->liberar_consulta($rs);
   }
 
-  function fmt_li($id, $clase, $icono, $nombre,$ruta_amigable,$url,$destino,$imagen,$cat,$cat_active){
+  function fmt_li($id, $clase, $icono, $nombre,$ruta_amigable,$url,$destino,$imagen,$cat,$cat_active,$color){
 
     $nombre_x = $this->convertir_url_amigable($nombre);
     // echo "url:".$url;
@@ -349,7 +356,9 @@ function traer_cat_hijos_menu_raiz($cat,$nivel,$nivel_tope,$iconos="0",$active="
     //$url=$this->fmt->categoria->traer_ruta_amigable_padre($id);
     //echo $url;
     if (empty($imagen)){ $aux_x=""; }else{ $aux_x="<img class='img-m' src='"._RUTA_WEB.$imagen."' border=0>"; }
-    $aux  = '<li id="btn-m'.$id.'" class="item-m btn-m'.$id.' '.$clase.' '.$cat_active.' btn-m-'.$nombre_x.'">';
+    if (empty($color)){ $cl = ""; }else{ $cl=$color; }
+
+    $aux  = '<li id="btn-m'.$id.'" class="item-m btn-m'.$id.' '.$clase.' '.$cat_active.' btn-m-'.$nombre_x.'" '.$cl.'>';
     $aux .= '<a class="btn-nav-item btn-nav-item-'.$id.'" href="'.$urlx.'" target="'.$destino.'">';
     $aux .= $aux_x;
 

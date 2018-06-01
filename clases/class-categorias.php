@@ -26,6 +26,13 @@ class CATEGORIA{
     $fila = $this->fmt->query->obt_fila($rs);
     $tipo=$fila["cat_ruta_amigable"];
     return $tipo;
+  }    
+  function color_categoria($cat){
+    $this->fmt->get->validar_get($cat);
+    $consulta = "SELECT cat_color FROM categoria WHERE cat_id='$cat' ";
+    $rs = $this->fmt->query->consulta($consulta,__METHOD__);
+    $fila = $this->fmt->query->obt_fila($rs);
+    return $fila["cat_color"];
   }  
 
   function ruta_amigable_padre($cat){

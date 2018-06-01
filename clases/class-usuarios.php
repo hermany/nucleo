@@ -110,6 +110,18 @@ class USUARIO{
     $rs = $this->fmt->query-> consulta($sql,__METHOD__);
     $fila = $this->fmt->query->obt_fila($rs);
     return $fila["usu_nombre"];
+  }  
+  function email_usuario($usuario){
+    $sql="select usu_email from usuario where usu_id='$usuario'";
+    $rs = $this->fmt->query-> consulta($sql,__METHOD__);
+    $fila = $this->fmt->query->obt_fila($rs);
+    return $fila["usu_email"];
+  }  
+  function password_usuario($usuario){
+    $sql="select usu_password from usuario where usu_id='$usuario'";
+    $rs = $this->fmt->query-> consulta($sql,__METHOD__);
+    $fila = $this->fmt->query->obt_fila($rs);
+    return base64_decode($fila["usu_password"]);
   }
   function  usuario_estado($usuario){
     $sql="select usu_estado from usuario where usu_id=$usuario";
