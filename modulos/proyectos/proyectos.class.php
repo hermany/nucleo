@@ -39,8 +39,6 @@ class PROYECTO{
   	$rs =$this->fmt->query->consulta($consulta);
   	$num=$this->fmt->query->num_registros($rs);
 
-  	 
-
   	if($num>0){
   		for($i=0;$i<$num;$i++){
   			$row=$this->fmt->query->obt_fila($rs);
@@ -53,7 +51,9 @@ class PROYECTO{
 				echo '  <td class="col-id">'.$row_id.'</td>';
 				echo '  <td class="col-name">'.$row_nombre.'</td>';
 				echo '  <td class="col-estado"><a class="btn-cambiar-estado" item="'.$row_id.'" estado="'.$row["mod_proy_estado"].'">'.$this->estado($row["mod_proy_estado"]).'</a></td>';
-				echo '  <td class="col-cliente"></td>';
+				echo '  <td class="col-cliente">';
+				echo $this->traer_cliente_proy($row_id);
+				echo '</td>';
 				echo '  <td class="col-activar">';
 				 $this->fmt->class_modulo->estado_publicacion($row_activar,$this->id_mod,"",$row_id);
 				echo '	</td>';
@@ -150,6 +150,26 @@ class PROYECTO{
     $this->fmt->class_modulo->script_table("table_id",$this->id_mod,"desc","0","25",true);
 		$this->fmt->class_modulo->script_accion_modulo();
 	} //fin buscqueda
+
+	public function traer_cliente_proy($id){
+		$consulta = "SELECT mod_cli_proy_id,mod_cli_proy_nombre, mod_cli_proy_logo, mod_cli_proy_codigo, mod_cli_proy_etiqueta FROM mod_cliente_proyectos,mod_proyecto_clientes WHERE mod_proy_cli_proy_id='$id' and mod_proy_cli_cli_id = mod_cli_proy_id ORDER BY mod_proy_cli_orden ASC";
+		$rs =$this->fmt->query->consulta($consulta);
+		$num=$this->fmt->query->num_registros($rs);
+		$aux ="";
+		if($num>0){
+			for($i=0;$i<$num;$i++){
+				$row=$this->fmt->query->obt_fila($rs);
+				$row_id = $row["mod_cli_proy_id"];
+				$row_nombre = $row["mod_cli_proy_nombre"];
+				$row_logo = $row["mod_cli_proy_logo"];
+				$row_codigo = $row["mod_cli_proy_codigo"];
+				$row_etiqueta = $row["mod_cli_proy_etiqueta"];
+				$aux = "".$row_nombre;
+			}
+		}
+		return $aux;
+		$this->fmt->query->liberar_consulta($rs);
+	}
 
 	public function estado($id){
 		switch ($id) {
@@ -261,47 +281,23 @@ class PROYECTO{
 	} // fin ingresar
 
 	function form_editar(){
-		$this->fmt->class_pagina->crear_head_form("Editar Lugar","","");
+		$this->fmt->class_pagina->crear_head_form("Editar Proyecto","","");
 		$id_form="form-editar";
 
 		$id = $this->id_item;
-		$consulta= "SELECT * FROM mod_lugar WHERE mod_proy_id='".$id."'";
+		$consulta= "SELECT * FROM mod_proyecto WHERE mod_proy_id='".$id."'";
 	  $rs =$this->fmt->query->consulta($consulta);
 	  $row=$this->fmt->query->obt_fila($rs);
 
 		$this->fmt->class_pagina->head_form_mod();
-		$this->fmt->class_pagina->form_ini_mod($id_form,"form-lugares");
+		$this->fmt->class_pagina->form_ini_mod($id_form,"form-proyectos");
 		
 		// $this->fmt->form->hidden_modulo($this->id_mod,"modificar");
 		$this->fmt->form->input_form("<span class='obligatorio'>*</span> Nombre:","inputNombre","",$row["mod_proy_nombre"],"input-lg","","");
 		$this->fmt->form->input_hidden_form("inputId",$id);
 
-		$this->fmt->form->input_form("Dirección:","inputDireccion","",$row["mod_proy_direccion"]);
-		$this->fmt->form->input_form("Teléfonos:","inputTelefono","",$row["mod_proy_telefono"]);
-		$this->fmt->form->textarea_form('Información:','inputInfo','',$row["mod_proy_info"],'','','');
-		// echo "imagen:".$row['mod_proy_imagen'];
-		$this->fmt->form->imagen_unica_form("inputImagen",$row['mod_proy_imagen'],"","form-normal","Imagen relacionada:");
-		$this->fmt->form->input_form("Coordenada Principal:","inputCoordPrincipal","",$row['mod_proy_coordenada_principal']);
-		$this->fmt->form->input_form("Coordenadas:","inputCoordenadas","",$row['mod_proy_coordenadas']);
-		$this->fmt->form->textarea_form('Content:','inputContenido','',$row["mod_proy_contenido"],'','','12'); //$label,$id,$placeholder,$valor,$class,$class_div,$rows,$mensaje
-		$this->fmt->form->input_form("Icono:","inputIcono","",$row["mod_proy_icono"]);
-		$this->fmt->form->input_form("Usuario:","inputUsuario","",$row["mod_proy_usuario"]);
-		$this->fmt->form->input_form("Billetera:","inputBilletera","",$row["mod_proy_bill_id"]);
-
-		$this->fmt->form->input_form("Estado:","inputEstado","",$row['mod_proy_estado']);
-
-		$cats_id = $this->fmt->categoria->traer_rel_cat_id($id,'mod_lugar_categorias','mod_proy_cat_cat_id','mod_proy_cat_proy_id'); //$fila_id,$from,$prefijo_cat,$prefijo_rel
-		$this->fmt->form->categoria_form('Categoria','inputCat',"0",$cats_id,"",""); //
-
+		$this->fmt->form->input_form("Descripción:","inputDescripcion","",$row["mod_proy_descripcion"]);
 		
-		$this->fmt->form->nodo_form('{
-																	"label":"Listas:",
-																	"id":"inputList",
-																	"id_raiz":"0",
-																	"valores":"'.$id.',mod_lugar_listas,mod_proy_list_list_id,mod_proy_list_proy_id",
-																	"from":"mod_lista",
-																	"prefijo":"mod_list_"
-																}');
 
 		$this->fmt->form->btn_actualizar($id_form,$this->id_mod,"modificar");
 		$this->fmt->class_pagina->form_fin_mod();

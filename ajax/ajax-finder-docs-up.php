@@ -25,7 +25,7 @@ header("Content-Type: text/html;charset=utf-8");
     //$height = $dimensiones[1];
     //$dimension = $width." x ".$height;
 
-    if ($tipo != 'application/pdf' && $tipo != 'application/msword' && $tipo != 'application/vnd.ms-excel' && $tipo != 'application/vnd.ms-powerpoint' && $tipo!='application/vnd.openxmlformats-officedocument.wordprocessingml.document' && $tipo!='application/vnd.openxmlformats-officedocument.presentationml.presentation' && $tipo!='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ){
+    if ($tipo != 'application/pdf' && $tipo != 'application/msword' && $tipo != 'application/vnd.ms-excel' && $tipo!='application/octet-stream' && $tipo != 'application/vnd.ms-powerpoint' && $tipo!='application/vnd.openxmlformats-officedocument.wordprocessingml.document' && $tipo!='application/vnd.openxmlformats-officedocument.presentationml.presentation' && $tipo!='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ){
       echo "<span class='error'>Error [$tipo], el archivo no es valido (pdf,doc,docx,xls,xlsx,ppt,pptx)</span>";
     }else if ($size > 1024*1024*100){
       echo "<span class='error'>Error, el tamaño máximo permitido es un 100MB</span>";

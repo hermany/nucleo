@@ -672,6 +672,11 @@ class CLASSMODULOS{
 
   function modal_editor_texto($id,$height="430"){
 
+    if($id[0]=="."){
+      $idx=$id;
+    }else{
+      $idx ="#".$id;
+    }
     ?>
       <script>
       $(document).ready(function() {
@@ -703,7 +708,7 @@ class CLASSMODULOS{
           return button.render();   // return button as jquery object
         }
 
-        $('#<?php echo $id; ?>').summernote({
+        $('<?php echo $idx; ?>').summernote({
             height: <?php echo $height; ?>,                 // set editor height
             minHeight: null,             // set minimum height of editor
             maxHeight: null,             // set maximum height of editor
@@ -731,6 +736,56 @@ class CLASSMODULOS{
       </script>
 
       <?php
+  }
+
+  function insert_modal_editor($id,$height="430"){
+    return "var adicionarImagen = function (context) {
+          var ui = $.summernote.ui;
+
+          // create button
+          var button = ui.button({
+            contents: '<i class=note-icon-picture/>',
+            tooltip: 'imagen',
+            click: function () {
+               $('$id').summernote('editor.saveRange');
+               $('.modal-finder').appendTo('body');
+               $('.modal-finder').addClass('on');
+               insert = '$id';
+               var upload = 'insertar-editor-texto';
+               var vars= '';
+               var seleccion = 'simple';
+               cargar_finder(insert,upload,vars,seleccion);
+               //context.invoke('editor.insertText', window.globalVar );
+            }
+          });
+
+          return button.render();   // return button as jquery object
+        }
+
+        $('$id').summernote({
+            height: $height,                 // set editor height
+            minHeight: null,             // set minimum height of editor
+            maxHeight: null,             // set maximum height of editor
+            lang: 'es-ES',
+            paragraph: 'justifyLeft',
+            focus: false,
+            styleTags:['p', 'blockquote', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', { title: 'imagen-left', tag: 'imagen-left', className: 'imagen-left', value: '' } ],
+            toolbar: [
+                ['style', ['style','bold', 'italic' ]],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph','table']],
+                ['fontsize', ['fontsize']],
+                ['codeview',['clear','codeview','fullscreen']],
+                ['mybutton', ['hello','link','imagen','video']],
+              ],
+              onInit : function(){
+                $('.note-btn').attr('title', '');
+              },
+              buttons: {
+                imagen: adicionarImagen
+              }
+        });
+        $('.note-btn').attr('title', '');";
   }
 
   function traer_rel_modulos($fila_id,$from,$prefijo,$prefijo_rel){

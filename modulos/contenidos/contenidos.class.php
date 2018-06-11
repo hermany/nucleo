@@ -47,7 +47,8 @@ class CONTENIDOS{
 								 echo '<td class=""><strong>'.$fila_nombre.'</strong></td>';
 								 echo '<td class="">'.$this->fmt->usuario->nombre_usuario( $fila_usuario ).'</td>';
 								 echo '<td class="">';
-									 $this->fmt->categoria->traer_rel_cat_nombres($fila_id,'contenido_categorias','conte_cat_cat_id','conte_cat_conte_id'); //$fila_id,$from,$prefijo_cat,$prefijo_rel
+									 // $this->fmt->categoria->traer_rel_cat_nombres($fila_id,'contenido_categorias','conte_cat_cat_id','conte_cat_conte_id'); //$fila_id,$from,$prefijo_cat,$prefijo_rel
+								 	$this->traer_rel_cat_nombres($fila_id);
 								 echo '</td>';
 								 $fh =$fila_fecha;
 								 $fecha_hoy= $this->fmt->class_modulo->fecha_hoy("America/La_Paz");
@@ -79,6 +80,107 @@ class CONTENIDOS{
 		 $this->fmt->class_modulo->script_accion_modulo();
 		 $this->fmt->class_modulo->script_table("table_id",$this->id_mod,"desc","0","25",true);
 	} // Fin busqueda
+
+
+// *.   ordenar. */
+
+	function traer_rel_cat_nombres($fila_id){
+		$consulta = "SELECT DISTINCT cat_id, cat_nombre FROM categoria, contenido_categorias WHERE conte_cat_conte_id='".$fila_id."' and cat_id = conte_cat_cat_id";
+		$rs = $this->fmt->query->consulta($consulta);
+		$num=$this->fmt->query->num_registros($rs);
+		if ($num>0){
+			for ($i=0;$i<$num;$i++){
+				$row=$this->fmt->query->obt_fila($rs);
+				echo "- <a class='btn-menu-ajax' id_mod='".$this->id_mod."' vars='ordenar,".$row["cat_id"]."' > ".$row["cat_nombre"]."</a><br/>";
+			}
+		}
+	}
+
+	function ordenar(){
+		$id_cat = $this->id_item;
+		$this->fmt->class_pagina->crear_head_form("Ordenar: ".$this->fmt->categoria->nombre_categoria($id_cat),"","");
+		$id_form="form-editar";
+		?>
+		<div class="body-modulo">
+		  <form class="form form-modulo form-ordenar"  method="POST" id="<?php echo $id_form?>">
+				<ul id="orden-cat" class="list-group">
+					<?php
+					$sql="SELECT conte_id, conte_titulo, conte_cat_orden FROM contenido,contenido_categorias where conte_cat_conte_id=conte_id and conte_cat_cat_id='$id_cat' ORDER BY conte_cat_orden asc";
+
+	        $rs =$this->fmt->query->consulta($sql,__METHOD__);
+	        $num=$this->fmt->query->num_registros($rs);
+	        if($num>0){
+		        for($i=0;$i<$num;$i++){
+		          $row=$this->fmt->query->obt_fila($rs);
+							$row_id=$row["conte_id"];
+							$row_nom=$row["conte_titulo"];
+							 
+							echo "<li id_var='$row_id'><i class='icn icn-reorder'></i><span class='img-prod'></span><span class='nombre'>$row_nom</span></li>";
+						}
+					}
+					?>
+				</ul>
+				<div class="form-group form-botones box-botones-form">
+					<div class="group">
+						<?php
+						echo $this->fmt->class_pagina->crear_btn_m("Actualizar","icn-sync","update","btn btn-info btn-update",$this->id_mod,"ordenar_update");
+						 ?>
+					</div>
+				</div>
+			</form>
+			<script type="text/javascript">
+				$(document).ready(function() {
+					$("#orden-cat" ).sortable();
+					$(".btn-update").click(function(){
+						var formdata = new FormData();
+						var id_mod = $(this).attr("id_mod");
+						var vars = $(this).attr("vars");
+						formdata.append("inputVars", vars);
+						formdata.append("cat", "<?php echo $id_cat;?>");
+						formdata.append("ajax", "ajax-adm");
+						formdata.append("inputIdMod", id_mod);
+						$('#orden-cat li').each(function(index){
+						  var id_var = $(this).attr("id_var");
+						  console.log(id_var);
+						  var orden = index+1;
+						  formdata.append("id_item[]", id_var);
+						  //formdata.append("orden[]", orden);
+						});
+
+						var ruta = "<?php echo _RUTA_WEB; ?>ajax.php";
+
+						$.ajax({
+						      url:ruta,
+						      type:"post",
+						      data:formdata,
+						      processData: false,
+						    contentType: false,
+						      success: function(msg){
+
+						        $("#popup-div").html(msg);
+										document.location.href="<?php echo $this->ruta_modulo; ?>";
+						      }
+						});
+					});
+				});
+			</script>
+		</div>
+		<?php
+	}
+	function ordenar_update(){
+		$id_cat=$_POST["cat"];
+		$this->fmt->class_modulo->eliminar_fila($id_cat,"contenido_categorias","conte_cat_cat_id");
+		$ingresar2 ="conte_cat_conte_id,conte_cat_cat_id,conte_cat_orden";
+		$valor_doc= $_POST['id_item'];
+		$num=count( $valor_doc );
+		for ($i=0; $i<$num;$i++){
+			$valores2 = "'".$valor_doc[$i]."','".$id_cat."','".$i."'";
+			$sql2="insert into contenido_categorias (".$ingresar2.") values (".$valores2.")";
+			$this->fmt->query->consulta($sql2);
+		}
+	  //$this->fmt->class_modulo->redireccionar($this->ruta_modulo,"1");
+	}
+
 
 /************** Formulario form_nuevo ***************/
 

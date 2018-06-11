@@ -341,6 +341,16 @@ function traer_cat_hijos_menu_raiz($cat,$nivel,$nivel_tope,$iconos="0",$active="
       }else{
         $urlx=$url;
       }
+
+      $pos = strpos($url, "{_RUTA_WEB}");
+
+      // Nótese el uso de ===. Puesto que == simple no funcionará como se espera
+      // porque la posición de 'a' está en el 1° (primer) caracter.
+      if ($pos === false) {
+          
+      } else {
+        $urlx= str_replace("{_RUTA_WEB}", _RUTA_WEB, $url);
+      }
     }
     //echo "url:".$urlx."</br>";
     // }
