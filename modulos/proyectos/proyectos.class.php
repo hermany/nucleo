@@ -147,9 +147,53 @@ class PROYECTO{
     <?php
 		
 		
-    $this->fmt->class_modulo->script_table("table_id",$this->id_mod,"desc","0","25",true);
+    $this->fmt->class_modulo->script_table("table_id",$this->id_mod,"asc","3","25",true);
 		$this->fmt->class_modulo->script_accion_modulo();
 	} //fin buscqueda
+
+	public function proyectos_activos(){
+		$consulta = "SELECT mod_cli_proy_id,mod_cli_proy_nombre, mod_cli_proy_logo, mod_cli_proy_codigo,mod_cli_proy_etiqueta, mod_proy_id, mod_proy_nombre FROM mod_cliente_proyectos,mod_proyecto_clientes,mod_proyecto WHERE mod_proy_cli_proy_id=mod_proy_id and mod_proy_cli_cli_id = mod_cli_proy_id ORDER BY mod_proy_cli_orden ASC";
+		$rs =$this->fmt->query->consulta($consulta);
+		$num=$this->fmt->query->num_registros($rs);
+		$aux ="";
+		if($num>0){
+			for($i=0;$i<$num;$i++){
+				$row=$this->fmt->query->obt_fila($rs);
+				$row_id = $row["mod_cli_proy_id"];
+				$row_nombre = $row["mod_cli_proy_nombre"];
+				$id_proy = $row["mod_proy_id"];
+				$row_nombre_proy = $row["mod_proy_nombre"];
+				$row_codigo = $row["mod_cli_proy_codigo"];
+				$row_logo = $row["mod_cli_proy_logo"];
+				$logo = _RUTA_IMAGES.$this->fmt->archivos->url_add($row_logo,"-mini");
+				if (!empty($row_logo)){
+					$row_codigo="";
+				}
+				$row_etiqueta = $row["mod_cli_proy_etiqueta"];
+
+				$aux .= "<div class='proy' proy='$id_proy' nombre='$row_nombre_proy' logo='$logo' codigo='$row_codigo'><span class='logo border-e-$row_etiqueta' style='background:url($logo) no-repeat center center'>$row_codigo</span> <span class='cliente'>$row_nombre</span> <span class='nombre-proy'>$row_nombre_proy</span></div>";
+			}
+		}
+
+		return $aux;
+		$this->fmt->query->liberar_consulta($rs);
+
+		//return $consulta = "SELECT mod_proy_id, mod_proy_nombre, mod_cli_proy_logo FROM mod_proyecto WHERE mod_proy_estado='1' or mod_proy_estado='2' or mod_proy_estado='3' and mod_proy_activar='1' and mod_proy_cli_proy_id=proy_id and mod_proy_cli_cli_id = mod_cli_proy_id ORDER BY mod_proy_cli_orden ASC";
+  	// $rs =$this->fmt->query->consulta($consulta);
+  	// $num=$this->fmt->query->num_registros($rs);
+  	// $aux="";
+  	// if($num>0){
+  	// 	for($i=0;$i<$num;$i++){
+  	// 		$row=$this->fmt->query->obt_fila($rs);
+  	// 		$row_id = $row["mod_proy_id"];
+  	// 		$row_nombre = $row["mod_proy_nombre"];
+  	// 		$logo =  $row["mod_cli_proy_logo"];
+  	// 		$aux="<div class='proy' proy='$row_id'><span class='logo' style='background:url($logo) no-repeat center center'></span> - $row_nombre</div>";
+  	// 	}
+  	// }
+  	// return $aux;
+  	// $this->fmt->query->liberar_consulta($rs);
+	}
 
 	public function traer_cliente_proy($id){
 		$consulta = "SELECT mod_cli_proy_id,mod_cli_proy_nombre, mod_cli_proy_logo, mod_cli_proy_codigo, mod_cli_proy_etiqueta FROM mod_cliente_proyectos,mod_proyecto_clientes WHERE mod_proy_cli_proy_id='$id' and mod_proy_cli_cli_id = mod_cli_proy_id ORDER BY mod_proy_cli_orden ASC";
@@ -164,7 +208,7 @@ class PROYECTO{
 				$row_logo = $row["mod_cli_proy_logo"];
 				$row_codigo = $row["mod_cli_proy_codigo"];
 				$row_etiqueta = $row["mod_cli_proy_etiqueta"];
-				$aux = "".$row_nombre;
+				$aux .= "<div class='etiqueta-cliente'><span class='etiqueta etiqueta-$row_etiqueta'>$row_etiqueta </span>".$row_nombre."</div>";
 			}
 		}
 		return $aux;
@@ -243,13 +287,67 @@ class PROYECTO{
 		$this->fmt->class_modulo->modal_script($this->id_mod);
 	} //fin form_nuevo
 
-	function ingresar(){
+	function form_editar(){
+		$this->fmt->class_pagina->crear_head_form("Editar Proyecto","","");
+		$id_form="form-editar";
+
+		$id = $this->id_item;
+		$consulta= "SELECT * FROM mod_proyecto WHERE mod_proy_id='".$id."'";
+	  $rs =$this->fmt->query->consulta($consulta);
+	  $row=$this->fmt->query->obt_fila($rs);
+
+		$this->fmt->class_pagina->head_form_mod();
+		$this->fmt->class_pagina->form_ini_mod($id_form,"form-proyectos");
+		
+		// $this->fmt->form->hidden_modulo($this->id_mod,"modificar");
+		$this->fmt->form->input_form("<span class='obligatorio'>*</span> Nombre:","inputNombre","",$row["mod_proy_nombre"],"input-lg","","");
+		$this->fmt->form->input_hidden_form("inputId",$id);
+
+		$this->fmt->form->input_form("Descripción:","inputDescripcion","",$row["mod_proy_descripcion"]);
+		$this->fmt->form->input_form("Horas estimadas:","inputHoras","",$row["mod_proy_horas"]);
+
+		$this->fmt->form->input_form_date('{
+				"label":"Fecha Inicio:",
+				"id":"inputInicio",
+				"format":"dd-mm-yyyy",
+				"fecha":"'.$row["mod_proy_fecha_inicio"].'"
+		}');		
+		$this->fmt->form->input_form_date('{
+				"label":"Fecha Fin:",
+				"id":"inputFin",
+				"format":"dd-mm-yyyy",
+				"fecha":"'.$row["mod_proy_fecha_fin"].'"
+		}');
+
+		$this->fmt->form->nodo_form('{
+																	"label":"Cliente:",
+																	"id":"inputCliente",
+																	"id_raiz":"0",
+																	"valores":"'.$row["mod_proy_id"].',mod_proyecto_clientes,mod_proy_cli_cli_id,mod_proy_cli_proy_id",
+																	"from":"mod_cliente_proyectos",
+																	"tipo":"lineal",
+																	"orden":"etiqueta",
+																	"prefijo":"mod_cli_proy_"
+																}');
+		
+
+		$this->fmt->form->btn_actualizar($id_form,$this->id_mod,"modificar");
+		$this->fmt->class_pagina->form_fin_mod();
+		$this->fmt->class_pagina->footer_form_mod();
+		
+		$this->fmt->finder->finder_window();
+		$this->fmt->class_modulo->modal_script($this->id_mod);
+	} // fin form_editar
+
+
+
+	public function ingresar(){
 		if ($_POST["estado-mod"]=="activar"){
 			$activar=1;
 		}else{
 			$activar=0;
 		}
-		$ingresar ="mod_proy_nombre,mod_proy_descripcion,mod_proy_estado,mod_proy_fecha_registro,mod_proy_fecha_incio,mod_proy_fecha_fin,mod_proy_horas,mod_proy_activar";
+		$ingresar ="mod_proy_nombre,mod_proy_descripcion,mod_proy_estado,mod_proy_fecha_registro,mod_proy_fecha_inicio,mod_proy_fecha_fin,mod_proy_horas,mod_proy_activar";
 
 		$fecha=$this->fmt->class_modulo->fecha_hoy('America/La_Paz');
 
@@ -280,74 +378,30 @@ class PROYECTO{
 		$this->fmt->class_modulo->redireccionar($ruta_modulo,"1");
 	} // fin ingresar
 
-	function form_editar(){
-		$this->fmt->class_pagina->crear_head_form("Editar Proyecto","","");
-		$id_form="form-editar";
 
-		$id = $this->id_item;
-		$consulta= "SELECT * FROM mod_proyecto WHERE mod_proy_id='".$id."'";
-	  $rs =$this->fmt->query->consulta($consulta);
-	  $row=$this->fmt->query->obt_fila($rs);
+	public function modificar(){
 
-		$this->fmt->class_pagina->head_form_mod();
-		$this->fmt->class_pagina->form_ini_mod($id_form,"form-proyectos");
-		
-		// $this->fmt->form->hidden_modulo($this->id_mod,"modificar");
-		$this->fmt->form->input_form("<span class='obligatorio'>*</span> Nombre:","inputNombre","",$row["mod_proy_nombre"],"input-lg","","");
-		$this->fmt->form->input_hidden_form("inputId",$id);
-
-		$this->fmt->form->input_form("Descripción:","inputDescripcion","",$row["mod_proy_descripcion"]);
-		
-
-		$this->fmt->form->btn_actualizar($id_form,$this->id_mod,"modificar");
-		$this->fmt->class_pagina->form_fin_mod();
-		$this->fmt->class_pagina->footer_form_mod();
-		
-		$this->fmt->finder->finder_window();
-		$this->fmt->class_modulo->modal_editor_texto("inputInfo");
-		$this->fmt->class_modulo->modal_script($this->id_mod);
-	} // fin form_editar
-
-	function modificar(){
-
-		$sql="UPDATE mod_lugar SET
+		echo $sql="UPDATE mod_proyecto SET
 						mod_proy_nombre='".$_POST['inputNombre']."',
-						mod_proy_direccion ='".$_POST['inputDireccion']."',
-						mod_proy_telefono ='".$_POST['inputTelefono']."',
-						mod_proy_info ='".$_POST['inputInfo']."',
-						mod_proy_imagen ='".$_POST['inputImagen']."',
-						mod_proy_coordenada_principal='".$_POST['inputCoordPrincipal']."',
-						mod_proy_coordenadas='".$_POST['inputCoordenadas']."',
-						mod_proy_contenido='".$_POST['inputContenido']."',
-						mod_proy_usuario='".$_POST['inputUsuario']."',
-						mod_proy_bill_id='".$_POST['inputBilletera']."',
-						mod_proy_icono='".$_POST['inputIcono']."',
-						mod_proy_estado='".$_POST['inputEstado']."'
+						mod_proy_descripcion ='".$_POST['inputDescripcion']."',
+						mod_proy_horas ='".$_POST['inputHoras']."',
+						mod_proy_fecha_inicio ='".$this->fmt->class_modulo->desestructurar_fecha_hora($_POST['inputInicio'])."',
+						mod_proy_fecha_fin ='".$this->fmt->class_modulo->desestructurar_fecha_hora($_POST['inputFin'])."'
 						WHERE mod_proy_id='".$_POST['inputId']."'";
-			//echo $sql;
-			$this->fmt->query->consulta($sql);
+		$this->fmt->query->consulta($sql);
 
-			$this->fmt->class_modulo->eliminar_fila($_POST['inputId'],"mod_lugar_categorias","mod_proy_cat_proy_id");
-			$ingresar2 ="mod_proy_cat_proy_id,mod_proy_cat_cat_id,mod_proy_cat_orden";
-			$valor_cat2= $_POST['inputCat'];
-			$num2=count( $valor_cat2 );
-			for ($i=0; $i<$num2;$i++){
-				$valores2 = "'".$_POST['inputId']."','".$valor_cat2[$i]."','".$i."'";
-				$sql2="insert into mod_lugar_categorias (".$ingresar2.") values (".$valores2.")";
-				$this->fmt->query->consulta($sql2);
-			}
+		$this->fmt->class_modulo->eliminar_fila($_POST['inputId'],"mod_proyecto_clientes","mod_proy_cli_proy_id");
 
-			$this->fmt->class_modulo->eliminar_fila($_POST['inputId'],"mod_lugar_listas","mod_proy_list_proy_id");
-			$ingresar1 ="mod_proy_list_proy_id, mod_proy_list_list_id, mod_proy_list_orden";
-			$valor_cat= $_POST['inputList'];
-			$num=count( $valor_cat );
-			for ($i=0; $i<$num;$i++){
-				$valores1 = "'".$_POST['inputId']."','".$valor_cat[$i]."','".$i."'";
-				$sql1="insert into mod_lugar_listas (".$ingresar1.") values (".$valores1.")";
-				$this->fmt->query->consulta($sql1);
-			}
+		$ingresar1 ="mod_proy_cli_proy_id, mod_proy_cli_cli_id, mod_proy_cli_orden";
+		$valor_cat= $_POST['inputCliente'];
+		$num=count( $valor_cat );
+		for ($i=0; $i<$num;$i++){
+			$valores1 = "'".$_POST['inputId']."','".$valor_cat[$i]."','".$i."'";
+			$sql1="insert into mod_proyecto_clientes (".$ingresar1.") values (".$valores1.")";
+			$this->fmt->query->consulta($sql1);
+		}
 
-			$this->fmt->class_modulo->redireccionar($ruta_modulo,"1");
+		$this->fmt->class_modulo->redireccionar($ruta_modulo,"1");
 	}
 
 } //fin clase

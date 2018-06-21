@@ -19,6 +19,8 @@ class LUGAR{
 
 	function busqueda(){
 
+
+
 		$this->fmt->class_pagina->crear_head( $this->id_mod,$botones);
 		$this->fmt->class_pagina->head_mod();
 
@@ -39,6 +41,7 @@ class LUGAR{
   			$row_nombre = $row["mod_lug_nombre"];
   			$row_estado = $row["mod_lug_estado"];
   			$row_activar = $row["mod_lug_activar"];
+
 
 				echo "<tr class='row row-".$row_id."'>";
 				echo '  <td class="col-id">'.$row_id.'</td>';

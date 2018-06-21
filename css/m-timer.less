@@ -9,109 +9,293 @@
 
 // cuerpo
 .main {
-    width: 100%;
-    float: left;
-    height: 99vh;
-    overflow: hidden;
+  width: 100%;
+  float: left;
+  height: 99vh;
+  overflow: hidden;
 }
 
 .sidebar {
-    width: 250px;
-    background: @bg-sidabar;
-    height: 100%;
+  width: 250px;
+  background: @bg-sidabar;
+  height: 100%;
+  display: inline-block;
+  float: left;
+
+  .list {
+    width: 100%;
+    padding: 10px;
     display: inline-block;
-    float: left;
+    font-size: 16px;
 
-    .list {
-        width: 100%;
-        padding: 10px;
-        display: inline-block;
-        font-size: 16px;
+    .icn {
+      margin-right: 4px;
 
-        .icn {
-            margin-right: 4px;
-
-            &.icn-cover {
-                color: @azul;
-            }
-        }
-
-        &.active {
-            background: @bg-active;
-        }
+      &.icn-cover {
+        color: @azul;
+      }
     }
+
+    &.active {
+      background: @bg-active;
+    }
+  }
 }
 
 .body-timer {
-    background: @bg-body;
-    border-top: 1px solid @border-body;
-    height: 100%;
-    float: right;
+  background: @bg-body;
+  border-top: 1px solid @border-body;
+  height: 100%;
+  float: right;
 
-    .btn-agregar {
-        margin: 15px;
-        float: left;
-        width: 97%;
-        font-size: 16px;
-        color: white;
-        padding: 10px;
-        border-radius: 5px;
-        background: rgba(104, 119, 152, 0.75);
+  .btn-agregar {
+    margin: 15px 15px 0px;
+    float: left;
+    width: 97%;
+    font-size: 16px;
+    color: white; // position: relative;
+    padding: 10px;
+    border-radius: 5px;
+    background: rgba(104, 119, 152, 0.75);
 
-        .icn {
-            float: left;
-        }
-
-        #inputTarea {
-            width: 60%;
-            float: left;
-            border: 0;
-            background: transparent;
-            color: white;
-            margin-left: 10px;
-
-            &::placeholder {
-                color: white;
-                opacity: .7;
-            }
-        }
-
-        .btn-asigar-tiempo{
-            float: left;
-            opacity: .6;
-            color:white;
-            padding: 0;
-            margin-right: 10px;
-
-            .icn{
-                color:white;
-                margin-top: -2px;
-            }
-            span{
-                float: left;
-                margin-top:1px;
-                margin-left: 3px;
-            }
-        }
-
-        .calendar{
-            float: left;
-            opacity: .6;
-
-            input{
-                background: transparent;
-                color:white;
-                border:0;
-                float: left;
-                font-size: 14px;
-                margin-top: 2px;
-            }
-            .icn{
-                font-size: 18px;
-                margin-right: 5px;
-                float: left;
-                margin-top: -2px;
-            }
-        }
+    .icn {
+      float: left;
     }
+
+    #inputTarea {
+      width: 52%;
+      float: left;
+      border: 0;
+      background: transparent;
+      color: white;
+      margin-left: 10px;
+
+      &::placeholder {
+        color: white;
+        opacity: .7;
+      }
+    }
+
+    .btn-asigar-tiempo {
+      float: left;
+      opacity: .6;
+      color: white;
+      padding: 0;
+      width: 120px;
+      margin-right: 10px;
+
+      .icn {
+        color: white;
+        margin-top: -2px;
+      }
+      span {
+        float: left;
+        margin-top: 1px;
+        margin-left: 3px;
+      }
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    .box-asignar-tiempo {
+      position: absolute;
+      top: 60px;
+      width: 120px;
+      background: #363f50;
+      height: 0;
+      border-radius: 5px; // box-shadow: 0 2px 10px #0e0d0d80;
+      .btn-a-tiempo {
+        display: block;
+        width: 100%;
+        color: white;
+        font-size: 0px;
+        text-decoration: none;
+        opacity: 0.7;
+
+        &:hover {
+          background: #262D39;
+        }
+      }
+
+      &.on {
+        padding: 5px 0px;
+        height: auto !important;
+
+        .btn-a-tiempo {
+          font-size: 14px;
+          padding: 4px 8px 4px 15px;
+        }
+      }
+    }
+
+    .calendar {
+      float: left;
+      opacity: .6;
+
+      input {
+        background: transparent;
+        color: white;
+        border: 0;
+        float: left;
+        font-size: 14px;
+        margin-top: 2px;
+        width: 85px;
+      }
+      .icn {
+        font-size: 18px;
+        margin-right: 5px;
+        float: left;
+        margin-top: -2px;
+      }
+    }
+
+    .btn-proyecto {
+      float: left;
+      opacity: .6;
+      color: #fff;
+      padding: 0;
+      width: 100px;
+      margin-right: 10px;
+      font-size: 14px;
+      .icn {
+        font-size: 13px;
+        line-height: 20px;
+        width: 24px;
+        height: 24px;
+        border: 1px solid #ccceee80;
+        border-radius: 30px;
+        text-align: center;
+      }
+
+      .icn-proy {
+        background-size: 95% !important;
+        background-color: white !important;
+        font-size: 11px;
+        text-align: center;
+        line-height: 28px;
+        color: #aaa;
+      }
+      span {
+        margin-left: 3px;
+        margin-top: 2px;
+        display: inline-block;
+        text-decoration: none;
+        overflow-x: hidden;
+      }
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    .box-proyectos {
+      background: #fff;
+      position: absolute;
+      top: 105px;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px #0e0d0d80;
+      width: 300px;
+      height: 400px;
+      overflow-y: auto;
+      color: #797575;
+      font-size: 14px;
+      padding-top: 35px;
+      display: none;
+
+      &.on {
+        display: inline-block;
+      }
+
+
+
+      .buscador {
+        border-bottom: 1px solid #ccc;
+        padding: 5px 10px;
+        position: absolute;
+        width: 100%;
+        top: 0;
+        background: white;
+
+        input {
+          font-size: 16px;
+          border: 0;
+          margin-left: 5px;
+        }
+      }
+
+      .proy {
+        width: 100%;
+        display: block;
+        padding: 5px 10px;
+        float: left;
+        cursor: pointer;
+
+        .cliente {
+          font-size: 0;
+        }
+
+        .logo {
+          width: 32px;
+          height: 32px;
+          border-radius: 100px;
+          border: 1px solid #66766780;
+          display: inline-block;
+          float: left; // margin: 5px;
+          background-size: 80%!important;
+          background-color: white !important;
+          font-size: 11px;
+          text-align: center;
+          line-height: 28px;
+          color: #aaa;
+        }
+
+        .nombre-proy {
+          margin: 5px 10px 5px 5px;
+          display: inline-block;
+          width: 80%;
+        }
+
+        &:hover {
+          background-color: #929aaf;
+          color: white;
+        }
+      }
+    }
+    .btn-iniciar {
+      color: white;
+      opacity: .6;
+      font-size: 12px;
+      border: 1px solid rgba(255, 255, 255, .4);
+      padding: 7px 13px;
+      float: right;
+      position: absolute;
+      right: 23px;
+      top: 70px;
+      border-radius: 3px;
+      text-transform: uppercase;
+      text-decoration: none;
+
+      &:hover {
+        border-color: @azul;
+        background-color: @azul;
+        color: white;
+        opacity: 0.9;
+      }
+    }
+  } // btn-agregar
+  .lista-tareas {
+    float: left;
+    width: 100%;
+
+    .tarea {
+      margin: 15px;
+      float: left;
+      width: 97%;
+      font-size: 16px;
+      color: #6f6f73;
+      padding: 10px;
+      border-radius: 5px;
+      background: rgb(255, 255, 255);
+    }
+  }
 }

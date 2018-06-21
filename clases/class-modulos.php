@@ -1628,6 +1628,10 @@ function traer_fecha_literal($fecha_hora){
     }
   }
 
+  public function traer_ultimo_dia_mes($elAnio,$elMes, $formato='d') {
+    return date($formato,(mktime(0,0,0,$elMes+1,1,$elAnio)-1));
+  }
+
   function icono_modulo($id){
     $sql="select mod_icono from modulo where mod_id=$id";
     $rs=$this->fmt->query->consulta($sql,__METHOD__);

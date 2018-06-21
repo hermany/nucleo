@@ -206,7 +206,7 @@ class PLANTILLA{
 							if ($cant > 0){
 								// echo "aqui pub";
 								while ($fila_aux = $this->fmt->query->obt_fila($rs_pub)){
-									$this->cargar_pub($fila_aux["pub_archivo"],$fila_aux["pub_id"],$fila_aux["pub_tipo"],$cat);
+									$this->cargar_pub($fila_aux["pub_archivo"],$fila_aux["pub_id"],$fila_aux["pub_tipo"],$cat,$pla);
 								}
 							}
 							$this->dibujar_hijos($cont_id,$cat,$pla);
@@ -217,12 +217,13 @@ class PLANTILLA{
 			echo "<!--  Fin Cuerpo  -->"."\n\n";
 		}
 
-		function cargar_pub($pub_archivo,$pub_id,$pub_tipo,$cat){
+		function cargar_pub($pub_archivo,$pub_id,$pub_tipo,$cat,$pla){
 			if($pub_tipo==1)
 				$ruta = _RUTA_HOST;
 			else
 				$ruta = _RUTA_NUCLEO;
 			//echo "p:".$ruta.$pub_archivo;
+			//echo $pla;
 			$fmt = new CONSTRUCTOR;
 			require($ruta.$pub_archivo);
 

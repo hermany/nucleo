@@ -198,6 +198,7 @@ class NOTICIAS{
 						$this->fmt->form->input_form('Lugar de procedencia:','inputLugar','','','','','');
 						//$this->nombre_autor($fila["not_id_autor"]);
 						$this->fmt->form->input_form('Autor:','inputAutor','','','','','');
+						$this->fmt->form->multimedia_form_block("",$this->id_mod,"","","Multimedia Adicional:","nota_multimedia","not_mul_","not_");//
 					?>
 				</div>
 				<div class=" col-nav">
@@ -275,6 +276,9 @@ class NOTICIAS{
 						//$this->nombre_autor($fila["not_id_autor"]);
 						$this->fmt->form->input_form('Autor:','inputAutor','',$fila["not_autor"],'','','');
 						$this->fmt->usuario->agregar_usuarios_input('inputAutor','mod_columnista','simple');
+
+						$this->fmt->form->multimedia_form_block($fila['not_id'],$this->id_mod,"","","Multimedia Adicional:","nota_multimedia","not_mul_","not_");//
+
 
 						$this->fmt->form->productos_notas('inputProductos',$fila['not_id'],'Añadir Producto','',"Productos Relacionados:"); //$id,$valor,$titulo="Elegir Producto",$class_div,$label_form=""
 					?>
@@ -376,6 +380,15 @@ function ingresar(){
 			$this->fmt->query->consulta($sql1);
 		}
 
+		$ingresar1 = "not_mul_not_id,not_mul_mul_id,not_mul_orden";
+			$valor_mul= $_POST['inputModItemMul'];
+			$num=count( $valor_mul );
+			for ($i=0; $i<$num;$i++){
+				$valores1 = "'".$id."','".$valor_mul[$i]."','$i'";
+				$sql1="insert into nota_multimedia  (".$ingresar1.") values (".$valores1.")";
+				$this->fmt->query->consulta($sql1,__METHOD__);
+			}
+
 	$this->fmt->class_modulo->redireccionar($ruta_modulo,"1");
 	}
 
@@ -441,6 +454,17 @@ function ingresar(){
 				$valores1 = "'".$_POST['inputId']."','".$valor_cat[$i]."','".$i."'";
 				$sql1="insert into nota_productos (".$ingresar1.") values (".$valores1.")";
 				$this->fmt->query->consulta($sql1);
+			}
+
+			$this->fmt->class_modulo->eliminar_fila($_POST['inputId'],"nota_multimedia","not_mul_not_id");
+
+			$ingresar1 = "not_mul_not_id,not_mul_mul_id,not_mul_orden";
+			$valor_mul= $_POST['inputModItemMul'];
+			$num=count( $valor_mul );
+			for ($i=0; $i<$num;$i++){
+				$valores1 = "'".$_POST['inputId']."','".$valor_mul[$i]."','$i'";
+				$sql1="insert into nota_multimedia  (".$ingresar1.") values (".$valores1.")";
+				$this->fmt->query->consulta($sql1,__METHOD__);
 			}
 
 		}

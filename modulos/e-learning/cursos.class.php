@@ -28,6 +28,7 @@ class CURSO{
     $this->fmt->form->tbody_table_open();
 
   	$consulta = "SELECT * FROM curso";
+
   	$rs =$this->fmt->query->consulta($consulta);
   	$num=$this->fmt->query->num_registros($rs);
   	if($num>0){
@@ -129,6 +130,7 @@ class CURSO{
 		
 		$this->fmt->form->input_form("A quién está dirigido:","inputDirigido","","");
 		$this->fmt->form->textarea_form('Certificación:','inputCertificacion','','','editor-texto','textarea-cuerpo','','');
+		$this->fmt->form->imagen_unica_form("inputImagenCer","","","form-normal","Imagen de Certificación:");
 		
 		$this->fmt->form->input_form("Duración:","inputDuracion","","");
 		$this->fmt->form->textarea_form('Contenido Mínimo:','inputContenido','','','editor-texto','textarea-cuerpo','','');
@@ -162,7 +164,7 @@ class CURSO{
 		$fecha=$this->fmt->class_modulo->fecha_hoy('America/La_Paz');
 		$id_usu = $this->fmt->sesion->get_variable("usu_id");
 
-		$ingresar ="cur_nombre, cur_leyenda, cur_ruta_amigable, cur_resumen, cur_tags, cur_importante, cur_objetivo, cur_dirigido, cur_certificacion, cur_duracion, cur_contenido_min, cur_instructor, cur_instructor_id, cur_imagen, cur_estado, cur_fecha_inicio, cur_fecha_fin, cur_usu_id, cur_fecha_registro, cur_activar";
+		$ingresar ="cur_nombre, cur_leyenda, cur_ruta_amigable, cur_resumen, cur_tags, cur_importante, cur_objetivo, cur_dirigido, cur_certificacion, cur_certificacion_imagen, cur_duracion, cur_contenido_min, cur_instructor, cur_instructor_id, cur_imagen, cur_estado, cur_fecha_inicio, cur_fecha_fin, cur_usu_id, cur_fecha_registro, cur_activar";
 
 		$valores  ="'".$_POST['inputNombre']."','".
 					$_POST['inputLeyenda']."','".
@@ -173,6 +175,7 @@ class CURSO{
 					$_POST['inputObjetivo']."','".
 					$_POST['inputDirigido']."','".
 					$_POST['inputCertificacion']."','".
+					$_POST['inputImagenCer']."','".
 					$_POST['inputDuracion']."','".
 					$_POST['inputContenido']."','".
 					$_POST['inputInstructor']."','".
@@ -256,6 +259,7 @@ class CURSO{
 		
 		$this->fmt->form->input_form("A quién está dirigido:","inputDirigido","",$row["cur_dirigido"]);
 		$this->fmt->form->textarea_form('Certificación:','inputCertificacion','',$row["cur_certificacion"],'editor-texto','textarea-cuerpo','','');
+		$this->fmt->form->imagen_unica_form("inputImagenCer",$row["cur_certificacion_imagen"],"","form-normal","Imagen de Certificación:");
 		
 		$this->fmt->form->input_form("Duración:","inputDuracion","",$row["cur_duracion"]);
 		$this->fmt->form->textarea_form('Contenido Mínimo:','inputContenido','',$row["cur_contenido_min"],'editor-texto','textarea-cuerpo','','');
@@ -295,6 +299,7 @@ class CURSO{
 						cur_objetivo='".$_POST['inputObjetivo']."',
 						cur_dirigido='".$_POST['inputDirigido']."',
 						cur_certificacion='".$_POST['inputCertificacion']."',
+						cur_certificacion_imagen='".$_POST['inputImagenCer']."',
 						cur_duracion='".$_POST['inputDuracion']."',
 						cur_contenido_min='".$_POST['inputContenido']."',
 						cur_instructor='".$_POST['inputInstructor']."',
