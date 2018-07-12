@@ -83,6 +83,38 @@ class EMPRESAS{
 		$this->fmt->class_modulo->script_table("table_id",$this->id_mod,"desc","0","25",true);
   }
 
+  public function datos_empresa($id){
+    $consulta = "SELECT * FROM empresa WHERE emp_id='$id'";
+    $rs =$this->fmt->query->consulta($consulta);
+      
+    $row=$this->fmt->query->obt_fila($rs);
+    $datos["emp_id"] = $row["emp_id"];  
+    $datos["emp_nombre"]= $row["emp_nombre"];      
+    $datos["emp_descripcion"] = $row["emp_descripcion"];         
+    $datos["emp_ruta_amigable"] = $row["emp_ruta_amigable"];  
+    $datos["emp_logo"] = $row["emp_logo"];        
+    $datos["emp_icon"] = $row["emp_icon"];        
+    $datos["razon_social"] = $row["emp_razon_social"];        
+    $datos["emp_nit"] = $row["emp_nit"];         
+    $datos["emp_direccion"] = $row["emp_direccion"];       
+    $datos["emp_coordenadas"] = $row["emp_coordenadas"];         
+    $datos["emp_rubro"] = $row["emp_rubro"];       
+    $datos["emp_telefono"] = $row["emp_telefono"];        
+    $datos["emp_email"] = $row["emp_email"];       
+    $datos["emp_web"] = $row["emp_web"];         
+    $datos["emp_pais"] = $row["emp_pais"]; 
+    $datos["emp_ciudad"] = $row["emp_ciudad"]; 
+    $datos["emp_nombre_contacto"] = $row["emp_nombre_contacto"];  
+    $datos["emp_telefono_contacto"] = $row["emp_telefono_contacto"];
+    $datos["emp_email_contacto"] = $row["emp_email_contacto"];      
+    $datos["emp_activar"] = $row["emp_activar"];
+
+    return $datos;
+ 
+    $this->fmt->query->liberar_consulta();
+      
+  }
+
   function traer_relacion($id){
   	$relacion="";
   	$div="";

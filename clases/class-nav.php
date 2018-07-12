@@ -35,12 +35,14 @@ class NAV{
     $this->fmt->query->liberar_consulta($rs);
   }
   function construir_sistemas_rol($id_rol,$id_usu){  // revisar por roles
-    $sql ="SELECT sis_id, sis_nombre, sis_icono, sis_color FROM sistema  where sis_activar='1' ORDER BY  sis_orden ASC";
+    $sql ="SELECT sis_id, sis_nombre, sis_icono, sis_color FROM sistema  where sis_activar='1' ORDER BY sis_orden ASC";
     $rs = $this->fmt->query->consulta($sql,__METHOD__);
     $num = $this->fmt->query->num_registros($rs);
     $aux ="";
     $multi =0;
       if($num>1){
+
+
         //for($i=0;$i < $num; $i++){
            //$row = $this->fmt->query->obt_fila($rs);
         while ($row = $this->fmt->query->obt_fila($rs)){
@@ -57,6 +59,7 @@ class NAV{
             $multi =1;
 
           }else{
+            // echo "aqio";
             $num_sis_rol = $this->num_sistemas_rol($id_rol);
             if ($num_sis_rol > 1){
               if($this->activado_sistemas_rol($fila_id,$id_rol)){
@@ -93,7 +96,7 @@ class NAV{
   }
 
 function num_sistemas_rol($id_rol){
-    $consulta = "SELECT sis_id FROM sistema_roles, sistema WHERE sis_rol_rol_id=$id_rol and sis_rol_sis_id=sis_id";
+    $consulta = "SELECT sis_id FROM sistema_roles, sistema WHERE sis_rol_rol_id='$id_rol' and sis_rol_sis_id=sis_id";
     $rs =$this->fmt->query->consulta($consulta);
     $num=$this->fmt->query->num_registros($rs);
     return $num;
@@ -303,13 +306,16 @@ function traer_cat_hijos_menu_raiz($cat,$nivel,$nivel_tope,$iconos="0",$active="
           $cat_a="";
         }
 
-        if ($nivel < $nivel_tope){
+        if ($nivel < $nivel_tope && $fila_url!="&"){
 	        if ( $this->tiene_cat_hijos($fila_id) ){
 	          $aux .= $this->fmt_li_hijos($fila_id, $fila_nombre,$nivel);
 	        } else {
 	          $aux .= $this->fmt_li($fila_id,"",$fila_icono,$fila_nombre, $pre.$fila_ruta_amigable.$pos,$fila_url, $fila_destino, $fila_imagen,$cat, $cat_a,$f_color);
 	        }
         }else{
+          if ($fila_url=="&"){
+            $fila_url = _RUTA_WEB.$fila_ruta_amigable;
+          }
 	        $aux .= $this->fmt_li($fila_id,"",$fila_icono,$fila_nombre,$pre.$fila_ruta_amigable.$pos,$fila_url, $fila_destino, $fila_imagen,$cat, $cat_a,$f_color);
         }
       }

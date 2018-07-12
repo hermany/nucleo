@@ -128,6 +128,12 @@ class USUARIO{
     $rs = $this->fmt->query-> consulta($sql,__METHOD__);
     $fila = $this->fmt->query->obt_fila($rs);
     return $fila["usu_estado"];
+  }  
+  function  usuario_email($email){
+    $sql="select usu_id from usuario where usu_email='$email'";
+    $rs = $this->fmt->query-> consulta($sql,__METHOD__);
+    $fila = $this->fmt->query->obt_fila($rs);
+    return $fila["usu_id"];
   }
   function  usuario_nivel($usuario){
     $sql="select usu_nivel from usuario where usu_id=$usuario";

@@ -131,7 +131,9 @@ class CONSTRUCTOR{
 	function limpiar_cadena($valor){
 		$valor = str_ireplace("SELECT","",$valor);
 		$valor = str_ireplace("COPY","",$valor);
-		$valor = str_ireplace("DELETE","",$valor);
+    $valor = str_ireplace("DELETE","",$valor);
+    $valor = str_ireplace("query","",$valor);
+		$valor = str_ireplace("QUERY","",$valor);
 		$valor = str_ireplace("DROP","",$valor);
 		$valor = str_ireplace("DUMP","",$valor);
 		$valor = str_ireplace(" OR ","",$valor);

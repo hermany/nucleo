@@ -14,7 +14,7 @@
   define("_USU_IMAGEN",$usu_imagen);
   define("_USU_ID",$id_usu);
   define("_USU_ID_ROL",$id_rol);
-
+ 
   $menu_sistemas = $fmt->nav->construir_sistemas_rol($id_rol,$id_usu);
   //echo "menu1".$menu_sistemas;
   if (($id_rol==1)||($id_rol==2)){

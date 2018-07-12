@@ -74,13 +74,14 @@ $fmt->header->title_page("Dashboard");
     }
 
     if ($_GET["app"]){
-      $sql ="SELECT app_url,app_id,app_ruta_amigable FROM aplicacion WHERE app_ruta_amigable='".$_GET["app"]."'";
+      $sql ="SELECT app_url,app_nombre,app_id,app_ruta_amigable FROM aplicacion WHERE app_ruta_amigable='".$_GET["app"]."'";
       $rs = $fmt->query->consulta($sql,__METHOD__);
       $row = $fmt->query->obt_fila($rs);
       $url_app = _RUTA_NUCLEO."".$row["app_url"];
       $url_a = $row["app_ruta_amigable"];
       if (file_exists($url_app)) {
         $id_app = $row["app_id"];
+        $fmt->header->title_page($row["app_nombre"]);
         require_once($url_app);
       }else{
         $fmt->errores->error_pag_no_encontrada();
