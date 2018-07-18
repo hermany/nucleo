@@ -82,7 +82,8 @@ class DOCUMENTOS{
 
 		$this->fmt->form->categoria_form('Categoria','inputCat',"0","","",""); //$label,$id,$cat_raiz,$cat_valor,$class,$class_div
 		$fecha=$this->fmt->class_modulo->fecha_hoy('America/La_Paz');
-		$this->fmt->form->input_form_sololectura('Fecha:','inputFecha','',$fecha,'','','');//$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
+		//$this->fmt->form->input_form_sololectura('Fecha:','inputFecha','',$fecha,'','','');//$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
+
 		$usuario = $this->fmt->sesion->get_variable('usu_id');
 		$usuario_n = $this->fmt->sesion->get_variable('usu_nombre');
 		$this->fmt->form->input_form_sololectura('Usuario:','','',$usuario_n,'','','');//$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
@@ -135,7 +136,15 @@ class DOCUMENTOS{
 		$cats_id = $this->fmt->categoria->traer_rel_cat_id($id,'documento_categorias','doc_cat_cat_id','doc_cat_doc_id'); //$fila_id,$from,$prefijo_cat,$prefijo_rel
 		$this->fmt->form->categoria_form('Categoria','inputCat',"0",$cats_id,"","");
 
-		$this->fmt->form->input_form_sololectura('Fecha:','inputFecha','',$fila['doc_fecha'],'','','');//$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
+		//$this->fmt->form->input_form_sololectura('Fecha:','inputFecha','',$fila['doc_fecha'],'','','');//$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
+
+		$this->fmt->form->input_form_date('{
+				"label":"Fecha Inicio:",
+				"id":"inputFecha",
+				"format":"dd-mm-yyyy",
+				"fecha":"'.$fila['doc_fecha'].'"
+		}');
+
 		$usuario_n = $this->fmt->usuario->nombre_usuario($fila['doc_usuario']);
 
 		$this->fmt->form->input_form_sololectura('Usuario:','inputNombreusuario','',$usuario_n,'','','');//$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
@@ -208,7 +217,7 @@ class DOCUMENTOS{
 						doc_ruta_amigable='".$_POST['inputRutaAmigableDoc']."',
 						doc_descripcion='".$_POST['inputDescripcionDoc']."',
 						doc_tamano='".$_POST['inputTamanoDoc']."',
-						doc_fecha='".$_POST['inputFecha']."',
+						doc_fecha='".$this->fmt->class_modulo->desestructurar_fecha_hora($_POST['inputFecha'])."',
 						doc_usuario='".$_POST['inputUsuario']."',
 						doc_orden='".$_POST['inputOrden']."',
 						doc_activar='".$_POST['inputActivar']."'

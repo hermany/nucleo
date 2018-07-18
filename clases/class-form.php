@@ -1200,6 +1200,35 @@ class FORM{
     <?php
   }
 
+  public function input_precio($vars){
+  	$id_precio = $vars["id_precio"];
+  	$valor_precio = $vars["valor_precio"];
+  	$label = $vars["label"];
+  	$id_tipo = $vars["id_tipo"];
+  	$valor_tipo = $vars["valor_tipo"];
+  	$placeholder= $vars["placeholder"];
+  	$mensaje= $vars["mensaje"];
+
+  	$aux ="";
+  	$aux .='<div class="form-group form-group-precio" id="input-'.$id_precio.'" ><label>'.$label.'</label>
+      <input type="text" class="form-control form-control-precio" id="'.$id_precio.'" name="'.$id_precio.'" validar="" data-validar="" placeholder="'.$placeholder.'" value="'.$valor_precio.'"/>';
+
+    if ($valor_tipo==1){ $sl1='selected'; }else{ $sl1='';}  
+    if ($valor_tipo==2){ $sl2='selected'; }else{ $sl2='';}  
+
+    $aux .= '<select  class="form-control" name="'.$id_tipo.'" id="'.$id_tipo.'">
+							<option value="1" '.$sl1.'>$us.</option>
+							<option value="2" '.$sl2.'>Bs.</option>
+						</select>';
+
+		if (!empty($mensaje)){  
+			$aux .='<p class="help-block">'.$mensaje.'</p>';
+		}  
+		$aux .='<div class="mensajes-aux mensajes-aux-$id" ></div></div>';
+
+  	return $aux;
+  }
+
   public function input_form_date($vars){
   // 	$this->fmt->form->input_form_date('{
 		// 		"label":"Fecha:",
@@ -1340,12 +1369,16 @@ class FORM{
  					      text = text.replace(/[ñ]/, 'n');
  					      text = text.replace(/[ç]/, 'c');
  					      text = text.replace(/[&]/, 'y');
- 					      text = text.replace(/['"`,]/, '-');
+ 					      text = text.replace(/[,]/, '-');
+ 					      text = text.replace(/['"`''""]/, '');
  					      text = text.replace(/[^a-zA-Z0-9-]/, '');
  					      // text = text.replace(/(')s+/, 's');
  					      text = text.replace(/(_)$/, '-');
  					      text = text.replace(/[?¡¿!()]/, '');
- 					      text = text.replace(/(')$/, '+');
+ 					      text = text.replace(/(')$/, '');
+ 					      text = text.replace(/(')$/, '');
+ 					      text = text.replace(/(")$/, '');
+ 					      text = text.replace(/(")$/, '');
  					      text = text.replace(/(,)$/, '-');
  					      text = text.replace(/^(_)/, '');
  					      text = text.replace(/^(:)/, '-');

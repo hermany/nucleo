@@ -29,4 +29,12 @@ class CLASSDOCUMENTO{
 		$this->fmt->query->liberar_consulta();
 		return $aux;
   }
+
+  public function doc_link_cat_mes($id_cat,$mes,$ano){
+    $sql = "SELECT  doc_url  FROM documento,documento_categorias WHERE doc_cat_cat_id='$id_cat' and doc_activar=1 and doc_cat_doc_id=doc_id and  MONTH(doc_fecha) = '$mes' AND YEAR(doc_fecha) = '$ano' ORDER BY doc_cat_orden desc";
+    $rss=$this->fmt->query->consulta($sql);
+    $row= $this->fmt->query->obt_fila($rss);    
+    $this->fmt->query->liberar_consulta();
+    return $row["doc_url"];
+  }
 }

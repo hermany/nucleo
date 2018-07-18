@@ -129,8 +129,19 @@ class CURSO{
 		// $this->fmt->form->textarea_form('Objetivo:','inputObjetivo','','','editor-texto','textarea-cuerpo','','');
 		$this->fmt->form->textarea_form('Contenido','inputContenido','','','editor-texto','textarea-cuerpo','','');
 
-		$this->fmt->form->input_form("Precio Publico General:","inputPrecio1","","");
-		$this->fmt->form->input_form("Precio Comunidad Upsa:","inputPrecio2","","");
+		echo $this->fmt->form->input_precio( array('id_precio' => 'inputPrecio1',
+																							 'valor_precio' => '',
+																							 'id_tipo' => 'inputTipoPrecio1',
+																							 'valor_tipo' => '',
+																							 'label' => 'Precio Público General:',
+																				));
+
+		echo $this->fmt->form->input_precio( array('id_precio' => 'inputPrecio2',
+																					 'valor_precio' => '',
+																					 'id_tipo' => 'inputTipoPrecio2',
+																					 'valor_tipo' => '',
+																					 'label' => 'Precio Comunidad Upsa:',
+																		));
 		
 		// $this->fmt->form->input_form("A quién está dirigido:","inputDirigido","","");
 		$this->fmt->form->textarea_form('Certificación:','inputCertificacion','','','editor-texto','textarea-cuerpo','','');
@@ -227,7 +238,7 @@ class CURSO{
 	} // fin ingresar
 
 	function form_editar(){
-		$this->fmt->class_pagina->crear_head_form("Editar Lugar","","");
+		$this->fmt->class_pagina->crear_head_form("Editar Curso","","");
 		$id_form="form-editar";
 
 
@@ -243,7 +254,9 @@ class CURSO{
 		$this->fmt->form->input_form("* Nombre:","inputNombre","",$row["cur_nombre"],"","","");
 		$this->fmt->form->input_hidden_form("inputId",$id);
 
-		$this->fmt->form->ruta_amigable_form("inputNombre","",$row["cur_ruta_amigable"],"inputRutaamigable","","","1");
+		//$this->fmt->form->ruta_amigable_form("inputNombre","Ruta amigable:",$row["cur_ruta_amigable"],"inputRutaamigable",$id_form,"","","0"); //$id,$ruta="Ruta Amigable:",$valor,$id_form,$ext="",$div_class,$modo="0",$placeholder,$mensaje
+
+		$this->fmt->form->ruta_amigable_form("inputNombre","",$row['cur_ruta_amigable'],"inputRutaamigable","","","1"); 
 		$this->fmt->form->input_form("Leyenda:","inputLeyenda","",$row["cur_leyenda"]);
 		$this->fmt->form->input_form("Resumen:","inputResumen","",$row["cur_resumen"]);
 		$this->fmt->form->input_form("tags:","inputTags","",$row["cur_tags"]);
@@ -267,8 +280,23 @@ class CURSO{
 		// $this->fmt->form->textarea_form('Información Importante:','inputImportante','',$row["cur_importante"],'','editor-texto','textarea-cuerpo','','');
 		// $this->fmt->form->textarea_form('Objetivo:','inputObjetivo','',$row["cur_objetivo"],'editor-texto','textarea-cuerpo','','');
 
-		$this->fmt->form->input_form("Precio Publico General:","inputPrecio1","",$row["cur_precio_1"]);
-		$this->fmt->form->input_form("Precio Comunidad Upsa:","inputPrecio2","",$row["cur_precio_2"]);
+		//$this->fmt->form->input_form("Precio Publico General:","inputPrecio1","",$row["cur_precio_1"]);
+
+		echo $this->fmt->form->input_precio( array('id_precio' => 'inputPrecio1',
+																							 'valor_precio' => $row["cur_precio_1"],
+																							 'id_tipo' => 'inputTipoPrecio1',
+																							 'valor_tipo' => $row["cur_tipo_precio_1"],
+																							 'label' => 'Precio Público General:',
+																				));
+
+		echo $this->fmt->form->input_precio( array('id_precio' => 'inputPrecio2',
+																					 'valor_precio' => $row["cur_precio_2"],
+																					 'id_tipo' => 'inputTipoPrecio2',
+																					 'valor_tipo' => $row["cur_tipo_precio_2"],
+																					 'label' => 'Precio Comunidad Upsa:',
+																		));
+
+		// $this->fmt->form->input_form("Precio Comunidad Upsa:","inputPrecio2","",$row["cur_precio_2"]);
 		
 		// $this->fmt->form->input_form("A quién está dirigido:","inputDirigido","",$row["cur_dirigido"]);
 		$this->fmt->form->textarea_form('Certificación:','inputCertificacion','',$row["cur_certificacion"],'editor-texto','textarea-cuerpo','','');
@@ -321,7 +349,9 @@ class CURSO{
 						cur_imagen='".$_POST['inputImagen']."',
 						cur_banner='".$_POST['inputBanner']."',
 						cur_precio_1='".$_POST['inputPrecio1']."',
+						cur_tipo_precio_1='".$_POST['inputTipoPrecio1']."',
 						cur_precio_2='".$_POST['inputPrecio2']."',
+						cur_tipo_precio_2='".$_POST['inputTipoPrecio2']."',
 						cur_fecha_inicio='".$this->fmt->class_modulo->desestructurar_fecha_hora($_POST['inputInicio'])."',
 						cur_fecha_fin='".$this->fmt->class_modulo->desestructurar_fecha_hora($_POST['inputFin'])."',
 						cur_usu_id='".$id_usu."',
