@@ -2711,7 +2711,7 @@ class FORM{
 	        if ($fila_id==$id_padre){ $aux1="selected"; }else{ $aux1=""; }
 	        if ($fila_id==$item){ $aux2="disabled"; }else{ $aux2=""; }
 
-	        echo "<option class='' value='$fila_id' $aux1 $aux2 > ".$fila_id.":".$fila_nombre;
+	        echo "<option class='' value='$fila_id' $aux1 $aux2 > ".$fila_id.": ".$fila_nombre;
 	        echo "</option>";
 	        if ($this->tiene_hijos_nodo($fila_id,$from,$prefijo)){
 	        	//echo "<option>si tiene</option>";
@@ -2866,22 +2866,24 @@ class FORM{
 		<?php
 	}
 
-	function check_form($label,$id,$valor,$campo,$check=""){
+	function check_form($label,$id,$valor,$campo,$check){
 		?>
 		<div class="form-group form-<?php echo $id; ?>">
 			<label><?php echo $label; ?></label>
 			<div class="group">
 			<?php
 			$num = count($valor);
+			$num_check = count($check);
+
 			for($i=0;$i<$num;$i++){
-				$ck="";
-				if (!empty($check)){
-					if($valor[$i] == $check[$i]){ $ck="checked"; }
-				}
+				  $ck[$i]="";
+					for ($j=0; $j < $num_check; $j++) { 
+						if($valor[$i] == $check[$j]){ $ck[$i]="checked"; }
+					}
 				?>
 				<div class="checkbox">
 					 <span>
-						 <input type="checkbox" name="<?php echo $id; ?>[]" id="<?php echo $id; ?>[]" value="<?php echo $valor[$i]; ?>" <?php echo $ck; ?> > <?php echo $campo[$i]; ?>
+						 <input type="checkbox" name="<?php echo $id; ?>[]" id="<?php echo $id; ?>[]" value="<?php echo $valor[$i]; ?>" <?php echo $ck[$i]; ?> > <?php echo $campo[$i]; ?>
 					 </span>
 				</div>
 				<?php

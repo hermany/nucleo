@@ -30,6 +30,7 @@ class CONSTRUCTOR{
   var $finder;
   var $valores;
   var $cookies;
+  var $empresa;
 
 
   function __construct() {
@@ -95,6 +96,7 @@ class CONSTRUCTOR{
     require_once(_RUTA_NUCLEO."clases/class-finder.php");
     require_once(_RUTA_NUCLEO."clases/class-valores.php");
     require_once(_RUTA_NUCLEO."clases/class-cookies.php");
+    require_once(_RUTA_NUCLEO."modulos/adm/empresas.class.php");
 
 
 
@@ -125,6 +127,7 @@ class CONSTRUCTOR{
     $this->finder = new FINDER($this);
     $this->valores = new VALORES($this);
     $this->cookies = new COOKIES($this);
+    $this->empresa = new EMPRESAS($this);
 
   }
 

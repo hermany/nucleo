@@ -239,7 +239,7 @@ class CLASSSISTEMAS{
 
                  fwrite($archivo, '<rule name="Rewrite to '.$ruta1.'p=([0-9]+)([^/]*)" stopProcessing="true">'.PHP_EOL);
                  fwrite($archivo, '        <match url="'.$ruta1.'/p=([0-9]+)([^/]*)$" />'.PHP_EOL);
-                 fwrite($archivo, '        <action type="Rewrite" url="/index.php?cat='.$id_cat.'&amp;pla='.$pla.'{R:1}{R:2}" appendQueryString="false"/>'.PHP_EOL);
+                 fwrite($archivo, '        <action type="Rewrite" url="/index.php?cat='.$id_cat.'&amp;pla={R:1}{R:2}" appendQueryString="false"/>'.PHP_EOL);
                  fwrite($archivo, '</rule>'.PHP_EOL);
 
                  // sitios con paginación

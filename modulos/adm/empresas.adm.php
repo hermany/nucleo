@@ -14,24 +14,26 @@ switch( $tarea ){
   case 'form_nuevo': $form->form_nuevo();break;
   //case 'form_nuevo_empresa': $form->form_nuevo_empresa();break;
 
-
   case 'form_editar': $form->form_editar();break;
  //case 'form_editar_empresa': $form->form_editar_empresa();break;
-
 
   case 'ingresar': $form->ingresar();break;
   //case 'ingresar_empresa': $form->ingresar_empresa();break;
 
-
   case 'modificar': $form->modificar();break;
   //case 'modificar_empresa': $form->modificar_empresa();break;
-
 
   case 'activar': $form->activar();break;
   //case 'activar_empresa': $form->activar_empresa();break;
 
-
   case 'eliminar': $form->eliminar();break;
+  
+  case 'ordenar': $form->ordenar();break;
+  case 'ordenar_update': $form->ordenar_update();break;
+
+  case 'ordenar_tipo': $form->ordenar_tipo();break;
+  case 'ordenar_update_tipo': $form->ordenar_update_tipo();break;
+
   //case 'eliminar_empresa': $form->eliminar_empresa();break;
 
   default: $form->busqueda();break;

@@ -76,6 +76,7 @@ class CURSO{
 		$ff = explode("-",$f2[0]);
 		$mesi= $this->fmt->class_modulo->num_mes($fi[1],$modo);
 		$mesf= $this->fmt->class_modulo->num_mes($ff[1],$modo);
+		$ndias = $this->fmt->class_modulo->contador_dias($fecha_inicio,$fecha_fin);
 
 		if ($fecha_inicio!=$fecha_fin){
 			
@@ -89,7 +90,11 @@ class CURSO{
 				}
 			}
 			$ffx = $ff[2]." de ".$mesf." de ".$ff[0];
-			$fecha = "Del ".$fix." al ".$ffx;
+			if ($ndias > 2){
+				$fecha = "Del ".$fix." al ".$ffx;
+			}else{
+				$fecha = $fix." y ".$ffx;
+			}
 		}else{
 			$fecha = $fi[2]." de ".$mesi." de ".$fi[0];;
 		}

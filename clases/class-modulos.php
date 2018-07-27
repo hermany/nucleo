@@ -1068,6 +1068,13 @@ class CLASSMODULOS{
     <?php
   }
 
+  public function contador_dias($fecha_ini,$fecha_fin){
+    $dias = (strtotime($fecha_ini)-strtotime($fecha_fin))/86400;
+    $dias = abs($dias); 
+    $dias = floor($dias);
+    return $dias+1;
+  }
+
   function fecha_zona($zona){
     date_default_timezone_set($zona);
     setlocale(LC_TIME, "es_ES");

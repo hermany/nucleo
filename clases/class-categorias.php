@@ -971,7 +971,24 @@ class CATEGORIA{
     }else{
       return 0;
     }
+  }
 
+  public function hijos_array($array){
+    $from = $array["from"];
+    $prefijo = $array["prefijo"];
+    $item = $array["item"];
+
+    $consulta = "SELECT ".$prefijo."id  FROM ".$from." WHERE ".$prefijo."id_padre='$item' ORDER BY ".$prefijo."orden";
+    $rs = $this->fmt->query->consulta($consulta,__METHOD__);
+    $num=$this->fmt->query->num_registros($rs);
+    if ($num>0){
+      for($i=0;$i<$num;$i++){
+        $row=$this->fmt->query->obt_fila($rs);
+        $id[$i] = $row[$prefijo."id"];
+      }
+    }
+
+    return $id;
   }
 
 }
