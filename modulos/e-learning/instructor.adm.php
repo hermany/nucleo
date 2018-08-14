@@ -1,7 +1,8 @@
 <?php
-require_once('cursos.class.php');
 
-$form =new CURSO($fmt,$id_mod,$id_item,$id_estado);
+require_once('instructor.class.php');
+
+$form = new INSTRUCTOR($fmt,$id_mod,$id_item,$id_estado);
 
 echo $fmt->header->header_modulo();
 
@@ -11,7 +12,7 @@ switch( $tarea ){
   case 'form_editar': $form->form_editar();break;
   case 'ingresar': $form->ingresar();break;
   case 'modificar': $form->modificar();break;
-  default: $form->busqueda();break;
+  default: $form->busqueda(); break;
 }
 
 echo $fmt->footer->footer_modulo();

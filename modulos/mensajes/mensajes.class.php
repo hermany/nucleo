@@ -45,6 +45,8 @@ class MENSAJES{
 	}
 
 	function chat(){
+		$nom = $this->fmt->usuario->nombre_apellidos(_USU_ID);
+		$siglas_receptor = $this->fmt->usuario->siglas_nombre($nom);  
 		?>
 		<div class="block-chat container-fluid">
 			<div class="tablero">
@@ -65,7 +67,7 @@ class MENSAJES{
 			</div>
 			<div class="box-chat">
 				<div class="charla"></div>
-				<div class='bloque-enviar-mensajes'><input class='' id='inputMensajeReceptor' receptor='' tipe='text' placeholder='Escribe un mensaje...' ></div>
+				<div class='bloque-enviar-mensajes'><input class='' id='inputMensajeReceptor' receptor='' tipe='text' mensaje='1' placeholder='Escribe un mensaje...' ></div>
 			</div>
 		</div>
 		<script type="text/javascript">
@@ -110,8 +112,6 @@ class MENSAJES{
 		 			 			}	
 		 			 		}
 
-
-
 		 				}
 		 			});
 				}); // click .btn-activar-chat;
@@ -119,14 +119,15 @@ class MENSAJES{
 				$("#inputMensajeReceptor").on('keydown', function(ev) {
 				    if(ev.which === 13) {
 				    	 var mensaje = $(this).val();
+				    	 var num_mensaje = $(this).attr('mensaje');
 				    	 var emisor = <?php echo _USU_ID; ?>;
 				    	 var receptor = $(this).attr("receptor");
-				    	 enviar_mensaje(receptor,emisor,mensaje);
+				    	 enviar_mensaje(receptor,emisor,mensaje,num_mensaje);
 				    }
 				});
 
 
-				function enviar_mensaje(usu,id_emisor,valor){
+				function enviar_mensaje(usu,id_emisor,valor,num_mensaje){
 		    	console.log(usu+":"+id_emisor+":"+valor);
 		    	var ruta_ajax="ajax-enviar-mensaje";
           var variables = usu+","+id_emisor+","+valor;
@@ -137,8 +138,19 @@ class MENSAJES{
             type:"post",  
             async: true,   
             data:datos,       
-            success:function(msg){ 
-            	console.log(msg);
+            success:function(msgx){ 
+            	console.log(msgx);
+            	if (msgx=='send'){
+					    	 if(num_mensaje==1){
+					    	 	$(".box-conversacion").append("<div class='bloque-mensaje bloque-mensaje-receptor' id='mensaje-1'><div class='info info-receptor'><div class='siglas siglas-receptor'><?php $siglas_receptor; ?></div></div><div class='mensaje mensaje-receptor' id='mensaje-1' tipo='emisor'>"+valor+"</div></div>");
+					    	 	$('#inputMensajeReceptor').val("");
+					    	 	num_mensaje = num_mensaje + 1;
+					    	 	$('#inputMensajeReceptor').attr('mensaje', num_mensaje ); 
+					    	 }else{
+					    	 	$("#mensaje-"+num_mensaje).append("</br>"+mensaje);
+			    				$("#inputMensajeEmisor").val("");
+					    	 }
+					    }
             }
           });
 		    }
@@ -240,12 +252,13 @@ class MENSAJES{
 	}
 
 	public function datos_cliente_atencion($id){
-			$consulta = "SELECT mod_cli_ate_usu_id,mod_cli_ate_canal,mod_cli_ate_nombre,mod_cli_ate_ci,mod_cli_ate_fecha_registro,mod_cli_ate_estado	FROM mod_cliente_atencion WHERE mod_cli_ate_id='$id'";
+			$consulta = "SELECT mod_cli_ate_usu_id,mod_cli_ate_canal,mod_cli_ate_nombre,mod_cli_ate_ci,mod_cli_ate_topico,mod_cli_ate_fecha_registro,mod_cli_ate_estado	FROM mod_cliente_atencion WHERE mod_cli_ate_id='$id'";
 			$rs =$this->fmt->query->consulta($consulta);
 			$row=$this->fmt->query->obt_fila($rs);
 			$cadena[0]= $row["mod_cli_ate_nombre"];
 			$cadena[1]= $row["mod_cli_ate_ci"];
 			$cadena[2]= $row["mod_cli_ate_estado"];
+			$cadena[3]= $row["mod_cli_ate_topico"];
 
 			return $cadena;
 

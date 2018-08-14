@@ -2,7 +2,9 @@
 $vars = explode(",",$_POST["inputVars"]);
 
 require_once(_RUTA_NUCLEO.'modulos/mensajes/mensajes.class.php');
+require_once(_RUTA_NUCLEO.'modulos/crm/topicos-asistencia.class.php');
 $mensajes = new MENSAJES($fmt);
+$topicos = new TOPICOS_ASISTENCIA($fmt);
 
 $id_emisor= $vars[0];
 $id_receptor= $vars[1];
@@ -12,6 +14,8 @@ $rol= $vars[3];
 $datos_emisor = $mensajes->datos_cliente_atencion($id_emisor);
 
 $nombre_emisor = $datos_emisor[0];
+$datos_topico=$topicos->datos_topico_asistencia($datos_emisor[3]);
+$topico_emisor = $datos_topico[1];
 $siglas_emisor = $fmt->usuario->siglas_nombre($nombre_emisor);
 
 $consulta = "SELECT * FROM mensaje WHERE men_emisor_usu_id='$id_emisor' and men_receptor_usu_id='$id_receptor' and men_canal='$canal' and men_estado='1' ORDER BY men_fecha ASC";
@@ -20,7 +24,7 @@ $num=$fmt->query->num_registros($rs);
 $envio="";
 
 $envio .='<div class="header">';
-$envio .='<div class="info">Conversación con: '.$nombre_emisor;
+$envio .='<div class="info">Conversación con: '.$nombre_emisor." Tópico: ".$topico_emisor."</br>";
 $envio .='</div>';
 $envio .='<a class="btn-cerrar-atencion btn-small btn-full"> Cerrar Atención</a>';
 $envio .='</div>';

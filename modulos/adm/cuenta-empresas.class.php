@@ -64,5 +64,15 @@ class CUENTA_EMPRESA{
     $this->fmt->class_modulo->script_table("table_id",$this->id_mod,"desc","0","20",true);
 		$this->fmt->class_modulo->script_accion_modulo();
 	} // fin busqueda
+
+	public function id_cuenta_usuario($usu){
+		$consulta = "SELECT mod_cnt_id FROM mod_cuenta_empresa WHERE mod_cnt_usu_id='$usu'";
+		$rs =$this->fmt->query->consulta($consulta);
+  	$num=$this->fmt->query->num_registros($rs);
+  	$row=$this->fmt->query->obt_fila($rs);
+
+  	return $row['mod_cnt_id'];
+	}
+
 } // fin class
 ?>

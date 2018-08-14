@@ -1217,8 +1217,8 @@ class FORM{
     if ($valor_tipo==2){ $sl2='selected'; }else{ $sl2='';}  
 
     $aux .= '<select  class="form-control" name="'.$id_tipo.'" id="'.$id_tipo.'">
-							<option value="1" '.$sl1.'>$us.</option>
 							<option value="2" '.$sl2.'>Bs.</option>
+							<option value="1" '.$sl1.'>$us.</option>
 						</select>';
 
 		if (!empty($mensaje)){  
@@ -1290,7 +1290,7 @@ class FORM{
 			<?php } ?>
 			<div class="group">
 				<i class="icn icn-calendar-clock"></i>
-				<input  data-date-format="<?php echo $format; ?>" class="form-control form-control-date  date form-datetime <?php echo $class; ?>" id="<?php echo $id; ?>" name="<?php echo $id; ?>" validar="<?php echo $validar; ?>" placeholder="" value="<?php echo $fecha; ?>" <?php echo $disabled; echo $otros; ?> />
+				<input  autocomplete="off" data-date-format="<?php echo $format; ?>" class="form-control form-control-date  date form-datetime <?php echo $class; ?>" id="<?php echo $id; ?>" name="<?php echo $id; ?>" validar="<?php echo $validar; ?>" placeholder="" value="<?php echo $fecha; ?>" <?php echo $disabled; echo $otros; ?> />
 				<?php if (!empty($mensaje)){ ?>
 				<p class="help-block"><?php echo $mensaje; ?></p>
 				<?php } ?>
@@ -1747,6 +1747,99 @@ class FORM{
     <?php
   }
 
+  public function checkbox_form($vars){
+
+  	//variables
+  	$label= $vars['label'];
+  	$id= $vars['id'];
+  	$from= $vars['from'];
+  	$prefijo= $vars['prefijo'];
+  	$id_inicio= $this->var_empty($vars['id_inicio'],'0');
+  	$class_div= $vars['class_div'];
+  	$ids_checked= $vars['ids_checked'];
+
+  	?>
+    <div class="form-group <?php echo $class_div; ?>">
+      <label><?php echo $label; //var_dump($campos); ?></label>
+			<div class="group arbol-cat">
+				<?php 
+					$consulta = "SELECT ".$prefijo."id,".$prefijo."nombre FROM $from WHERE ".$prefijo."id_padre='$id_inicio' ";
+					$rs =$this->fmt->query->consulta($consulta);
+					$num=$this->fmt->query->num_registros($rs);
+					if($num>0){
+						for($i=0;$i<$num;$i++){
+							$row=$this->fmt->query->obt_fila($rs);
+							$fila_id = $row[$prefijo."id"];
+							$fila_nombre = $row[$prefijo."nombre"];
+							$ck="";
+							if (!empty($ids_checked)){
+								$c = count($ids_checked);
+								for ($j=0; $j < $c ; $j++) { 
+									if($fila_id == $ids_checked[$j]){ $ck="checked"; }
+								}
+							}
+							?>
+							<div class="checkbox">
+									 <span>
+										 <input type="checkbox" name="<?php echo $id; ?>[]" id="<?php echo $id; ?>[]" value="<?php echo $fila_id; ?>" nombre="<?php echo $fila_nombre; ?>" <?php echo $ck; ?> > <?php echo $fila_nombre; ?>
+									 </span>
+							</div>
+							<?php
+						}
+					}
+					$this->fmt->query->liberar_consulta();
+				?>
+			</div>
+    </div>
+    <?php
+  }
+
+    
+    public function input_radio_form($vars){
+
+  	//variables
+  	$label= $vars['label'];
+  	$id= $vars['id'];
+  	$from= $vars['from'];
+  	$prefijo= $vars['prefijo'];
+  	$id_inicio= $this->var_empty($vars['id_inicio'],'0');
+  	$class_div= $vars['class_div'];
+  	$id_checked= $vars['id_checked'];
+
+  	?>
+    <div class="form-group <?php echo $class_div; ?>">
+      <label><?php echo $label; //var_dump($campos); ?></label>
+			<div class="group arbol-cat">
+				<?php 
+					$consulta = "SELECT ".$prefijo."id,".$prefijo."nombre FROM $from WHERE ".$prefijo."id_padre='$id_inicio' ";
+					$rs =$this->fmt->query->consulta($consulta);
+					$num=$this->fmt->query->num_registros($rs);
+					if($num>0){
+						for($i=0;$i<$num;$i++){
+							$row=$this->fmt->query->obt_fila($rs);
+							$fila_id = $row[$prefijo."id"];
+							$fila_nombre = $row[$prefijo."nombre"];
+							$ck="";
+							if (!empty($ids_checked)){
+								$c = count($ids_checked);
+								for ($j=0; $j < $c ; $j++) { 
+									if($fila_id == $id_checked){ $ck="checked"; }
+								}
+							}
+							?>
+							<div class="radio-box">
+								<input type="radio" name="<?php echo $id; ?>" id="<?php echo $id; ?>" nombre='<?php echo $fila_nombre; ?>' value="<?php echo $fila_id; ?>" <?php echo $ck; ?> > <span><?php echo $fila_nombre; ?></span>
+							</div>
+							<?php
+						}
+					}
+					$this->fmt->query->liberar_consulta();
+				?>
+			</div>
+    </div>
+    <?php
+  }
+
   function textarea_form($label,$id,$placeholder,$valor,$class,$class_div,$rows,$mensaje){
     ?>
     <div class="form-group <?php echo $class_div; ?>">
@@ -1780,6 +1873,36 @@ class FORM{
       </select>
     </div>
     <?php
+  }
+
+  public function select_num($vars){
+  	$label = $vars['label'];
+  	$id = $vars['id']; 
+  	$valores = $vars['valores'];
+  	$select = $vars['select_id'];
+  	$class_div = $vars['class_div'];
+  	$class_select = $vars['class_select'];
+
+  	$cadena ='';
+  	$cadena .='<div class="form-group '.$class_div.'">
+      <label>'.$label.'</label>
+      <select class="form-control box-md-4 '.$class_select.'" id="'.$id.'" name="'.$id.'">';
+      	
+  	  $val = explode(",",$valores);
+  	  $nv = count($val);
+  		for ($i=0; $i < $nv ; $i++) { 
+  			 if ($select== $i){
+  			 	$ext="selected";
+  			 }else{
+  			 	$ext="";
+  			 }
+  			$cadena .="<option class='' value='$i' $ext>".$val[$i]."</option>";
+  			# code...
+  		}
+      $cadena .='</select>';
+    $cadena .='</div>';
+
+  	return $cadena;
   }
 
   public function select_form($label,$id,$prefijo,$from,$id_select,$id_disabled,$class_div,$class_select,$aux,$option_inicial="Sin selección (0)"){
@@ -2725,15 +2848,167 @@ class FORM{
     <?php
   }
 
-  function hijos_opciones_nodo($id_item,$item,$id_padre,$from,$prefijo,$nivel){
+  public function select_list($vars){
+  	$label = $vars['label'];
+    $id = $vars['id'];
+    $from = $vars['from'];
+    $prefijo = $vars['prefijo'];
+    $icono_btn = $vars['icono_btn'];
+    $item = $this->var_empty($vars['item'],'');
+
+		$cadena ='';
+    // echo $consulta;
+    $cadena .='<div class="form-group form-list '.$div_class.'">';
+   	
+   	if (!empty($label)){ 
+    	$cadena .='<label>'.$label.'</label>';
+    }
+    // $cadena .='	<div class="group">';
+    if (!empty($item)){ 
+	    $consulta = "SELECT ".$prefijo."id, ".$prefijo."nombre FROM ".$from." WHERE ".$prefijo."id='".$item."'";
+			$rs = $this->fmt->query->consulta($consulta,__METHOD__);
+		  $num=$this->fmt->query->num_registros($rs);
+		  $row=$this->fmt->query->obt_fila($rs);
+		  $item_id= $row[$prefijo."id"];
+	    $item_nombre= $row[$prefijo."nombre"];
+	  }else{
+	  	$item_id='';
+	  	$item_nombre='';
+	  }
+
+    $cadena .=' <input type="text" class="form-control disabled" id="input-'.$id.'" value="'.$item_nombre.'" />';
+    $cadena .=' <input type="hidden"  id="'.$id.'" name="'.$id.'" value="'.$item_id.'" />';
+    $cadena .='	<a class="btn btn-full btn-'.$id.'"><i class="'.$icono_btn.'"></i></a>';
+    $cadena .='	<div class="box-seleccionar box-seleccionar-'.$id.'">';
+    $cadena .='		<div class="buscador">';
+		$cadena .='			<i class="icn icn-search"></i>';
+		$cadena .='			<input type="text" id="inputBuscar-'.$id.'" placeholder="Buscar">';
+		$cadena .='		</div>';
+		$cadena .='		<div class="resultados resultados-'.$id.'">';
+
+		$consulta = "SELECT ".$prefijo."id, ".$prefijo."nombre FROM ".$from." WHERE ".$prefijo."activar='1'  ORDER BY ".$prefijo."id DESC";
+		$rs = $this->fmt->query->consulta($consulta,__METHOD__);
+	  $num=$this->fmt->query->num_registros($rs);
+	  if($num>0){
+      for($i=0;$i<$num;$i++){
+        $row=$this->fmt->query->obt_fila($rs);
+        $fila_id= $row[$prefijo."id"];
+        $fila_nombre= $row[$prefijo."nombre"];
+        $cadena .='<div class="item" item="'.$fila_id.'" nom="'.$fila_nombre.'">';
+        $cadena .='	<span>'.$fila_id.' - '.$fila_nombre.'</span>';
+        $cadena .='</div>';
+      }
+	  }
+	  $this->fmt->query->liberar_consulta();
+
+		$cadena .='		</div>';
+    $cadena .='	</div>';
+    $cadena .='</div>';
+    $cadena .='<script type="text/javascript">';
+		$cadena .='	$(document).ready(function() {';
+		$cadena .='		$(".btn-'.$id.'").click( function(){';
+		$cadena .='			$(".box-seleccionar-'.$id.'").addClass("on")';
+		$cadena .='		});';
+
+		$cadena .='		$(".item").click( function(){ 
+										var item = $(this).attr("item");
+										var nom = $(this).attr("nom");
+										$("#'.$id.'").val(item);
+										$("#input-'.$id.'").val(nom);
+									});';
+		
+		$cadena .='  $("#inputBuscar-'.$id.'").keyup(function () {
+							    var rex = new RegExp($(this).val(), "i");
+							    $(".resultados-'.$id.' .item").hide();
+							    $(".resultados-'.$id.' .item").filter(function () {
+							        return rex.test($(this).text());
+							    }).show();
+							  });';
+		$cadena .='	});';
+		$cadena .='</script>';
+
+    return $cadena;
+  }
+
+  public function select_nodo($vars){
+    $label = $vars['label'];
+    $id = $vars['id'];
+    $item =  $this->var_empty($vars['item_seleccionado'],"");
+    $item_disabled =  $this->var_empty($vars['item_disabled'],"");
+    $label_item_0 =  $this->var_empty($vars['label_item_inicial'],"");
+    $from = $vars['from'];
+    $nivel_hijos = $vars['nivel_hijos'];
+    $prefijo = $vars['prefijo'];
+    $id_inicio= $vars['id_inicio'];
+    $div_class = $vars['div_class'];
+
+    if ( $nivel_hijos > 0){
+	    if($id_inicio=="" || $id_inicio=="0"){
+	      $id_padrex="";
+	      $consulta = "SELECT ".$prefijo."id, ".$prefijo."nombre FROM ".$from." WHERE ".$prefijo."id_padre='0' and ".$prefijo."activar='1'  ORDER BY ".$prefijo."orden";
+	    }else{
+
+	      $consulta = "SELECT ".$prefijo."id, ".$prefijo."nombre FROM ".$from." WHERE ".$prefijo."id_padre='$id_inicio' and ".$prefijo."activar='1' ORDER BY ".$prefijo."orden";
+	    }
+	  }else{
+	  		$consulta = "SELECT ".$prefijo."id, ".$prefijo."nombre FROM ".$from." WHERE  ".$prefijo."activar='1'  ORDER BY ".$prefijo."nombre ASC";
+	  }
+
+	  //echo $consulta."</br>";
+
+    $cadena ='';
+    // echo $consulta;
+    $cadena .='<div class="form-group '.$div_class.'">';
+   	
+   	if (!empty($label)){ 
+    	$cadena .='<label>'.$label.'</label>';
+    }
+    $cadena .='<select class="form-control '.$id.' form-select" id="'.$id.'" name="'.$id.'">';
+	    
+	  $rs = $this->fmt->query->consulta($consulta,__METHOD__);
+	  $num= $this->fmt->query->num_registros($rs);
+
+	  $cadena .='<option class="raiz" value="0">'.$label_item_0.'</option>';
+	    if($num>0){
+	      for($i=0;$i<$num;$i++){
+	        $row=$this->fmt->query->obt_fila($rs);
+	        $fila_id= $row[$prefijo."id"];
+	        $fila_nombre= $row[$prefijo."nombre"];
+
+	        if ($fila_id==$item){ $aux1="selected"; }else{ $aux1=""; }
+	        if ($fila_id==$item_disabled){ $aux2="disabled"; }else{ $aux2=""; }
+
+	        $cadena .= '<option class="" value="'.$fila_id.'" '.$aux1.' '.$aux2.' >'.$fila_nombre;
+	        $cadena .= '</option>';
+
+	        if ( $nivel_hijos > 0){
+	        	if ($this->tiene_hijos_nodo($fila_id,$from,$prefijo)){
+	        		//echo "<option>si tiene</option>";
+	        		$cadena .=$this->hijos_opciones_nodo($fila_id,$item,$id_padre,$from,$prefijo,$nivel_hijos,$cadena);
+	        	}
+	        }
+	      }
+	    }
+
+    $cadena .='</select>';
+    $cadena .='</div>';
+
+    return $cadena;
+  }
+
+  function hijos_opciones_nodo($id_item,$item,$id_padre,$from,$prefijo,$nivel,$cadena){
+ 
     $consulta = "SELECT ".$prefijo."id,".$prefijo."nombre,".$prefijo."id_padre  FROM ".$from." WHERE ".$prefijo."id_padre='$id_item' ORDER BY ".$prefijo."orden";
+
     $rs = $this->fmt->query->consulta($consulta,__METHOD__);
     $num=$this->fmt->query->num_registros($rs);
     $nivel++;
     $valor_n="";
+
     for ($j=0;$j<$nivel;$j++){
       $valor_n .='--';
     }
+
     if ($num>0){
       for($i=0;$i<$num;$i++){
  
@@ -2744,12 +3019,13 @@ class FORM{
         if ($fila_idx==$id_padre){ $aux1="selected"; }else{ $aux1=""; }
         if ($fila_idx==$item){ $aux2="disabled"; }else{ $aux2=""; }
 
-        echo "<option class='' value='$fila_idx'  $aux1 $aux2 > ".$valor_n." ".$fila_nombre;
-        echo "</option>";
+        $cadena .='<option class="" value="'.$fila_idx.'"  '.$aux1.' '.$aux2.' >'.$valor_n.' '.$fila_nombre;
+        $cadena .='</option>';
         if ( $this->tiene_hijos_nodo($fila_idx,$from,$prefijo) ){
-        	$this->hijos_opciones_nodo($fila_idx,$item,$id_padre,$from,$prefijo,$nivel);
+        	$cadena .= $this->hijos_opciones_nodo($fila_idx,$item,$id_padre,$from,$prefijo,$nivel,$cadena);
         }
       }
+      return $cadena;
     }
   }
 

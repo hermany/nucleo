@@ -1,10 +1,12 @@
 <?php
-require_once('cursos.class.php');
 
-$form =new CURSO($fmt,$id_mod,$id_item,$id_estado);
+require_once('cuenta-empresas.class.php');
+
+$form =new EQUIPOS($fmt,$id_mod,$id_item,$id_estado);
 
 echo $fmt->header->header_modulo();
 
+//echo '<script type="text/javascript" language="javascript" src="'._RUTA_WEB.'js/jquery.mixitup.js"></script>'."\n";
 switch( $tarea ){
   case 'busqueda': $form->busqueda();break;
   case 'form_nuevo': $form->form_nuevo();break;

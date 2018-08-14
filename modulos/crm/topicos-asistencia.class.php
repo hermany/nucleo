@@ -241,6 +241,24 @@ class TOPICOS_ASISTENCIA{
 		$this->fmt->class_modulo->redireccionar($ruta_modulo,"1");
 	} // fin ingresar
 
+	public function datos_topico_asistencia($id){
+			$consulta = "SELECT * FROM mod_topicos_asistencia WHERE mod_tpa_id='$id'";
+			$rs =$this->fmt->query->consulta($consulta);
+			$row=$this->fmt->query->obt_fila($rs);
+			$cadena[0]= $row["mod_tpa_id"];
+			$cadena[1]= $row["mod_tpa_nombre"];
+			$cadena[2]= $row["mod_tpa_descripcion"];
+			$cadena[3]= $row["mod_tpa_ruta_amigable"];
+			$cadena[4]= $row["mod_tpa_tags"];
+			$cadena[5]= $row["mod_tpa_id_padre"];
+			$cadena[6]= $row["mod_tpa_orden"];
+			$cadena[7]= $row["mod_tpa_activar"];
+
+			return $cadena;
+
+			$this->fmt->query->liberar_consulta();
+	}
+
 	function form_editar(){
 		$this->fmt->class_pagina->crear_head_form("Editar Lista Lugar","","");
 		$id_form="form-editar";

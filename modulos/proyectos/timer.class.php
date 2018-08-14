@@ -61,7 +61,7 @@ class TIMER{
 				</div>
 				<div class="lista-tareas">
 					<?php 
-						$consulta = "SELECT mod_tar_id,mod_tar_descripcion FROM mod_tarea, mod_tarea_proyectos WHERE mod_tar_proy_usu_id='$id_usu' and mod_tar_estado='1' ORDER BY mod_tar_fecha_hora_inicio DESC";
+						$consulta = "SELECT mod_tar_id,mod_tar_descripcion FROM mod_tarea, mod_tarea_proyectos WHERE mod_tar_usu_id='$id_usu' and mod_tar_estado='1' ORDER BY mod_tar_fecha_hora_inicio DESC";
 						$rs =$this->fmt->query->consulta($consulta);
 						$num=$this->fmt->query->num_registros($rs);
 						if($num>0){

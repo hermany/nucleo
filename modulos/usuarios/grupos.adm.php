@@ -1,7 +1,4 @@
 <?php
-require_once("../../nucleo/clases/class-constructor.php");
-$fmt = new CONSTRUCTOR();
-
 require_once('grupos.class.php');
 
 $fmt->get->validar_get( $_GET['tarea'] );

@@ -8,6 +8,7 @@ class CURSO{
 	var $id_item;
 	var $id_estado;
 	var $ruta_modulo;
+	var $instructor;
 
 	function CURSO($fmt,$id_mod=0,$id_item=0,$id_estado=0){
 		$this->fmt = $fmt;
@@ -15,6 +16,8 @@ class CURSO{
 		$this->id_item = $id_item;
 		$this->id_estado = $id_estado;
 		$this->ruta_modulo= _RUTA_WEB."dashboard/".$this->fmt->class_modulo->ruta_amigable_modulo($id_mod);
+		require_once(_RUTA_NUCLEO."modulos/e-learning/instructor.class.php");
+		$this->instructor = new INSTRUCTOR($this->fmt);
 	}
 
 	public function busqueda(){
@@ -24,7 +27,7 @@ class CURSO{
     $this->fmt->class_pagina->head_modulo_inner("Lista de Cursos", $botones,"crear",$this->id_mod); // bd, id modulo, botones
 
     $this->fmt->form->head_table("table_id");
-    $this->fmt->form->thead_table('Id:Nombre:Categoria:Registró:Fechas:Activar:Acciones');
+    $this->fmt->form->thead_table('Id:Nombre:Categoria:Registró:Activar:Acciones');
     $this->fmt->form->tbody_table_open();
 
   	$consulta = "SELECT * FROM curso";
@@ -38,10 +41,10 @@ class CURSO{
   			$row_nombre = $row["cur_nombre"];
   			$row_usu = $row["cur_usu_id"];
   			$row_activar = $row["cur_activar"];
-  			$row_fecha_inicio  = $row["cur_fecha_inicio"];
-  			$row_fecha_fin = $row["cur_fecha_fin"];
+  			//$row_fecha_inicio  = $row["cur_fecha_inicio"];
+  			//$row_fecha_fin = $row["cur_fecha_fin"];
   			// $row_fecha_fin = $this->fmt->class_modulo->fecha_hora_compacta($row["cur_fecha_fin"],"d,m,a");
-  			$fecha = $this->formatear_fecha($row["cur_fecha_inicio"],$row["cur_fecha_fin"]);
+  			//$fecha = $this->formatear_fecha($row["cur_fecha_inicio"],$row["cur_fecha_fin"]);
 
 				echo "<tr class='row row-".$row_id."'>";
 				echo '  <td class="col-id">'.$row_id.'</td>';
@@ -50,13 +53,14 @@ class CURSO{
 				$this->fmt->categoria->traer_rel_cat_nombres($row_id,'curso_categorias','cur_cat_cat_id','cur_cat_cur_id'); 
 				echo '	</td>';
 				echo '  <td class="">'.$this->fmt->usuario->nombre_usuario($row_usu).'</td>';
-				echo '  <td class="col-fecha">'.$fecha.'</td>';
+				// echo '  <td class="col-fecha">'.$fecha.'</td>';
 				echo '  <td class="col-activar">';
 				 $this->fmt->class_modulo->estado_publicacion($row_activar,$this->id_mod,"",$row_id);
 				echo '	</td>';
 				echo '  <td class="col-acciones acciones">';
 				$this->fmt->class_modulo->botones_tabla($row_id,$this->id_mod,$row_nombre);//
 				echo '	</td>';
+				echo '	</tr>';
   		}
   	}
   	$this->fmt->query->liberar_consulta();
@@ -117,40 +121,50 @@ class CURSO{
 		$this->fmt->form->input_form("tags:","inputTags","","");
 		$fecha=$this->fmt->class_modulo->fecha_hoy('America/La_Paz');
  
-		$this->fmt->form->input_form_date('{
-				"label":"Fecha Inicio:",
-				"id":"inputInicio",
-				"format":"dd-mm-yyyy",
-				"fecha":"'.$fecha.'"
-		}');		
-		$this->fmt->form->input_form_date('{
-				"label":"Fecha Fin:",
-				"id":"inputFin",
-				"format":"dd-mm-yyyy",
-				"fecha":"'.$fecha.'"
-		}');
+		// $this->fmt->form->input_form_date('{
+		// 		"label":"Fecha Inicio:",
+		// 		"id":"inputInicio",
+		// 		"format":"dd-mm-yyyy",
+		// 		"fecha":"'.$fecha.'"
+		// }');		
+		// $this->fmt->form->input_form_date('{
+		// 		"label":"Fecha Fin:",
+		// 		"id":"inputFin",
+		// 		"format":"dd-mm-yyyy",
+		// 		"fecha":"'.$fecha.'"
+		// }');
 
 		// $this->fmt->form->textarea_form('Información Importante:','inputImportante','','','editor-texto','textarea-cuerpo','','');
 		// $this->fmt->form->textarea_form('Objetivo:','inputObjetivo','','','editor-texto','textarea-cuerpo','','');
 		$this->fmt->form->textarea_form('Contenido','inputContenido','','','editor-texto','textarea-cuerpo','','');
 
-		echo $this->fmt->form->input_precio( array('id_precio' => 'inputPrecio1',
-																							 'valor_precio' => '',
-																							 'id_tipo' => 'inputTipoPrecio1',
-																							 'valor_tipo' => '',
-																							 'label' => 'Precio Público General:',
-																				));
+		// echo $this->fmt->form->input_precio( array('id_precio' => 'inputPrecio1',
+		// 																					 'valor_precio' => '',
+		// 																					 'id_tipo' => 'inputTipoPrecio1',
+		// 																					 'valor_tipo' => '',
+		// 																					 'label' => 'Precio Público General:',
+		// 																		));
 
-		echo $this->fmt->form->input_precio( array('id_precio' => 'inputPrecio2',
-																					 'valor_precio' => '',
-																					 'id_tipo' => 'inputTipoPrecio2',
-																					 'valor_tipo' => '',
-																					 'label' => 'Precio Comunidad Upsa:',
-																		));
+		// echo $this->fmt->form->input_precio( array('id_precio' => 'inputPrecio2',
+		// 																			 'valor_precio' => '',
+		// 																			 'id_tipo' => 'inputTipoPrecio2',
+		// 																			 'valor_tipo' => '',
+		// 																			 'label' => 'Precio Comunidad Upsa:',
+		// 																));
 		
 		// $this->fmt->form->input_form("A quién está dirigido:","inputDirigido","","");
-		$this->fmt->form->textarea_form('Certificación:','inputCertificacion','','','editor-texto','textarea-cuerpo','','');
-		$this->fmt->form->imagen_unica_form("inputImagenCer","","","form-normal","Imagen de Certificación:");
+
+		// $this->fmt->form->textarea_form('Certificación:','inputCertificacion','','','editor-texto','textarea-cuerpo','','');
+		// $this->fmt->form->imagen_unica_form("inputImagenCer","","","form-normal","Imagen de Certificación:");
+
+		echo $this->fmt->form->select_nodo(array('label' => 'Certificado:',
+																	'id' => 'inputCertificado',
+																	'from'=>'curso_certificado',
+																	'prefijo'=>'cur_cer_',
+																	'nivel_hijos'=>'0',
+																	'label_item_inicial'=>'Seleccionar certificado',
+																	'id_inicio'=>'1'));
+
 		
 		// $this->fmt->form->input_form("Duración:","inputDuracion","","");
 		
@@ -158,6 +172,16 @@ class CURSO{
 
 		$this->fmt->form->imagen_unica_form("inputImagen","","","form-normal","Imagen relacionada:");
 		$this->fmt->form->imagen_unica_form("inputBanner","","","form-normal","Banner:");
+
+		echo $this->fmt->form->select_num(array('label' => 'Tipo de Banner:',
+																						'id' => 'inputTipoBanner',
+																						'valores'=>'Texto Blanco,Texto Negro,Personalizado'));
+
+		echo $this->fmt->form->select_list(array('label' => 'Instructor:',
+																	'id' => 'inputInstructor',
+																	'icono_btn' => 'icn icn-user-plus',
+																	'from'=>'mod_instructor',
+																	'prefijo'=>'mod_ins_'));
 		
 		$this->fmt->form->categoria_form('Categoria','inputCat',"0","","",""); 
 
@@ -168,11 +192,8 @@ class CURSO{
 		$this->fmt->class_pagina->footer_form_mod();
 		
 		$this->fmt->finder->finder_window();
-		$this->fmt->class_modulo->modal_editor_texto("inputImportante","200");
-		$this->fmt->class_modulo->modal_editor_texto("inputObjetivo","200");
-		$this->fmt->class_modulo->modal_editor_texto("inputCerfigicacion","200");
 		$this->fmt->class_modulo->modal_editor_texto("inputContenido","480");
-		$this->fmt->class_modulo->modal_editor_texto("inputInstructor","480");
+		// $this->fmt->class_modulo->modal_editor_texto("inputInstructor","480");
 		$this->fmt->class_modulo->modal_script($this->id_mod);
 	} //fin form_nuevo
 
@@ -185,33 +206,24 @@ class CURSO{
 		$fecha=$this->fmt->class_modulo->fecha_hoy('America/La_Paz');
 		$id_usu = $this->fmt->sesion->get_variable("usu_id");
 
-		$ingresar ="cur_nombre, cur_leyenda, cur_ruta_amigable, cur_resumen, cur_tags, cur_importante, cur_objetivo, cur_dirigido, cur_certificacion, cur_certificacion_imagen, cur_duracion, cur_contenido_min, cur_instructor, cur_instructor_id, cur_imagen, cur_banner, cur_precio_1,cur_precio_2, cur_estado, cur_fecha_inicio, cur_fecha_fin, cur_usu_id, cur_fecha_registro, cur_activar";
+		$ingresar ="cur_nombre, cur_leyenda, cur_ruta_amigable, cur_resumen, cur_tags, cur_certificado_id,  cur_contenido_min, cur_instructor_id, cur_imagen, cur_banner, cur_tipo_banner, cur_estado, cur_usu_id, cur_fecha_registro, cur_activar";
 
 		$valores  ="'".$_POST['inputNombre']."','".
 					$_POST['inputLeyenda']."','".
 					$_POST['inputRutaamigable']."','".
 					$_POST['inputResumen']."','".
 					$_POST['inputTags']."','".
-					$_POST['inputImportante']."','".
-					$_POST['inputObjetivo']."','".
-					$_POST['inputDirigido']."','".
-					$_POST['inputCertificacion']."','".
-					$_POST['inputImagenCer']."','".
-					$_POST['inputDuracion']."','".
+					$_POST['inputCertificado']."','".
 					$_POST['inputContenido']."','".
 					$_POST['inputInstructor']."','".
-					$_POST['inputInstructorId']."','".
 					$_POST['inputImagen']."','".
 					$_POST['inputBanner']."','".
-					$_POST['inputPrecio1']."','".
-					$_POST['inputPrecio2']."','".
+					$_POST['inputTipoBanner']."','".
 					$_POST['inputEstado']."','".
-					$this->fmt->class_modulo->desestructurar_fecha_hora($_POST['inputInicio'])."','".
-					$this->fmt->class_modulo->desestructurar_fecha_hora($_POST['inputFin'])."','".
 					$id_usu."','".
 					$fecha."','".
 					$activar."'";
-		 $sql="insert into curso (".$ingresar.") values (".$valores.")";
+		$sql="insert into curso (".$ingresar.") values (".$valores.")";
 		 
 		$this->fmt->query->consulta($sql);
 
@@ -267,45 +279,54 @@ class CURSO{
 		$this->fmt->form->input_form("tags:","inputTags","",$row["cur_tags"]);
 		 
  
-		$this->fmt->form->input_form_date('{
-				"label":"Fecha Inicio:",
-				"id":"inputInicio",
-				"format":"dd-mm-yyyy",
-				"fecha":"'.$row["cur_fecha_inicio"].'"
-		}');		
-		$this->fmt->form->input_form_date('{
-				"label":"Fecha Fin:",
-				"id":"inputFin",
-				"format":"dd-mm-yyyy",
-				"fecha":"'.$row["cur_fecha_fin"].'"
-		}');
+		// $this->fmt->form->input_form_date('{
+		// 		"label":"Fecha Inicio:",
+		// 		"id":"inputInicio",
+		// 		"format":"dd-mm-yyyy",
+		// 		"fecha":"'.$row["cur_fecha_inicio"].'"
+		// }');		
+		// $this->fmt->form->input_form_date('{
+		// 		"label":"Fecha Fin:",
+		// 		"id":"inputFin",
+		// 		"format":"dd-mm-yyyy",
+		// 		"fecha":"'.$row["cur_fecha_fin"].'"
+		// }');
 
 		$this->fmt->form->textarea_form('Contenido:','inputContenido','',$row["cur_contenido_min"],'editor-texto','textarea-cuerpo','','');
+
+		echo $this->fmt->form->select_nodo(array('label' => 'Certificado:',
+																	'id' => 'inputCertificado',
+																	'from'=>'curso_certificado',
+																	'item_seleccionado'=> $row['cur_certificado_id'],
+																	'prefijo'=>'cur_cer_',
+																	'nivel_hijos'=>'0',
+																	'label_item_inicial'=>'Seleccionar certificado',
+																	'id_inicio'=>'1'));
 
 		// $this->fmt->form->textarea_form('Información Importante:','inputImportante','',$row["cur_importante"],'','editor-texto','textarea-cuerpo','','');
 		// $this->fmt->form->textarea_form('Objetivo:','inputObjetivo','',$row["cur_objetivo"],'editor-texto','textarea-cuerpo','','');
 
 		//$this->fmt->form->input_form("Precio Publico General:","inputPrecio1","",$row["cur_precio_1"]);
 
-		echo $this->fmt->form->input_precio( array('id_precio' => 'inputPrecio1',
-																							 'valor_precio' => $row["cur_precio_1"],
-																							 'id_tipo' => 'inputTipoPrecio1',
-																							 'valor_tipo' => $row["cur_tipo_precio_1"],
-																							 'label' => 'Precio Público General:',
-																				));
+		// echo $this->fmt->form->input_precio( array('id_precio' => 'inputPrecio1',
+		// 																					 'valor_precio' => $row["cur_precio_1"],
+		// 																					 'id_tipo' => 'inputTipoPrecio1',
+		// 																					 'valor_tipo' => $row["cur_tipo_precio_1"],
+		// 																					 'label' => 'Precio Público General:',
+		// 																		));
 
-		echo $this->fmt->form->input_precio( array('id_precio' => 'inputPrecio2',
-																					 'valor_precio' => $row["cur_precio_2"],
-																					 'id_tipo' => 'inputTipoPrecio2',
-																					 'valor_tipo' => $row["cur_tipo_precio_2"],
-																					 'label' => 'Precio Comunidad Upsa:',
-																		));
+		// echo $this->fmt->form->input_precio( array('id_precio' => 'inputPrecio2',
+		// 																			 'valor_precio' => $row["cur_precio_2"],
+		// 																			 'id_tipo' => 'inputTipoPrecio2',
+		// 																			 'valor_tipo' => $row["cur_tipo_precio_2"],
+		// 																			 'label' => 'Precio Comunidad Upsa:',
+		// 																));
 
 		// $this->fmt->form->input_form("Precio Comunidad Upsa:","inputPrecio2","",$row["cur_precio_2"]);
 		
 		// $this->fmt->form->input_form("A quién está dirigido:","inputDirigido","",$row["cur_dirigido"]);
-		$this->fmt->form->textarea_form('Certificación:','inputCertificacion','',$row["cur_certificacion"],'editor-texto','textarea-cuerpo','','');
-		$this->fmt->form->imagen_unica_form("inputImagenCer",$row["cur_certificacion_imagen"],"","form-normal","Imagen de Certificación:");
+		// $this->fmt->form->textarea_form('Certificación:','inputCertificacion','',$row["cur_certificacion"],'editor-texto','textarea-cuerpo','','');
+		// $this->fmt->form->imagen_unica_form("inputImagenCer",$row["cur_certificacion_imagen"],"","form-normal","Imagen de Certificación:");
 		
 		// $this->fmt->form->input_form("Duración:","inputDuracion","",$row["cur_duracion"]);
 		
@@ -315,6 +336,17 @@ class CURSO{
 		$this->fmt->form->imagen_unica_form("inputImagen",$row["cur_imagen"],"","form-normal","Imagen relacionada:");
 		$this->fmt->form->imagen_unica_form("inputBanner",$row["cur_banner"],"","form-normal","Banner:");
 
+		echo $this->fmt->form->select_num(array('label' => 'Tipo de Banner:',
+																						'id' => 'inputTipoBanner',
+																						'select_id' => $row['cur_tipo_banner'],
+																						'valores'=>'Texto Blanco,Texto Negro,Personalizado'));
+
+		echo $this->fmt->form->select_list(array('label' => 'Instructor:',
+																	'id' => 'inputInstructor',
+																	'icono_btn' => 'icn icn-user-plus',
+																	'item' => $row["cur_instructor_id"] ,
+																	'from'=>'mod_instructor',
+																	'prefijo'=>'mod_ins_'));
 
 		$cats_id = $this->fmt->categoria->traer_rel_cat_id($row["cur_id"],'curso_categorias','cur_cat_cat_id','cur_cat_cur_id');
 		$this->fmt->form->categoria_form('Categoria','inputCat',"0",$cats_id,"",""); 
@@ -326,11 +358,7 @@ class CURSO{
 		$this->fmt->class_pagina->footer_form_mod();
 		
 		$this->fmt->finder->finder_window();
-		$this->fmt->class_modulo->modal_editor_texto("inputImportante","200");
-		$this->fmt->class_modulo->modal_editor_texto("inputObjetivo","200");
-		$this->fmt->class_modulo->modal_editor_texto("inputCerfigicacion","200");
 		$this->fmt->class_modulo->modal_editor_texto("inputContenido","480");
-		$this->fmt->class_modulo->modal_editor_texto("inputInstructor","480");
 		$this->fmt->class_modulo->modal_script($this->id_mod);
 	} // fin form_editar
 
@@ -343,22 +371,12 @@ class CURSO{
 						cur_leyenda ='".$_POST['inputLeyenda']."',
 						cur_resumen ='".$_POST['inputResumen']."',
 						cur_tags ='".$_POST['inputTags']."',
-						cur_importante ='".$_POST['inputImportante']."',
-						cur_objetivo='".$_POST['inputObjetivo']."',
-						cur_dirigido='".$_POST['inputDirigido']."',
-						cur_certificacion='".$_POST['inputCertificacion']."',
-						cur_certificacion_imagen='".$_POST['inputImagenCer']."',
-						cur_duracion='".$_POST['inputDuracion']."',
+						cur_certificado_id='".$_POST['inputCertificado']."',
 						cur_contenido_min='".$_POST['inputContenido']."',
-						cur_instructor='".$_POST['inputInstructor']."',
+						cur_instructor_id='".$_POST['inputInstructor']."',
 						cur_imagen='".$_POST['inputImagen']."',
 						cur_banner='".$_POST['inputBanner']."',
-						cur_precio_1='".$_POST['inputPrecio1']."',
-						cur_tipo_precio_1='".$_POST['inputTipoPrecio1']."',
-						cur_precio_2='".$_POST['inputPrecio2']."',
-						cur_tipo_precio_2='".$_POST['inputTipoPrecio2']."',
-						cur_fecha_inicio='".$this->fmt->class_modulo->desestructurar_fecha_hora($_POST['inputInicio'])."',
-						cur_fecha_fin='".$this->fmt->class_modulo->desestructurar_fecha_hora($_POST['inputFin'])."',
+						cur_tipo_banner='".$_POST['inputTipoBanner']."',
 						cur_usu_id='".$id_usu."',
 						cur_estado='".$_POST['inputEstado']."'
 						WHERE cur_id='".$_POST['inputId']."'";
@@ -415,6 +433,14 @@ class CURSO{
 		$rs =$this->fmt->query->consulta($consulta);
 		$row=$this->fmt->query->obt_fila($rs);
 		return $row["cur_id"];
+		$this->fmt->query->liberar_consulta();
+	}
+
+	public function imagen_certificado($id){
+	  $consulta = "SELECT cur_cer_imagen FROM curso_certificado WHERE cur_cer_id='$id'";
+		$rs =$this->fmt->query->consulta($consulta);
+		$row=$this->fmt->query->obt_fila($rs);
+		return $row["cur_cer_imagen"];
 		$this->fmt->query->liberar_consulta();
 	}
 

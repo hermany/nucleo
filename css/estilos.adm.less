@@ -4,14 +4,6 @@
 
 
 
-
-
-
-
-
-
-
-
 /* ----------  Escenciales ----------*/
 
 * {
@@ -239,20 +231,23 @@ body::-webkit-scrollbar-corner {
     display: none !important;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 /*   forms   */
 
 .form {}
+
+.form-list {
+    z-index: 2 !important;
+
+    .form-control {
+        width: 61.5% !important;
+        margin-right: 5px !important;
+        float: left !important;
+    }
+    .btn {
+        padding: 4px 5px 5px;
+        float: left;
+    }
+}
 
 .form-row {
     margin-top: 7px !important;
@@ -631,15 +626,6 @@ body::-webkit-scrollbar-corner {
 
 
 
-
-
-
-
-
-
-
-
-
 /*  Menu    */
 
 .collapse {
@@ -721,6 +707,8 @@ body::-webkit-scrollbar-corner {
 .pull-right {
     float: right;
 }
+
+
 
 
 
@@ -883,6 +871,11 @@ body::-webkit-scrollbar-corner {
     margin-right: 10px;
 }
 
+.table tr td .text {
+    float: left;
+    margin-top: 5px;
+}
+
 .table .col-name .text-ref {
     float: left;
     clear: both;
@@ -986,6 +979,8 @@ select {
     padding-bottom: 5px;
     height: 33px;
 }
+
+
 
 
 
@@ -1311,6 +1306,8 @@ select {
 
 
 
+
+
 /* vista */
 
 .form-vista {
@@ -1334,6 +1331,8 @@ select {
     position: absolute;
     display: none;
 }
+
+
 
 
 
@@ -1409,6 +1408,8 @@ select {
     margin-left: 4px;
     margin-right: 4px;
 }
+
+
 
 
 
@@ -1542,6 +1543,8 @@ select {
 
 
 
+
+
 /* arbol categorias  */
 
 .arbol {
@@ -1647,8 +1650,10 @@ select {
     position: absolute;
     width: 280px;
     min-height: 300px;
+    max-height: 350px;
+    overflow-y: auto;
     right: -10000px;
-    z-index: 103;
+    z-index: 10;
 
     &.on {
         right: 0px;
@@ -1673,6 +1678,7 @@ select {
         }
     }
     .resultados {
+        width: 100%;
         float: left;
         min-height: 250px;
         display: block;
@@ -1684,6 +1690,7 @@ select {
             clear: both;
             text-align: left;
             padding: 5px 10px 10px 10px;
+            cursor:pointer;
             margin-bottom: 5px;
 
             .icn {
