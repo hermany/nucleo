@@ -35,6 +35,15 @@ class CATEGORIA{
     return $fila["cat_color"];
   }  
 
+    function color_padre($cat){
+    $cat_padre = $this->categoria_id_padre($cat);
+    $consulta = "SELECT cat_color FROM categoria WHERE cat_id='$cat_padre' ";
+    $rs = $this->fmt->query->consulta($consulta,__METHOD__);
+    $fila = $this->fmt->query->obt_fila($rs);
+    $tipo=$fila["cat_color"];
+    return $tipo;
+  }
+
   function ruta_amigable_padre($cat){
     $cat_padre = $this->categoria_id_padre($cat);
     $consulta = "SELECT cat_ruta_amigable FROM categoria WHERE cat_id='$cat_padre' ";

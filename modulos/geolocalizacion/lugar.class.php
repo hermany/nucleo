@@ -72,6 +72,7 @@ class LUGAR{
 		$this->fmt->class_pagina->form_ini_mod($id_form,"form-lugares");
 
 		$this->fmt->form->input_form("* Nombre:","inputNombre","","","input-lg","","","",""); //$label,$id,$placeholder,$valor,$class,$class_div,$mensaje,$disabled,$validar,$otros
+		$this->fmt->form->input_form("Tags:","inputTags","","");
 		$this->fmt->form->input_form("Dirección:","inputDireccion","","");
 		$this->fmt->form->input_form("Teléfonos:","inputTelefono","","");
 		$this->fmt->form->textarea_form('Información:','inputInfo','','','','3','');
@@ -103,9 +104,10 @@ class LUGAR{
 		}else{
 			$activar=0;
 		}
-		$ingresar ="mod_lug_nombre, mod_lug_direccion, mod_lug_telefono, mod_lug_info, mod_lug_imagen, mod_lug_coordenada_principal, mod_lug_coordenadas, mod_lug_icono, mod_lug_contenido, mod_lug_usuario,mod_lug_bill_id, mod_lug_estado, mod_lug_activar";
+		$ingresar ="mod_lug_nombre, mod_lug_tags,mod_lug_direccion, mod_lug_telefono, mod_lug_info, mod_lug_imagen, mod_lug_coordenada_principal, mod_lug_coordenadas, mod_lug_icono, mod_lug_contenido, mod_lug_usuario,mod_lug_bill_id, mod_lug_estado, mod_lug_activar";
 
 		$valores  ="'".$_POST['inputNombre']."','".
+					$_POST['inputTags']."','".
 					$_POST['inputDireccion']."','".
 					$_POST['inputTelefono']."','".
 					$_POST['inputInfo']."','".
@@ -154,6 +156,7 @@ class LUGAR{
 		$this->fmt->form->input_form("<span class='obligatorio'>*</span> Nombre:","inputNombre","",$row["mod_lug_nombre"],"input-lg","","");
 		$this->fmt->form->input_hidden_form("inputId",$id);
 
+		$this->fmt->form->input_form("Tags:","inputTags","",$row["mod_lug_tags"]);
 		$this->fmt->form->input_form("Dirección:","inputDireccion","",$row["mod_lug_direccion"]);
 		$this->fmt->form->input_form("Teléfonos:","inputTelefono","",$row["mod_lug_telefono"]);
 		$this->fmt->form->textarea_form('Información:','inputInfo','',$row["mod_lug_info"],'','','');
@@ -194,6 +197,7 @@ class LUGAR{
 
 		$sql="UPDATE mod_lugar SET
 						mod_lug_nombre='".$_POST['inputNombre']."',
+						mod_lug_tags ='".$_POST['inputTags']."',
 						mod_lug_direccion ='".$_POST['inputDireccion']."',
 						mod_lug_telefono ='".$_POST['inputTelefono']."',
 						mod_lug_info ='".$_POST['inputInfo']."',

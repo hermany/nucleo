@@ -79,7 +79,7 @@
   echo '  <div class="tbody tab-content" id="content-videos">';
   echo '    <div class="box-buscador">';
   echo '      <i class="icn icn-search"></i>';
-  echo '      <input id="filtrar" tipo="videos" type="text" class="form-control" placeholder="Buscar videos">';
+  echo '      <input id="filtrar-videos" tipo="videos" type="text" class="form-control" placeholder="Buscar videos">';
   echo '    </div>';
   echo '    <ul id="finder-videos"></ul>';
   echo '  </div>';
@@ -93,7 +93,7 @@
   echo '  <div class="tbody tab-content" id="content-documentos">';
   echo '    <div class="box-buscador">';
   echo '      <i class="icn icn-search"></i>';
-  echo '      <input id="filtrar" tipo="documentos" type="text" class="form-control" placeholder="Buscar Documentos">';
+  echo '      <input id="filtrar-docs" tipo="documentos" type="text" class="form-control" placeholder="Buscar Documentos">';
   echo '    </div>';
   echo '    <ul id="finder-documentos"></ul>';
   echo '  </div>';

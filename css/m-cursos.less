@@ -1,0 +1,85 @@
+.form-group-instructor {
+    position: relative;
+    z-index: 10;
+
+    .list-instructores {
+        &.on {
+            background-color: #efefef;
+            padding: 15px;
+            border-radius: 5px;
+            display: inline-block;
+            width: 100%;
+
+            .item {
+                float: left;
+                background: #fff;
+                padding: 3px 12px;
+                box-shadow: 1px 1px 4px rgb(185, 185, 185);
+                border-radius: 5px;
+                margin-bottom: 10px;
+                margin-right: 10px;
+            }
+        }
+    }
+}
+
+.box-seleccion-instructor {
+    position: absolute;
+    z-index: 120;
+    width: 300px;
+    bottom: -274px;
+    height: 320px;
+    left: 30%;
+    overflow-y: auto;
+    background: #f1f0ef;
+    padding: 10px;
+    border: 1px solid #9E9E9E;
+    border-radius: 5px;
+    box-shadow: 2px 1px 20px rgba(84, 82, 82, 0.45);
+    display: none;
+
+    &.on {
+        display: inline-block;
+    }
+
+    .buscador {
+        width: 87%;
+        padding: 2px 7px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-bottom: 10px;
+        background-color: #fff;
+
+        input {
+            width: 90%;
+            border: 0;
+        }
+    }
+    .btn-crear-instructor {
+        border-radius: 30px;
+        padding: 2px;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+
+        i {
+            font-size: 14px;
+        }
+    }
+
+    .instructores {
+        padding: 0px 5px;
+
+        .item-ins {
+            cursor: pointer;
+
+            &:hover {
+                text-decoration: underline;
+            }
+
+            &.ocultar{
+                display: none !important;
+            }
+        }
+    }
+}

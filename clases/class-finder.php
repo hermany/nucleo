@@ -307,7 +307,15 @@ class FINDER{
 							//console.log(msg);
 							$("#content-documentos .progreso").hide();
 							$("#finder-documentos").html(msg);
+							
 							<?php  echo $this->finder_item();  ?>
+							$('#filtrar-docs').keyup(function () {
+						    var rex = new RegExp($(this).val(), 'i');
+						    $('#finder-documentos li').hide();
+						    $('#finder-documentos li').filter(function () {
+						        return rex.test($(this).text());
+						    }).show();
+						  });
 						}
 					});
 

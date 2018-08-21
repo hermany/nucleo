@@ -1,6 +1,7 @@
 
   var insert="";
   $('#filtrar').keyup(function () {
+    console.log('revisando');
     var rex = new RegExp($(this).val(), 'i');
     $('#mul-all li').hide();
     $('#mul-all li').filter(function () {

@@ -22,7 +22,7 @@ class CURSO{
 
 	public function busqueda(){
 		
-		$this->fmt->class_pagina->crear_head( $this->id_mod,$botones);
+		$this->fmt->class_pagina->crear_head( $this->id_mod,$botones,"","","m-cursos.css");
 		$this->fmt->class_pagina->head_mod();
     $this->fmt->class_pagina->head_modulo_inner("Lista de Cursos", $botones,"crear",$this->id_mod); // bd, id modulo, botones
 
@@ -136,7 +136,7 @@ class CURSO{
 
 		// $this->fmt->form->textarea_form('Información Importante:','inputImportante','','','editor-texto','textarea-cuerpo','','');
 		// $this->fmt->form->textarea_form('Objetivo:','inputObjetivo','','','editor-texto','textarea-cuerpo','','');
-		$this->fmt->form->textarea_form('Contenido','inputContenido','','','editor-texto','textarea-cuerpo','','');
+		
 
 		// echo $this->fmt->form->input_precio( array('id_precio' => 'inputPrecio1',
 		// 																					 'valor_precio' => '',
@@ -157,13 +157,7 @@ class CURSO{
 		// $this->fmt->form->textarea_form('Certificación:','inputCertificacion','','','editor-texto','textarea-cuerpo','','');
 		// $this->fmt->form->imagen_unica_form("inputImagenCer","","","form-normal","Imagen de Certificación:");
 
-		echo $this->fmt->form->select_nodo(array('label' => 'Certificado:',
-																	'id' => 'inputCertificado',
-																	'from'=>'curso_certificado',
-																	'prefijo'=>'cur_cer_',
-																	'nivel_hijos'=>'0',
-																	'label_item_inicial'=>'Seleccionar certificado',
-																	'id_inicio'=>'1'));
+
 
 		
 		// $this->fmt->form->input_form("Duración:","inputDuracion","","");
@@ -173,15 +167,41 @@ class CURSO{
 		$this->fmt->form->imagen_unica_form("inputImagen","","","form-normal","Imagen relacionada:");
 		$this->fmt->form->imagen_unica_form("inputBanner","","","form-normal","Banner:");
 
+		// echo $this->fmt->form->select_num(array('label' => 'Tipo de Banner:',
+		// 																				'id' => 'inputTipoBanner',
+		// 																				'valores'=>'Texto Blanco,Texto Negro,Personalizado'));
+
+		// echo $this->fmt->form->select_list(array('label' => 'Instructor:',
+		// 															'id' => 'inputInstructor',
+		// 															'icono_btn' => 'icn icn-user-plus',
+		// 															'from'=>'mod_instructor',
+		// 															'prefijo'=>'mod_ins_'));
+
 		echo $this->fmt->form->select_num(array('label' => 'Tipo de Banner:',
 																						'id' => 'inputTipoBanner',
+																						'select_id' => '',
 																						'valores'=>'Texto Blanco,Texto Negro,Personalizado'));
 
-		echo $this->fmt->form->select_list(array('label' => 'Instructor:',
-																	'id' => 'inputInstructor',
-																	'icono_btn' => 'icn icn-user-plus',
-																	'from'=>'mod_instructor',
-																	'prefijo'=>'mod_ins_'));
+		echo $this->fmt->form->select_num(array('label' => 'Alinear Banner:',
+																						'id' => 'inputAlinearBanner',
+																						'select_id' => '',
+																						'valores'=>'Arriba,Centro,Abajo'));
+
+		$this->fmt->form->textarea_form('Contenido','inputContenido','','','editor-texto','textarea-cuerpo','','');
+
+		echo $this->fmt->form->select_nodo(array('label' => 'Certificado:',
+																	'id' => 'inputCertificado',
+																	'from'=>'curso_certificado',
+																	'prefijo'=>'cur_cer_',
+																	'nivel_hijos'=>'0',
+																	'label_item_inicial'=>'Seleccionar certificado',
+																	'id_inicio'=>'1'));
+
+
+		echo $this->input_instructores(array('label' => 'Instructores:',
+																					'cur_id'=> ''));
+
+
 		
 		$this->fmt->form->categoria_form('Categoria','inputCat',"0","","",""); 
 
@@ -206,7 +226,7 @@ class CURSO{
 		$fecha=$this->fmt->class_modulo->fecha_hoy('America/La_Paz');
 		$id_usu = $this->fmt->sesion->get_variable("usu_id");
 
-		$ingresar ="cur_nombre, cur_leyenda, cur_ruta_amigable, cur_resumen, cur_tags, cur_certificado_id,  cur_contenido_min, cur_instructor_id, cur_imagen, cur_banner, cur_tipo_banner, cur_estado, cur_usu_id, cur_fecha_registro, cur_activar";
+		$ingresar ="cur_nombre, cur_leyenda, cur_ruta_amigable, cur_resumen, cur_tags, cur_certificado_id,  cur_contenido_min, cur_instructor_id, cur_imagen, cur_banner, cur_alinear_banner, cur_tipo_banner, cur_estado, cur_usu_id, cur_fecha_registro, cur_activar";
 
 		$valores  ="'".$_POST['inputNombre']."','".
 					$_POST['inputLeyenda']."','".
@@ -218,6 +238,7 @@ class CURSO{
 					$_POST['inputInstructor']."','".
 					$_POST['inputImagen']."','".
 					$_POST['inputBanner']."','".
+					$_POST['inputAlinearBanner']."','".
 					$_POST['inputTipoBanner']."','".
 					$_POST['inputEstado']."','".
 					$id_usu."','".
@@ -242,13 +263,13 @@ class CURSO{
 			$this->fmt->query->consulta($sql1);
 		}		
 
-		$ingresar2 ="cur_doc_cur_id, cur_doc_doc_id, cur_doc_orden";
-		$valor_cat2= $_POST['inputCat'];
-		$num2=count( $valor_cat2 );
-		for ($i=0; $i<$num2;$i++){
-			$valores2 = "'".$id."','".$valor_cat2[$i]."','".$i."'";
-			$sql12="insert into curso_documentos (".$ingresar2.") values (".$valores2.")";
-			$this->fmt->query->consulta($sql12);
+		$ingresar1 ="cur_doc_cur_id, cur_doc_doc_id, cur_doc_orden";
+		$valor_cat= $_POST['inputModItemDoc'];
+		$num=count( $valor_cat );
+		for ($i=0; $i<$num;$i++){
+			$valores1 = "'".$_POST['inputId']."','".$valor_cat[$i]."','".$i."'";
+			$sql1="insert into curso_documentos (".$ingresar1.") values (".$valores1.")";
+			$this->fmt->query->consulta($sql1);
 		}
 
 		$this->fmt->class_modulo->redireccionar($ruta_modulo,"1");
@@ -341,12 +362,20 @@ class CURSO{
 																						'select_id' => $row['cur_tipo_banner'],
 																						'valores'=>'Texto Blanco,Texto Negro,Personalizado'));
 
-		echo $this->fmt->form->select_list(array('label' => 'Instructor:',
-																	'id' => 'inputInstructor',
-																	'icono_btn' => 'icn icn-user-plus',
-																	'item' => $row["cur_instructor_id"] ,
-																	'from'=>'mod_instructor',
-																	'prefijo'=>'mod_ins_'));
+		echo $this->fmt->form->select_num(array('label' => 'Alinear Banner:',
+																						'id' => 'inputAlinearBanner',
+																						'select_id' => $row['cur_alinear_banner'],
+																						'valores'=>'Arriba,Centro,Abajo'));
+
+		// echo $this->fmt->form->select_list(array('label' => 'Instructor:',
+		// 															'id' => 'inputInstructor',
+		// 															'icono_btn' => 'icn icn-user-plus',
+		// 															'item' => $row["cur_instructor_id"] ,
+		// 															'from'=>'mod_instructor',
+		// 															'prefijo'=>'mod_ins_'));
+
+		echo $this->input_instructores(array('label' => 'Instructores:',
+																					'cur_id'=> $row["cur_id"]));
 
 		$cats_id = $this->fmt->categoria->traer_rel_cat_id($row["cur_id"],'curso_categorias','cur_cat_cat_id','cur_cat_cur_id');
 		$this->fmt->form->categoria_form('Categoria','inputCat',"0",$cats_id,"",""); 
@@ -377,6 +406,7 @@ class CURSO{
 						cur_imagen='".$_POST['inputImagen']."',
 						cur_banner='".$_POST['inputBanner']."',
 						cur_tipo_banner='".$_POST['inputTipoBanner']."',
+						cur_alinear_banner='".$_POST['inputAlinearBanner']."',
 						cur_usu_id='".$id_usu."',
 						cur_estado='".$_POST['inputEstado']."'
 						WHERE cur_id='".$_POST['inputId']."'";
@@ -400,6 +430,16 @@ class CURSO{
 			for ($i=0; $i<$num;$i++){
 				$valores1 = "'".$_POST['inputId']."','".$valor_cat[$i]."','".$i."'";
 				$sql1="insert into curso_documentos (".$ingresar1.") values (".$valores1.")";
+				$this->fmt->query->consulta($sql1);
+			}
+
+			$this->fmt->class_modulo->eliminar_fila($_POST['inputId'],"curso_instructores","cur_ins_cur_id");
+			$ingresar1 ="cur_ins_cur_id, cur_ins_ins_id, cur_ins_orden";
+			$valor_ins= $_POST['inputIns'];
+			$num=count( $valor_ins );
+			for ($i=0; $i<$num;$i++){
+				$valores1 = "'".$_POST['inputId']."','".$valor_ins[$i]."','".$i."'";
+				$sql1="insert into curso_instructores (".$ingresar1.") values (".$valores1.")";
 				$this->fmt->query->consulta($sql1);
 			}
 
@@ -485,6 +525,134 @@ class CURSO{
 		 return $html;
 	}
 
+	public function programacion($id_cur){
+		$consulta ="SELECT * FROM curso_programacion WHERE cur_prg_cur_id='$id_cur'";
+		$rs =$this->fmt->query->consulta($consulta);
+		$num=$this->fmt->query->num_registros($rs);		
+		if($num>0){
+			$row = $this->fmt->query->obt_fila($rs);
+			return $row;
+		}else{
+			return 0;
+		}
 
+		$this->fmt->query->liberar_consulta();
+	}
+
+	public function esta_programado($id_cur,$fecha){
+		$consulta ="SELECT  * FROM  curso_programacion  WHERE cur_prg_cur_id='$id_cur' and cur_prg_activar=1 and cur_prg_fecha_inicio >=' $fecha'";
+		$rs =$this->fmt->query->consulta($consulta);
+		$num=$this->fmt->query->num_registros($rs);		
+		if($num>0){
+			return true;
+		}else{
+			return false;
+		}
+
+		$this->fmt->query->liberar_consulta();
+	}
+
+	public function input_instructores($var){
+		$label = $var["label"]; 
+		$cur_id = $var["cur_id"]; 
+
+		$html.='';
+		$html.='<script src="'._RUTA_WEB_NUCLEO.'js/m-cursos.js"  crossorigin="anonymous"></script>';
+		$html.='<div class="form-group form-group-instructor">';
+		$html.='	<label>'.$label.'</label>';
+		$html.='	<div class="group group-instructores">';
+		
+
+		$consulta = "SELECT mod_ins_id,mod_ins_nombre FROM curso_instructores, mod_instructor WHERE cur_ins_cur_id='$cur_id' and cur_ins_ins_id=mod_ins_id ORDER BY mod_ins_nombre ASC";
+		$rs =$this->fmt->query->consulta($consulta);
+		$num=$this->fmt->query->num_registros($rs);
+		$xm ='';
+		$act ='';
+
+		if($num>0){
+			for($i=0;$i<$num;$i++){
+				$row=$this->fmt->query->obt_fila($rs);
+				$item = $row['mod_ins_id'];
+				$nombre = $row['mod_ins_nombre'];
+
+				$xm.='<div class="item item-ins-'.$item.'">'.$nombre.' <i class="icn icn-close btn-quitar-item-ins" item="'.$item.'"></i><input name="inputIns[]" id="cat-'.$item.'" type="hidden" value="'.$item.'"></div>';
+			}
+			$act ='on';
+		} 
+ 
+		$html.='		<div class="list list-instructores '.$act.'">';
+		$html.='		'.$xm;
+		$html.='		</div>';
+		$html.='		<a class="btn btn-full btn-agregar-instructor-list"><i class="icn icn-user-plus"></i> <span>Agregar Instructor</span></a>';
+		$html.='		<div class="box-seleccion-instructor">';
+		$html.='			<div class="buscador">';
+		$html.='				<i class="icn icn-search"></i><input id="inputBuscadorIns" autocomplete="off " placeholder="Buscar Instructor">';
+		$html.='			</div>';
+		$html.='				<a class="btn btn-full btn-crear-instructor"><i class="icn icn-plus"></i></a>';
+		$html.='			<div class="instructores">';
+
+		$consultax = "SELECT * FROM mod_instructor ORDER BY mod_ins_nombre ASC";
+		$rsx =$this->fmt->query->consulta($consultax);
+		$numx=$this->fmt->query->num_registros($rsx);
+		if($numx>0){
+			for($i=0;$i<$numx;$i++){
+				$row=$this->fmt->query->obt_fila($rsx);
+				$ins_id = $row["mod_ins_id"];
+				$ins_nombre = $row["mod_ins_nombre"];
+				$html .='<div class="item-ins item-ins-'.$ins_id.'" item="'.$ins_id.'" nom="'.$ins_nombre.'">	<span>'.$ins_nombre.'</span></div>';
+			}
+		}
+
+		$html.='			</div>';
+		$html.='		</div>';
+		$html.='	</div>';
+		$html.='</div>';
+
+		return $html;
+	}
+
+	public function instructores($id_cur){
+			$consulta = "SELECT cur_ins_ins_id FROM curso_instructores  WHERE cur_ins_cur_id='$id_cur'  ORDER BY cur_ins_orden ASC";
+			$rs =$this->fmt->query->consulta($consulta);
+			$num=$this->fmt->query->num_registros($rs);
+			if($num>0){
+				for($i=0;$i<$num;$i++){
+					$row=$this->fmt->query->obt_fila($rs);
+					$dato[$i] = $row["cur_ins_ins_id"];
+				}
+				return $dato;
+			}else{
+				return 0;
+			}
+
+			
+			$this->fmt->query->liberar_consulta();
+	}
+
+	public function instructor($id){
+		$consulta = "SELECT * FROM mod_instructor WHERE mod_ins_id='$id'";
+			$rs =$this->fmt->query->consulta($consulta);
+			$num=$this->fmt->query->num_registros($rs);
+				if($num>0){
+					$row=$this->fmt->query->obt_fila($rs);
+					return $row;
+				}else{
+					return 0;
+				}
+			$this->fmt->query->liberar_consulta();
+	}
+
+	public function certificado($id){
+		$consulta = "SELECT * FROM curso_certificado WHERE cur_cer_id='$id'";
+		$rs =$this->fmt->query->consulta($consulta);
+		$row=$this->fmt->query->obt_fila($rs);
+		$num=$this->fmt->query->num_registros($rs);
+		if($num>0){
+			return $row;
+		}else{
+			return 0;
+		}
+		$this->fmt->query->liberar_consulta();
+	}
 
 }

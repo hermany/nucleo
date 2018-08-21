@@ -20,12 +20,12 @@ class PROGRAMACION{
 	}
 
 	public function busqueda(){
-		$this->fmt->class_pagina->crear_head( $this->id_mod,$botones);
-		$this->fmt->class_pagina->head_mod();
+		$this->fmt->class_pagina->crear_head( $this->id_mod,$botones,$var,$div_class,'m-programacion-cursos.css'); //$id_mod,$botones,$var,$div_clas,$css_nucleo
+		$this->fmt->class_pagina->head_mod('mod-programacion');
     $this->fmt->class_pagina->head_modulo_inner("Programación de Cursos", $botones,"crear",$this->id_mod); // bd, id modulo, botones
 
     $this->fmt->form->head_table("table_id");
-    $this->fmt->form->thead_table('Id:Curso:Fecha:Portada:Pre-Reg:Activar:Acciones');
+    $this->fmt->form->thead_table('Id:Curso:Categoria:Fecha:Portada:Pre-Reg:Activar:Acciones');
     $this->fmt->form->tbody_table_open();
 
   	$consulta = "SELECT * FROM curso_programacion";
@@ -44,9 +44,18 @@ class PROGRAMACION{
   			$row_fecha_fin = $this->fmt->class_modulo->fecha_hora_compacta($row["cur_prg_fecha_fin"],"d,m,a");
   			$fecha = $this->curso->formatear_fecha($row["cur_prg_fecha_inicio"],$row["cur_prg_fecha_fin"]);
 
+  			$id_cat = $this->curso->categoria_curso($row["cur_prg_cur_id"]);
+  			$num_cats = count($id_cat);
+  			$cats ='';
+
+  			for ($j=0; $j < $num_cats; $j++) { 
+  				$cats .=  " -".$this->fmt->categoria->nombre_categoria($id_cat[$j]).'</br>';
+  			}
+
 				echo "<tr class='row row-".$row_id."'>";
 				echo '  <td class="col-id">'.$row_id.'</td>';
 				echo '  <td class="col-name">'.$row_nombre.'</td>';
+				echo '  <td class="col-name">'.$cats.'</td>';
 				echo '  <td class="">'.$fecha.'</td>';
 				echo '  <td class="col-portada">';
 				if ($row_portada==0){ echo ''; }
@@ -202,7 +211,7 @@ class PROGRAMACION{
 	}
 
 	public function ingresar(){
-			if ($_POST["estado-mod"]=="activar"){
+		if ($_POST["estado-mod"]=="activar"){
 			$activar=1;
 		}else{
 			$activar=0;
@@ -254,9 +263,9 @@ class PROGRAMACION{
 	}
 
 	public function modificar(){
-	$id_usu = $this->fmt->sesion->get_variable("usu_id");
+	 $id_usu = $this->fmt->sesion->get_variable("usu_id");
 
-	$sql="UPDATE curso_programacion SET
+	 $sql="UPDATE curso_programacion SET
 					cur_prg_cur_id='".$_POST['inputCurso']."',
 					cur_prg_detalles='".$_POST['inputDetalles']."',
 					cur_prg_fecha_inicio='".$this->fmt->class_modulo->desestructurar_fecha_hora($_POST['inputInicio'])."',
@@ -277,9 +286,10 @@ class PROGRAMACION{
 		$num=count( $valor_cat );
 		for ($i=0; $i<$num;$i++){
 			$valores1 = "'".$_POST['inputId']."','".$valor_cat[$i]."','".$i."'";
-			$sql1="insert into curso_programacion_docs(".$ingresar1.") values (".$valores1.")";
+			$sql1="insert into curso_programacion_docs (".$ingresar1.") values (".$valores1.")";
 			$this->fmt->query->consulta($sql1);
 		}
+
 
 		$this->fmt->class_modulo->redireccionar($ruta_modulo,"1");
 	}

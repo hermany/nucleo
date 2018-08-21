@@ -23,10 +23,10 @@ class TESTIMONIO{
 	public function busqueda(){
 		$this->fmt->class_pagina->crear_head( $this->id_mod,$botones,"","","m-testimonios.css"); //$id_mod,$botones,$var,$div_clas,$css_nucleo
 		$this->fmt->class_pagina->head_mod();
-    $this->fmt->class_pagina->head_modulo_inner("Lista de Testimonios", $botones,"crear",$this->id_mod); // bd, id modulo, botones
+    $this->fmt->class_pagina->head_modulo_inner("Lista de Galerias", $botones,"crear",$this->id_mod); // bd, id modulo, botones
 
     $this->fmt->form->head_table("table_id");
-    $this->fmt->form->thead_table('Id:Curso:Fecha:Activar:Acciones');
+    $this->fmt->form->thead_table('Id:Nombre Galeria:Fecha:Activar:Acciones');
     $this->fmt->form->tbody_table_open();
 
   	$consulta = "SELECT * FROM mod_testimonio";
@@ -36,9 +36,10 @@ class TESTIMONIO{
   		for($i=0;$i<$num;$i++){
   			$row=$this->fmt->query->obt_fila($rs);
   			$row_id = $row["mod_tes_id"];
-  			$row_curso =  $this->curso->nombre_curso($row["mod_tes_cur_id"]);
+  			$row_curso = $row["mod_tes_nombre"];
   			$row_activar = $row["mod_tes_activar"];
-  			$fecha  = $this->curso->fecha_curso($row["mod_tes_cur_id"]);
+  			$fecha = $row["mod_tes_fecha"];
+  			// $fecha  = $this->curso->fecha_curso($row["mod_tes_cur_id"]);
   			 
 				echo "<tr class='row row-".$row_id."'>";
 				echo '  <td class="col-id">'.$row_id.'</td>';
@@ -70,10 +71,21 @@ class TESTIMONIO{
 		$this->fmt->class_pagina->head_form_mod();
 		$this->fmt->class_pagina->form_ini_mod($id_form,"form-testimonio");
 
-		$this->fmt->form->input_hidden_form("inputIdCurso");		
-		$this->fmt->form->input_form("* Nombre curso:","inputNombreCurso","","","disabled");
-		echo $this->curso->seleccionar_curso("inputIdCurso","inputNombreCurso"); //$id_valor="",$id_nombre=""
+		// $this->fmt->form->input_hidden_form("inputIdCurso");		
+		$this->fmt->form->input_form("* Nombre Galeria:","inputNombreCurso","","","");
+
+		$fecha=$this->fmt->class_modulo->fecha_hoy('America/La_Paz');
+
+		$this->fmt->form->input_form_date('{
+				"label":"Fecha:",
+				"id":"inputFecha",
+				"format":"dd-mm-yyyy",
+				"fecha":"'.$fecha.'"
+		}');	
+		// echo $this->curso->seleccionar_curso("inputIdCurso","inputNombreCurso"); //$id_valor="",$id_nombre=""
 		$this->fmt->form->imagen_unica_form("inputImagen","","","form-normal","Imagen relacionada:");
+
+		$this->fmt->form->multimedia_form_block("",$this->id_mod,"","","Multimedia Adicional:","mod_testimonio_multimedia","mod_tes_mul_","mod_tes_");//
 
  
 		$this->fmt->form->input_form("Testimonio (1):","inputTestimonio0");
@@ -112,13 +124,20 @@ class TESTIMONIO{
 
 		$this->fmt->form->input_hidden_form("inputId",$id);
 		$this->fmt->form->input_hidden_form("inputIdCurso",$row["mod_tes_cur_id"]);		
-		$row_curso =  $this->curso->nombre_curso($row["mod_tes_cur_id"]);
-		$this->fmt->form->input_form("* Nombre curso:","inputNombreCurso","",$row_curso,"","","");
+		 
+		$this->fmt->form->input_form("* Nombre Galeria:","inputNombreCurso","",$row['mod_tes_nombre'],"","","");
 		
-
-		echo $this->curso->seleccionar_curso("inputIdCurso","inputNombreCurso"); //$id_valor="",$id_nombre=""
+		$this->fmt->form->input_form_date('{
+				"label":"Fecha:",
+				"id":"inputFecha",
+				"format":"dd-mm-yyyy",
+				"fecha":"'.$row["mod_tes_fecha"].'"
+		}');	
+		//echo $this->curso->seleccionar_curso("inputIdCurso","inputNombreCurso"); //$id_valor="",$id_nombre=""
 
 		$this->fmt->form->imagen_unica_form("inputImagen",$row["mod_tes_imagen"],"","form-normal","Imagen relacionada:");
+
+		$this->fmt->form->multimedia_form_block($row['mod_tes_id'],$this->id_mod,"","","Multimedia Adicional:","mod_testimonio_multimedia","mod_tes_mul_","mod_tes_");//
 
 		 
 		$consultax = "SELECT mod_tes_com_id,mod_tes_com_comentario,mod_tes_com_nombre,mod_tes_com_cargo FROM mod_testimonio_comentarios  WHERE mod_tes_com_tes_id=$id";
@@ -167,10 +186,11 @@ class TESTIMONIO{
 			$activar=0;
 		}
 
-		$ingresar ="mod_tes_imagen,mod_tes_cur_id,mod_tes_activar";
+		$ingresar ="mod_tes_imagen,mod_tes_nombre,mod_tes_fecha,mod_tes_activar";
 
 		$valores  ="'".$_POST['inputImagen']."','".
-					$_POST['inputIdCurso']."','".
+					$_POST['inputNombreCurso']."','".
+					$this->fmt->class_modulo->desestructurar_fecha_hora($_POST['inputFecha'])."','".
 					$activar."'";
 		 $sql="insert into mod_testimonio (".$ingresar.") values (".$valores.")";
 		 
@@ -202,6 +222,15 @@ class TESTIMONIO{
 			$this->fmt->query->consulta($sql);
 		}
 
+		$ingresar1 = "mod_tes_mul_mod_tes_id,mod_tes_mul_mul_id,mod_tes_mul_orden";
+			$valor_mul= $_POST['inputModItemMul'];
+			$num=count( $valor_mul );
+			for ($i=0; $i<$num;$i++){
+				$valores1 = "'".$id."','".$valor_mul[$i]."','$i'";
+				$sql1="insert into mod_testimonio_multimedia  (".$ingresar1.") values (".$valores1.")";
+				$this->fmt->query->consulta($sql1,__METHOD__);
+			}
+
 		$this->fmt->class_modulo->redireccionar($ruta_modulo,"1");
 	} // fin ingresar
 
@@ -209,7 +238,9 @@ class TESTIMONIO{
  
 
 		$sql="UPDATE mod_testimonio SET
+						mod_tes_nombre='".$_POST['inputNombreCurso']."',
 						mod_tes_cur_id='".$_POST['inputIdCurso']."',
+						mod_tes_fecha='".$this->fmt->class_modulo->desestructurar_fecha_hora($_POST['inputFecha'])."',
 						mod_tes_imagen='".$_POST['inputImagen']."'
 						WHERE mod_tes_id='".$_POST['inputId']."'";
 			//echo $sql;
@@ -225,17 +256,35 @@ class TESTIMONIO{
 			$num2=3;
 			for ($i=0; $i<$num2;$i++){
 				if (!empty($_POST['inputTestimonio'.$i])){
-					$sql3="UPDATE mod_testimonio_comentarios SET
+					if (!empty($_POST['inputIdCom'.$i])){
+						$sql3="UPDATE mod_testimonio_comentarios SET
 							mod_tes_com_comentario='".$_POST['inputTestimonio'.$i]."',
 							mod_tes_com_nombre='".$_POST['inputNombreTestimonio'.$i]."',
 							mod_tes_com_cargo='".$_POST['inputCargoTestimonio'.$i]."'
 							WHERE mod_tes_com_id='".$_POST['inputIdCom'.$i]."'";
-					$this->fmt->query->consulta($sql3);
+						$this->fmt->query->consulta($sql3);
+					}else{
+						$ingresar ="mod_tes_com_comentario, mod_tes_com_nombre, mod_tes_com_cargo, mod_tes_com_tes_id, mod_tes_com_activar";
+						$valores = "'".$_POST['inputTestimonio'.$i]."','".$_POST['inputNombreTestimonio'.$i]."','".$_POST['inputCargoTestimonio'.$i]."','".$_POST['inputId']."','1'";
+						echo $sql="insert into mod_testimonio_comentarios (".$ingresar.") values (".$valores.")";
+						$this->fmt->query->consulta($sql);
+					}
 				}else{
 					$this->fmt->class_modulo->eliminar_fila($_POST['inputIdCom'.$i],"mod_testimonio_comentarios","mod_tes_com_id");
 					$up_sqr6 = "ALTER TABLE mod_testimonio_comentarios AUTO_INCREMENT=1";
 					$this->fmt->query->consulta($up_sqr6,__METHOD__);
 				}
+			}
+
+			$this->fmt->class_modulo->eliminar_fila($_POST['inputId'],"mod_testimonio_multimedia","mod_tes_mul_mod_tes_id");
+
+			$ingresar1 = "mod_tes_mul_mod_tes_id,mod_tes_mul_mul_id,mod_tes_mul_orden";
+			$valor_mul= $_POST['inputModItemMul'];
+			$num=count( $valor_mul );
+			for ($i=0; $i<$num;$i++){
+				$valores1 = "'".$_POST['inputId']."','".$valor_mul[$i]."','$i'";
+				$sql1="insert into mod_testimonio_multimedia  (".$ingresar1.") values (".$valores1.")";
+				$this->fmt->query->consulta($sql1,__METHOD__);
 			}
 			 
 
