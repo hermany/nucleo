@@ -525,6 +525,7 @@ class CURSO{
 		 return $html;
 	}
 
+
 	public function programacion($id_cur){
 		$consulta ="SELECT * FROM curso_programacion WHERE cur_prg_cur_id='$id_cur'";
 		$rs =$this->fmt->query->consulta($consulta);
@@ -624,13 +625,39 @@ class CURSO{
 			}else{
 				return 0;
 			}
+			$this->fmt->query->liberar_consulta();
+	}
 
-			
+
+	public function curso_datos($id_cur){
+			$consulta = "SELECT * FROM curso WHERE cur_id='$id_cur'";
+			$rs =$this->fmt->query->consulta($consulta);
+			$num=$this->fmt->query->num_registros($rs);
+			if($num>0){
+				$row=$this->fmt->query->obt_fila($rs);
+				return $row;
+			}else{
+				return 0;
+			}
 			$this->fmt->query->liberar_consulta();
 	}
 
 	public function instructor($id){
 		$consulta = "SELECT * FROM mod_instructor WHERE mod_ins_id='$id'";
+			$rs =$this->fmt->query->consulta($consulta);
+			$num=$this->fmt->query->num_registros($rs);
+				if($num>0){
+					$row=$this->fmt->query->obt_fila($rs);
+					return $row;
+				}else{
+					return 0;
+				}
+			$this->fmt->query->liberar_consulta();
+	}	
+
+
+	public function cuenta_usuario($id){
+		$consulta = "SELECT * FROM mod_cuenta_curso WHERE mod_cnc_usu_id='$id'";
 			$rs =$this->fmt->query->consulta($consulta);
 			$num=$this->fmt->query->num_registros($rs);
 				if($num>0){

@@ -1229,6 +1229,111 @@ class FORM{
   	return $aux;
   }
 
+  public function adicionar_fecha($vars){
+
+  	if ($vars['minuteStep']){
+			$minuteStep=$vars['minuteStep'];
+  	}else{
+  		$minuteStep="5";
+  	}
+  	$label = $vars["label"];
+  	$id = $vars["id"];
+  	$class=$vars["class"];
+  	$class_div=$vars["class_div"];
+  	$mensaje= $vars["mensaje"];
+  	$disabled=$vars["disabled"];
+  	$validar=$vars["validar"];
+  	$otros=$vars["otros"];
+  	$fechax = explode(",",$vars['fecha']);
+
+  	if ($vars['format']){
+  		$format=$vars['format'];
+  	}else{
+  		$format='dd-mm-yyyy hh:ii';
+  	}
+
+  	
+  	
+
+  	if ($format=="dd-mm-yyyy hh:ii"){
+      $minView ='0';
+    }      
+    if ($format=="dd-mm-yyyy"){
+      $minView ='2';
+    }    
+    if ($format=="dd-mm-yy"){
+      $minView ='2';
+    }
+    $dat ='';
+
+    
+		$dat .=' <div class="form-group form-date-agregar  '.$class_div.' " >';
+		
+		if (!empty($label)){  
+    	$dat .='  <label>'.$label.'</label>';
+		}
+		
+		$dat .='<div class="box-date-agregar">';
+
+		$input ="";
+		$inputx = "<div class='group-date'><input  autocomplete='off' data-date-format='".$format."' class='form-control form-control-date  form-control-date-agregar  date form-datetime ".$class."' id='".$id."[]' name='".$id."[]' validar='".$validar."' value='".$fecha."' '".$disabled."' '".$otros."' /><a class='btn-eliminar-date'><i class='icn icn-close-circle'></i></a></div>";
+
+		$num_fecha = count($fechax);
+  	for ($i=0; $i < $num_fecha; $i++) { 
+  		$fecha = $this->fmt->class_modulo->estructurar_fecha_hora($fechax[$i],$format);
+  		if ($i==0) {
+  			$btn ="";
+  		}else{
+				$btn ="<a class='btn-eliminar-date'><i class='icn icn-close-circle'></i></a>";
+  		}
+  		$input .="<div class='group-date'><input  autocomplete='off' data-date-format='".$format."' class='form-control form-control-date  form-control-date-agregar  date form-datetime ".$class."' id='".$id."[]' name='".$id."[]' validar='".$validar."' value='".$fecha."' '".$disabled."' '".$otros."'  />".$btn."</div>";
+  	}
+  	
+
+		$dat .= $input;
+    $dat .=' </div>';
+    if ($num_fecha == 1){
+    	$order=0;
+    }else{
+    	$orden = $num_fecha -1;
+    }
+    $dat .=' <a class="btn btn-full btn-date-agregar-fecha" orden="'.$orden.'"><i class="icn icn-plus"></i></a>';
+    $dat .='</div>';
+
+    $dat .= '<script type="text/javascript">
+						$(function () {
+								$(".form-control-date-agregar").datetimepicker({
+									language:  "es",
+									format: "'.$format.'",
+									autoclose: true,
+									minView: '.$minView.',
+									minuteStep: '.$minuteStep.',
+									weekStart: 1,
+									forceParse: 0,
+									todayBtn: true
+								});
+
+								$(".btn-date-agregar-fecha").click(function(){ 
+									$(".box-date-agregar").append("'.$inputx.'");
+
+									$(".form-control-date-agregar").datetimepicker({
+										language:  "es",
+										format: "'.$format.'",
+										autoclose: true,
+										minView: '.$minView.',
+										minuteStep: '.$minuteStep.',
+										weekStart: 1,
+										forceParse: 0,
+										todayBtn: true
+									});
+
+								});
+						});
+				</script>';
+
+		return $dat;
+  }
+
   public function input_form_date($vars){
   // 	$this->fmt->form->input_form_date('{
 		// 		"label":"Fecha:",
@@ -1891,7 +1996,7 @@ class FORM{
   	  $val = explode(",",$valores);
   	  $nv = count($val);
   		for ($i=0; $i < $nv ; $i++) { 
-  			 if ($select== $i){
+  			 if ($select == $i){
   			 	$ext="selected";
   			 }else{
   			 	$ext="";

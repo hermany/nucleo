@@ -31,7 +31,7 @@ class EMPRESAS{
         $this->fmt->form->thead_table('Id:Nombre Empresa:Teléfono:Email:Tipo:Categoria:Estado:Acciones');
         $this->fmt->form->tbody_table_open();
 
-        $consulta = "SELECT emp_id, emp_nombre, emp_logo, emp_telefono, emp_email, emp_activar FROM empresa WHERE emp_activar=1";
+        $consulta = "SELECT emp_id, emp_nombre, emp_logo, emp_telefono, emp_email, emp_activar FROM empresa";
         $rs =$this->fmt->query->consulta($consulta);
         $num=$this->fmt->query->num_registros($rs);
         if($num>0){

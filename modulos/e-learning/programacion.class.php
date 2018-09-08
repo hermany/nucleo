@@ -28,6 +28,10 @@ class PROGRAMACION{
     $this->fmt->form->thead_table('Id:Curso:Categoria:Fecha:Portada:Pre-Reg:Activar:Acciones');
     $this->fmt->form->tbody_table_open();
 
+  	// $sql="DELETE FROM curso_fechas";
+		// $this->fmt->query->consulta($sql,__METHOD__);
+		$up_sqr6 = "ALTER TABLE curso_fechas AUTO_INCREMENT=1";
+
   	$consulta = "SELECT * FROM curso_programacion";
 
   	$rs =$this->fmt->query->consulta($consulta);
@@ -38,11 +42,21 @@ class PROGRAMACION{
   			$row_id = $row["cur_prg_id"];
   			$row_activar = $row["cur_prg_activar"];
   			$row_nombre = $this->curso->nombre_curso($row["cur_prg_cur_id"]);
-  			$row_fecha_inicio  = $row["cur_prg_fecha_inicio"];
-  			$row_fecha_fin = $row["cur_prg_fecha_fin"];
+  			
   			$row_portada = $row["cur_prg_portada"];
-  			$row_fecha_fin = $this->fmt->class_modulo->fecha_hora_compacta($row["cur_prg_fecha_fin"],"d,m,a");
-  			$fecha = $this->curso->formatear_fecha($row["cur_prg_fecha_inicio"],$row["cur_prg_fecha_fin"]);
+  			
+  			// $row_fecha_inicio  = $row["cur_prg_fecha_inicio"];
+  			// $row_fecha_fin = $row["cur_prg_fecha_fin"];
+  			// $row_fecha_fin = $this->fmt->class_modulo->fecha_hora_compacta($row["cur_prg_fecha_fin"],"d,m,a");
+  			// $fecha = $this->curso->formatear_fecha($row["cur_prg_fecha_inicio"],$row["cur_prg_fecha_fin"]);
+
+  			$fhx = $this->fechas_programacion($row_id);
+  			$con_fh = count($fhx) -1;
+       	$con_fhx = count($fhx);
+        $cur_fecha_inicio = $fhx[0];
+        $cur_fecha_fin = $fhx[$con_fh];
+        $fecha = $this->curso->formatear_fecha($cur_fecha_inicio,$cur_fecha_fin);
+
 
   			$id_cat = $this->curso->categoria_curso($row["cur_prg_cur_id"]);
   			$num_cats = count($id_cat);
@@ -98,19 +112,24 @@ class PROGRAMACION{
 
 		$fecha=$this->fmt->class_modulo->fecha_hoy('America/La_Paz');
  
-		$this->fmt->form->input_form_date('{
-				"label":"Fecha Inicio:",
-				"id":"inputInicio",
-				"format":"dd-mm-yyyy",
-				"fecha":"'.$fecha.'"
-		}');	
+		// $this->fmt->form->input_form_date('{
+		// 		"label":"Fecha Inicio:",
+		// 		"id":"inputInicio",
+		// 		"format":"dd-mm-yyyy",
+		// 		"fecha":"'.$fecha.'"
+		// }');	
 
-		$this->fmt->form->input_form_date('{
-				"label":"Fecha Fin:",
-				"id":"inputFin",
-				"format":"dd-mm-yyyy",
-				"fecha":"'.$fecha.'"
-		}');
+		// $this->fmt->form->input_form_date('{
+		// 		"label":"Fecha Fin:",
+		// 		"id":"inputFin",
+		// 		"format":"dd-mm-yyyy",
+		// 		"fecha":"'.$fecha.'"
+		// }');
+
+		echo $this->fmt->form->adicionar_fecha(array('label' => 'Fecha:',
+																								 'id' => 'inputFecha',
+																								 'format' => 'dd-mm-yyyy',
+																								 'fecha' => $fecha ));
 
 		$this->fmt->form->textarea_form('Importante:','inputDetalles','','','editor-texto','textarea-cuerpo','','');
 
@@ -166,19 +185,43 @@ class PROGRAMACION{
 
 		$this->fmt->form->input_hidden_form("inputId",$id);
  
-		$this->fmt->form->input_form_date('{
-				"label":"Fecha Inicio:",
-				"id":"inputInicio",
-				"format":"dd-mm-yyyy",
-				"fecha":"'.$row["cur_prg_fecha_inicio"].'"
-		}');	
+		// $this->fmt->form->input_form_date('{
+		// 		"label":"Fecha Inicio:",
+		// 		"id":"inputInicio",
+		// 		"format":"dd-mm-yyyy",
+		// 		"fecha":"'.$row["cur_prg_fecha_inicio"].'"
+		// }');	
 
-		$this->fmt->form->input_form_date('{
-				"label":"Fecha Fin:",
-				"id":"inputFin",
-				"format":"dd-mm-yyyy",
-				"fecha":"'.$row["cur_prg_fecha_fin"].'"
-		}');
+		// $this->fmt->form->input_form_date('{
+		// 		"label":"Fecha Fin:",
+		// 		"id":"inputFin",
+		// 		"format":"dd-mm-yyyy",
+		// 		"fecha":"'.$row["cur_prg_fecha_fin"].'"
+		// }');
+
+		$fecha = $this->fechas_programacion($id);
+
+		//var_dump($fecha);
+		if ($fecha!=0){
+			$num_fecha = count($fecha);
+			$fe ='';
+			for ($i=0; $i < $num_fecha; $i++) { 
+				if ($i==0){
+					$aux='';
+				}else{
+					$aux=',';
+				}
+				$fe .= $aux.$fecha[$i];
+			}
+			//echo $fe;
+		}else{
+			$fe = $this->fmt->class_modulo->fecha_hoy('America/La_Paz');
+		}
+
+		echo $this->fmt->form->adicionar_fecha(array('label' => 'Fecha:',
+																								 'id' => 'inputFecha',
+																								 'format' => 'dd-mm-yyyy',
+																								 'fecha' => $fe ));
 
 		$this->fmt->form->textarea_form('Importante:','inputDetalles','',$row["cur_prg_detalles"],'editor-texto','textarea-cuerpo','','');
 
@@ -251,6 +294,16 @@ class PROGRAMACION{
 			$this->fmt->query->consulta($sql1);
 		}
 
+		$ingresar1 ="cur_fec_prg_id, cur_fec_fecha, cur_fec_orden";
+		$valor_fe= $_POST['inputFecha'];
+		$num=count( $valor_fe );
+		for ($i=0; $i<$num;$i++){
+			$fecha = $this->fmt->class_modulo->desestructurar_fecha_hora($valor_fe[$i]);
+			$valores1 = "'".$_POST['inputId']."','".$fecha."','".$i."'";
+			$sql1="insert into curso_fechas (".$ingresar1.") values (".$valores1.")";
+			$this->fmt->query->consulta($sql1);
+		}
+
 		// $ingresar1 ="cur_prg_cur_id, cur_cat_cat_id, cur_cat_orden";
 		// $valor_cat= $_POST['inputCat'];
 		// $num=count( $valor_cat );
@@ -258,7 +311,8 @@ class PROGRAMACION{
 		// 	$valores1 = "'".$id."','".$valor_cat[$i]."','".$i."'";
 		// 	$sql1="insert into curso_categorias (".$ingresar1.") values (".$valores1.")";
 		// 	$this->fmt->query->consulta($sql1);
-		// }	
+		// }
+
 		$this->fmt->class_modulo->redireccionar($ruta_modulo,"1");	
 	}
 
@@ -291,7 +345,49 @@ class PROGRAMACION{
 		}
 
 
+		$this->fmt->class_modulo->eliminar_fila($_POST['inputId'],"curso_fechas","cur_fec_prg_id");
+		$ingresar1 ="cur_fec_prg_id, cur_fec_fecha, cur_fec_orden";
+		$valor_fe= $_POST['inputFecha'];
+		$num=count( $valor_fe );
+		for ($i=0; $i<$num;$i++){
+			$fecha = $this->fmt->class_modulo->desestructurar_fecha_hora($valor_fe[$i]);
+			$valores1 = "'".$_POST['inputId']."','".$fecha."','".$i."'";
+			$sql1="insert into curso_fechas (".$ingresar1.") values (".$valores1.")";
+			$this->fmt->query->consulta($sql1);
+		}
+
+
 		$this->fmt->class_modulo->redireccionar($ruta_modulo,"1");
+	}
+
+	public function fechas_programacion($id_prog){
+			$consulta = "SELECT cur_fec_fecha FROM curso_fechas  WHERE cur_fec_prg_id='$id_prog' ORDER BY cur_fec_fecha ASC";
+			$rs =$this->fmt->query->consulta($consulta);
+			$num=$this->fmt->query->num_registros($rs);
+			if($num>0){
+				for($i=0;$i<$num;$i++){
+					$row=$this->fmt->query->obt_fila($rs);
+					$fecha[$i] = $row["cur_fec_fecha"];
+				}
+				return $fecha;
+			}else{
+				return 0;
+			}
+			
+			$this->fmt->query->liberar_consulta();
+	}
+
+	public function  programacion_curso_id($id_prog){
+		$consulta = "SELECT cur_prg_cur_id FROM curso_programacion  WHERE cur_prg_id='$id_prog'";
+		$rs =$this->fmt->query->consulta($consulta);
+		$num=$this->fmt->query->num_registros($rs);
+		if($num>0){
+			$row=$this->fmt->query->obt_fila($rs);
+			return  $row["cur_prg_cur_id"];
+		}else{
+			return 0;
+		}
+		$this->fmt->query->liberar_consulta();
 	}
 
 } // Fin class

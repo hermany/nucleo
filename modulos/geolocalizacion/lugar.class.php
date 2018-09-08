@@ -19,13 +19,10 @@ class LUGAR{
 
 	function busqueda(){
 
-
-
 		$this->fmt->class_pagina->crear_head( $this->id_mod,$botones);
 		$this->fmt->class_pagina->head_mod();
 
-		$botones = $this->fmt->class_pagina->crear_btn_m("Crear","icn-plus","Nuevo Punto","btn btn-primary btn-menu-ajax btn-new btn-small",$this->id_mod,"form_nuevo");  //$nom,$icon,$title,$clase,$id_mod,$vars
-    $this->fmt->class_pagina->head_modulo_inner("Lista de Puntos", $botones); // bd, id modulo, botones
+		$this->fmt->class_pagina->head_modulo_inner("Lista de Listas apps", $botones,"crear",$this->id_mod); // bd, id modulo, botones
 
     $this->fmt->form->head_table("table_id");
     $this->fmt->form->thead_table('Id:Nombre:Estado:Activar:Acciones');
@@ -81,7 +78,8 @@ class LUGAR{
 		$this->fmt->form->input_form("Coordenadas:","inputCoordenadas","","");
 		$valor='<p><i class="icon icon-puntero icon-mapa-lpz"></i><a href="" class="ads" style="background:url( [{imagen}] )"></a></p><div class="title">[{nombre}]</div><div class="inner-icons"><a class="disabled" href="#"><i class="icon icon-ra"></i><span>Realidad Virtual</span></a><a class="" href="#"><i class="icon icon-visita-guiada"></i><span>Visita Guiada</span></a><a class="" href="#"><i class="icon icon-preguntados"></i><span>Preguntados</span></a><a class="" href="#"><i class="icon icon-zafari"></i><span>Zafari Fotográfico</span></a><a class="" href="#"><i class="icon icon-info-x"></i><span>Información</span></a></div><br><p></p>';
 		$this->fmt->form->textarea_form('Content:','inputContenido','',$valor,'','','12');
-		$this->fmt->form->input_form("Icono:","inputIcono","","");
+		$this->fmt->form->input_form("Icono Home:","inputIcono","","");
+		$this->fmt->form->input_form("Icono Puntero:","inputIcon","","");
 		$this->fmt->form->input_form("Usuario:","inputUsuario","","");
 		$this->fmt->form->input_form("Billetera:","inputBilletera","","");
 		$this->fmt->form->input_form("Estado:","inputEstado","","1");
@@ -104,7 +102,7 @@ class LUGAR{
 		}else{
 			$activar=0;
 		}
-		$ingresar ="mod_lug_nombre, mod_lug_tags,mod_lug_direccion, mod_lug_telefono, mod_lug_info, mod_lug_imagen, mod_lug_coordenada_principal, mod_lug_coordenadas, mod_lug_icono, mod_lug_contenido, mod_lug_usuario,mod_lug_bill_id, mod_lug_estado, mod_lug_activar";
+		$ingresar ="mod_lug_nombre, mod_lug_tags,mod_lug_direccion, mod_lug_telefono, mod_lug_info, mod_lug_imagen, mod_lug_coordenada_principal, mod_lug_coordenadas, mod_lug_icono, mod_lug_icon, mod_lug_contenido, mod_lug_usuario,mod_lug_bill_id, mod_lug_estado, mod_lug_activar";
 
 		$valores  ="'".$_POST['inputNombre']."','".
 					$_POST['inputTags']."','".
@@ -115,6 +113,7 @@ class LUGAR{
 					$_POST['inputCoordPrincipal']."','".
 					$_POST['inputCoordenadas']."','".
 					$_POST['inputIcono']."','".
+					$_POST['inputIcon']."','".
 					$_POST['inputContenido']."','".
 					$_POST['inputUsuario']."','".
 					$_POST['inputBilletera']."','".
@@ -165,7 +164,8 @@ class LUGAR{
 		$this->fmt->form->input_form("Coordenada Principal:","inputCoordPrincipal","",$row['mod_lug_coordenada_principal']);
 		$this->fmt->form->input_form("Coordenadas:","inputCoordenadas","",$row['mod_lug_coordenadas']);
 		$this->fmt->form->textarea_form('Content:','inputContenido','',$row["mod_lug_contenido"],'','','12'); //$label,$id,$placeholder,$valor,$class,$class_div,$rows,$mensaje
-		$this->fmt->form->input_form("Icono:","inputIcono","",$row["mod_lug_icono"]);
+		$this->fmt->form->input_form("Icono Home:","inputIcono","",$row["mod_lug_icono"]);
+		$this->fmt->form->input_form("Icono Puntero:","inputIcon","",$row["mod_lug_icon"]);
 		$this->fmt->form->input_form("Usuario:","inputUsuario","",$row["mod_lug_usuario"]);
 		$this->fmt->form->input_form("Billetera:","inputBilletera","",$row["mod_lug_bill_id"]);
 
@@ -208,6 +208,7 @@ class LUGAR{
 						mod_lug_usuario='".$_POST['inputUsuario']."',
 						mod_lug_bill_id='".$_POST['inputBilletera']."',
 						mod_lug_icono='".$_POST['inputIcono']."',
+						mod_lug_icon='".$_POST['inputIcon']."',
 						mod_lug_estado='".$_POST['inputEstado']."'
 						WHERE mod_lug_id='".$_POST['inputId']."'";
 			//echo $sql;

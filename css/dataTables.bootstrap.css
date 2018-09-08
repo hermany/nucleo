@@ -98,15 +98,15 @@ table.dataTable thead .sorting_desc_disabled:after {
 }
 table.dataTable thead .sorting:after {
   opacity: 0.2;
-  content: "\e864";
+  content: "\E882";
   /* sort */
 }
 table.dataTable thead .sorting_asc:after {
-  content: "\e865";
+  content: "\E880";
   /* sort-by-attributes */
 }
 table.dataTable thead .sorting_desc:after {
-  content: "\e866";
+  content: "\E881";
   /* sort-by-attributes-alt */
 }
 table.dataTable thead .sorting_asc_disabled:after,

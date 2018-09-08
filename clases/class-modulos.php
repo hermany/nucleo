@@ -1,4 +1,4 @@
-<?PHP
+ <?PHP
 header('Content-Type: text/html; charset=utf-8');
 header('content-type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
@@ -1201,6 +1201,135 @@ function traer_fecha_literal($fecha_hora){
         return $this->traer_fecha_literal($fecha1." 00:00:00")." al ".$this->traer_fecha_literal($fecha2." 00:00:00");
       }
     }
+  }
+
+  public function tiempo_chat($vars){
+    $fecha_ini =  $vars['fecha_ini'];
+    $fecha_fin=  $vars['fecha_fin'];
+    $modo=  $vars['modo'];
+
+    $ini = explode(" ",$fecha_ini);
+    $fIni = $ini[0];
+    $hIni = $ini[1];
+    $fIni = explode("-",$fIni);
+    $hIni = explode(":",$hIni);
+
+    $hora = $hIni[0]."".$hIni[1];
+
+    $date1=date_create($fecha_ini);
+    $date2=date_create($fecha_fin);
+    $diff=date_diff($date1,$date2);
+
+    $dias=  $diff->format("%d%");
+    $anos=  $diff->format("%y%");
+    $meses=  $diff->format("%m%");
+    $horas=  $diff->format("%h%");
+    $min=  $diff->format("%i%");
+    //echo $elapsed;
+
+    if ($anos==0) {
+      if ($meses==0) {
+        if ($dias==0){
+          if ($horas==0){
+            if ($min==0){
+
+              $tiempo = $hora  ;
+            }else{
+              $tiempo = $hora ;
+            }
+          }else{
+             
+            $tiempo = $hora ;
+          }
+        }else{
+          $tiempo = 'Hace '.$dias." días. ".$hora;
+        }
+      }else{
+        $tiempo = $this->fecha_hora_compacta($desde);
+      }
+    }else{
+      $tiempo = $this->fecha_hora_compacta($desde);
+    }
+    
+    return $tiempo;
+    // return $interval->format('%R%a días');
+
+  }
+
+
+  public function diferencia_tiempo($vars){
+    $fecha_ini =  $vars['fecha_ini'];
+    $fecha_fin=  $vars['fecha_fin'];
+    $modo=  $vars['modo'];
+    $format=  $vars['format'];
+
+    if (empty($modo)){
+      $modo= 'normal';
+    }    
+    if (empty($format)){
+      $format= 'd,m,a,h,mi,s';
+    }
+
+    $date1=date_create($fecha_ini);
+    $date2=date_create($fecha_fin);
+    $diff=date_diff($date1,$date2);
+
+    $dias=  $diff->format("%d%");
+    $anos=  $diff->format("%y%");
+    $meses=  $diff->format("%m%");
+    $horas=  $diff->format("%h%");
+    $min=  $diff->format("%i%");
+    //echo $elapsed;
+
+    $tiempo="";
+
+    if ($anos==0) {
+      if ($meses==0) {
+        if ($dias==0){
+          if ($horas==0){
+            if ($min==0){
+
+              $tiempo = 'Hace instantes';
+            }else{
+              if ($modo=='normal'){
+                $tiempo = 'Hace '.$min." m";
+              }
+              if ($modo=='mini'){
+                $tiempo = $min." m";
+              }
+              
+            }
+          }else{
+            if ($horas==1){
+              $auxh = 'Hr.';
+            }else{
+              $auxh = 'Hrs';
+            }
+            if ($modo=='normal'){
+              $tiempo = 'Hace '.$horas." ".$auxh;
+            }
+            if ($modo=='mini'){
+              $tiempo = $horas." ".$auxh;
+            }
+          }
+        }else{
+          if ($modo=='normal'){
+            $tiempo = 'Hace '.$dias." días.";
+          }
+          if ($modo=='mini'){
+            $tiempo = $dias." días.";
+          }
+        }
+      }else{
+        // $tiempo = $this->fecha_hora_compacta($fecha_ini);
+        $tiempo = $this->fecha_hora_compacta($fecha_ini,$format);
+      }
+    }else{
+      $tiempo = $this->fecha_hora_compacta($fecha_ini,$format);
+    }
+    
+    return $tiempo;
+    // return $interval->format('%R%a días');
   }
 
 

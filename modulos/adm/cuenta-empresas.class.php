@@ -70,8 +70,20 @@ class CUENTA_EMPRESA{
 		$rs =$this->fmt->query->consulta($consulta);
   	$num=$this->fmt->query->num_registros($rs);
   	$row=$this->fmt->query->obt_fila($rs);
-
   	return $row['mod_cnt_id'];
+	}
+
+	public function cuenta_empresa_id($id_cuenta){
+		$consulta = "SELECT * FROM mod_cuenta_empresa WHERE mod_cnt_id='$id_cuenta'";
+		$rs = $this->fmt->query->consulta($consulta);
+  	$row=$this->fmt->query->obt_fila($rs);
+  	return $row;
+	}	
+	public function empresa($id){
+		$consulta = "SELECT * FROM empresa WHERE emp_id='$id'";
+		$rs = $this->fmt->query->consulta($consulta);
+  	$row=$this->fmt->query->obt_fila($rs);
+  	return $row;
 	}
 
 } // fin class

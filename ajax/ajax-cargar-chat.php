@@ -27,13 +27,16 @@ if($num>0){
 		$sql="UPDATE mensaje SET
 										men_estado='2' 
 										WHERE men_id ='".$id_mensaje."'";
-			$fmt->query->consulta($sql);
+		$fmt->query->consulta($sql);
 
-		$envio =  "<div class='fecha-hora'>$fecha</div>";
-		$envio.= "<div class='bloque-mensaje bloque-mensaje-emisor'>
-								<div class='info info-emisor'><div class='siglas siglas-emisor'>$siglas_emisor</div></div>
-								<div class='mensaje mensaje-emisor'>$cuerpo</div>
-							</div>";
+		$envio .=  "<div class='charla'>";
+		$envio .=  "<div class='fecha-hora'>$fecha</div>";
+		$envio.= "	<div class='bloque-mensaje bloque-mensaje-emisor'>
+									<div class='info info-emisor'>
+									<div class='siglas siglas-emisor'>$siglas_emisor</div></div>
+									<div class='mensaje mensaje-emisor' id='mensaje-$i'>$cuerpo</div>
+								</div>";
+		$envio .=  "</div>";
 
 	  echo "nuevo,".$emisor.",".$envio;
 	}
