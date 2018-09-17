@@ -390,5 +390,18 @@ class PROGRAMACION{
 		$this->fmt->query->liberar_consulta();
 	}
 
+	public function  datos_programacion($id_prog){
+		$consulta = "SELECT * FROM curso_programacion  WHERE cur_prg_id='$id_prog'";
+		$rs =$this->fmt->query->consulta($consulta);
+		$num=$this->fmt->query->num_registros($rs);
+		if($num>0){
+			$row=$this->fmt->query->obt_fila($rs);
+			return  $row;
+		}else{
+			return 0;
+		}
+		$this->fmt->query->liberar_consulta();
+	}
+
 } // Fin class
 ?>

@@ -205,7 +205,7 @@ class CURSO{
 		
 		$this->fmt->form->categoria_form('Categoria','inputCat',"0","","",""); 
 
-		$this->fmt->form->documentos_form("",$this->id_mod,"","Documentos relacionados:","curso_documentos","cur_doc_","cur_");
+		$this->fmt->form->documentos_form("",$this->id_mod,"","Documentos relacionados:"); //$id,$id_mod,$class_div,$label_form="",$from,$prefijo,$prefijo_mod
 
 		$this->fmt->form->botones_nuevo($id_form,$this->id_mod,"","ingresar");
 		$this->fmt->class_pagina->form_fin_mod();

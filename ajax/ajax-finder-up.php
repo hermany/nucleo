@@ -34,8 +34,8 @@
       echo "<span class='error'>Error, el tamaño máximo permitido es un 100MB</span>";
     }else if ($width > 10000 || $height > 10000){
       echo "<span class='error'>Error la anchura y la altura maxima permitida es 10000px</span>";
-    }else if( (($tipo != 'audio/mp3') && ($width < 60)) || (($tipo != 'audio/mp3') &&($height < 60)) ){
-      echo "<span class='error'>Error la anchura y la altura mínima permitida es 100px</span>";
+    }else if( (($tipo != 'audio/mp3') && ($width < 10)) || (($tipo != 'audio/mp3') &&($height < 10)) ){
+      echo "<span class='error'>Error la anchura y la altura mínima permitida es 10px</span>";
     }else{
       //echo "sin errores";
       //echo $output_dir.$nombre_url;
@@ -54,22 +54,42 @@
 
         $src =  $output_dir.$nombre_url;
 
-        $fmt->archivos->crear_thumb($src,$output_dir.$nombre_thumb,180,180,0);
-        $fmt->archivos->crear_thumb($src,$output_dir.$nombre_mini,60,60,0);
-        
-
-        if (($width > 250) && ( $height > 250)){
-          $fmt->archivos->crear_thumb($src,$output_dir.$nombre_medium,450,450,0);
-
-          if (($width > 900) || ( $height > 600 )){
-            $fmt->archivos->crear_thumb($src,$output_dir.$nombre_web,900,600,0);
-          }else{
-            $fmt->archivos->crear_thumb($src,$output_dir.$nombre_web,$width,$height,0);
-          }
+        if (($width > 60) && ( $height > 60)){
+          $fmt->archivos->crear_thumb($src,$output_dir.$nombre_mini,60,60,0);
         }else{
-          $fmt->archivos->crear_thumb($src,$output_dir.$nombre_web,$width,$height,0);
+          $fmt->archivos->crear_thumb($src,$output_dir.$nombre_mini,$width,$height,0);
+        }
+
+        if (($width > 180) && ( $height > 180)){
+          $fmt->archivos->crear_thumb($src,$output_dir.$nombre_thumb,180,180,0);
+        }else{
+          $fmt->archivos->crear_thumb($src,$output_dir.$nombre_thumb,$width,$height,0);
+        }
+        if (($width > 900) || ( $height > 600 )){
+          $fmt->archivos->crear_thumb($src,$output_dir.$nombre_medium,450,450,0);
+        }else{
           $fmt->archivos->crear_thumb($src,$output_dir.$nombre_medium,$width,$height,0);
         }
+
+        if (($width > 900) || ( $height > 600 )){
+          $fmt->archivos->crear_thumb($src,$output_dir.$nombre_web,900,600,0);
+        }else{
+          $fmt->archivos->crear_thumb($src,$output_dir.$nombre_web,$width,$height,0);
+        }
+
+
+        // if (($width > 250) && ( $height > 250)){
+        //   $fmt->archivos->crear_thumb($src,$output_dir.$nombre_medium,450,450,0);
+
+        //   if (($width > 900) || ( $height > 600 )){
+        //     $fmt->archivos->crear_thumb($src,$output_dir.$nombre_web,900,600,0);
+        //   }else{
+        //     $fmt->archivos->crear_thumb($src,$output_dir.$nombre_web,$width,$height,0);
+        //   }
+        // }else{
+        //   $fmt->archivos->crear_thumb($src,$output_dir.$nombre_web,$width,$height,0);
+        //   $fmt->archivos->crear_thumb($src,$output_dir.$nombre_medium,$width,$height,0);
+        // }
       }
       if ($tipo == 'video/mp4'){
          $ffmpeg = "/usr/bin/ffmpeg";

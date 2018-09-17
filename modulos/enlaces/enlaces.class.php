@@ -94,6 +94,7 @@ class ENLACES{
 		$campo= array('Dentro la página','Fuera de la página');
 		$this->fmt->form->radio_form("","inputTarget",$valor,$campo,'');
 		$this->fmt->form->imagen_unica_form("inputImagen","","","form-row","Imagen relacionada:");
+		$this->fmt->form->input_form('Clase:','inputClase','','','','','');
 
 		$this->fmt->form->categoria_form('Categoria','inputCat',"0","","",""); //		
 
@@ -125,6 +126,7 @@ class ENLACES{
 		$campo= array('Dentro la página','Fuera de la página');
 		$this->fmt->form->radio_form("","inputTarget",$valor,$campo,$row['enl_target']);
 		$this->fmt->form->imagen_unica_form("inputImagen",$row["enl_imagen"],"","form-row","Imagen relacionada:");
+		$this->fmt->form->input_form('Clase:','inputClase','',$row['enl_clases'],'','','');
 
 		$cats_id = $this->fmt->categoria->traer_rel_cat_id($id,'enlace_categorias','enl_cat_cat_id','enl_cat_enl_id'); //$fila_id,$from,$prefijo_cat,$prefijo_rel
 		$this->fmt->form->categoria_form('Categoria','inputCat',"0",$cats_id,"",""); //		
@@ -147,6 +149,7 @@ class ENLACES{
 						enl_descripcion ='".$_POST['inputDescripcion']."',
 						enl_link ='".$_POST['inputLink']."',
 						enl_target='".$_POST['inputTarget']."',
+						enl_clases='".$_POST['inputClase']."',
 						enl_imagen='".$_POST['inputImagen']."' 
 						WHERE enl_id='".$_POST['inputId']."'";
 			//echo $sql;
@@ -185,6 +188,7 @@ class ENLACES{
                 enl_link,
                 enl_target,
                 enl_imagen,
+                enl_clases,
                 enl_activar";
 
 		$valores  ="'".$_POST['inputNombre']."','".
@@ -192,6 +196,7 @@ class ENLACES{
 					$_POST['inputLink']."','".
 					$_POST['inputTarget']."','".
 					$_POST['inputImagen']."','".
+					$_POST['inputClase']."','".
 					$activar."'";
 		$sql="insert into enlace (".$ingresar.") values (".$valores.")";
 		$this->fmt->query->consulta($sql);

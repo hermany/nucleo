@@ -263,6 +263,19 @@ class USUARIO{
     return $r;
   }
 
+  public function datos_id($id){
+    $consulta = "SELECT * FROM  usuario WHERE usu_id='$id'";
+    $rs =$this->fmt->query->consulta($consulta);
+    $num=$this->fmt->query->num_registros($rs);
+      if($num>0){
+        $row=$this->fmt->query->obt_fila($rs);
+        return $row;
+      }else{
+        return 0;
+      }
+    $this->fmt->query->liberar_consulta();
+  }  
+
   function opciones_roles_list(){
 		$sql ="SELECT rol_id, rol_nombre FROM rol";
 		$rs = $this->fmt->query -> consulta($sql,__METHOD__);

@@ -1267,16 +1267,16 @@ class FORM{
     $dat ='';
 
     
-		$dat .=' <div class="form-group form-date-agregar  '.$class_div.' " >';
+		$dat .=' <div class="form-group form-date-agregar form-date-agregar-'.$id.' '.$class_div.' " >';
 		
 		if (!empty($label)){  
     	$dat .='  <label>'.$label.'</label>';
 		}
 		
-		$dat .='<div class="box-date-agregar">';
+		$dat .='<div class="box-date-agregar box-date-agregar-'.$id.'">';
 
 		$input ="";
-		$inputx = "<div class='group-date'><input  autocomplete='off' data-date-format='".$format."' class='form-control form-control-date  form-control-date-agregar  date form-datetime ".$class."' id='".$id."[]' name='".$id."[]' validar='".$validar."' value='".$fecha."' '".$disabled."' '".$otros."' /><a class='btn-eliminar-date'><i class='icn icn-close-circle'></i></a></div>";
+		$inputx = "<div class='group-date group-date-".$id."'><input  autocomplete='off' data-date-format='".$format."' class='form-control form-control-date  form-control-date-agregar form-control-date-agregar-".$id."  date form-datetime ".$class."' id='".$id."[]' name='".$id."[]' validar='".$validar."' value='".$fecha."' '".$disabled."' '".$otros."' /><a class='btn-eliminar-date btn-eliminar-date-".$id."'><i class='icn icn-close-circle'></i></a></div>";
 
 		$num_fecha = count($fechax);
   	for ($i=0; $i < $num_fecha; $i++) { 
@@ -1284,9 +1284,9 @@ class FORM{
   		if ($i==0) {
   			$btn ="";
   		}else{
-				$btn ="<a class='btn-eliminar-date'><i class='icn icn-close-circle'></i></a>";
+				$btn ="<a class='btn-eliminar-date btn-eliminar-date-".$id."'><i class='icn icn-close-circle'></i></a>";
   		}
-  		$input .="<div class='group-date'><input  autocomplete='off' data-date-format='".$format."' class='form-control form-control-date  form-control-date-agregar  date form-datetime ".$class."' id='".$id."[]' name='".$id."[]' validar='".$validar."' value='".$fecha."' '".$disabled."' '".$otros."'  />".$btn."</div>";
+  		$input .="<div class='group-date group-date-".$id."'><input  autocomplete='off' data-date-format='".$format."' class='form-control form-control-date  form-control-date-agregar form-control-date-agregar-".$id."  date form-datetime ".$class."' id='".$id."[]' name='".$id."[]' validar='".$validar."' value='".$fecha."' '".$disabled."' '".$otros."'  />".$btn."</div>";
   	}
   	
 
@@ -1297,12 +1297,12 @@ class FORM{
     }else{
     	$orden = $num_fecha -1;
     }
-    $dat .=' <a class="btn btn-full btn-date-agregar-fecha" orden="'.$orden.'"><i class="icn icn-plus"></i></a>';
+    $dat .=' <a class="btn btn-full btn-date-agregar-fecha btn-date-agregar-fecha-'.$id.'" orden="'.$orden.'"><i class="icn icn-plus"></i></a>';
     $dat .='</div>';
 
     $dat .= '<script type="text/javascript">
 						$(function () {
-								$(".form-control-date-agregar").datetimepicker({
+								$(".form-datetime").datetimepicker({
 									language:  "es",
 									format: "'.$format.'",
 									autoclose: true,
@@ -1313,10 +1313,20 @@ class FORM{
 									todayBtn: true
 								});
 
-								$(".btn-date-agregar-fecha").click(function(){ 
-									$(".box-date-agregar").append("'.$inputx.'");
+								$(".btn-eliminar-date-'.$id.'").click(function(){
+										console.log("'.$id.'");
+										$(this).parent().remove();
+									});
 
-									$(".form-control-date-agregar").datetimepicker({
+								$(".btn-date-agregar-fecha-'.$id.'").click(function(){ 
+									$(".box-date-agregar-'.$id.'").append("'.$inputx.'");
+									
+									$(".btn-eliminar-date-'.$id.'").click(function(){
+										console.log("'.$id.'");
+										$(this).parent().remove();
+									});
+
+									$(".form-control-date-agregar-'.$id.'").datetimepicker({
 										language:  "es",
 										format: "'.$format.'",
 										autoclose: true,
@@ -1326,6 +1336,8 @@ class FORM{
 										forceParse: 0,
 										todayBtn: true
 									});
+
+
 
 								});
 						});
@@ -2139,7 +2151,7 @@ class FORM{
 		<?php
 	  //$this->editar_multimedia();
 	}
-	function documentos_form($id,$id_mod,$class_div,$label_form="",$from,$prefijo,$prefijo_mod){
+	function documentos_form($id,$id_mod,$class_div,$label_form="",$from="",$prefijo="",$prefijo_mod=""){
 		echo "<div class='form-group form-documentos form-documentos-list $class_div'>";
 			if (!empty($label_form)){
 				?>
@@ -2150,16 +2162,19 @@ class FORM{
 
 			<ul class="box-docs" id='sortable-docs'>
 				<?php
-				if (empty($from)){
-					$num = 0;
-				}else{
+				$num = 0;
+				// echo $from;
+				// echo $id;
+
+				if ( !empty($from) ){
 					$consulta = "SELECT DISTINCT doc_id,doc_nombre,doc_tags,doc_url,doc_tipo_archivo FROM documento,$from WHERE ".$prefijo.$prefijo_mod."id='".$id."' and ".$prefijo."doc_id=doc_id ORDER BY ".$prefijo."orden asc";
 					$rs =$this->fmt->query->consulta($consulta,__METHOD__);
 					$num=$this->fmt->query->num_registros($rs);
 					$aux="";
 				}
 				
-				
+				//echo "num:".$num;
+
 				if($num>0){
 					for($i=0;$i<$num;$i++){
 						$row=$this->fmt->query->obt_fila($rs);
@@ -2199,6 +2214,8 @@ class FORM{
 						echo  "<input type='hidden' id='inputModItemDoc[]' name='inputModItemDoc[]' value='".$id_item."'  />";
 						echo  "</li>";
 					}
+				}else{
+					echo "";
 				}
 				?>
 				<li class='ui-state-disabled'><a insert='<?php echo $id; ?>' upload='documentos' seleccion='multiple' class='btn btn-full btn-up-finder btn-up-finder-<?php echo $id; ?>'><i class='icn icn-plus'></i>Agregar Documento</a></li>

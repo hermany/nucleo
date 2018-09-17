@@ -33,6 +33,15 @@ class CLASSMODULOS{
     </script>';
   }
 
+  // funciones matematicas
+  public function multiplo($num,$num_base){
+    if(( $num % $num_base ) == 0){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
   function script_tabs(){
     return '$(".group-tabs .category").click(function(){
       var idf = $(this).attr("idtab");
@@ -2296,6 +2305,24 @@ function traer_fecha_literal($fecha_hora){
 
   function cantidad_caracteres($texto){
     return strlen($texto);
+  }
+
+  public function hay_palabra($mystring,$findme){
+    $mystring = 'abc';
+    $findme   = 'a';
+    $pos = strpos($mystring, $findme);
+
+    // Nótese el uso de ===. Puesto que == simple no funcionará como se espera
+    // porque la posición de 'a' está en el 1° (primer) caracter.
+    if ($pos === false) {
+        // echo "La cadena '$findme' no fue encontrada en la cadena '$mystring'";
+        return false;
+    } else {
+        // echo "La cadena '$findme' fue encontrada en la cadena '$mystring'";
+        // echo " y existe en la posición $pos";
+        return true;
+    }
+    
   }
 
   function convertir_ruta_amigable($ruta){

@@ -65,7 +65,7 @@ class GET{
       $get = strtolower($get);
       $getx = explode(" ",$get);
       $ng = count($getx);
-      $pos= array("union","select","insert","query","cast","set","declare","drop","update","md5","benchmark","and "," and ","=","and 1=1",";","|","’");
+      $pos= array("union","select","insert","query","cast","set","declare","drop","update","md5","benchmark","and "," and ","and 1=1",";","|","’");
       $nm = count($pos);
       for ($i=0; $i < $nm; $i++) {
           //echo $pos[$i].":".$get;

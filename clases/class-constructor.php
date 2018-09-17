@@ -30,6 +30,8 @@ class CONSTRUCTOR{
   var $finder;
   var $valores;
   var $cookies;
+  var $enlace;
+  var $contenido;
   var $empresa;
 
 
@@ -96,6 +98,8 @@ class CONSTRUCTOR{
     require_once(_RUTA_NUCLEO."clases/class-finder.php");
     require_once(_RUTA_NUCLEO."clases/class-valores.php");
     require_once(_RUTA_NUCLEO."clases/class-cookies.php");
+    require_once(_RUTA_NUCLEO."clases/class-enlaces.php");
+    require_once(_RUTA_NUCLEO."clases/class-contenido.php");
     require_once(_RUTA_NUCLEO."modulos/adm/empresas.class.php");
 
 
@@ -128,6 +132,8 @@ class CONSTRUCTOR{
     $this->valores = new VALORES($this);
     $this->cookies = new COOKIES($this);
     $this->empresa = new EMPRESAS($this);
+    $this->enlace = new ENLACE($this);
+    $this->contenido = new CONTENIDO($this);
 
   }
 
@@ -160,6 +166,3 @@ class CONSTRUCTOR{
 
 
 }
-
-
-?>

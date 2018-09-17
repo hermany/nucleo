@@ -48,6 +48,9 @@ class CONFIG{
 						<?php
 							$this->fmt->form->input_form('Nombre del sitio:','inputNombre','',$fila_nombre_sitio,'requerido requerido-texto input-lg','',''); //$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
 							$this->fmt->form->input_form('Imagen:','inputImagen','',$fila_imagen,'','',''); //$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
+
+							//$this->fmt->form->imagen_unica_form("inputImagen",$fila_imagen,"","form-normal","Imagen/Logo:");
+
 							$this->fmt->form->input_form('Favicon:','inputIcono','',$fila_favicon,'','',''); //$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
 							$this->fmt->form->input_form('Meta:','inputMeta','',$fila_ruta_analitica,'','',''); //$label,$id,$placeholder,$valor,$class,$class_div,$mensaje
 							$this->fmt->form->input_form('Tamaño Thumbs (web,medium,thumb,mini,...):','inputThumbs','',$fila_thumbs,'','','');
@@ -71,6 +74,7 @@ class CONFIG{
 		</div>
 		<?php
 		//$this->fmt->class_modulo->script_form($this->ruta_modulo,$this->id_mod);
+		$this->fmt->finder->finder_window();
 		$this->fmt->class_modulo->modal_script($this->id_mod);
 	}
 
@@ -89,4 +93,3 @@ class CONFIG{
 	}
 
 }
-?>

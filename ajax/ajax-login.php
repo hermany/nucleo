@@ -46,4 +46,3 @@ if($num > 0){
 } else {
   echo "false";
 }
-?>

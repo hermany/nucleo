@@ -1,5 +1,13 @@
 <?php
 $fmt = new CONSTRUCTOR();
+
+//echo _LINK_SIGNUP;
+$link =_LINK_SIGNUP;
+if (empty($link)){
+	$link_crear_cuenta = "signup";
+}else{
+	$link_crear_cuenta = $link;
+}
 ?>
 <div class="box-login box-forgot" >
   <!-- <div class="btn btn-cerrar color-text-gris-b"  onclick="toggleId('block-login');"  >
@@ -20,13 +28,16 @@ $fmt = new CONSTRUCTOR();
         <input class="form-control input-lg color-border-gris-a color-text-gris" onClick="seleccionar(this);" onBlur="deseleccionarBuscar(this);" id="inputEmail" name="inputEmail" placeholder="Email" type="text">
       </div>
     </div>
+    <div class="control-group">
+    	<div class="mensaje-login"></div>
+    </div>
     <div class="form-actions">
       <button type="submit" class="btn btn-info btn-lg btn-intro hvr-fade" id="btn-ingresar">Restrablecer contraseña</button>
     </div>
 
   </form>
   <div class="box-signup">
-    ¿No tienes una cuenta? <a href="<?php echo _RUTA_WEB; ?>signup">Crear una cuenta</a>
+    ¿No tienes una cuenta? <a href="<?php echo _RUTA_WEB.$link_crear_cuenta; ?>">Crear una cuenta</a>
   </div>
 
 </div>
@@ -38,33 +49,31 @@ $fmt = new CONSTRUCTOR();
 	function action_form(){
 		//alert("entre a acción");
 		var ie = $("#inputEmail").val( );
-		var ip = $("#password").val( );
-		var ruta = "ajax-login";
+		var ruta = "ajax-forgot";
 		$.ajax({
 			url:"<?php echo _RUTA_WEB; ?>ajax.php",
 			type:"post",
-			data:{ ajax:ruta, inputEmail:ie , password:ip },
+			data:{ ajax:ruta, inputEmail:ie },
 			success: function(msg){
-        //alert(msg);
+					console.log(msg);
 
-					if ((msg!="false")&&(msg!="sin-rol")&&(msg!="rol-desactivado")) {
-	          $("#mensaje-login").html("<?php echo $fmt->mensaje->login_ok(); ?>");
-	          redireccionar_tiempo(msg,800); // core.js
+	        if(msg=="ok"){
+	          $("#mensaje-login").html("<?php echo $fmt->mensaje->alert_success(array('texto'=>'Se envio un e-mail a tu cuenta para restablecer tu cuenta.','id'=>'ok-lg')); ?>");
+	            setTimeout(function() {
+                window.location.href = "<?php echo _RUTA_WEB; ?>";
+              }, 7000 );
 	        }
 
-	        if(msg=="sin-rol"){
-	          $("#mensaje-login").html("<?php echo $fmt->errores->error_rol(); ?>");
-	          toggleIdCerrar("error_login", 8000);  // core.js
-	        }
+          if(msg=="error-mail"){
+            $("#mensaje-login").html("<?php 
+              echo $fmt->errores->error(array('texto'=>'Ingresa un E-mail valido.','id'=>'error_mail')); 
+            ?>");
+            toggleIdCerrar("error_mail", 8000);  // core.js
+          }
 
-	        if(msg=="rol-desactivado"){
-	          $("#mensaje-login").html("<?php echo $fmt->errores->error_rol_desactivado(); ?>");
-	          toggleIdCerrar("error_login", 6000);  // core.js
-	        }
-
-	        if (msg=="false") {
-	          $("#mensaje-login").html("<?php echo $fmt->errores->error_rol(); ?>");
-	          toggleIdCerrar("error_login", 6000); // core.js
+	        if (msg=="error-no-registro") {
+	          $("#mensaje-login").html("<?php echo $fmt->errores->error_mail_no_registrado(); ?>");
+	          toggleIdCerrar("error_login", 6500); // core.js
 	        }
 			//$("#mensaje-login").html(msg);
 		  }

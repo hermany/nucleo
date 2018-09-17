@@ -33,6 +33,9 @@ function redireccionar_tiempo(ruta,tiempo,target='_self'){
   }, tiempo );
 }
 
+
+
+
 $( document ).ready(function() {
 
 	$('.preloader-modulo').fadeOut('slow');
@@ -74,6 +77,8 @@ $('#content-page').on('click touchend', function(e) {
   // $(".bloque-etiquetas").removeClass('on');
   // $(".box-cliente").removeClass('nivel');
 });
+
+
 
 	function resize(){
 	  if ( w < 470 ){
